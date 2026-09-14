@@ -1,9 +1,6 @@
-import i18n from 'i18next'
+import i18n, { type BackendModule } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import it from './locales/it/translation.json'
-import en from './locales/en/translation.json'
-import es from './locales/es/translation.json'
 
 export const LANGUAGES = [
   { code: 'it', label: 'Italiano' },
@@ -13,19 +10,34 @@ export const LANGUAGES = [
 
 export type LanguageCode = (typeof LANGUAGES)[number]['code']
 
-void i18n
+const SUPPORTED: string[] = LANGUAGES.map((l) => l.code)
+
+// Each language is its own chunk, fetched when first used: visitors download one set of strings, not all three.
+const lazyLocales: BackendModule = {
+  type: 'backend',
+  init: () => {},
+  read: (language, _namespace, callback) => {
+    import(`./locales/${language}/translation.json`).then(
+      (module: { default: Record<string, unknown> }) => callback(null, module.default),
+      (error: Error) => callback(error, null),
+    )
+  },
+}
+
+/** Resolves once the detected language's strings are loaded. */
+export const i18nReady = i18n
+  .use(lazyLocales)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources: {
-      it: { translation: it },
-      en: { translation: en },
-      es: { translation: es },
-    },
-    fallbackLng: 'en',
-    supportedLngs: LANGUAGES.map((l) => l.code),
+    // English only for languages we don't have. Every key exists in all three (npm run i18n:check), so Italian and
+    // Spanish visitors don't need to download the English strings as a backup.
+    fallbackLng: (code: string | undefined) => (code && SUPPORTED.includes(code.split('-')[0]) ? [] : ['en']),
+    supportedLngs: SUPPORTED,
     load: 'languageOnly',
     interpolation: { escapeValue: false },
+    // Strings are loaded before the first render and before a language switch completes, so nothing needs to suspend.
+    react: { useSuspense: false },
     detection: {
       // An explicit choice from the header switcher wins over the browser language.
       order: ['localStorage', 'navigator'],
@@ -38,7 +50,6 @@ const syncHtmlLang = (lng: string) => {
   // No document while prerendering public pages at build time.
   if (typeof document !== 'undefined') document.documentElement.lang = lng.split('-')[0]
 }
-syncHtmlLang(i18n.resolvedLanguage ?? 'en')
 i18n.on('languageChanged', syncHtmlLang)
 
 export default i18n

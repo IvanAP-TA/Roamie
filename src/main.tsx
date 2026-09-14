@@ -2,7 +2,7 @@ import '@fontsource-variable/fraunces/full.css'
 import '@fontsource-variable/fraunces/full-italic.css'
 import '@fontsource-variable/instrument-sans/index.css'
 import './index.css'
-import i18n from './i18n'
+import i18n, { i18nReady } from './i18n'
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -37,10 +37,11 @@ registerSW({ immediate: true })
 
 // Landing and guide URLs have a fixed language: render in it from the first frame, like the prerendered HTML.
 const urlLanguage = pathLanguage(window.location.pathname)
-if (urlLanguage && !hasStoredSession()) void i18n.changeLanguage(urlLanguage)
+const languageReady = urlLanguage && !hasStoredSession() ? i18n.changeLanguage(urlLanguage) : i18nReady
 
-// Prerendered pages already contain markup in #root; React replaces it on the first render.
-createRoot(document.getElementById('root')!).render(
+// Prerendered pages already contain markup in #root, shown until the strings arrive; React then replaces it.
+void languageReady.finally(() =>
+  createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <PersistQueryClientProvider
       client={queryClient}
@@ -62,4 +63,5 @@ createRoot(document.getElementById('root')!).render(
       </MotionConfig>
     </PersistQueryClientProvider>
   </StrictMode>,
+  ),
 )

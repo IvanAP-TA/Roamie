@@ -1,11 +1,17 @@
-import { describe, expect, it } from 'vitest'
-import i18n, { LANGUAGES } from '@/i18n'
+import { beforeAll, describe, expect, it } from 'vitest'
+import i18n, { i18nReady, LANGUAGES } from '@/i18n'
 import { guideMeta, guidesIndexMeta } from '@/lib/guideSeo'
 import { GUIDE_CONTENT } from './content'
 import { bestMonthsLabel } from './format'
 import { findGuide, GUIDES, localizedPath, pathLanguage } from './meta'
 
 const langs = LANGUAGES.map((l) => l.code)
+
+// Languages load on demand in the app; the checks below read all of them.
+beforeAll(async () => {
+  await i18nReady
+  await i18n.loadLanguages(langs)
+})
 
 describe('guide content', () => {
   it('has a body, localized texts and unique URL slugs for every guide', () => {
