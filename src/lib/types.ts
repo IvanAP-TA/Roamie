@@ -26,6 +26,8 @@ export interface Trip {
   cover_image_attribution: string | null
   invite_code: string
   created_at: string
+  /** Set when the owner publishes the read-only page at /p/:slug */
+  public_slug: string | null
 }
 
 export interface TripMember {
@@ -108,6 +110,25 @@ export interface ItineraryDay {
   date: string | null
   title: string | null
   itinerary_items: ItineraryItem[]
+}
+
+/** get_public_trip: what anyone with the link sees (no people, votes by member or comments). */
+export interface PublicTrip {
+  slug: string
+  name: string
+  description: string | null
+  cover_image_url: string | null
+  cover_image_attribution: string | null
+  destinations: (Pick<
+    Destination,
+    'id' | 'name' | 'country' | 'country_code' | 'lat' | 'lng' | 'image_url' | 'image_attribution' | 'mood' | 'budget_level' | 'status'
+  > & { points: number })[]
+  days: {
+    day_number: number
+    date: string | null
+    title: string | null
+    items: Pick<ItineraryItem, 'time' | 'title' | 'description' | 'place_name' | 'lat' | 'lng'>[]
+  }[]
 }
 
 export interface TripPreview {

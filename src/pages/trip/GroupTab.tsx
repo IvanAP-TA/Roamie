@@ -8,6 +8,7 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { useDeleteTrip, useRegenerateInvite, useRemoveMember, useUpdateMemberRole } from '@/hooks/useTrips'
 import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
 import { InviteTicket } from '@/components/trips/InviteTicket'
+import { PublicPageSection } from '@/components/trips/PublicPageSection'
 import { TripFormSheet } from '@/components/trips/TripFormSheet'
 import { UserAvatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -179,6 +180,8 @@ export default function GroupTab() {
         </motion.ul>
         <p className="px-2 text-xs text-muted-foreground">{t('group.rolesLegend')}</p>
       </section>
+
+      <PublicPageSection trip={trip} isOwner={isOwner} />
 
       <section className="space-y-3">
         <h2 className="text-2xl">{t('group.settings')}</h2>

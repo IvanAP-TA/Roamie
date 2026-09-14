@@ -12,9 +12,7 @@ import { TripMap } from '@/components/map/TripMap'
 import { CoverImage } from '@/components/media/CoverImage'
 import { Button } from '@/components/ui/button'
 import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
-
-/** "PT" → 🇵🇹 (regional indicator symbols). */
-const flagOf = (code: string) => code.toUpperCase().replace(/./g, (c) => String.fromCodePoint(127397 + c.charCodeAt(0)))
+import { flagEmoji as flagOf } from '@/lib/flags'
 
 export default function PassportPage() {
   const { t, i18n } = useTranslation()

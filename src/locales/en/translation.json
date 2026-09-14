@@ -413,6 +413,34 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "publicPage": {
+    "sectionTitle": "Public page",
+    "sectionBody": "Show the trip to people outside the group: destinations with photos and scores, and the itinerary, read-only. Member names, individual votes and comments stay private.",
+    "toggle": "Make the page public",
+    "indexHint": "Anyone with the link can see it, and it may appear in search engines. You can make it private again at any time.",
+    "published": "The trip page is now public",
+    "unpublished": "The trip page is private again",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "share": "Share",
+    "open": "Open",
+    "shareText": "Take a look at our trip “{{trip}}” on Roamie",
+    "eyebrow": "A trip planned with Roamie",
+    "destinationCount_one": "{{count}} destination",
+    "destinationCount_other": "{{count}} destinations",
+    "dayCount_one": "{{count}} day",
+    "dayCount_other": "{{count}} days",
+    "destinations": "Destinations",
+    "noDestinations": "No destinations yet.",
+    "itinerary": "Itinerary",
+    "day": "Day {{number}}",
+    "ctaTitle": "Plan your next trip with your friends",
+    "ctaBody": "Propose destinations, spread your points and spin the wheel. Free, with no ads.",
+    "cta": "Discover Roamie",
+    "ctaMember": "Go to your trips",
+    "notFoundTitle": "Page not available",
+    "notFoundBody": "The link is wrong, or the trip is no longer public."
+  },
   "passport": {
     "eyebrow": "Trips you've taken",
     "title": "Passport",
@@ -633,7 +661,7 @@
         },
         {
           "title": "User content",
-          "body": "Destinations, comments and itineraries remain yours. Posting them in a trip makes them visible to its members. The trip owner can manage members and moderate comments. Wikimedia Commons photos remain subject to their licences, shown on every image."
+          "body": "Destinations, comments and itineraries remain yours. Posting them in a trip makes them visible to its members. If the owner makes the trip page public, its name, description, cover, destinations (with photo and score) and itinerary become visible to anyone with the link and may appear in search engines; member names, individual votes and comments stay private, and the page can be made private again at any time. The trip owner can manage members and moderate comments. Wikimedia Commons photos remain subject to their licences, shown on every image."
         },
         {
           "title": "Limited liability",

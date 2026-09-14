@@ -2,6 +2,8 @@ import { appUrl } from './utils'
 
 export const inviteLink = (code: string) => `${appUrl()}/join/${code}`
 
+export const publicTripLink = (slug: string) => `${appUrl()}/p/${slug}`
+
 export const formatInviteCode = (code: string) => `${code.slice(0, 4)}·${code.slice(4)}`
 
 export const whatsappShareUrl = (text: string, url: string) => `https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`

@@ -413,6 +413,34 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "publicPage": {
+    "sectionTitle": "Página pública",
+    "sectionBody": "Muestra el viaje a quien no está en el grupo: destinos con foto y puntuación e itinerario, solo lectura. Los nombres de los miembros, los votos individuales y los comentarios siguen siendo privados.",
+    "toggle": "Hacer pública la página",
+    "indexHint": "Cualquiera con el enlace puede verla y puede aparecer en los buscadores. Puedes volver a hacerla privada cuando quieras.",
+    "published": "La página del viaje ya es pública",
+    "unpublished": "La página del viaje vuelve a ser privada",
+    "copy": "Copiar enlace",
+    "copied": "Enlace copiado",
+    "share": "Compartir",
+    "open": "Abrir",
+    "shareText": "Mira nuestro viaje «{{trip}}» en Roamie",
+    "eyebrow": "Un viaje organizado con Roamie",
+    "destinationCount_one": "{{count}} destino",
+    "destinationCount_other": "{{count}} destinos",
+    "dayCount_one": "{{count}} día",
+    "dayCount_other": "{{count}} días",
+    "destinations": "Los destinos",
+    "noDestinations": "Todavía no hay destinos.",
+    "itinerary": "Itinerario",
+    "day": "Día {{number}}",
+    "ctaTitle": "Organiza el próximo viaje con tus amigos",
+    "ctaBody": "Proponed destinos, repartid los puntos y girad la ruleta. Gratis y sin publicidad.",
+    "cta": "Descubre Roamie",
+    "ctaMember": "Ir a tus viajes",
+    "notFoundTitle": "Página no disponible",
+    "notFoundBody": "El enlace no es correcto o el viaje ya no es público."
+  },
   "passport": {
     "eyebrow": "Los viajes hechos",
     "title": "Pasaporte",
@@ -633,7 +661,7 @@
         },
         {
           "title": "Contenido de los usuarios",
-          "body": "Los destinos, comentarios e itinerarios siguen siendo tuyos. Al publicarlos en un viaje los haces visibles para sus miembros. El propietario del viaje puede gestionar los miembros y moderar los comentarios. Las fotos de Wikimedia Commons siguen sujetas a sus licencias, indicadas en cada imagen."
+          "body": "Los destinos, comentarios e itinerarios siguen siendo tuyos. Al publicarlos en un viaje los haces visibles para sus miembros. Si el propietario hace pública la página del viaje, el nombre, la descripción, la portada, los destinos (con foto y puntuación) y el itinerario pasan a ser visibles para cualquiera que tenga el enlace y pueden aparecer en los buscadores; los nombres de los miembros, los votos individuales y los comentarios siguen siendo privados, y la página puede volver a ser privada en cualquier momento. El propietario del viaje puede gestionar los miembros y moderar los comentarios. Las fotos de Wikimedia Commons siguen sujetas a sus licencias, indicadas en cada imagen."
         },
         {
           "title": "Responsabilidad limitada",

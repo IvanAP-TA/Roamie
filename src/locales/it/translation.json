@@ -413,6 +413,34 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "publicPage": {
+    "sectionTitle": "Pagina pubblica",
+    "sectionBody": "Mostra il viaggio a chi non è nel gruppo: mete con foto e punteggio e itinerario, in sola lettura. Nomi dei membri, voti individuali e commenti restano privati.",
+    "toggle": "Rendi pubblica la pagina",
+    "indexHint": "Chiunque abbia il link può vederla e può comparire nei motori di ricerca. Puoi renderla privata quando vuoi.",
+    "published": "La pagina del viaggio ora è pubblica",
+    "unpublished": "La pagina del viaggio è di nuovo privata",
+    "copy": "Copia link",
+    "copied": "Link copiato",
+    "share": "Condividi",
+    "open": "Apri",
+    "shareText": "Guarda il nostro viaggio «{{trip}}» su Roamie",
+    "eyebrow": "Un viaggio organizzato con Roamie",
+    "destinationCount_one": "{{count}} meta",
+    "destinationCount_other": "{{count}} mete",
+    "dayCount_one": "{{count}} giorno",
+    "dayCount_other": "{{count}} giorni",
+    "destinations": "Le mete",
+    "noDestinations": "Nessuna meta per ora.",
+    "itinerary": "Itinerario",
+    "day": "Giorno {{number}}",
+    "ctaTitle": "Organizza il prossimo viaggio con i tuoi amici",
+    "ctaBody": "Proponete le mete, distribuite i punti e fate girare la ruota. Gratis e senza pubblicità.",
+    "cta": "Scopri Roamie",
+    "ctaMember": "Vai ai tuoi viaggi",
+    "notFoundTitle": "Pagina non disponibile",
+    "notFoundBody": "Il link non è corretto oppure il viaggio non è più pubblico."
+  },
   "passport": {
     "eyebrow": "I viaggi fatti",
     "title": "Passaporto",
@@ -633,7 +661,7 @@
         },
         {
           "title": "Contenuti degli utenti",
-          "body": "Mete, commenti e itinerari restano tuoi. Pubblicandoli in un viaggio li rendi visibili ai suoi membri. Il proprietario del viaggio può gestire i membri e moderare i commenti. Le foto di Wikimedia Commons restano soggette alle rispettive licenze, indicate su ogni immagine."
+          "body": "Mete, commenti e itinerari restano tuoi. Pubblicandoli in un viaggio li rendi visibili ai suoi membri. Se il proprietario rende pubblica la pagina del viaggio, nome, descrizione, copertina, mete (con foto e punteggio) e itinerario diventano visibili a chiunque abbia il link e possono comparire nei motori di ricerca; nomi dei membri, voti individuali e commenti restano privati, e la pagina può tornare privata in qualsiasi momento. Il proprietario del viaggio può gestire i membri e moderare i commenti. Le foto di Wikimedia Commons restano soggette alle rispettive licenze, indicate su ogni immagine."
         },
         {
           "title": "Responsabilità limitata",

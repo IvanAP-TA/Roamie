@@ -10,6 +10,7 @@ const TripsPage = lazy(() => import('@/pages/TripsPage'))
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
 const PassportPage = lazy(() => import('@/pages/PassportPage'))
 const JoinPage = lazy(() => import('@/pages/JoinPage'))
+const PublicTripPage = lazy(() => import('@/pages/PublicTripPage'))
 const LegalPage = lazy(() => import('@/pages/LegalPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 const TripLayout = lazy(() => import('@/pages/trip/TripLayout'))
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/join/:code" element={<JoinPage />} />
+        <Route path="/p/:slug" element={<PublicTripPage />} />
         <Route path="/privacy" element={<LegalPage doc="privacy" />} />
         <Route path="/terms" element={<LegalPage doc="terms" />} />
 

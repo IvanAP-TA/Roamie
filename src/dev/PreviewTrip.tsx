@@ -20,7 +20,8 @@ import RouletteTab from '@/pages/trip/RouletteTab'
 import ItineraryTab from '@/pages/trip/ItineraryTab'
 import GroupTab from '@/pages/trip/GroupTab'
 import PassportPage from '@/pages/PassportPage'
-import type { Destination, ItineraryDay, Trip, TripMember } from '@/lib/types'
+import PublicTripPage from '@/pages/PublicTripPage'
+import type { Destination, ItineraryDay, PublicTrip, Trip, TripMember } from '@/lib/types'
 
 const TRIP: Trip = {
   id: 'preview-trip',
@@ -31,6 +32,7 @@ const TRIP: Trip = {
   cover_image_attribution: null,
   invite_code: 'K7PQ2MXA',
   created_at: '2026-09-01T10:00:00Z',
+  public_slug: 'estate-2027-k7pq2mxa',
 }
 
 const MEMBERS: TripMember[] = [
@@ -97,6 +99,15 @@ export default function PreviewTrip() {
       ['passport', undefined],
       DESTINATIONS.filter((d) => d.status === 'visited').map((d) => ({ ...d, trip: { id: TRIP.id, name: TRIP.name } })),
     )
+    qc.setQueryData(['public-trip', undefined], {
+      slug: TRIP.public_slug!,
+      name: TRIP.name,
+      description: TRIP.description,
+      cover_image_url: TRIP.cover_image_url,
+      cover_image_attribution: TRIP.cover_image_attribution,
+      destinations: DESTINATIONS.map((d) => ({ ...d, points: d.votes.reduce((sum, v) => sum + v.points, 0) })),
+      days: DAYS.map((day) => ({ ...day, items: day.itinerary_items })),
+    } satisfies PublicTrip)
     qc.setQueryData(keys.itinerary(TRIP.id), DAYS)
     qc.setQueryDefaults(['trip', TRIP.id, 'links'], { staleTime: Infinity })
     qc.setQueryData(keys.links(TRIP.id), [
@@ -115,6 +126,8 @@ export default function PreviewTrip() {
     ])
     return true
   })
+
+  if (tab === 'public') return <PublicTripPage />
 
   if (tab === 'passport') {
     return (

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { LanguageCode } from '@/i18n'
 import { pageMeta, type SeoPage } from '@/lib/seo'
 
-function setHeadTag(selector: string, tag: 'meta' | 'link', attrs: Record<string, string> | null) {
+export function setHeadTag(selector: string, tag: 'meta' | 'link', attrs: Record<string, string> | null) {
   let el = document.head.querySelector(selector)
   if (!attrs) {
     el?.remove()

@@ -11,6 +11,7 @@
     { "source": "/trips/:path*", "destination": "/shell" },
     { "source": "/profile", "destination": "/shell" },
     { "source": "/passport", "destination": "/shell" },
+    { "source": "/p/:slug", "destination": "/api/public-trip?slug=:slug" },
     { "source": "/join", "destination": "/shell" },
     { "source": "/join/:path*", "destination": "/shell" },
     { "source": "/auth/:path*", "destination": "/shell" }

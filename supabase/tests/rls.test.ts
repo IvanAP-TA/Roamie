@@ -418,6 +418,47 @@ describe('passport: visits and ratings', () => {
   })
 })
 
+describe('public trip page', () => {
+  let slug: string
+  const publish = (uid: string | null, value: boolean) =>
+    as(db, uid, (q) => q<{ set_trip_public: string | null }>(`select public.set_trip_public($1, $2)`, [tripId, value]))
+
+  it('only the owner publishes, with a stable unguessable slug', async () => {
+    await rejects(publish(EDITOR, true), /forbidden/)
+    await rejects(publish(null, true), /permission denied/)
+    await rejects(as(db, OWNER, (q) => q(`update public.trips set public_slug = 'mine' where id = $1`, [tripId])), /permission denied/)
+
+    const [first] = await publish(OWNER, true)
+    expect(first.set_trip_public).toMatch(/^([a-z0-9]+-)*[a-z0-9]{8}$/)
+    const [again] = await publish(OWNER, true)
+    expect(again.set_trip_public).toBe(first.set_trip_public)
+    slug = first.set_trip_public!
+  })
+
+  it('anon reads destinations with points and the itinerary, but no people or comments', async () => {
+    const [{ page }] = await as(db, null, (q) =>
+      q<{ page: { name: string; destinations: Record<string, unknown>[]; days: unknown[] } }>(
+        `select public.get_public_trip($1) as page`,
+        [` ${slug.toUpperCase()} `],
+      ),
+    )
+    expect(page.destinations.length).toBeGreaterThan(0)
+    expect(Object.keys(page.destinations[0]).sort()).toEqual(
+      ['budget_level', 'country', 'country_code', 'id', 'image_attribution', 'image_url', 'lat', 'lng', 'mood', 'name', 'points', 'status'],
+    )
+    expect(Array.isArray(page.days)).toBe(true)
+    const json = JSON.stringify(page)
+    expect(json).not.toMatch(/Olivia|Enzo|Vera|user_id|created_by|invite_code|expectations/)
+    expect(json).not.toContain(inviteCode)
+  })
+
+  it('unpublishing takes the page down', async () => {
+    await publish(OWNER, false)
+    const [{ page }] = await as(db, null, (q) => q<{ page: unknown }>(`select public.get_public_trip($1) as page`, [slug]))
+    expect(page).toBeNull()
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))
