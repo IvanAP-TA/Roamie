@@ -49,6 +49,9 @@ export default defineConfig(({ isSsrBuild }) => ({
         },
         workbox: {
           navigateFallback: '/shell.html',
+          // Files opened directly (sitemap.xml, robots.txt, icons…) and the serverless functions must come from
+          // the network: the app shell doesn't know them and would render its 404 page.
+          navigateFallbackDenylist: [/^\/api\//, /\/[^/?]+\.[a-z0-9]+$/i],
           globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
           // Font subsets the UI languages never need (still loaded on demand via unicode-range),
           // social preview images, and the prerendered pages.
