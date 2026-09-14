@@ -97,9 +97,14 @@ export default function PreviewTrip() {
     qc.setQueryDefaults(['comments'], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryData(keys.destinations(TRIP.id), DESTINATIONS)
     qc.setQueryData(
-      ['passport', undefined],
+      ['passport', undefined, 'visits'],
       DESTINATIONS.filter((d) => d.status === 'visited').map((d) => ({ ...d, trip: { id: TRIP.id, name: TRIP.name } })),
     )
+    qc.setQueryData(['passport', undefined, 'hidden'], [])
+    qc.setQueryData(['passport', undefined, 'places'], [
+      { id: 'p1', user_id: 'u1', name: 'Tokyo', country: 'Giappone', country_code: 'JP', lat: 35.68, lng: 139.69, visited_on: '2024-04-01', rating: 5, created_at: '2024-04-10T10:00:00Z' },
+      { id: 'p2', user_id: 'u1', name: 'Marrakech', country: 'Marocco', country_code: 'MA', lat: 31.63, lng: -7.98, visited_on: '2023-11-01', rating: 4, created_at: '2023-11-20T10:00:00Z' },
+    ])
     qc.setQueryData(['public-trip', undefined], {
       slug: TRIP.public_slug!,
       name: TRIP.name,

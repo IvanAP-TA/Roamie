@@ -112,6 +112,21 @@ export interface ItineraryDay {
   itinerary_items: ItineraryItem[]
 }
 
+/** A place the user visited outside Roamie's trips; private to them. */
+export interface VisitedPlace {
+  id: string
+  user_id: string
+  name: string
+  country: string | null
+  country_code: string | null
+  lat: number | null
+  lng: number | null
+  /** yyyy-mm-dd */
+  visited_on: string | null
+  rating: number | null
+  created_at: string
+}
+
 /** get_public_trip: what anyone with the link sees (no people, votes by member or comments). */
 export interface PublicTrip {
   slug: string

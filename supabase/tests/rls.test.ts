@@ -459,6 +459,36 @@ describe('public trip page', () => {
   })
 })
 
+describe('personal passport', () => {
+  it('keeps personal visited places private to their author', async () => {
+    const [place] = await as(db, VIEWER, (q) =>
+      q<{ id: string }>(
+        `insert into public.visited_places (name, country_code, lat, lng, visited_on, rating)
+         values ('Tokyo', 'JP', 35.68, 139.69, '2024-04-01', 5) returning id`,
+      ),
+    )
+    expect(await as(db, OWNER, (q) => q(`select id from public.visited_places`))).toHaveLength(0)
+    expect(await as(db, OWNER, (q) => q(`update public.visited_places set rating = 1 where id = $1 returning id`, [place.id]))).toHaveLength(0)
+    await rejects(as(db, OWNER, (q) => q(`insert into public.visited_places (user_id, name) values ($1, 'Oslo')`, [VIEWER])), /row-level security/)
+    await rejects(as(db, VIEWER, (q) => q(`update public.visited_places set user_id = $1 where id = $2`, [OWNER, place.id])), /permission denied/)
+    await rejects(as(db, VIEWER, (q) => q(`insert into public.visited_places (name, lat) values ('Oslo', 59.9)`)), /check constraint/)
+    await rejects(as(db, null, (q) => q(`select * from public.visited_places`)), /permission denied/)
+    await as(db, VIEWER, (q) => q(`delete from public.visited_places where id = $1`, [place.id]))
+  })
+
+  it('lets a member hide a group visit from their own passport only', async () => {
+    await as(db, VIEWER, (q) => q(`insert into public.passport_exclusions (destination_id) values ($1)`, [destId]))
+    expect(await as(db, VIEWER, (q) => q(`select destination_id from public.passport_exclusions`))).toHaveLength(1)
+    expect(await as(db, OWNER, (q) => q(`select destination_id from public.passport_exclusions`))).toHaveLength(0)
+    await rejects(
+      as(db, STRANGER, (q) => q(`insert into public.passport_exclusions (destination_id) values ($1)`, [destId])),
+      /row-level security/,
+    )
+    await as(db, VIEWER, (q) => q(`delete from public.passport_exclusions where destination_id = $1`, [destId]))
+    expect(await as(db, VIEWER, (q) => q(`select destination_id from public.passport_exclusions`))).toHaveLength(0)
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))
