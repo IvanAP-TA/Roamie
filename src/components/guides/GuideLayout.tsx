@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Luggage } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { LanguageCode } from '@/i18n'
 import { useAuth } from '@/hooks/useAuth'
@@ -19,13 +19,27 @@ export function useUrlLanguage(lang: LanguageCode) {
   }, [i18n, lang])
 }
 
+/** Public pages, but signed-in members get a way back to their trips. */
 export function GuideShell({ children }: { children: ReactNode }) {
+  const { t } = useTranslation()
+  const { session } = useAuth()
+
   return (
     <div className="relative flex min-h-dvh flex-col overflow-x-hidden">
       <AuroraBackground />
-      <header className="pt-safe mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 md:px-8">
-        <Logo />
-        <LanguageSwitcher />
+      <header className="pt-safe mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-5 py-4 md:px-8">
+        <Logo to={session ? '/trips' : '/'} />
+        <div className="flex items-center gap-2">
+          {session && (
+            <Button asChild size="sm" variant="glass">
+              <Link to="/trips">
+                <Luggage />
+                {t('guides.myTrips')}
+              </Link>
+            </Button>
+          )}
+          <LanguageSwitcher />
+        </div>
       </header>
       <main className="flex-1 pb-4">{children}</main>
       <Footer />

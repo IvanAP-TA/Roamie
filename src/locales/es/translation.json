@@ -443,7 +443,11 @@
     "openTrip": "Abrir",
     "ctaTitle": "Decidid juntos adónde ir",
     "ctaBody": "Crea un viaje, invita al grupo y votad los destinos. Gratis y sin publicidad.",
-    "ctaMember": "Ir a tus viajes"
+    "ctaMember": "Ir a tus viajes",
+    "myTrips": "Mis viajes",
+    "inspirationTitle": "¿Buscas inspiración?",
+    "inspirationBody": "Explora las guías y añade a tus viajes los destinos que te gusten con un toque.",
+    "browse": "Ver las guías"
   },
   "publicPage": {
     "sectionTitle": "Página pública",

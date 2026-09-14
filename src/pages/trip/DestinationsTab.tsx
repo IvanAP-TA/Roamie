@@ -11,6 +11,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { CompareSheet } from '@/components/destinations/CompareSheet'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
+import { GuidesLinkButton } from '@/components/guides/GuidesLink'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
 import { PointsLeftBadge } from '@/components/destinations/PointsControl'
 import { MOOD_META } from '@/components/destinations/moods'
@@ -232,6 +233,7 @@ export default function DestinationsTab() {
                 {t('destination.add')}
               </Button>
             )}
+            {status === 'proposed' && <GuidesLinkButton size="lg" variant="glass" />}
           </EmptyState>
         )}
 

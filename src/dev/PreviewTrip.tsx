@@ -21,6 +21,7 @@ import ItineraryTab from '@/pages/trip/ItineraryTab'
 import GroupTab from '@/pages/trip/GroupTab'
 import PassportPage from '@/pages/PassportPage'
 import PublicTripPage from '@/pages/PublicTripPage'
+import { InspirationCard } from '@/components/guides/GuidesLink'
 import type { Destination, ItineraryDay, PublicTrip, Trip, TripMember } from '@/lib/types'
 
 const TRIP: Trip = {
@@ -151,6 +152,7 @@ export default function PreviewTrip() {
             />
           ))}
         </div>
+        <InspirationCard className="mx-auto mt-10 max-w-5xl" />
       </div>
     )
   }

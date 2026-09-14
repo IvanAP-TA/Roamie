@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useMyTrips } from '@/hooks/useTrips'
 import { Logo } from '@/components/brand/Logo'
+import { InspirationCard } from '@/components/guides/GuidesLink'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
 import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
@@ -97,6 +98,8 @@ export default function TripsPage() {
             ))}
           </motion.ul>
         )}
+
+        {trips && <InspirationCard className="mt-10" />}
       </PageTransition>
 
       <Footer className="mt-8" />

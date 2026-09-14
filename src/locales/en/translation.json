@@ -443,7 +443,11 @@
     "openTrip": "Open",
     "ctaTitle": "Decide together where to go",
     "ctaBody": "Create a trip, invite your group and vote on destinations. Free, with no ads.",
-    "ctaMember": "Go to your trips"
+    "ctaMember": "Go to your trips",
+    "myTrips": "My trips",
+    "inspirationTitle": "Looking for inspiration?",
+    "inspirationBody": "Browse the guides and add the destinations you like to your trips in one tap.",
+    "browse": "Browse the guides"
   },
   "publicPage": {
     "sectionTitle": "Public page",
