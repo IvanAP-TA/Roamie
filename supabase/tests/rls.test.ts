@@ -73,6 +73,7 @@ describe('hardening', () => {
     const setCover = (url: string) =>
       as(db, OWNER, (q) => q(`update public.trips set cover_image_url = $1 where id = $2`, [url, tripId]))
     await setCover('scene:3')
+    await setCover('https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Beijing_(China).jpg/1280px-Beijing_(China).jpg')
     await setCover('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lisboa_(Portugal).jpg/1280px-Lisboa_(Portugal).jpg')
     for (const bad of [
       'https://evil.example/pixel.gif',

@@ -103,7 +103,8 @@ async function api(host: string, params: Record<string, string>) {
 function toWikiImage(page: ImagePage): WikiImage | null {
   const info = page.imageinfo?.[0]
   if (!info || page.missing) return null
-  if (!/^image\/(jpeg|webp|tiff)$/.test(info.mime)) return null
+  // TIFFs on Commons are almost always archival scans (manuscripts, engravings, old maps), not travel photos.
+  if (!/^image\/(jpeg|webp)$/.test(info.mime)) return null
   if (EXCLUDE.test(normalize(page.title))) return null
   // Very long titles are almost always archival scans (engravings, documents), not travel photos.
   if (page.title.length > 100) return null
@@ -201,6 +202,14 @@ export async function findPlaceImages(name: string, lang: string): Promise<WikiI
   // Don't cache an empty result caused by a network failure.
   if (!failed || unique.length > 0) cache.set(key, unique)
   return unique
+}
+
+/**
+ * Smaller rendition of a Commons thumbnail for grids ("…/1280px-File.jpg" → "…/330px-File.jpg").
+ * Wikimedia only serves standard widths (e.g. 250, 330, 500, 960, 1280); originals are returned as-is.
+ */
+export function sizedThumb(url: string, width: 250 | 330 | 500 | 960): string {
+  return url.includes('/thumb/') ? url.replace(/\/\d+px-([^/]+)$/, `/${width}px-$1`) : url
 }
 
 export function serializeAttribution(a: ImageAttribution): string {

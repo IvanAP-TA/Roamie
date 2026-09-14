@@ -322,11 +322,13 @@
     "createSubtitle": "Search for it: coordinates and photo come along.",
     "editTitle": "Edit place",
     "where": "Where",
-    "searchPlaceholder": "City, island, park…",
+    "searchPlaceholder": "Start typing a city, island, park…",
     "noPlaces": "No place found. Try being more specific.",
     "searchFailed": "Search unavailable, try again shortly.",
     "rateLimited": "Too many searches in a row: wait a few seconds.",
-    "searchAttribution": "Place search: Nominatim",
+    "searchAttribution": "Place search: Photon and Nominatim",
+    "noSuggestions": "No suggestions: try the full search.",
+    "searchMore": "Search “{{query}}” for more results",
     "name": "Place name",
     "country": "Country",
     "noCoords": "No location: it won't appear on the map",
@@ -335,6 +337,8 @@
     "noPhoto": "No relevant photo: we'll use an illustration.",
     "otherPhoto": "Another photo ({{current}}/{{total}})",
     "findPhoto": "Find a photo",
+    "changePhoto": "Change photo",
+    "closePhotos": "Hide photos",
     "withoutPhoto": "No photo",
     "mood": "Mood",
     "budget": "Budget",
@@ -447,7 +451,7 @@
           "items": [
             "Supabase: database and authentication, hosts the service data",
             "Google: sign-in with your Google account",
-            "OpenStreetMap: maps and place search (Nominatim); their servers receive your IP address when you load the map or search for a place",
+            "OpenStreetMap: maps and place search (Nominatim, plus Photon by komoot for suggestions while you type); their servers receive your IP address and search text when you load the map or search for a place",
             "Wikimedia Commons: destination photos; their servers receive your IP address when images load"
           ]
         },

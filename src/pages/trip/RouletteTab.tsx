@@ -112,9 +112,10 @@ export default function RouletteTab() {
   return (
     <PageTransition className="mx-auto max-w-5xl px-5 md:px-6">
       <header className="flex items-end justify-between gap-3">
-        <div>
-          <p className="truncate text-sm font-medium text-muted-foreground">{trip.name}</p>
-          <h1 className="text-[2.6rem] leading-none md:text-5xl">{t('roulette.title')}</h1>
+        <div className="min-w-0">
+          {/* On phones the sticky header already shows the trip name. */}
+          <p className="hidden truncate text-sm font-medium text-muted-foreground md:block">{trip.name}</p>
+          <h1 className="text-[2.3rem] leading-none md:text-5xl">{t('roulette.title')}</h1>
         </div>
         <Button
           variant="glass"
@@ -142,8 +143,8 @@ export default function RouletteTab() {
       )}
 
       {!isLoading && entries.length > 0 && (
-        <div className="mt-8 grid items-start gap-10 md:grid-cols-[1.15fr_1fr]">
-          <div className="space-y-6">
+        <div className="mt-6 grid items-start gap-8 md:mt-8 md:grid-cols-[1.15fr_1fr] md:gap-10">
+          <div className="space-y-5 md:space-y-6">
             <RouletteWheel
               entries={entries}
               rotation={rotation}

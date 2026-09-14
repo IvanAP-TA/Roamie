@@ -9,6 +9,9 @@ export const SLICE_COLORS = ['#ff7a5c', '#f4a950', '#c24e27', '#d99ab8', '#6b4a6
 
 const C = 200
 const R = 186
+// Labels sit between the hub (26% of the wheel) and the rim lights.
+const LABEL_RADIUS = R * 0.63
+const LABEL_LENGTH = R * 0.6
 
 const point = (angle: number, radius: number) => {
   const rad = (angle * Math.PI) / 180
@@ -59,7 +62,8 @@ export function RouletteWheel({
   }, [entries])
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[22rem] md:max-w-[27rem]">
+    // On phones the wheel also shrinks with the screen height, so the spin button stays above the dock.
+    <div className="relative mx-auto aspect-square w-full max-w-[min(22rem,max(15rem,calc(100dvh-26rem)))] md:max-w-[27rem]">
       {/* glow */}
       <div className="absolute inset-[6%] rounded-full bg-[conic-gradient(var(--sun),var(--coral),var(--primary),var(--dusk),var(--sun))] opacity-40 blur-3xl" />
 
@@ -71,21 +75,27 @@ export function RouletteWheel({
             const span = entry.endAngle - entry.startAngle
             const mid = entry.startAngle + span / 2
             const color = SLICE_COLORS[i % SLICE_COLORS.length]
-            const fontSize = Math.max(9, Math.min(17, span / 2.6))
+            // Names run along the radius (more room than across a thin slice), flipped on the left
+            // half so none is upside down when the wheel stops.
+            const [lx, ly] = point(mid, LABEL_RADIUS)
+            const angle = mid < 180 ? mid - 90 : mid + 90
+            const arc = ((span * Math.PI) / 180) * LABEL_RADIUS
+            const fontSize = Math.max(11, Math.min(19, arc * 0.42))
+            const maxChars = Math.max(5, Math.floor(LABEL_LENGTH / (fontSize * 0.56)))
             return (
               <g key={entry.destination.id}>
                 <path d={slicePath(entry.startAngle, entry.endAngle)} fill={color} stroke="var(--paper)" strokeWidth={entries.length > 1 ? 3 : 0} />
-                {span >= 14 && (
+                {span >= 10 && (
                   <text
-                    x={C}
-                    y={C - R * 0.58}
-                    transform={`rotate(${mid} ${C} ${C})`}
+                    x={lx}
+                    y={ly}
+                    transform={`rotate(${angle} ${lx} ${ly})`}
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fill="#fff"
                     style={{ fontFamily: 'var(--font-display)', fontSize, fontWeight: 600, letterSpacing: '-0.01em' }}
                   >
-                    {truncate(entry.destination.name, span > 60 ? 16 : 10)}
+                    {truncate(entry.destination.name, maxChars)}
                   </text>
                 )}
               </g>

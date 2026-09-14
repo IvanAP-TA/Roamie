@@ -31,11 +31,12 @@ export function CoverImage({
   showAttribution?: boolean
   attributionClassName?: string
 }) {
-  const [failed, setFailed] = useState(false)
+  // Remember which URL failed, so switching to another photo tries loading it again.
+  const [failedUrl, setFailedUrl] = useState<string | null>(null)
   const isScene = Boolean(url?.startsWith(SCENE_PREFIX))
   const photoUrl = isScene ? null : safeImageUrl(url)
 
-  if (!photoUrl || failed) {
+  if (!photoUrl || failedUrl === photoUrl) {
     const sceneSeed = isScene ? url!.slice(SCENE_PREFIX.length) : seed
     return (
       <div className={cn('relative overflow-hidden', className)}>
@@ -50,13 +51,14 @@ export function CoverImage({
   return (
     <div className={cn('relative overflow-hidden bg-muted', className)}>
       <img
+        key={photoUrl}
         src={photoUrl}
         alt=""
         loading="lazy"
         decoding="async"
         crossOrigin="anonymous"
         referrerPolicy="strict-origin-when-cross-origin"
-        onError={() => setFailed(true)}
+        onError={() => setFailedUrl(photoUrl)}
         className={cn('absolute inset-0 size-full object-cover', imgClassName)}
       />
       {children}

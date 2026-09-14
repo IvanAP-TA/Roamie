@@ -322,11 +322,13 @@
     "createSubtitle": "Cerca il luogo: coordinate e foto arrivano da sole.",
     "editTitle": "Modifica meta",
     "where": "Dove",
-    "searchPlaceholder": "Città, isola, parco…",
+    "searchPlaceholder": "Scrivi una città, un'isola, un parco…",
     "noPlaces": "Nessun luogo trovato. Prova a essere più preciso.",
+    "noSuggestions": "Nessun suggerimento: prova la ricerca completa.",
+    "searchMore": "Cerca «{{query}}» con più risultati",
     "searchFailed": "Ricerca non disponibile, riprova tra poco.",
     "rateLimited": "Troppe ricerche ravvicinate: aspetta qualche secondo.",
-    "searchAttribution": "Ricerca luoghi: Nominatim",
+    "searchAttribution": "Ricerca luoghi: Photon e Nominatim",
     "name": "Nome della meta",
     "country": "Paese",
     "noCoords": "Nessuna posizione: non comparirà sulla mappa",
@@ -335,6 +337,8 @@
     "noPhoto": "Nessuna foto pertinente: useremo un'illustrazione.",
     "otherPhoto": "Altra foto ({{current}}/{{total}})",
     "findPhoto": "Cerca foto",
+    "changePhoto": "Cambia foto",
+    "closePhotos": "Nascondi foto",
     "withoutPhoto": "Senza foto",
     "mood": "Mood",
     "budget": "Budget",
@@ -447,7 +451,7 @@
           "items": [
             "Supabase: database e autenticazione, ospita i dati del servizio",
             "Google: accesso con account Google",
-            "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim); i loro server ricevono il tuo indirizzo IP quando carichi la mappa o cerchi un luogo",
+            "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim, e Photon di komoot per i suggerimenti mentre scrivi); i loro server ricevono il tuo indirizzo IP e il testo della ricerca quando carichi la mappa o cerchi un luogo",
             "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate"
           ]
         },

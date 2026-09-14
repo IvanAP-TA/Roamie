@@ -13,7 +13,8 @@ export function safeNextPath(next: string | null | undefined, fallback = '/trips
 
 // No whitespace, quotes, backslashes or angle brackets: safe inside HTML attributes and CSS url('…').
 const SAFE_URL_TAIL = String.raw`[^\s'"\\<>]+$`
-const WIKIMEDIA_IMAGE = new RegExp(String.raw`^https://upload\.wikimedia\.org/` + SAFE_URL_TAIL)
+// The Commons API serves originals from upload.wikimedia.org and thumbnails from thumb.wikimedia.org.
+const WIKIMEDIA_IMAGE = new RegExp(String.raw`^https://(upload|thumb)\.wikimedia\.org/` + SAFE_URL_TAIL)
 const GOOGLE_AVATAR = new RegExp(String.raw`^https://[a-z0-9-]+\.googleusercontent\.com/` + SAFE_URL_TAIL)
 const matches = (url: string | null | undefined, pattern: RegExp) => (url && url.length <= 2048 && pattern.test(url) ? url : null)
 
