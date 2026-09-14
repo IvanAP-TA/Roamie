@@ -1,4 +1,6 @@
+import { Suspense } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { Skeleton } from '@/components/ui/misc'
 import { Luggage, Plus, Stamp, UserRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
@@ -13,7 +15,18 @@ export function AppShell() {
     <div className="relative min-h-dvh">
       <AuroraBackground />
       <div className="pb-32 md:pb-10 md:pl-28">
-        <Outlet />
+        {/* Opening a page for the first time keeps the dock in place instead of the full-screen splash. */}
+        <Suspense
+          fallback={
+            <div className="mx-auto max-w-5xl space-y-4 px-5 pt-8">
+              <Skeleton className="h-12 w-2/3 rounded-full" />
+              <Skeleton className="h-48 rounded-[2rem]" />
+              <Skeleton className="h-32 rounded-[2rem]" />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </div>
       <DockNav
         layoutId="main-dock"
