@@ -19,11 +19,9 @@ export function NextDestinationCard({ destination: d, onOpen }: { destination: D
       whileTap={{ scale: 0.98 }}
       className="group relative block w-full overflow-hidden rounded-[2rem] p-[2px] text-left shadow-glow"
     >
-      <motion.span
+      <span
         aria-hidden
-        className="absolute -inset-[60%] bg-[conic-gradient(from_0deg,var(--sun),var(--coral),var(--primary),var(--dusk),var(--sun))]"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+        className="absolute -inset-[60%] animate-spin-slow bg-[conic-gradient(from_0deg,var(--sun),var(--coral),var(--primary),var(--dusk),var(--sun))]"
       />
       <span className="relative flex items-center gap-4 rounded-[calc(2rem-2px)] bg-paper p-3 pr-5">
         <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} className="size-20 shrink-0 rounded-[1.4rem]" />

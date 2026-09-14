@@ -3,6 +3,8 @@
 // legal, 404) into static HTML with their meta tags, so crawlers and link previews get real content.
 import { existsSync } from 'node:fs'
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
+import Beasties from 'beasties'
 import { loadEnv } from 'vite'
 
 const root = new URL('../', import.meta.url)
@@ -37,12 +39,26 @@ const fontPreloads = [/^fraunces-latin-full-normal-.+\.woff2$/, /^instrument-san
   .filter(Boolean)
   .map((file) => `<link rel="preload" href="/assets/${file}" as="font" type="font/woff2" crossorigin />`)
 
+// Each prerendered page gets the CSS rules its own markup uses inlined, and the full stylesheet moves to the
+// end of <body>, so the first paint doesn't wait for the whole app's CSS. `preload: 'body'` needs no inline
+// script, which the Content-Security-Policy forbids.
+const beasties = new Beasties({
+  path: fileURLToPath(dist),
+  publicPath: '/',
+  preload: 'body',
+  pruneSource: false,
+  inlineFonts: false,
+  preloadFonts: false,
+  logLevel: 'warn',
+})
+
 for (const route of ROUTES) {
   const { html, head } = await render(route)
-  const page = template
+  const rendered = template
     .replace(/<html lang="[^"]*"/, `<html lang="${route.lang}"`)
     .replace(HEAD, () => [...fontPreloads, head].join('\n    '))
     .replace('<!--app-html-->', () => html)
+  const page = await beasties.process(rendered)
   const target = new URL(route.file, dist)
   await mkdir(new URL('.', target), { recursive: true })
   await writeFile(target, page)

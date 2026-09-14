@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
-import { isSupabaseConfigured } from '@/lib/supabase'
+import { isSupabaseConfigured } from '@/lib/supabaseEnv'
 import { cn } from '@/lib/utils'
 
 function GoogleG({ className }: { className?: string }) {

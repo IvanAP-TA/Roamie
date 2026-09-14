@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSeo } from '@/hooks/useSeo'
 import { LANGUAGES, type LanguageCode } from '@/i18n'
 import { FAQ_KEYS, LANDING_PATHS } from '@/lib/seo'
-import { hasStoredSession, isSupabaseConfigured } from '@/lib/supabase'
+import { hasStoredSession, isSupabaseConfigured } from '@/lib/supabaseEnv'
 import { cn, safeNextPath } from '@/lib/utils'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { Logo } from '@/components/brand/Logo'
@@ -50,10 +50,10 @@ function PostcardFan() {
           whileDrag={{ scale: 1.06, rotate: 0, zIndex: 10 }}
           whileHover={{ y: -8, rotate: card.rotate / 2 }}
         >
-          <motion.div
-            animate={{ y: [0, -7, 0] }}
-            transition={{ duration: 5 + i, repeat: Infinity, ease: 'easeInOut', delay: card.delay }}
-            className="rounded-[1.6rem] bg-paper p-2 shadow-lift"
+          <div
+            // CSS animation: it runs on the compositor instead of a JavaScript update every frame.
+            style={{ animationDuration: `${5 + i}s`, animationDelay: `${card.delay}s` }}
+            className="animate-float rounded-[1.6rem] bg-paper p-2 shadow-lift"
           >
             <Scene seed={card.name} className="aspect-[3/4] rounded-[1.2rem]">
               <span className="absolute top-2.5 right-2.5 flex size-11 rotate-12 items-center justify-center rounded-full border-[1.5px] border-dashed border-white/80 text-[0.5rem] leading-none font-bold tracking-[0.12em] text-white/90 uppercase">
@@ -70,7 +70,7 @@ function PostcardFan() {
                 {card.votes}
               </span>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       ))}
 

@@ -445,6 +445,7 @@
     "ctaBody": "Crea un viaggio, invita il gruppo e mettete ai voti le mete. Gratis e senza pubblicità.",
     "ctaMember": "Vai ai tuoi viaggi",
     "myTrips": "I miei viaggi",
+    "disclaimer": "Informazioni generali e indicative: periodi, prezzi e condizioni cambiano, verifica sempre prima di partire.",
     "inspirationTitle": "Cerchi ispirazione?",
     "inspirationBody": "Sfoglia le guide e aggiungi le mete che ti piacciono ai tuoi viaggi con un tocco.",
     "browse": "Sfoglia le guide"
@@ -667,7 +668,7 @@
       "sections": [
         {
           "title": "Titolare del trattamento",
-          "body": "Il titolare è il gestore del servizio Roamie, contattabile a {{contact}}."
+          "body": "Il titolare del trattamento è Ivan Antonino Pace, gestore del servizio Roamie, contattabile a {{contact}}."
         },
         {
           "title": "Dati raccolti",
@@ -700,12 +701,17 @@
           "title": "Servizi esterni",
           "body": "Per funzionare Roamie si appoggia a questi fornitori:",
           "items": [
-            "Supabase: database e autenticazione, ospita i dati del servizio",
+            "Supabase: database e autenticazione, ospita i dati del servizio su server nell'Unione Europea (Irlanda)",
+            "Vercel: hosting del sito e delle anteprime delle pagine pubbliche (funzioni eseguite nell'Unione Europea, contenuti statici distribuiti da una rete globale)",
             "Google: accesso con account Google",
             "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim, e Photon di komoot per i suggerimenti mentre scrivi); i loro server ricevono il tuo indirizzo IP e il testo della ricerca quando carichi la mappa o cerchi un luogo",
             "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate",
             "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP"
           ]
+        },
+        {
+          "title": "Trasferimenti fuori dall'Unione Europea",
+          "body": "I dati del servizio sono conservati nell'Unione Europea. Alcuni fornitori (Google, Vercel e le reti di distribuzione dei servizi di mappe e immagini) possono trattare dati tecnici come l'indirizzo IP anche fuori dall'UE, in particolare negli Stati Uniti: in questi casi il trasferimento si basa sul Data Privacy Framework UE-USA o sulle clausole contrattuali standard approvate dalla Commissione europea."
         },
         {
           "title": "Conservazione",
@@ -723,11 +729,11 @@
       "sections": [
         {
           "title": "Il servizio",
-          "body": "Roamie ti permette di creare liste di viaggio condivise, proporre mete, votarle, commentarle e organizzare un itinerario con il tuo gruppo. Il servizio è gratuito e fornito così com'è."
+          "body": "Roamie ti permette di creare liste di viaggio condivise, proporre mete, votarle, commentarle e organizzare un itinerario con il tuo gruppo. Il servizio è gestito da Ivan Antonino Pace, è gratuito e viene fornito così com'è."
         },
         {
           "title": "Account",
-          "body": "Accedi con il tuo account Google. Sei responsabile di ciò che fai con il tuo account e di chi inviti nei tuoi viaggi tramite il link di invito."
+          "body": "Per usare Roamie devi avere almeno 14 anni. Accedi con il tuo account Google. Sei responsabile di ciò che fai con il tuo account e di chi inviti nei tuoi viaggi tramite il link di invito."
         },
         {
           "title": "Uso corretto",
@@ -743,8 +749,12 @@
           "body": "Mete, commenti e itinerari restano tuoi. Pubblicandoli in un viaggio li rendi visibili ai suoi membri. Se il proprietario rende pubblica la pagina del viaggio, nome, descrizione, copertina, mete (con foto e punteggio) e itinerario diventano visibili a chiunque abbia il link e possono comparire nei motori di ricerca; nomi dei membri, voti individuali e commenti restano privati, e la pagina può tornare privata in qualsiasi momento. Il proprietario del viaggio può gestire i membri e moderare i commenti. Le foto di Wikimedia Commons restano soggette alle rispettive licenze, indicate su ogni immagine."
         },
         {
+          "title": "Segnalare un contenuto",
+          "body": "Se trovi in Roamie un contenuto illecito o che viola i tuoi diritti, per esempio in una pagina pubblica di un viaggio, scrivi a {{contact}} indicando il link e il motivo. Esaminiamo ogni segnalazione, rimuoviamo tempestivamente i contenuti illeciti e, quando possibile, informiamo chi li ha pubblicati."
+        },
+        {
           "title": "Responsabilità limitata",
-          "body": "Roamie è uno strumento di organizzazione: non vende viaggi e non garantisce l'accuratezza di mappe, luoghi o immagini provenienti da fonti esterne. Nei limiti di legge non rispondiamo di danni indiretti derivanti dall'uso del servizio o dalla sua temporanea indisponibilità."
+          "body": "Roamie è uno strumento di organizzazione: non vende viaggi e non garantisce l'accuratezza di mappe, luoghi o immagini provenienti da fonti esterne. Le guide di viaggio offrono informazioni generali e indicative: periodi, prezzi e condizioni cambiano, quindi verifica sempre prima di partire. Nei limiti di legge non rispondiamo di danni indiretti derivanti dall'uso del servizio o dalla sua temporanea indisponibilità."
         },
         {
           "title": "Eliminazione dell'account",

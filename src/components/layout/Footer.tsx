@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ShieldCheck } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { GUIDE_BASE } from '@/content/guides/meta'
 import type { LanguageCode } from '@/i18n'
-import { Sheet } from '@/components/ui/sheet'
-import { LegalContent, type LegalDoc } from '@/components/legal/LegalContent'
+import type { LegalDoc } from '@/components/legal/LegalContent'
+
+// The sheet (and the legal texts' layout) is only downloaded when someone opens it.
+const LegalSheet = lazy(() => import('@/components/legal/LegalSheet'))
 import { cn } from '@/lib/utils'
 
 export function Footer({ className }: { className?: string }) {
   const { t, i18n } = useTranslation()
   const guidesPath = GUIDE_BASE[i18n.resolvedLanguage as LanguageCode] ?? GUIDE_BASE.en
   const [doc, setDoc] = useState<LegalDoc | null>(null)
-  const [lastDoc, setLastDoc] = useState<LegalDoc>('privacy')
+  const [lastDoc, setLastDoc] = useState<LegalDoc | null>(null)
 
   const open = (next: LegalDoc) => {
     setLastDoc(next)
@@ -55,13 +57,11 @@ export function Footer({ className }: { className?: string }) {
         <span>© {new Date().getFullYear()} Roamie</span>
       </nav>
 
-      <Sheet
-        open={doc !== null}
-        onOpenChange={(o) => !o && setDoc(null)}
-        title={t(`legal.${lastDoc}.title`)}
-      >
-        <LegalContent doc={lastDoc} />
-      </Sheet>
+      {lastDoc && (
+        <Suspense fallback={null}>
+          <LegalSheet doc={lastDoc} open={doc !== null} onOpenChange={(o) => !o && setDoc(null)} />
+        </Suspense>
+      )}
     </footer>
   )
 }

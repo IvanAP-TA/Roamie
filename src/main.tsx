@@ -13,7 +13,7 @@ import { registerSW } from 'virtual:pwa-register'
 import { AuthProvider } from '@/hooks/useAuth'
 import { Toaster } from '@/components/ui/toaster'
 import { pathLanguage } from '@/content/guides/meta'
-import { hasStoredSession } from '@/lib/supabase'
+import { hasStoredSession } from '@/lib/supabaseEnv'
 import App from './App'
 
 const queryClient = new QueryClient({

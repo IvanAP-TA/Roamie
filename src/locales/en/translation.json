@@ -445,6 +445,7 @@
     "ctaBody": "Create a trip, invite your group and vote on destinations. Free, with no ads.",
     "ctaMember": "Go to your trips",
     "myTrips": "My trips",
+    "disclaimer": "General, indicative information: seasons, prices and conditions change, so always check before you go.",
     "inspirationTitle": "Looking for inspiration?",
     "inspirationBody": "Browse the guides and add the destinations you like to your trips in one tap.",
     "browse": "Browse the guides"
@@ -667,7 +668,7 @@
       "sections": [
         {
           "title": "Data controller",
-          "body": "The controller is the operator of the Roamie service, reachable at {{contact}}."
+          "body": "The data controller is Ivan Antonino Pace, operator of the Roamie service, reachable at {{contact}}."
         },
         {
           "title": "Data we collect",
@@ -700,12 +701,17 @@
           "title": "External services",
           "body": "To work, Roamie relies on these providers:",
           "items": [
-            "Supabase: database and authentication, hosts the service data",
+            "Supabase: database and authentication, hosts the service data on servers in the European Union (Ireland)",
+            "Vercel: hosting of the website and of the public pages' previews (functions run in the European Union, static content served by a global network)",
             "Google: sign-in with your Google account",
             "OpenStreetMap: maps and place search (Nominatim, plus Photon by komoot for suggestions while you type); their servers receive your IP address and search text when you load the map or search for a place",
             "Wikimedia Commons: destination photos; their servers receive your IP address when images load",
             "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address"
           ]
+        },
+        {
+          "title": "Transfers outside the European Union",
+          "body": "The service data is stored in the European Union. Some providers (Google, Vercel and the delivery networks of the map and image services) may process technical data such as your IP address outside the EU, in particular in the United States: such transfers rely on the EU-US Data Privacy Framework or on the standard contractual clauses approved by the European Commission."
         },
         {
           "title": "Retention",
@@ -723,11 +729,11 @@
       "sections": [
         {
           "title": "The service",
-          "body": "Roamie lets you create shared trip lists, propose destinations, vote and comment on them and plan an itinerary with your group. The service is free and provided as is."
+          "body": "Roamie lets you create shared trip lists, propose destinations, vote and comment on them and plan an itinerary with your group. The service is run by Ivan Antonino Pace, is free and is provided as is."
         },
         {
           "title": "Accounts",
-          "body": "You sign in with your Google account. You're responsible for what you do with it and for who you invite to your trips through the invite link."
+          "body": "You must be at least 14 years old to use Roamie. You sign in with your Google account. You're responsible for what you do with it and for who you invite to your trips through the invite link."
         },
         {
           "title": "Fair use",
@@ -743,8 +749,12 @@
           "body": "Destinations, comments and itineraries remain yours. Posting them in a trip makes them visible to its members. If the owner makes the trip page public, its name, description, cover, destinations (with photo and score) and itinerary become visible to anyone with the link and may appear in search engines; member names, individual votes and comments stay private, and the page can be made private again at any time. The trip owner can manage members and moderate comments. Wikimedia Commons photos remain subject to their licences, shown on every image."
         },
         {
+          "title": "Reporting content",
+          "body": "If you find content on Roamie that is illegal or infringes your rights, for example on a public trip page, write to {{contact}} with the link and the reason. We review every report, promptly remove illegal content and, where possible, let the person who posted it know."
+        },
+        {
           "title": "Limited liability",
-          "body": "Roamie is a planning tool: it doesn't sell travel and doesn't guarantee the accuracy of maps, places or images from external sources. To the extent permitted by law, we're not liable for indirect damages arising from use of the service or its temporary unavailability."
+          "body": "Roamie is a planning tool: it doesn't sell travel and doesn't guarantee the accuracy of maps, places or images from external sources. The travel guides give general, indicative information: seasons, prices and conditions change, so always check before you go. To the extent permitted by law, we're not liable for indirect damages arising from use of the service or its temporary unavailability."
         },
         {
           "title": "Deleting your account",

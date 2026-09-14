@@ -1,6 +1,41 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Looping decorations as CSS animations: they run on the compositor, not as a JavaScript update every frame. */
+@theme {
+  --animate-float: float-y 5s ease-in-out infinite;
+  --animate-breathe: breathe 1.6s ease-in-out infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+
+  @keyframes float-y {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.08) rotate(-4deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-breathe,
+  .animate-spin-slow {
+    animation: none;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
    Roamie palette — "golden hour" (light) and "dusk" (dark)
    ───────────────────────────────────────────────────────────────────────────── */

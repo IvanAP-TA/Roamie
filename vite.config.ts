@@ -94,7 +94,6 @@ export default defineConfig(({ isSsrBuild }) => ({
             manualChunks(id: string) {
               if (!id.includes('node_modules')) return
               if (/[\\/]node_modules[\\/](react|react-dom|scheduler|react-router|react-router-dom)[\\/]/.test(id)) return 'react'
-              if (id.includes('@supabase')) return 'supabase'
               if (/[\\/]node_modules[\\/](framer-motion|motion-dom|motion-utils)[\\/]/.test(id)) return 'motion'
               if (id.includes('i18next')) return 'i18n'
             },

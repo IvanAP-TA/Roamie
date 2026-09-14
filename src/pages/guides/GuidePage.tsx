@@ -132,6 +132,7 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
               </ol>
             </>
           )}
+          <p className="mt-8 text-xs leading-relaxed text-muted-foreground">{t('guides.disclaimer')}</p>
         </article>
 
         <section className="mt-16 space-y-5" aria-labelledby="more-guides">
