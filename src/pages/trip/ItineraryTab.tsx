@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarPlus, CalendarRange, GripVertical, Link2, ListChecks, Trash2, type LucideIcon } from 'lucide-react'
+import { CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
+import { buildItineraryIcs, fileSlug } from '@/lib/ics'
+import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useItinerary, useItineraryMutations } from '@/hooks/useItinerary'
@@ -45,6 +47,16 @@ function ItineraryView() {
   const lastDay = days?.at(-1)
   const hasItems = days?.some((d) => d.itinerary_items.length > 1)
 
+  const exportIcs = () => {
+    const { ics, events } = buildItineraryIcs(trip, days ?? [])
+    if (events === 0) {
+      toast(t('stops.exportNone'))
+      return
+    }
+    downloadFile(`${fileSlug(trip.name)}.ics`, ics, 'text/calendar;charset=utf-8')
+    toast.success(t('stops.exported', { count: events }))
+  }
+
   return (
     <>
       {isLoading && (
@@ -67,17 +79,25 @@ function ItineraryView() {
 
       {days && days.length > 0 && (
         <>
-          <div className="mb-3 flex min-h-9 items-center justify-between gap-3">
-            {canEdit && hasItems ? (
-              <p className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+          <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
+            {canEdit && hasItems && (
+              <p className="mr-auto inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <GripVertical className="size-3.5" />
                 {t('itinerary.dragHint')}
               </p>
-            ) : (
-              <span />
             )}
+            <Button asChild variant="glass" size="sm">
+              <Link to="../map?layer=stops" relative="path" aria-label={t('stops.onMap')}>
+                <MapIcon />
+                <span className="hidden sm:inline">{t('stops.onMap')}</span>
+              </Link>
+            </Button>
+            <Button variant="glass" size="sm" onClick={exportIcs} aria-label={t('stops.exportIcs')}>
+              <Download />
+              <span className="hidden sm:inline">{t('stops.exportIcs')}</span>
+            </Button>
             {canEdit && (
-              <Button size="sm" onClick={() => setDayForm({})}>
+              <Button size="sm" onClick={() => setDayForm({})} aria-label={t('itinerary.addDay')}>
                 <CalendarPlus />
                 <span className="hidden sm:inline">{t('itinerary.addDay')}</span>
               </Button>
@@ -136,7 +156,18 @@ function ItineraryView() {
         open={itemForm !== null}
         onOpenChange={(open) => !open && setItemForm(null)}
         title={itemForm?.item ? t('itinerary.editItem') : t('itinerary.newItem')}
-        initial={itemForm?.item ? { time: itemForm.item.time, title: itemForm.item.title, description: itemForm.item.description } : undefined}
+        initial={
+          itemForm?.item
+            ? {
+                time: itemForm.item.time,
+                title: itemForm.item.title,
+                description: itemForm.item.description,
+                place_name: itemForm.item.place_name,
+                lat: itemForm.item.lat,
+                lng: itemForm.item.lng,
+              }
+            : undefined
+        }
         busy={m.addItem.isPending || m.updateItem.isPending}
         onDelete={
           itemForm?.item

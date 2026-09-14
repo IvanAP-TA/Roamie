@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Check, ImageOff, Images, Loader2, LocateFixed, MapPin, Search, X } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Check, ImageOff, Images, Loader2, LocateFixed, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Sheet } from '@/components/ui/sheet'
@@ -10,16 +10,13 @@ import { Chip } from '@/components/ui/misc'
 import { CoverImage } from '@/components/media/CoverImage'
 import { AttributionText } from '@/components/media/Attribution'
 import { PhotoSearch } from '@/components/media/PhotoSearch'
+import { PlaceSearch } from '@/components/places/PlaceSearch'
 import { useCreateDestination, useUpdateDestination, type DestinationInput } from '@/hooks/useDestinations'
-import { localizePlace, NominatimError, searchPlaces, type Place } from '@/lib/nominatim'
-import { suggestPlaces } from '@/lib/photon'
+import type { Place } from '@/lib/nominatim'
 import { serializeAttribution, type WikiImage } from '@/lib/wikimedia'
 import { MOODS, type BudgetLevel, type Destination, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { MOOD_META } from './moods'
-
-const SUGGEST_MIN_CHARS = 3
-const SUGGEST_DEBOUNCE_MS = 300
 
 export function DestinationFormSheet({
   open,
@@ -32,18 +29,11 @@ export function DestinationFormSheet({
   tripId: string
   destination?: Destination
 }) {
-  const { t, i18n } = useTranslation()
-  const lang = i18n.resolvedLanguage ?? 'en'
+  const { t } = useTranslation()
   const create = useCreateDestination(tripId)
   const update = useUpdateDestination(tripId)
 
-  // Place search: suggestions while typing (Photon), full search on demand (Nominatim).
-  const [query, setQuery] = useState('')
-  const [results, setResults] = useState<{ source: 'suggest' | 'search'; places: Place[] } | null>(null)
-  const [searching, setSearching] = useState(false)
-  const [searchError, setSearchError] = useState<string | null>(null)
   const [picking, setPicking] = useState(false)
-
   const [name, setName] = useState('')
   const [country, setCountry] = useState<string | null>(null)
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null)
@@ -58,9 +48,6 @@ export function DestinationFormSheet({
 
   useEffect(() => {
     if (!open) return
-    setQuery('')
-    setResults(null)
-    setSearchError(null)
     setPicking(false)
     setName(destination?.name ?? '')
     setCountry(destination?.country ?? null)
@@ -72,60 +59,15 @@ export function DestinationFormSheet({
     setExpectations(destination?.expectations ?? '')
   }, [open, destination])
 
-  // Suggestions as you type, debounced; a newer keystroke aborts the previous request.
-  useEffect(() => {
-    const q = query.trim()
-    if (q.length < SUGGEST_MIN_CHARS) {
-      setResults(null)
-      setSearching(false)
-      return
-    }
-    const controller = new AbortController()
-    const timer = setTimeout(async () => {
-      setSearching(true)
-      setSearchError(null)
-      try {
-        setResults({ source: 'suggest', places: await suggestPlaces(q, controller.signal) })
-      } catch {
-        // Suggestions are best-effort: the explicit search is still available.
-        if (!controller.signal.aborted) setResults({ source: 'suggest', places: [] })
-      } finally {
-        if (!controller.signal.aborted) setSearching(false)
-      }
-    }, SUGGEST_DEBOUNCE_MS)
-    return () => {
-      clearTimeout(timer)
-      controller.abort()
-    }
-  }, [query])
-
-  const searchPlace = async () => {
-    if (query.trim().length < 2) return
-    setSearching(true)
-    setSearchError(null)
-    try {
-      setResults({ source: 'search', places: await searchPlaces(query, lang) })
-    } catch (err) {
-      setSearchError(err instanceof NominatimError && err.code === 'rate_limited' ? t('destForm.rateLimited') : t('destForm.searchFailed'))
-    } finally {
-      setSearching(false)
-    }
-  }
-
   const openPicker = (photoQuery: string, autoSelect: boolean) =>
     setPicker((prev) => ({ key: (prev?.key ?? 0) + 1, query: photoQuery, autoSelect }))
 
-  const pickPlace = async (place: Place) => {
-    setResults(null)
-    setPicking(true)
-    const localized = await localizePlace(place, lang)
-    setPicking(false)
-    setQuery('')
-    setName(localized.name)
-    setCountry(localized.country)
-    setCoords({ lat: localized.lat, lng: localized.lng })
+  const applyPlace = (place: Place) => {
+    setName(place.name)
+    setCountry(place.country)
+    setCoords({ lat: place.lat, lng: place.lng })
     // Show the photos of the new place; pre-select the first one only if there's no photo yet.
-    openPicker(localized.name, !image)
+    openPicker(place.name, !image)
   }
 
   const selectImage = (img: WikiImage) => setImage({ url: img.thumbUrl, attribution: serializeAttribution(img.attribution) })
@@ -174,94 +116,7 @@ export function DestinationFormSheet({
         {/* ── Where ── */}
         <section>
           <Label htmlFor="place-search">{t('destForm.where')}</Label>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Input
-                id="place-search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    void searchPlace()
-                  }
-                }}
-                placeholder={t('destForm.searchPlaceholder')}
-                enterKeyHint="search"
-                autoComplete="off"
-                role="combobox"
-                aria-expanded={Boolean(results)}
-                aria-controls="place-results"
-                className="pr-10"
-              />
-              {(searching || picking) && (
-                <Loader2 className="absolute top-1/2 right-3.5 size-4 -translate-y-1/2 animate-spin text-muted-foreground" />
-              )}
-            </div>
-            <Button
-              type="button"
-              variant="secondary"
-              size="icon"
-              className="size-12 shrink-0 rounded-2xl"
-              onClick={() => void searchPlace()}
-              aria-label={t('media.search')}
-            >
-              <Search />
-            </Button>
-          </div>
-          {searchError && <p className="mt-2 px-1 text-sm text-destructive">{searchError}</p>}
-
-          <AnimatePresence>
-            {results && (
-              <motion.ul
-                id="place-results"
-                role="listbox"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mt-2 overflow-hidden rounded-2xl border border-border bg-[var(--glass-strong)]"
-              >
-                {results.places.length === 0 && (
-                  <li className="px-4 py-3 text-sm text-muted-foreground">
-                    {results.source === 'suggest' ? t('destForm.noSuggestions') : t('destForm.noPlaces')}
-                  </li>
-                )}
-                {results.places.map((place) => (
-                  <li key={place.id} role="option" aria-selected={false}>
-                    <button
-                      type="button"
-                      onClick={() => void pickPlace(place)}
-                      className="flex min-h-12 w-full items-start gap-3 px-4 py-3 text-left transition hover:bg-foreground/5 active:bg-foreground/10"
-                    >
-                      <MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
-                      <span className="min-w-0">
-                        <span className="block truncate font-semibold">{place.name}</span>
-                        <span className="block truncate text-xs text-muted-foreground">{place.displayName}</span>
-                      </span>
-                    </button>
-                  </li>
-                ))}
-                {results.source === 'suggest' && (
-                  <li className="border-t border-border">
-                    <button
-                      type="button"
-                      onClick={() => void searchPlace()}
-                      className="flex min-h-12 w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-primary transition hover:bg-foreground/5"
-                    >
-                      <Search className="size-4 shrink-0" />
-                      <span className="truncate">{t('destForm.searchMore', { query: query.trim() })}</span>
-                    </button>
-                  </li>
-                )}
-                <li className="border-t border-border px-4 py-1.5 text-[0.65rem] text-muted-foreground">
-                  {t('destForm.searchAttribution')}{' '}
-                  <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" className="underline">
-                    © OpenStreetMap
-                  </a>
-                </li>
-              </motion.ul>
-            )}
-          </AnimatePresence>
+          <PlaceSearch id="place-search" onPick={applyPlace} onBusyChange={setPicking} />
         </section>
 
         <section className="grid grid-cols-[1fr_auto] gap-2">

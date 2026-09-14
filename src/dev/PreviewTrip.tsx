@@ -64,12 +64,18 @@ const DAYS: ItineraryDay[] = [
   {
     id: 'day1', trip_id: TRIP.id, day_number: 1, date: '2027-08-03', title: 'Arrivo e Gion',
     itinerary_items: [
-      { id: 'i1', itinerary_day_id: 'day1', time: '14:00', title: 'Check-in al ryokan', description: 'Vicino a Shijo', order_index: 0 },
-      { id: 'i2', itinerary_day_id: 'day1', time: '17:30', title: 'Passeggiata a Gion', description: null, order_index: 1 },
-      { id: 'i3', itinerary_day_id: 'day1', time: '20:00', title: 'Cena a Pontocho', description: 'Prenotare!', order_index: 2 },
+      { id: 'i1', itinerary_day_id: 'day1', time: '14:00', title: 'Check-in al ryokan', description: 'Vicino a Shijo', order_index: 0, place_name: 'Shijō-dōri', lat: 35.0036, lng: 135.7681 },
+      { id: 'i2', itinerary_day_id: 'day1', time: '17:30', title: 'Passeggiata a Gion', description: null, order_index: 1, place_name: 'Gion', lat: 35.0037, lng: 135.775 },
+      { id: 'i3', itinerary_day_id: 'day1', time: '20:00', title: 'Cena a Pontocho', description: 'Prenotare!', order_index: 2, place_name: 'Pontochō', lat: 35.005, lng: 135.7708 },
     ],
   },
-  { id: 'day2', trip_id: TRIP.id, day_number: 2, date: '2027-08-04', title: null, itinerary_items: [] },
+  {
+    id: 'day2', trip_id: TRIP.id, day_number: 2, date: '2027-08-04', title: null,
+    itinerary_items: [
+      { id: 'i4', itinerary_day_id: 'day2', time: '07:30', title: 'Fushimi Inari all’alba', description: null, order_index: 0, place_name: 'Fushimi Inari Taisha', lat: 34.9671, lng: 135.7727 },
+      { id: 'i5', itinerary_day_id: 'day2', time: null, title: 'Tofuku-ji', description: null, order_index: 1, place_name: 'Tōfuku-ji', lat: 34.9764, lng: 135.7737 },
+    ],
+  },
 ]
 
 const TABS = { places: DestinationsTab, map: MapTab, roulette: RouletteTab, itinerary: ItineraryTab, group: GroupTab }

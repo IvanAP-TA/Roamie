@@ -11,7 +11,7 @@ import {
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { motion } from 'framer-motion'
-import { GripVertical, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react'
+import { GripVertical, MapPin, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
@@ -54,6 +54,12 @@ function Stop({ item, canEdit, onEdit, isLast }: { item: ItineraryItem; canEdit:
             {item.time && <span className="shrink-0 font-mono text-xs font-semibold text-primary">{item.time.slice(0, 5)}</span>}
             <span className="truncate font-semibold">{item.title}</span>
           </span>
+          {item.place_name && (
+            <span className="mt-0.5 flex min-w-0 items-center gap-1 text-xs font-medium text-primary/90">
+              <MapPin className="size-3 shrink-0" />
+              <span className="truncate">{item.place_name}</span>
+            </span>
+          )}
           {item.description && <span className="mt-0.5 line-clamp-2 block text-sm text-muted-foreground">{item.description}</span>}
         </button>
         {canEdit && (

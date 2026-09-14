@@ -412,6 +412,21 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "stops": {
+    "place": "Lugar",
+    "placePlaceholder": "Busca el lugar de esta etapa…",
+    "removePlace": "Quitar lugar",
+    "onMap": "Etapas en el mapa",
+    "exportIcs": "Exportar calendario",
+    "exportNone": "No hay etapas que exportar: añade una fecha a los días.",
+    "exported_one": "{{count}} etapa exportada: ábrela con Google o Apple Calendar.",
+    "exported_other": "{{count}} etapas exportadas: ábrelas con Google o Apple Calendar.",
+    "layerDestinations": "Destinos",
+    "layerStops": "Etapas",
+    "onMapCount_one": "{{count}} etapa en el mapa",
+    "onMapCount_other": "{{count}} etapas en el mapa",
+    "noStops": "Añade un lugar a las etapas del itinerario para verlas aquí."
+  },
   "plan": {
     "title": "Plan",
     "tabs": {

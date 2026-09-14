@@ -71,3 +71,13 @@ export const isTouchDevice = () => typeof window !== 'undefined' && window.match
 
 export const appUrl = (): string =>
   (import.meta.env.VITE_PUBLIC_APP_URL as string | undefined)?.replace(/\/$/, '') || window.location.origin
+
+/** Hands the user a file generated in the browser (e.g. the itinerary calendar). */
+export function downloadFile(fileName: string, content: string, type: string) {
+  const url = URL.createObjectURL(new Blob([content], { type }))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName
+  link.click()
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+}

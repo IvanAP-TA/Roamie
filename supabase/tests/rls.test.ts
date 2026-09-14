@@ -319,6 +319,25 @@ describe('itinerary', () => {
     expect(reordered).toHaveLength(0)
     expect(await as(db, STRANGER, (q) => q(`select id from public.itinerary_days`))).toHaveLength(0)
   })
+
+  it('stops can have a place, always with both coordinates', async () => {
+    const [day] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(`insert into public.itinerary_days (trip_id, day_number) values ($1, 9) returning id`, [tripId]),
+    )
+    const [stop] = await as(db, EDITOR, (q) =>
+      q<{ id: string; place_name: string }>(
+        `insert into public.itinerary_items (itinerary_day_id, title, place_name, lat, lng) values ($1, 'Fushimi Inari', 'Fushimi Inari Taisha', 34.9671, 135.7727) returning id, place_name`,
+        [day.id],
+      ),
+    )
+    expect(stop.place_name).toBe('Fushimi Inari Taisha')
+    await rejects(
+      as(db, EDITOR, (q) => q(`insert into public.itinerary_items (itinerary_day_id, title, lat) values ($1, 'x', 10)`, [day.id])),
+      /check constraint/,
+    )
+    await as(db, EDITOR, (q) => q(`update public.itinerary_items set place_name = null, lat = null, lng = null where id = $1`, [stop.id]))
+    await as(db, EDITOR, (q) => q(`delete from public.itinerary_days where id = $1`, [day.id]))
+  })
 })
 
 describe('plan: links & checklist', () => {

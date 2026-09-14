@@ -85,6 +85,9 @@ export interface ItineraryItem {
   title: string
   description: string | null
   order_index: number
+  place_name: string | null
+  lat: number | null
+  lng: number | null
 }
 
 export interface ItineraryDay {

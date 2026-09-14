@@ -412,6 +412,21 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "stops": {
+    "place": "Place",
+    "placePlaceholder": "Search the place for this stop…",
+    "removePlace": "Remove place",
+    "onMap": "Stops on the map",
+    "exportIcs": "Export calendar",
+    "exportNone": "No stops to export: add a date to your days.",
+    "exported_one": "{{count}} stop exported: open it with Google or Apple Calendar.",
+    "exported_other": "{{count}} stops exported: open them with Google or Apple Calendar.",
+    "layerDestinations": "Places",
+    "layerStops": "Stops",
+    "onMapCount_one": "{{count}} stop on the map",
+    "onMapCount_other": "{{count}} stops on the map",
+    "noStops": "Add a place to your itinerary stops to see them here."
+  },
   "plan": {
     "title": "Plan",
     "tabs": {

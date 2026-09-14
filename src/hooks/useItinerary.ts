@@ -3,7 +3,8 @@ import { supabase } from '@/lib/supabase'
 import { keys, unwrap } from './useTrips'
 import type { ItineraryDay, ItineraryItem } from '@/lib/types'
 
-const DAY_SELECT = 'id, trip_id, day_number, date, title, itinerary_items(id, itinerary_day_id, time, title, description, order_index)'
+const DAY_SELECT =
+  'id, trip_id, day_number, date, title, itinerary_items(id, itinerary_day_id, time, title, description, order_index, place_name, lat, lng)'
 
 const sortDays = (days: ItineraryDay[]) =>
   [...days]
@@ -27,6 +28,9 @@ export interface ItemInput {
   time: string | null
   title: string
   description: string | null
+  place_name: string | null
+  lat: number | null
+  lng: number | null
 }
 
 export function useItineraryMutations(tripId: string) {

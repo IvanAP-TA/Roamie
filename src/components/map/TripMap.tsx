@@ -32,21 +32,21 @@ function pinIcon(d: Destination) {
   return L.divIcon({ html, className: 'roamie-pin', iconSize: [48, 58], iconAnchor: [10, 54], popupAnchor: [14, -50] })
 }
 
-function FitToPins({ points }: { points: [number, number][] }) {
+export function FitToPins({ points, maxZoom = 8, singleZoom = 7 }: { points: [number, number][]; maxZoom?: number; singleZoom?: number }) {
   const map = useMap()
   const signature = points.map((p) => p.join(',')).join('|')
   useEffect(() => {
     if (points.length === 0) return
     const fit = () => {
       map.invalidateSize()
-      if (points.length === 1) map.setView(points[0], 7, { animate: false })
-      else map.fitBounds(L.latLngBounds(points), { padding: [48, 48], maxZoom: 8, animate: false })
+      if (points.length === 1) map.setView(points[0], singleZoom, { animate: false })
+      else map.fitBounds(L.latLngBounds(points), { padding: [48, 48], maxZoom, animate: false })
     }
     fit()
     // Fit again once the page transition has settled and the container has its final size.
     const timer = setTimeout(fit, 450)
     return () => clearTimeout(timer)
-  }, [signature, map]) // eslint-disable-line react-hooks/exhaustive-deps -- `signature` encodes `points`
+  }, [signature, map, maxZoom, singleZoom]) // eslint-disable-line react-hooks/exhaustive-deps -- `signature` encodes `points`
   return null
 }
 

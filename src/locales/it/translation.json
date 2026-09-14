@@ -412,6 +412,21 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "stops": {
+    "place": "Luogo",
+    "placePlaceholder": "Cerca il luogo della tappa…",
+    "removePlace": "Rimuovi luogo",
+    "onMap": "Tappe sulla mappa",
+    "exportIcs": "Esporta calendario",
+    "exportNone": "Nessuna tappa da esportare: aggiungi una data ai giorni.",
+    "exported_one": "{{count}} tappa esportata: aprila con Google o Apple Calendar.",
+    "exported_other": "{{count}} tappe esportate: aprile con Google o Apple Calendar.",
+    "layerDestinations": "Mete",
+    "layerStops": "Tappe",
+    "onMapCount_one": "{{count}} tappa sulla mappa",
+    "onMapCount_other": "{{count}} tappe sulla mappa",
+    "noStops": "Aggiungi un luogo alle tappe dell'itinerario per vederle qui."
+  },
   "plan": {
     "title": "Piano",
     "tabs": {
