@@ -1,12 +1,14 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowDownWideNarrow, Clock, Eye, MapPinPlus, Plus } from 'lucide-react'
+import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import { useDestinations } from '@/hooks/useDestinations'
 import { useTripContext } from '@/hooks/useTripContext'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { CoverImage } from '@/components/media/CoverImage'
+import { CompareSheet } from '@/components/destinations/CompareSheet'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
@@ -16,10 +18,11 @@ import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
 import { totalPoints } from '@/lib/roulette'
-import { MOODS, type DestinationStatus, type Mood } from '@/lib/types'
+import { MOODS, type Destination, type DestinationStatus, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 const STATUSES: DestinationStatus[] = ['proposed', 'selected', 'visited']
+const MAX_COMPARE = 3
 
 export default function DestinationsTab() {
   const { t } = useTranslation()
@@ -31,11 +34,35 @@ export default function DestinationsTab() {
   const [sort, setSort] = useState<'votes' | 'recent'>('votes')
   const [adding, setAdding] = useState(false)
 
+  // Compare mode: tapping cards selects up to 3 of them. The ref mirrors the selection so taps that
+  // arrive before a re-render still see the latest value.
+  const [selecting, setSelecting] = useState(false)
+  const [selected, setSelected] = useState<string[]>([])
+  const selectedRef = useRef<string[]>([])
+  const [comparing, setComparing] = useState(false)
+
   const open = (id: string) =>
     setParams((p) => {
       p.set('d', id)
       return p
     })
+
+  const updateSelected = (next: string[]) => {
+    selectedRef.current = next
+    setSelected(next)
+  }
+
+  const stopSelecting = () => {
+    setSelecting(false)
+    updateSelected([])
+  }
+
+  const toggleSelected = (id: string) => {
+    const current = selectedRef.current
+    if (current.includes(id)) updateSelected(current.filter((x) => x !== id))
+    else if (current.length >= MAX_COMPARE) toast(t('compare.max'))
+    else updateSelected([...current, id])
+  }
 
   const counts = useMemo(
     () => Object.fromEntries(STATUSES.map((s) => [s, destinations?.filter((d) => d.status === s).length ?? 0])) as Record<DestinationStatus, number>,
@@ -56,6 +83,9 @@ export default function DestinationsTab() {
       ? [...filtered].sort((a, b) => totalPoints(b) - totalPoints(a) || b.created_at.localeCompare(a.created_at))
       : filtered
   }, [destinations, status, moodFilter, sort])
+
+  // In the order they were picked; destinations deleted meanwhile drop out.
+  const compared = selected.map((id) => destinations?.find((d) => d.id === id)).filter((d): d is Destination => Boolean(d))
 
   const usedMoods = MOODS.filter((m) => destinations?.some((d) => d.status === status && d.mood.includes(m)))
 
@@ -110,6 +140,18 @@ export default function DestinationsTab() {
               ))}
             </div>
             <Button
+              variant={selecting ? 'default' : 'glass'}
+              size="icon"
+              className="shrink-0"
+              onClick={() => (selecting ? stopSelecting() : setSelecting(true))}
+              aria-pressed={selecting}
+              aria-label={t('compare.toggle')}
+              title={t('compare.toggle')}
+              disabled={(destinations?.length ?? 0) < 2}
+            >
+              <Columns3 />
+            </Button>
+            <Button
               variant="glass"
               size="icon"
               className="shrink-0"
@@ -145,7 +187,14 @@ export default function DestinationsTab() {
           )}
 
           <div className="flex flex-wrap items-center gap-2">
-            {status === 'proposed' && counts.proposed > 0 && <PointsLeftBadge tripId={trip.id} />}
+            {selecting ? (
+              <p className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground">
+                <Columns3 className="size-3.5" />
+                {t('compare.selectHint')}
+              </p>
+            ) : (
+              status === 'proposed' && counts.proposed > 0 && <PointsLeftBadge tripId={trip.id} />
+            )}
             {!canEdit && (
               <p className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground">
                 <Eye className="size-3.5" />
@@ -190,7 +239,13 @@ export default function DestinationsTab() {
           <motion.div layout className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
               {list.map((d) => (
-                <DestinationCard key={d.id} destination={d} onOpen={() => open(d.id)} />
+                <DestinationCard
+                  key={d.id}
+                  destination={d}
+                  selectable={selecting}
+                  selected={selected.includes(d.id)}
+                  onOpen={() => (selecting ? toggleSelected(d.id) : open(d.id))}
+                />
               ))}
             </AnimatePresence>
           </motion.div>
@@ -198,7 +253,7 @@ export default function DestinationsTab() {
       </div>
 
       {/* Mobile FAB, above the dock in the thumb zone */}
-      {canEdit && (
+      {canEdit && !selecting && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -212,7 +267,40 @@ export default function DestinationsTab() {
         </motion.div>
       )}
 
+      {/* Compare bar, in the same thumb zone */}
+      <AnimatePresence>
+        {selecting && (
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 40, opacity: 0 }}
+            className="glass-strong fixed inset-x-4 bottom-[calc(max(env(safe-area-inset-bottom),0.75rem)+5.75rem)] z-30 mx-auto flex max-w-md items-center gap-1 rounded-full py-1.5 pr-1.5 pl-5 shadow-lift md:bottom-8"
+          >
+            <span className="flex-1 truncate text-sm font-medium" aria-live="polite">
+              {t('compare.selected', { count: selected.length })}
+            </span>
+            <Button variant="ghost" size="sm" onClick={stopSelecting}>
+              {t('common.cancel')}
+            </Button>
+            <Button size="sm" disabled={compared.length < 2} onClick={() => setComparing(true)}>
+              <Columns3 />
+              {t('compare.cta')}
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <DestinationFormSheet open={adding} onOpenChange={setAdding} tripId={trip.id} />
+
+      <CompareSheet
+        open={comparing && compared.length >= 2}
+        onOpenChange={setComparing}
+        destinations={compared}
+        onOpenDestination={(id) => {
+          setComparing(false)
+          open(id)
+        }}
+      />
     </PageTransition>
   )
 }

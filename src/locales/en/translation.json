@@ -412,6 +412,25 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "compare": {
+    "toggle": "Compare places",
+    "selectHint": "Tap 2 or 3 places to compare",
+    "selected_one": "{{count}} place selected",
+    "selected_other": "{{count}} places selected",
+    "cta": "Compare",
+    "max": "You can compare up to 3 places.",
+    "title": "Comparison",
+    "points": "Points",
+    "bestTime": "Best time to go",
+    "budget": "Budget",
+    "mood": "Mood",
+    "comments": "Comments",
+    "proposedBy": "Proposed by",
+    "noCoords": "No location",
+    "noBest": "No mild month",
+    "leader": "Leading",
+    "open": "Open {{name}}"
+  },
   "climate": {
     "title": "Average climate",
     "best": "Best time to go: {{months}}",

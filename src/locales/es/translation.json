@@ -412,6 +412,25 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "compare": {
+    "toggle": "Comparar destinos",
+    "selectHint": "Toca 2 o 3 destinos para compararlos",
+    "selected_one": "{{count}} destino elegido",
+    "selected_other": "{{count}} destinos elegidos",
+    "cta": "Comparar",
+    "max": "Puedes comparar como máximo 3 destinos.",
+    "title": "Comparación",
+    "points": "Puntos",
+    "bestTime": "Mejor época",
+    "budget": "Presupuesto",
+    "mood": "Mood",
+    "comments": "Comentarios",
+    "proposedBy": "Propuesto por",
+    "noCoords": "Sin ubicación",
+    "noBest": "Ningún mes templado",
+    "leader": "En cabeza",
+    "open": "Abrir {{name}}"
+  },
   "climate": {
     "title": "Clima medio",
     "best": "Mejor época: {{months}}",

@@ -412,6 +412,25 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "compare": {
+    "toggle": "Confronta mete",
+    "selectHint": "Tocca 2 o 3 mete da confrontare",
+    "selected_one": "{{count}} meta scelta",
+    "selected_other": "{{count}} mete scelte",
+    "cta": "Confronta",
+    "max": "Puoi confrontare al massimo 3 mete.",
+    "title": "Confronto",
+    "points": "Punti",
+    "bestTime": "Periodo migliore",
+    "budget": "Budget",
+    "mood": "Mood",
+    "comments": "Commenti",
+    "proposedBy": "Proposta da",
+    "noCoords": "Senza posizione",
+    "noBest": "Nessun mese mite",
+    "leader": "In testa",
+    "open": "Apri {{name}}"
+  },
   "climate": {
     "title": "Clima medio",
     "best": "Periodo migliore: {{months}}",
