@@ -10,6 +10,7 @@
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
     "i18n:check": "node scripts/check-i18n.mjs",
+    "types": "supabase gen types typescript --project-id tvcumfzhnuljngdzuuue > src/lib/database.types.ts",
     "icons": "pwa-assets-generator",
     "og-image": "node scripts/og-image.mjs"
   },

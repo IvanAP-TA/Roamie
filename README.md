@@ -75,6 +75,7 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 | `npm run preview` | Serves `dist/` with the production security headers, to check the CSP locally |
 | `npm test` | Unit tests plus **database tests**: the real migrations run on PGlite (Postgres in WASM) to verify RLS, invites, votes, the weighted roulette, hardening and account deletion, with no Supabase needed |
 | `npm run i18n:check` | Checks that all locales have the same keys and that every `t('…')` key exists |
+| `npm run types` | Regenerates `src/lib/database.types.ts` from the live schema (run `npx supabase login` once). Run it after every migration: the Supabase client is typed with it, so wrong table, column or RPC names fail the build |
 | `npm run icons` | Regenerates the PWA icons from `public/favicon.svg` |
 | `npm run og-image` | Regenerates the social preview images in `public/og/` |
 
