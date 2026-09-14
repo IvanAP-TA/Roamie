@@ -22,7 +22,7 @@ import { Switch } from '@/components/ui/misc'
 
 /** GDPR data portability: everything tied to the user, as a JSON download. */
 async function exportMyData(userId: string, email: string | undefined) {
-  const [profile, memberships, destinations, votes, comments, links, checklist, ratings, visitedPlaces, hiddenVisits] = await Promise.all([
+  const [profile, memberships, destinations, votes, comments, links, checklist, ratings, visitedPlaces, hiddenVisits, availability, expenses, expenseShares] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', userId).single(),
     supabase.from('trip_members').select('role, joined_at, trip:trips(id, name, description, created_at)').eq('user_id', userId),
     supabase.from('destinations').select('*').eq('created_by', userId),
@@ -33,6 +33,9 @@ async function exportMyData(userId: string, email: string | undefined) {
     supabase.from('destination_reviews').select('destination_id, rating, created_at').eq('user_id', userId),
     supabase.from('visited_places').select('name, country, country_code, lat, lng, visited_on, rating, created_at').eq('user_id', userId),
     supabase.from('passport_exclusions').select('destination_id, created_at').eq('user_id', userId),
+    supabase.from('availability').select('trip_id, day, status').eq('user_id', userId),
+    supabase.from('expenses').select('list_id, kind, title, amount, currency, rate, paid_by, spent_on, category, created_at').eq('created_by', userId),
+    supabase.from('expense_shares').select('expense_id, weight').eq('user_id', userId),
   ])
   const payload = {
     exported_at: new Date().toISOString(),
@@ -47,6 +50,9 @@ async function exportMyData(userId: string, email: string | undefined) {
     ratings: unwrap(ratings),
     visited_places: unwrap(visitedPlaces),
     hidden_from_passport: unwrap(hiddenVisits),
+    availability: unwrap(availability),
+    expenses_added: unwrap(expenses),
+    expense_shares: unwrap(expenseShares),
   }
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)

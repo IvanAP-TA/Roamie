@@ -4,6 +4,7 @@ import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import { toast } from 'sonner'
 import i18n from '@/i18n'
 import { supabase } from '@/lib/supabase'
+import type { ExpenseList } from '@/lib/expenses'
 import { isLocalSpin } from '@/lib/roulette'
 import { keys } from './useTrips'
 import type { ChecklistItem, Destination, DestinationComment, ItineraryDay, TripLink, TripMember } from '@/lib/types'
@@ -40,6 +41,7 @@ export function useTripRealtime(tripId: string | undefined) {
     const members = () => qc.getQueryData<TripMember[]>(keys.members(tripId)) ?? []
     const links = () => qc.getQueryData<TripLink[]>(keys.links(tripId)) ?? []
     const checklist = () => qc.getQueryData<ChecklistItem[]>(keys.checklist(tripId)) ?? []
+    const expenseLists = () => qc.getQueryData<ExpenseList[]>(keys.expenses(tripId)) ?? []
     const rowOf = (p: Payload): Row => (p.eventType === 'DELETE' ? p.old : p.new) as Row
 
     const channel = supabase
@@ -106,6 +108,16 @@ export function useTripRealtime(tripId: string | undefined) {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trip_links' }, (p: Payload) => {
         const row = rowOf(p)
         if (row.trip_id === tripId || links().some((l) => l.id === row.id)) invalidate(keys.links(tripId))
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'expense_lists' }, (p: Payload) => {
+        const row = rowOf(p)
+        if (row.trip_id === tripId || expenseLists().some((l) => l.id === row.id)) invalidate(keys.expenses(tripId))
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'expenses' }, (p: Payload) => {
+        // Saving an expense rewrites its row too, so share changes arrive through here.
+        const row = rowOf(p)
+        const lists = expenseLists()
+        if (lists.some((l) => l.id === row.list_id || l.expenses.some((e) => e.id === row.id))) invalidate(keys.expenses(tripId))
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'availability' }, (p: Payload) => {
         // trip_id is part of the primary key, so DELETE payloads carry it too.

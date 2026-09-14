@@ -266,6 +266,151 @@ export type Database = {
           },
         ]
       }
+      expense_lists: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          name: string
+          trip_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          name: string
+          trip_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          name?: string
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_lists_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_lists_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expense_shares: {
+        Row: {
+          expense_id: string
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          expense_id: string
+          user_id: string
+          weight: number
+        }
+        Update: {
+          expense_id?: string
+          user_id?: string
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_shares_expense_id_fkey"
+            columns: ["expense_id"]
+            isOneToOne: false
+            referencedRelation: "expenses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_shares_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          category: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          kind: string
+          list_id: string
+          paid_by: string | null
+          rate: number
+          spent_on: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency: string
+          id?: string
+          kind?: string
+          list_id: string
+          paid_by?: string | null
+          rate?: number
+          spent_on?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          kind?: string
+          list_id?: string
+          paid_by?: string | null
+          rate?: number
+          spent_on?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "expense_lists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_paid_by_fkey"
+            columns: ["paid_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       itinerary_days: {
         Row: {
           date: string | null
@@ -634,6 +779,7 @@ export type Database = {
     }
     Functions: {
       can_edit_trip: { Args: { _trip_id: string }; Returns: boolean }
+      can_manage_expense: { Args: { _expense_id: string }; Returns: boolean }
       delete_account: { Args: never; Returns: undefined }
       destination_is_visited: {
         Args: { _destination_id: string }
@@ -643,6 +789,8 @@ export type Database = {
         Args: { _destination_id: string }
         Returns: string
       }
+      expense_list_trip_id: { Args: { _list_id: string }; Returns: string }
+      expense_trip_id: { Args: { _expense_id: string }; Returns: string }
       generate_invite_code: { Args: never; Returns: string }
       get_public_trip: { Args: { p_slug: string }; Returns: Json }
       get_trip_preview: {
@@ -665,6 +813,22 @@ export type Database = {
       itinerary_day_trip_id: { Args: { _day_id: string }; Returns: string }
       join_trip: { Args: { p_code: string }; Returns: string }
       regenerate_invite_code: { Args: { p_trip_id: string }; Returns: string }
+      save_expense: {
+        Args: {
+          p_amount: number
+          p_category?: string
+          p_currency: string
+          p_expense_id?: string
+          p_kind: string
+          p_list_id: string
+          p_paid_by: string
+          p_rate: number
+          p_shares: Json
+          p_spent_on: string
+          p_title: string
+        }
+        Returns: string
+      }
       set_availability: {
         Args: { p_days: string[]; p_status?: string; p_trip_id: string }
         Returns: undefined

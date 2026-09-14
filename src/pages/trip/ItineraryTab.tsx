@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
+import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, Wallet, type LucideIcon } from 'lucide-react'
 import { buildItineraryIcs, fileSlug } from '@/lib/ics'
 import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import { DayCard } from '@/components/itinerary/DayCard'
 import { DayFormSheet, ItemFormSheet } from '@/components/itinerary/ItineraryForms'
 import { ChecklistSection } from '@/components/plan/ChecklistSection'
 import { DatesSection } from '@/components/plan/DatesSection'
+import { ExpensesSection } from '@/components/expenses/ExpensesSection'
 import { LinksSection } from '@/components/plan/LinksSection'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
@@ -24,6 +25,7 @@ const VIEWS = [
   { id: 'dates', icon: CalendarDays },
   { id: 'itinerary', icon: CalendarRange },
   { id: 'checklist', icon: ListChecks },
+  { id: 'expenses', icon: Wallet },
   { id: 'links', icon: Link2 },
 ] as const satisfies readonly { id: string; icon: LucideIcon }[]
 
@@ -209,7 +211,7 @@ function ItineraryView() {
   )
 }
 
-/** The trip plan: dates, itinerary, shared checklist and useful links (?view=dates|checklist|links). */
+/** The trip plan: dates, itinerary, checklist, shared expenses and useful links (?view=dates|checklist|expenses|links). */
 export default function PlanTab() {
   const { t } = useTranslation()
   const { trip } = useTripContext()
@@ -251,8 +253,9 @@ export default function PlanTab() {
             {view === id && (
               <motion.span layoutId="plan-view-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
             )}
-            <Icon className="relative size-4" />
-            <span className="relative">{t(`plan.tabs.${id}`)}</span>
+            <Icon className="relative size-4" aria-hidden />
+            {/* Five views don't fit on a phone: there only the active one shows its label. */}
+            <span className={cn('relative', view !== id && 'sr-only sm:not-sr-only')}>{t(`plan.tabs.${id}`)}</span>
           </button>
         ))}
       </div>
@@ -260,6 +263,7 @@ export default function PlanTab() {
       {view === 'dates' && <DatesSection />}
       {view === 'itinerary' && <ItineraryView />}
       {view === 'checklist' && <ChecklistSection />}
+      {view === 'expenses' && <ExpensesSection />}
       {view === 'links' && <LinksSection />}
     </PageTransition>
   )
