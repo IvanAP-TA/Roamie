@@ -615,15 +615,57 @@
   "plan": {
     "title": "Plan",
     "tabs": {
+      "dates": "Fechas",
       "itinerary": "Itinerario",
       "checklist": "Checklist",
       "links": "Enlaces"
     },
     "subtitle": {
+      "dates": "Cuándo salir: cada uno marca sus días libres y encontráis el momento para todo el grupo.",
       "itinerary": "Las etapas, día a día.",
       "checklist": "Qué reservar y qué llevar, y quién se encarga.",
       "links": "Vuelos, alojamientos y entradas, todo en un sitio."
     }
+  },
+  "dates": {
+    "setupTitle": "¿En qué época pensáis viajar?",
+    "setupBody": "Elige el intervalo de fechas a considerar y cuántos días dura el viaje: luego cada uno marca cuándo está libre.",
+    "waitingBody": "Quien organiza el viaje todavía no ha elegido la época a considerar.",
+    "from": "Desde",
+    "to": "Hasta",
+    "length": "Duración del viaje (días)",
+    "saveWindow": "Guardar la época",
+    "editWindow": "Editar época",
+    "invalidWindow": "Revisa las fechas: el final debe ser posterior al inicio, dentro de un año, y el viaje tiene que caber.",
+    "saved": "Época guardada",
+    "lengthDays_one": "{{count}} día",
+    "lengthDays_other": "{{count}} días",
+    "tapHint": "Toca los días para marcarlos. El color indica cuántos del grupo están libres.",
+    "brushLabel": "Marcar los días como",
+    "yes": "Libre",
+    "maybe": "Quizás",
+    "clear": "No puedo",
+    "cellLabel_one": "{{count}} libre y {{maybe}} quizás de {{total}}",
+    "cellLabel_other": "{{count}} libres y {{maybe}} quizás de {{total}}",
+    "youYes": "Tú: libre",
+    "youMaybe": "Tú: quizás",
+    "youNone": "Tú: sin marcar",
+    "legendFew": "Pocos libres",
+    "legendAll": "Todos libres",
+    "bestTitle": "Las mejores fechas",
+    "bestEmpty": "En cuanto alguien marque sus días libres, aquí aparecerán las mejores épocas para el grupo.",
+    "allFree": "Todos libres",
+    "summary_one": "{{count}} de {{total}} libre",
+    "summary_other": "{{count}} de {{total}} libres",
+    "summaryMaybe_one": "{{count}} libre y {{maybe}} quizás de {{total}}",
+    "summaryMaybe_other": "{{count}} libres y {{maybe}} quizás de {{total}}",
+    "missing_one": "falta: {{names}}",
+    "missing_other": "faltan: {{names}}",
+    "pending": "Todavía no han respondido: {{names}}",
+    "fix": "Fijar estas fechas",
+    "fixed": "Fechas fijadas: {{range}}",
+    "tripDates": "Fechas del viaje",
+    "unfix": "Reabrir la elección"
   },
   "checklist": {
     "kinds": {

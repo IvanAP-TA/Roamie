@@ -107,6 +107,10 @@ export function useTripRealtime(tripId: string | undefined) {
         const row = rowOf(p)
         if (row.trip_id === tripId || links().some((l) => l.id === row.id)) invalidate(keys.links(tripId))
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'availability' }, (p: Payload) => {
+        // trip_id is part of the primary key, so DELETE payloads carry it too.
+        if (rowOf(p).trip_id === tripId) invalidate(keys.availability(tripId))
+      })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'checklist_items' }, (p: Payload) => {
         const row = rowOf(p)
         if (row.trip_id === tripId || checklist().some((i) => i.id === row.id)) invalidate(keys.checklist(tripId))

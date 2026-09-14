@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
+import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
 import { buildItineraryIcs, fileSlug } from '@/lib/ics'
 import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ import { PageTransition, staggerContainer, staggerItem } from '@/components/layo
 import { DayCard } from '@/components/itinerary/DayCard'
 import { DayFormSheet, ItemFormSheet } from '@/components/itinerary/ItineraryForms'
 import { ChecklistSection } from '@/components/plan/ChecklistSection'
+import { DatesSection } from '@/components/plan/DatesSection'
 import { LinksSection } from '@/components/plan/LinksSection'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
@@ -20,6 +21,7 @@ import type { ItineraryDay, ItineraryItem } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 const VIEWS = [
+  { id: 'dates', icon: CalendarDays },
   { id: 'itinerary', icon: CalendarRange },
   { id: 'checklist', icon: ListChecks },
   { id: 'links', icon: Link2 },
@@ -207,7 +209,7 @@ function ItineraryView() {
   )
 }
 
-/** The trip plan: itinerary, shared checklist and useful links (?view=checklist|links). */
+/** The trip plan: dates, itinerary, shared checklist and useful links (?view=dates|checklist|links). */
 export default function PlanTab() {
   const { t } = useTranslation()
   const { trip } = useTripContext()
@@ -255,6 +257,7 @@ export default function PlanTab() {
         ))}
       </div>
 
+      {view === 'dates' && <DatesSection />}
       {view === 'itinerary' && <ItineraryView />}
       {view === 'checklist' && <ChecklistSection />}
       {view === 'links' && <LinksSection />}

@@ -16,6 +16,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      availability: {
+        Row: {
+          day: string
+          status: string
+          trip_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          day: string
+          status: string
+          trip_id: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          day?: string
+          status?: string
+          trip_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "availability_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       checklist_items: {
         Row: {
           assignee_id: string | null
@@ -449,34 +488,49 @@ export type Database = {
           cover_image_attribution: string | null
           cover_image_url: string | null
           created_at: string
+          date_window_end: string | null
+          date_window_start: string | null
           description: string | null
+          end_date: string | null
           id: string
           invite_code: string
           name: string
           owner_id: string
           public_slug: string | null
+          start_date: string | null
+          trip_length: number | null
         }
         Insert: {
           cover_image_attribution?: string | null
           cover_image_url?: string | null
           created_at?: string
+          date_window_end?: string | null
+          date_window_start?: string | null
           description?: string | null
+          end_date?: string | null
           id?: string
           invite_code?: string
           name: string
           owner_id?: string
           public_slug?: string | null
+          start_date?: string | null
+          trip_length?: number | null
         }
         Update: {
           cover_image_attribution?: string | null
           cover_image_url?: string | null
           created_at?: string
+          date_window_end?: string | null
+          date_window_start?: string | null
           description?: string | null
+          end_date?: string | null
           id?: string
           invite_code?: string
           name?: string
           owner_id?: string
           public_slug?: string | null
+          start_date?: string | null
+          trip_length?: number | null
         }
         Relationships: [
           {
@@ -611,6 +665,10 @@ export type Database = {
       itinerary_day_trip_id: { Args: { _day_id: string }; Returns: string }
       join_trip: { Args: { p_code: string }; Returns: string }
       regenerate_invite_code: { Args: { p_trip_id: string }; Returns: string }
+      set_availability: {
+        Args: { p_days: string[]; p_status?: string; p_trip_id: string }
+        Returns: undefined
+      }
       set_points: {
         Args: { p_destination_id: string; p_points: number }
         Returns: number

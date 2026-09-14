@@ -34,6 +34,11 @@ const TRIP: Trip = {
   invite_code: 'K7PQ2MXA',
   created_at: '2026-09-01T10:00:00Z',
   public_slug: 'estate-2027-k7pq2mxa',
+  date_window_start: '2027-07-01',
+  date_window_end: '2027-08-15',
+  trip_length: 5,
+  start_date: null,
+  end_date: null,
 }
 
 const MEMBERS: TripMember[] = [
@@ -115,6 +120,16 @@ export default function PreviewTrip() {
       days: DAYS.map((day) => ({ ...day, items: day.itinerary_items })),
     } satisfies PublicTrip)
     qc.setQueryData(keys.itinerary(TRIP.id), DAYS)
+    const range = (user: string, status: 'yes' | 'maybe', from: number, to: number) =>
+      Array.from({ length: to - from + 1 }, (_, i) => ({ user_id: user, day: `2027-07-${String(from + i).padStart(2, '0')}`, status }))
+    qc.setQueryDefaults(keys.availability(TRIP.id), { staleTime: Infinity })
+    qc.setQueryData(keys.availability(TRIP.id), [
+      ...range('u1', 'yes', 3, 20),
+      ...range('u2', 'yes', 8, 16),
+      ...range('u2', 'maybe', 17, 19),
+      ...range('u3', 'yes', 10, 18),
+      ...range('u4', 'maybe', 9, 13),
+    ])
     qc.setQueryDefaults(['trip', TRIP.id, 'links'], { staleTime: Infinity })
     qc.setQueryData(keys.links(TRIP.id), [
       { id: 'l1', trip_id: TRIP.id, category: 'flight', title: 'Volo Milano–Lisbona', url: 'https://www.example.com/booking/ABC123', note: 'Codice ABC123 · bagaglio da stiva incluso', created_by: 'u1', created_at: '2026-09-10T10:00:00Z' },

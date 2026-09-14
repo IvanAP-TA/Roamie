@@ -11,6 +11,7 @@ export const keys = {
   itinerary: (id: string) => ['trip', id, 'itinerary'] as const,
   links: (id: string) => ['trip', id, 'links'] as const,
   checklist: (id: string) => ['trip', id, 'checklist'] as const,
+  availability: (id: string) => ['trip', id, 'availability'] as const,
   comments: (destinationId: string) => ['comments', destinationId] as const,
   preview: (code: string) => ['preview', code] as const,
 }

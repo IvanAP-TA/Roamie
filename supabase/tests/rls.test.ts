@@ -489,6 +489,48 @@ describe('personal passport', () => {
   })
 })
 
+describe('choosing dates', () => {
+  const setDays = (uid: string | null, days: string[], status: string | null) =>
+    as(db, uid, (q) => q(`select public.set_availability($1, $2::date[], $3)`, [tripId, days, status]))
+
+  it('editors set the window and the fixed dates; viewers cannot', async () => {
+    await as(db, EDITOR, (q) =>
+      q(`update public.trips set date_window_start = '2027-07-01', date_window_end = '2027-08-31', trip_length = 5 where id = $1`, [tripId]),
+    )
+    const viewerUpdate = await as(db, VIEWER, (q) => q(`update public.trips set start_date = '2027-07-10', end_date = '2027-07-14' where id = $1 returning id`, [tripId]))
+    expect(viewerUpdate).toHaveLength(0)
+    await rejects(as(db, EDITOR, (q) => q(`update public.trips set start_date = '2027-07-14', end_date = '2027-07-10' where id = $1`, [tripId])), /check constraint/)
+    await rejects(as(db, EDITOR, (q) => q(`update public.trips set start_date = '2027-07-14' where id = $1`, [tripId])), /check constraint/)
+  })
+
+  it('members mark their own days; the group sees them, strangers do not', async () => {
+    await setDays(VIEWER, ['2027-07-10', '2027-07-11', '2027-07-12'], 'yes')
+    await setDays(VIEWER, ['2027-07-12'], 'maybe')
+    await setDays(OWNER, ['2027-07-10'], 'yes')
+    const rows = await as(db, EDITOR, (q) =>
+      q<{ user_id: string; day: string; status: string }>(`select user_id, day::text, status from public.availability where trip_id = $1 order by user_id, day`, [tripId]),
+    )
+    expect(rows).toEqual([
+      { user_id: OWNER, day: '2027-07-10', status: 'yes' },
+      { user_id: VIEWER, day: '2027-07-10', status: 'yes' },
+      { user_id: VIEWER, day: '2027-07-11', status: 'yes' },
+      { user_id: VIEWER, day: '2027-07-12', status: 'maybe' },
+    ])
+    expect(await as(db, STRANGER, (q) => q(`select day from public.availability`))).toHaveLength(0)
+    await rejects(setDays(STRANGER, ['2027-07-10'], 'yes'), /row-level security/)
+    await rejects(setDays(null, ['2027-07-10'], 'yes'), /permission denied/)
+    await rejects(setDays(VIEWER, ['2027-07-10'], 'sure'), /invalid_status/)
+    await rejects(
+      as(db, OWNER, (q) => q(`insert into public.availability (trip_id, user_id, day, status) values ($1, $2, '2027-07-20', 'yes')`, [tripId, VIEWER])),
+      /row-level security/,
+    )
+
+    await setDays(VIEWER, ['2027-07-10', '2027-07-11'], null)
+    const left = await as(db, VIEWER, (q) => q<{ day: string }>(`select day::text from public.availability where user_id = $1`, [VIEWER]))
+    expect(left.map((r) => r.day)).toEqual(['2027-07-12'])
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))

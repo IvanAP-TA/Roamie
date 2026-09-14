@@ -28,6 +28,13 @@ export interface Trip {
   created_at: string
   /** Set when the owner publishes the read-only page at /p/:slug */
   public_slug: string | null
+  /** Period the group is considering (yyyy-mm-dd) and the trip's length in days */
+  date_window_start: string | null
+  date_window_end: string | null
+  trip_length: number | null
+  /** Final dates, once fixed */
+  start_date: string | null
+  end_date: string | null
 }
 
 export interface TripMember {

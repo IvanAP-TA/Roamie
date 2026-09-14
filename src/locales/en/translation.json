@@ -615,15 +615,57 @@
   "plan": {
     "title": "Plan",
     "tabs": {
+      "dates": "Dates",
       "itinerary": "Itinerary",
       "checklist": "Checklist",
       "links": "Links"
     },
     "subtitle": {
+      "dates": "When to go: everyone marks their free days and you find the right time for the whole group.",
       "itinerary": "The stops, day by day.",
       "checklist": "What to book and what to pack, and who's on it.",
       "links": "Flights, stays and tickets, all in one place."
     }
+  },
+  "dates": {
+    "setupTitle": "When are you thinking of going?",
+    "setupBody": "Choose the range of dates to consider and how many days the trip lasts: then everyone marks when they're free.",
+    "waitingBody": "Whoever organizes the trip hasn't chosen the period to consider yet.",
+    "from": "From",
+    "to": "To",
+    "length": "Trip length (days)",
+    "saveWindow": "Save the period",
+    "editWindow": "Edit period",
+    "invalidWindow": "Check the dates: the end must come after the start, within a year, and the trip has to fit inside.",
+    "saved": "Period saved",
+    "lengthDays_one": "{{count}} day",
+    "lengthDays_other": "{{count}} days",
+    "tapHint": "Tap days to mark them. The colour shows how many in the group are free.",
+    "brushLabel": "Mark days as",
+    "yes": "Free",
+    "maybe": "Maybe",
+    "clear": "Can't go",
+    "cellLabel_one": "{{count}} free and {{maybe}} maybe out of {{total}}",
+    "cellLabel_other": "{{count}} free and {{maybe}} maybe out of {{total}}",
+    "youYes": "You: free",
+    "youMaybe": "You: maybe",
+    "youNone": "You: not marked",
+    "legendFew": "Few free",
+    "legendAll": "Everyone free",
+    "bestTitle": "The best windows",
+    "bestEmpty": "As soon as someone marks their free days, the best periods for the group show up here.",
+    "allFree": "Everyone's free",
+    "summary_one": "{{count}} of {{total}} free",
+    "summary_other": "{{count}} of {{total}} free",
+    "summaryMaybe_one": "{{count}} free and {{maybe}} maybe out of {{total}}",
+    "summaryMaybe_other": "{{count}} free and {{maybe}} maybe out of {{total}}",
+    "missing_one": "missing: {{names}}",
+    "missing_other": "missing: {{names}}",
+    "pending": "Haven't answered yet: {{names}}",
+    "fix": "Set these dates",
+    "fixed": "Dates set: {{range}}",
+    "tripDates": "Trip dates",
+    "unfix": "Reopen the choice"
   },
   "checklist": {
     "kinds": {
