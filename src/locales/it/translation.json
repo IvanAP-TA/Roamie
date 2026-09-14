@@ -422,6 +422,11 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "offline": {
+    "banner": "Sei offline: vedi i dati salvati su questo dispositivo. Per modificare serve la connessione.",
+    "tripUnavailableTitle": "Viaggio non ancora salvato offline",
+    "tripUnavailableBody": "Aprilo una volta con la connessione: da quel momento resta consultabile anche senza rete."
+  },
   "install": {
     "button": "Installa l'app",
     "rowHint": "Icona sulla schermata Home, a schermo intero senza barra del browser",
@@ -837,7 +842,8 @@
           "items": [
             "Sessione di accesso (localStorage, gestita da Supabase Auth) per mantenerti autenticato",
             "Lingua preferita e preferenza audio della ruota (localStorage)",
-            "Cache delle ricerche di luoghi e immagini, per evitare richieste ripetute ai servizi esterni (localStorage)"
+            "Cache delle ricerche di luoghi e immagini, per evitare richieste ripetute ai servizi esterni (localStorage)",
+            "Copia dei tuoi viaggi su questo dispositivo (IndexedDB), per consultarli anche senza connessione; viene cancellata quando esci dall'account"
           ]
         },
         {

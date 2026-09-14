@@ -422,6 +422,11 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "offline": {
+    "banner": "Estás sin conexión: ves lo guardado en este dispositivo. Para editar hace falta conexión.",
+    "tripUnavailableTitle": "Viaje aún no guardado sin conexión",
+    "tripUnavailableBody": "Ábrelo una vez con conexión: desde entonces seguirá disponible sin red."
+  },
   "install": {
     "button": "Instalar la app",
     "rowHint": "Un icono en tu pantalla de inicio, a pantalla completa sin barra del navegador",
@@ -837,7 +842,8 @@
           "items": [
             "Sesión de acceso (localStorage, gestionada por Supabase Auth) para mantenerte conectado",
             "Idioma preferido y preferencia de sonido de la ruleta (localStorage)",
-            "Caché de búsquedas de lugares e imágenes, para evitar peticiones repetidas a servicios externos (localStorage)"
+            "Caché de búsquedas de lugares e imágenes, para evitar peticiones repetidas a servicios externos (localStorage)",
+            "Copia de tus viajes en este dispositivo (IndexedDB), para consultarlos sin conexión; se borra al cerrar sesión"
           ]
         },
         {

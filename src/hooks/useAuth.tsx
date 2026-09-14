@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { isSupabaseConfigured, needsAuthCheck } from '@/lib/supabaseEnv'
+import { clearOfflineCache } from '@/lib/offline'
+import { isSupabaseConfigured, needsAuthCheck, readStoredSession } from '@/lib/supabaseEnv'
 import { safeNextPath } from '@/lib/utils'
 import type { Profile } from '@/lib/types'
 
@@ -18,6 +19,15 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 /** supabase-js is loaded on demand: public pages don't download it for signed-out visitors. */
 const loadSupabase = () => import('@/lib/supabase').then((module) => module.supabase)
+
+const CACHE_OWNER_KEY = 'roamie.cacheOwner'
+
+/**
+ * Offline, an expired access token can't be refreshed and supabase-js reports no session. The saved one
+ * keeps the trips on this device readable; supabase-js refreshes it once the connection is back.
+ */
+const withOfflineFallback = (session: Session | null) =>
+  session ?? (typeof navigator !== 'undefined' && !navigator.onLine ? readStoredSession<Session>() : null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient()
@@ -36,11 +46,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // getSession() also completes the PKCE code exchange when returning from Google.
         void supabase.auth.getSession().then(({ data }) => {
           if (cancelled) return
-          setSession(data.session)
+          setSession(withOfflineFallback(data.session))
           setLoading(false)
         })
-        const { data } = supabase.auth.onAuthStateChange((_event, next) => {
-          setSession(next)
+        const { data } = supabase.auth.onAuthStateChange((event, next) => {
+          setSession(event === 'SIGNED_OUT' ? null : withOfflineFallback(next))
           setLoading(false)
         })
         unsubscribe = () => data.subscription.unsubscribe()
@@ -55,6 +65,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const userId = session?.user.id
+
+  // Another account on this device: the saved trips belong to someone else.
+  useEffect(() => {
+    if (!userId) return
+    try {
+      const owner = localStorage.getItem(CACHE_OWNER_KEY)
+      if (owner && owner !== userId) {
+        queryClient.clear()
+        void clearOfflineCache()
+      }
+      localStorage.setItem(CACHE_OWNER_KEY, userId)
+    } catch {
+      // Storage blocked: nothing was saved either.
+    }
+  }, [userId, queryClient])
+
   const { data: profile = null } = useQuery({
     queryKey: ['profile', userId],
     enabled: Boolean(userId),
@@ -81,6 +107,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const supabase = await loadSupabase()
     await supabase.auth.signOut()
     queryClient.clear()
+    await clearOfflineCache()
+    try {
+      localStorage.removeItem(CACHE_OWNER_KEY)
+    } catch {
+      // Storage blocked: nothing to remove.
+    }
   }, [queryClient])
 
   const value = useMemo<AuthContextValue>(

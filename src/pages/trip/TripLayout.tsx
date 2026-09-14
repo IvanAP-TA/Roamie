@@ -1,9 +1,14 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, CalendarRange, Compass, FerrisWheel, Map, UserPlus, Users } from 'lucide-react'
+import { ArrowLeft, CalendarRange, CloudOff, Compass, FerrisWheel, Map, UserPlus, Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
+import { useDestinations } from '@/hooks/useDestinations'
+import { useExpenseLists } from '@/hooks/useExpenses'
+import { useItinerary } from '@/hooks/useItinerary'
+import { useChecklist, useTripLinks } from '@/hooks/usePlan'
+import { useAvailability } from '@/hooks/useTripDates'
 import { useTrip, useTripMembers } from '@/hooks/useTrips'
 import { useTripRealtime } from '@/hooks/useTripRealtime'
 import { TripContext, type TripContextValue } from '@/hooks/useTripContext'
@@ -26,6 +31,14 @@ export default function TripLayout() {
   const membersQuery = useTripMembers(tripId)
   const [inviteOpen, setInviteOpen] = useState(false)
   useTripRealtime(tripId)
+
+  // Load the whole trip as soon as it opens, not view by view: it's all saved on the device for offline use.
+  useDestinations(tripId!)
+  useItinerary(tripId!)
+  useChecklist(tripId!)
+  useTripLinks(tripId!)
+  useExpenseLists(tripId!)
+  useAvailability(tripId!)
 
   const trip = tripQuery.data
   const members = useMemo(() => membersQuery.data ?? [], [membersQuery.data])
@@ -59,6 +72,20 @@ export default function TripLayout() {
   )
 
   if (tripQuery.isLoading || membersQuery.isLoading) return <Splash />
+
+  // Offline and this trip was never opened on the device: nothing to show yet.
+  if (!value && (tripQuery.isPaused || membersQuery.isPaused)) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center">
+        <AuroraBackground />
+        <EmptyState seed="offline" icon={<CloudOff />} title={t('offline.tripUnavailableTitle')} body={t('offline.tripUnavailableBody')}>
+          <Button asChild>
+            <Link to="/trips">{t('trip.backToTrips')}</Link>
+          </Button>
+        </EmptyState>
+      </div>
+    )
+  }
 
   if (!value) {
     return (

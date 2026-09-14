@@ -12,12 +12,28 @@ export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
  * Synchronous hint that a session may exist (supabase-js stores it in localStorage under this key),
  * so public pages render straight away for signed-out visitors instead of waiting on getSession().
  */
+const storageKey = () => `sb-${new URL(supabaseUrl!).hostname.split('.')[0]}-auth-token`
+
 export function hasStoredSession(): boolean {
   if (!supabaseUrl || typeof localStorage === 'undefined') return false
   try {
-    return localStorage.getItem(`sb-${new URL(supabaseUrl).hostname.split('.')[0]}-auth-token`) !== null
+    return localStorage.getItem(storageKey()) !== null
   } catch {
     return false
+  }
+}
+
+/**
+ * The session supabase-js saved, read without the client. Used offline, when an expired token can't be
+ * refreshed: the user keeps reading what's saved on the device until the connection is back.
+ */
+export function readStoredSession<T extends { user: { id: string } }>(): T | null {
+  if (!supabaseUrl || typeof localStorage === 'undefined') return null
+  try {
+    const session = JSON.parse(localStorage.getItem(storageKey()) ?? 'null') as T | null
+    return typeof session?.user?.id === 'string' ? session : null
+  } catch {
+    return null
   }
 }
 

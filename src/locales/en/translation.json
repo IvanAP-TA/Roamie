@@ -422,6 +422,11 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "offline": {
+    "banner": "You're offline: showing what's saved on this device. Editing needs a connection.",
+    "tripUnavailableTitle": "Trip not saved for offline yet",
+    "tripUnavailableBody": "Open it once while connected: from then on it stays available without a network."
+  },
   "install": {
     "button": "Install the app",
     "rowHint": "An icon on your home screen, full screen with no browser bar",
@@ -837,7 +842,8 @@
           "items": [
             "Sign-in session (localStorage, managed by Supabase Auth) to keep you logged in",
             "Preferred language and wheel sound preference (localStorage)",
-            "Cache of place and image searches, to avoid repeated requests to external services (localStorage)"
+            "Cache of place and image searches, to avoid repeated requests to external services (localStorage)",
+            "Copy of your trips on this device (IndexedDB), to read them without a connection; deleted when you sign out"
           ]
         },
         {
