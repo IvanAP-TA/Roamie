@@ -193,20 +193,32 @@ describe('destinations, votes & comments', () => {
     )
   })
 
-  it('cast_vote toggles and switches, one vote per user', async () => {
-    const vote = (uid: string, type: string) =>
-      as(db, uid, (q) => q<{ cast_vote: string | null }>(`select public.cast_vote($1, $2)`, [destId, type]))
-    expect((await vote(VIEWER, 'up'))[0].cast_vote).toBe('up')
-    expect((await vote(VIEWER, 'down'))[0].cast_vote).toBe('down')
-    expect((await vote(VIEWER, 'down'))[0].cast_vote).toBeNull()
-    await vote(VIEWER, 'up')
-    await vote(EDITOR, 'up')
-    const votes = await as(db, OWNER, (q) => q(`select user_id, vote_type from public.votes where destination_id = $1`, [destId]))
+  it('set_points allocates, changes and removes points, returning what is left', async () => {
+    const setPoints = (uid: string, points: number) =>
+      as(db, uid, (q) => q<{ set_points: number }>(`select public.set_points($1, $2)`, [destId, points]))
+    expect((await setPoints(VIEWER, 4))[0].set_points).toBe(6)
+    expect((await setPoints(VIEWER, 7))[0].set_points).toBe(3)
+    expect((await setPoints(VIEWER, 0))[0].set_points).toBe(10)
+    await rejects(setPoints(VIEWER, 11), /invalid_points/)
+    await setPoints(VIEWER, 3)
+    await setPoints(EDITOR, 5)
+    const votes = await as(db, OWNER, (q) => q(`select user_id, points from public.votes where destination_id = $1`, [destId]))
     expect(votes).toHaveLength(2)
   })
 
+  it('nobody can spend more than 10 points in a trip', async () => {
+    const [other] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Siviglia') returning id`, [tripId]),
+    )
+    await rejects(as(db, EDITOR, (q) => q(`select public.set_points($1, 6)`, [other.id])), /points_budget_exceeded/)
+    const [row] = await as(db, EDITOR, (q) => q<{ set_points: number }>(`select public.set_points($1, 5)`, [other.id]))
+    expect(row.set_points).toBe(0)
+    await rejects(as(db, EDITOR, (q) => q(`update public.votes set points = 6 where destination_id = $1`, [other.id])), /points_budget_exceeded/)
+    await as(db, EDITOR, (q) => q(`delete from public.destinations where id = $1`, [other.id]))
+  })
+
   it('strangers cannot vote, read votes or comment', async () => {
-    await rejects(as(db, STRANGER, (q) => q(`select public.cast_vote($1, 'up')`, [destId])), /row-level security/)
+    await rejects(as(db, STRANGER, (q) => q(`select public.set_points($1, 1)`, [destId])), /row-level security/)
     expect(await as(db, STRANGER, (q) => q(`select id from public.votes`))).toHaveLength(0)
     await rejects(
       as(db, STRANGER, (q) => q(`insert into public.comments (destination_id, content) values ($1, 'hi')`, [destId])),
@@ -240,10 +252,9 @@ describe('roulette', () => {
     )
     porto = rows.find((r) => r.name === 'Porto')!.id
     berlin = rows.find((r) => r.name === 'Berlino')!.id
-    // Porto: +1 −1 = 0 (not eligible). Berlino: −1 (not eligible). Lisbona: +2 (eligible).
-    await as(db, OWNER, (q) => q(`select public.cast_vote($1, 'up')`, [porto]))
-    await as(db, EDITOR, (q) => q(`select public.cast_vote($1, 'down')`, [porto]))
-    await as(db, EDITOR, (q) => q(`select public.cast_vote($1, 'down')`, [berlin]))
+    // Porto and Berlino: no points (not eligible). Lisbona: 3 + 5 points (eligible).
+    expect(porto).toBeTruthy()
+    expect(berlin).toBeTruthy()
   })
 
   it('viewers cannot spin', async () => {
@@ -273,11 +284,11 @@ describe('roulette', () => {
     const [a, b] = await as(db, OWNER, (q) =>
       q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'A'), ($1, 'B') returning id`, [t.id]),
     )
-    await db.query(`insert into public.votes (destination_id, user_id, vote_type) select $1, unnest($2::uuid[]), 'up'`, [
+    await db.query(`insert into public.votes (destination_id, user_id, points) select $1, unnest($2::uuid[]), 1`, [
       a.id,
       voters.map((v) => v.id),
     ])
-    await db.query(`insert into public.votes (destination_id, user_id, vote_type) values ($1, $2, 'up')`, [b.id, voters[0].id])
+    await db.query(`insert into public.votes (destination_id, user_id, points) values ($1, $2, 1)`, [b.id, voters[0].id])
 
     let aWins = 0
     const N = 400

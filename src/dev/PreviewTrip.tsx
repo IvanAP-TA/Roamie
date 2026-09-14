@@ -19,7 +19,7 @@ import MapTab from '@/pages/trip/MapTab'
 import RouletteTab from '@/pages/trip/RouletteTab'
 import ItineraryTab from '@/pages/trip/ItineraryTab'
 import GroupTab from '@/pages/trip/GroupTab'
-import type { Destination, ItineraryDay, Trip, TripMember, VoteType } from '@/lib/types'
+import type { Destination, ItineraryDay, Trip, TripMember } from '@/lib/types'
 
 const TRIP: Trip = {
   id: 'preview-trip',
@@ -39,7 +39,8 @@ const MEMBERS: TripMember[] = [
   { id: 'm4', trip_id: TRIP.id, user_id: 'u4', role: 'viewer', joined_at: '2026-09-04T10:00:00Z', profile: { display_name: 'Luca Ferri', avatar_url: null } },
 ]
 
-const votes = (types: VoteType[]) => types.map((vote_type, i) => ({ id: `v${Math.random()}`, user_id: `u${i + 1}`, vote_type }))
+// Points given by members u2, u3, … (the preview user u1 hasn't voted yet, so the stepper starts at 0).
+const votes = (points: number[]) => points.map((p, i) => ({ id: `v${Math.random()}`, user_id: `u${i + 2}`, points: p }))
 
 const base = {
   trip_id: TRIP.id,
@@ -52,11 +53,11 @@ const base = {
 }
 
 const DESTINATIONS: Destination[] = [
-  { ...base, id: 'd1', name: 'Lisbona', country: 'Portogallo', lat: 38.72, lng: -9.14, mood: ['culture', 'food_wine', 'nightlife'], budget_level: 2, expectations: 'Tramonti al Miradouro, pastéis de nata e tram che si arrampicano.', status: 'proposed', created_at: '2026-09-05T10:00:00Z', votes: votes(['up', 'up', 'up']) },
-  { ...base, id: 'd2', name: 'Isole Lofoten', country: 'Norvegia', lat: 68.2, lng: 13.6, mood: ['nature', 'adventure'], budget_level: 3, expectations: null, status: 'proposed', created_at: '2026-09-06T10:00:00Z', votes: votes(['up', 'down', 'up']) },
-  { ...base, id: 'd3', name: 'Oaxaca', country: 'Messico', lat: 17.06, lng: -96.72, mood: ['food_wine', 'culture'], budget_level: 1, expectations: 'Mole, mezcal e mercati.', status: 'proposed', created_at: '2026-09-07T10:00:00Z', votes: votes(['up', 'up']) },
-  { ...base, id: 'd4', name: 'Berlino', country: 'Germania', lat: 52.52, lng: 13.4, mood: ['nightlife'], budget_level: 2, expectations: null, status: 'proposed', created_at: '2026-09-08T10:00:00Z', votes: votes(['down']) },
-  { ...base, id: 'd5', name: 'Kyoto', country: 'Giappone', lat: 35.01, lng: 135.77, mood: ['culture', 'romantic'], budget_level: 3, expectations: 'Templi, giardini zen e sentieri tra i bambù.', status: 'selected', selected_at: '2026-09-10T18:00:00Z', created_at: '2026-09-02T10:00:00Z', votes: votes(['up', 'up', 'up', 'up']) },
+  { ...base, id: 'd1', name: 'Lisbona', country: 'Portogallo', lat: 38.72, lng: -9.14, mood: ['culture', 'food_wine', 'nightlife'], budget_level: 2, expectations: 'Tramonti al Miradouro, pastéis de nata e tram che si arrampicano.', status: 'proposed', created_at: '2026-09-05T10:00:00Z', votes: votes([4, 3, 2]) },
+  { ...base, id: 'd2', name: 'Isole Lofoten', country: 'Norvegia', lat: 68.2, lng: 13.6, mood: ['nature', 'adventure'], budget_level: 3, expectations: null, status: 'proposed', created_at: '2026-09-06T10:00:00Z', votes: votes([2, 1]) },
+  { ...base, id: 'd3', name: 'Oaxaca', country: 'Messico', lat: 17.06, lng: -96.72, mood: ['food_wine', 'culture'], budget_level: 1, expectations: 'Mole, mezcal e mercati.', status: 'proposed', created_at: '2026-09-07T10:00:00Z', votes: votes([3, 2]) },
+  { ...base, id: 'd4', name: 'Berlino', country: 'Germania', lat: 52.52, lng: 13.4, mood: ['nightlife'], budget_level: 2, expectations: null, status: 'proposed', created_at: '2026-09-08T10:00:00Z', votes: votes([]) },
+  { ...base, id: 'd5', name: 'Kyoto', country: 'Giappone', lat: 35.01, lng: 135.77, mood: ['culture', 'romantic'], budget_level: 3, expectations: 'Templi, giardini zen e sentieri tra i bambù.', status: 'selected', selected_at: '2026-09-10T18:00:00Z', created_at: '2026-09-02T10:00:00Z', votes: votes([5, 4, 3]) },
 ]
 
 const DAYS: ItineraryDay[] = [

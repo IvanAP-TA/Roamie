@@ -88,8 +88,9 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 - **HTTP headers.** `vercel.json` sets a strict Content-Security-Policy (no inline scripts, only the hosts the app talks to), HSTS, `X-Frame-Options: DENY`, `nosniff`, a restrictive Permissions-Policy, and long-lived caching for hashed assets.
 - **RPCs:**
   - `get_trip_preview`: the only thing `anon` can call. It returns name, cover and member count.
-  - `join_trip`, `regenerate_invite_code`, `cast_vote` (toggle), `spin_roulette`, `delete_account`
-- **Roulette.** Eligible destinations are `proposed` with net score > 0. The draw is **server-side** (`spin_roulette`), weighted by score and serialised with a row lock, so no client can choose the winner. The client animates the wheel to the returned result, and each slice's size equals its real probability.
+  - `join_trip`, `regenerate_invite_code`, `set_points`, `spin_roulette`, `delete_account`
+- **Point voting.** Every member has 10 points per trip to spread across its proposed destinations (`set_points`; 0 removes them). A trigger enforces the budget under an advisory lock, so concurrent requests can't overspend; selected or visited destinations don't count, so a spin gives their points back.
+- **Roulette.** Eligible destinations are `proposed` with at least one point. The draw is **server-side** (`spin_roulette`), weighted by points and serialised with a row lock, so no client can choose the winner. The client animates the wheel to the returned result, and each slice's size equals its real probability.
 - **Realtime.** There is one channel per open trip, covering destinations, votes, comments, members and itinerary. Changes invalidate TanStack Query caches, debounced. DELETE payloads carry only primary keys, so relevance is checked against the cache.
 - **Invites.** Codes are 8 characters from an alphabet without look-alike characters, generated from `gen_random_uuid()` bytes. Regenerating a code invalidates the old link immediately; existing members keep their access.
 - **SEO.**

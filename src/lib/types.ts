@@ -1,6 +1,7 @@
 export type Role = 'owner' | 'editor' | 'viewer'
 export type DestinationStatus = 'proposed' | 'selected' | 'visited'
-export type VoteType = 'up' | 'down'
+/** Points each member can spread across a trip's proposed destinations (enforced in SQL). */
+export const POINTS_BUDGET = 10
 
 export const MOODS = ['adventure', 'relax', 'nightlife', 'culture', 'nature', 'food_wine', 'family', 'romantic'] as const
 export type Mood = (typeof MOODS)[number]
@@ -44,7 +45,7 @@ export interface TripListItem extends Trip {
 export interface VoteSummary {
   id: string
   user_id: string
-  vote_type: VoteType
+  points: number
 }
 
 export interface Destination {

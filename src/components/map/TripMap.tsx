@@ -4,7 +4,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight } from 'lucide-react'
-import { netScore } from '@/lib/roulette'
+import { totalPoints } from '@/lib/roulette'
 import type { Destination } from '@/lib/types'
 import { cn, escapeHtml, safeImageUrl } from '@/lib/utils'
 
@@ -15,7 +15,7 @@ const STATUS_RING: Record<Destination['status'], string> = {
 }
 
 function pinIcon(d: Destination) {
-  const score = netScore(d)
+  const score = totalPoints(d)
   // safeImageUrl rejects quotes and backslashes, so the value can't break out of url('…').
   const photoUrl = safeImageUrl(d.image_url)
   const photo = photoUrl ? `background-image:url('${escapeHtml(photoUrl)}');` : ''
@@ -86,7 +86,7 @@ export function TripMap({
               <div className="min-w-0 flex-1">
                 <p className="truncate font-display text-lg leading-tight">{d.name}</p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {d.country} · {t(`status.${d.status}`)} · {t('votes.score', { count: netScore(d) })}
+                  {d.country} · {t(`status.${d.status}`)} · {t('points.score', { count: totalPoints(d) })}
                 </p>
               </div>
               <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">

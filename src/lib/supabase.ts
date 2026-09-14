@@ -41,7 +41,9 @@ export type RpcErrorCode =
   | 'invalid_invite_code'
   | 'forbidden'
   | 'no_eligible_destinations'
-  | 'invalid_vote_type'
+  | 'invalid_points'
+  | 'points_budget_exceeded'
+  | 'destination_not_proposed'
 
 export function rpcErrorCode(error: { message?: string } | null | undefined): RpcErrorCode | null {
   const known: RpcErrorCode[] = [
@@ -49,7 +51,9 @@ export function rpcErrorCode(error: { message?: string } | null | undefined): Rp
     'invalid_invite_code',
     'forbidden',
     'no_eligible_destinations',
-    'invalid_vote_type',
+    'invalid_points',
+    'points_budget_exceeded',
+    'destination_not_proposed',
   ]
   return known.find((code) => error?.message?.includes(code)) ?? null
 }

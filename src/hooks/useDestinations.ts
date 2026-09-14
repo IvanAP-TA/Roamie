@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from './useAuth'
 import { keys, unwrap } from './useTrips'
-import type { BudgetLevel, Destination, DestinationComment, DestinationStatus, Mood, VoteType } from '@/lib/types'
+import type { BudgetLevel, Destination, DestinationComment, DestinationStatus, Mood } from '@/lib/types'
 
 export const DESTINATION_SELECT =
-  '*, votes(id, user_id, vote_type), comments(count), creator:profiles!destinations_created_by_fkey(display_name, avatar_url)'
+  '*, votes(id, user_id, points), comments(count), creator:profiles!destinations_created_by_fkey(display_name, avatar_url)'
 
 const COMMENT_SELECT = 'id, destination_id, user_id, content, created_at, author:profiles(display_name, avatar_url)'
 
@@ -76,16 +76,16 @@ export function useDeleteDestination(tripId: string) {
   })
 }
 
-/** Toggle semantics live in the cast_vote RPC; the cache is updated optimistically for instant feedback. */
-export function useCastVote(tripId: string) {
+/** The 10-point budget is enforced by set_points() and its trigger; the cache is updated optimistically. */
+export function useSetPoints(tripId: string) {
   const qc = useQueryClient()
   const { user } = useAuth()
   const key = keys.destinations(tripId)
 
   return useMutation({
-    mutationFn: async ({ destinationId, voteType }: { destinationId: string; voteType: VoteType }) =>
-      unwrap<VoteType | null>(await supabase.rpc('cast_vote', { p_destination_id: destinationId, p_vote_type: voteType })),
-    onMutate: async ({ destinationId, voteType }) => {
+    mutationFn: async ({ destinationId, points }: { destinationId: string; points: number }) =>
+      unwrap<number>(await supabase.rpc('set_points', { p_destination_id: destinationId, p_points: points })),
+    onMutate: async ({ destinationId, points }) => {
       await qc.cancelQueries({ queryKey: key })
       const previous = qc.getQueryData<Destination[]>(key)
       qc.setQueryData<Destination[]>(key, (list) =>
@@ -95,7 +95,7 @@ export function useCastVote(tripId: string) {
           const others = d.votes.filter((v) => v.user_id !== user.id)
           return {
             ...d,
-            votes: mine?.vote_type === voteType ? others : [...others, { id: `optimistic-${destinationId}`, user_id: user.id, vote_type: voteType }],
+            votes: points > 0 ? [...others, { id: mine?.id ?? `optimistic-${destinationId}`, user_id: user.id, points }] : others,
           }
         }),
       )

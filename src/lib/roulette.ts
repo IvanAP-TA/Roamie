@@ -1,4 +1,4 @@
-import type { Destination } from './types'
+import { POINTS_BUDGET, type Destination } from './types'
 
 export interface RouletteEntry {
   destination: Destination
@@ -9,18 +9,26 @@ export interface RouletteEntry {
   endAngle: number
 }
 
-export function netScore(destination: Pick<Destination, 'votes'>): number {
-  return destination.votes.reduce((sum, v) => sum + (v.vote_type === 'up' ? 1 : -1), 0)
+export function totalPoints(destination: Pick<Destination, 'votes'>): number {
+  return destination.votes.reduce((sum, v) => sum + v.points, 0)
+}
+
+/** Points a member still has in a trip. Only proposed destinations count (mirrors check_points_budget in SQL). */
+export function pointsLeft(destinations: Pick<Destination, 'status' | 'votes'>[], userId: string | undefined): number {
+  const used = destinations
+    .filter((d) => d.status === 'proposed')
+    .reduce((sum, d) => sum + (d.votes.find((v) => v.user_id === userId)?.points ?? 0), 0)
+  return POINTS_BUDGET - used
 }
 
 /**
- * Mirrors the eligibility rule of `spin_roulette()` in SQL: status 'proposed' and net score > 0.
- * Each slice's angle is proportional to its score, so the wheel shows the real odds.
+ * Mirrors the eligibility rule of `spin_roulette()` in SQL: status 'proposed' and at least one point.
+ * Each slice's angle is proportional to its points, so the wheel shows the real odds.
  */
 export function eligibleEntries(destinations: Destination[]): RouletteEntry[] {
   const scored = destinations
     .filter((d) => d.status === 'proposed')
-    .map((destination) => ({ destination, score: netScore(destination) }))
+    .map((destination) => ({ destination, score: totalPoints(destination) }))
     .filter((e) => e.score > 0)
     .sort((a, b) => b.score - a.score || a.destination.name.localeCompare(b.destination.name))
 

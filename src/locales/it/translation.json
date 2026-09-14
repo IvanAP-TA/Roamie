@@ -40,11 +40,11 @@
       },
       "vote": {
         "title": "Votate insieme",
-        "body": "Un voto a favore o contro per ogni meta e i commenti per discuterne. I voti si aggiornano in tempo reale per tutto il gruppo."
+        "body": "Ognuno ha 10 punti da distribuire tra le mete, e i commenti servono a discuterne. I punti si aggiornano in tempo reale per tutto il gruppo."
       },
       "spin": {
         "title": "Fate girare la ruota",
-        "body": "Partecipano le mete con più voti a favore che contro, e più voti significano più probabilità. L'estrazione avviene sul server: nessuno può barare."
+        "body": "Partecipano le mete che hanno ricevuto punti, e più punti significano più probabilità. L'estrazione avviene sul server: nessuno può barare."
       },
       "plan": {
         "title": "Organizzate l'itinerario",
@@ -63,7 +63,7 @@
       },
       "q3": {
         "q": "Come funziona la ruota?",
-        "a": "Ogni meta con un punteggio positivo ottiene uno spicchio proporzionale ai voti netti ricevuti. L'estrazione è casuale e pesata, e avviene sui nostri server."
+        "a": "Ognuno ha 10 punti da distribuire tra le mete proposte. Ogni meta con almeno un punto ottiene uno spicchio proporzionale ai punti ricevuti; l'estrazione è casuale e pesata, e avviene sui nostri server."
       },
       "q4": {
         "q": "Devo installare un'app?",
@@ -256,9 +256,14 @@
     "2": "Medio",
     "3": "Caro"
   },
-  "votes": {
-    "up": "Voto a favore",
-    "down": "Voto contro",
+  "points": {
+    "add": "Aggiungi un punto",
+    "remove": "Togli un punto",
+    "mine": "tuoi {{count}}",
+    "left_one": "Ti resta {{count}} punto su 10",
+    "left_other": "Ti restano {{count}} punti su 10",
+    "noneLeft": "Hai già usato tutti i 10 punti: togline da un'altra meta.",
+    "hint": "Hai 10 punti da distribuire tra le mete proposte. Più punti riceve una meta, più grande è il suo spicchio sulla ruota.",
     "score_one": "{{count}} punto",
     "score_other": "{{count}} punti"
   },
@@ -296,7 +301,7 @@
     "expectations": "Cosa aspettarsi",
     "proposedBy": "Proposta da {{name}} {{when}}",
     "allMoods": "Tutte",
-    "sortVotes": "Ordina per voti",
+    "sortVotes": "Ordina per punti",
     "sortRecent": "Ordina per data",
     "viewerHint": "Sei viewer: puoi votare e commentare",
     "deleteTitle": "Eliminare {{name}}?",
@@ -357,7 +362,7 @@
   },
   "roulette": {
     "title": "La ruota",
-    "subtitle": "Partecipano le mete proposte con più voti a favore che contro. Più voti, spicchio più grande.",
+    "subtitle": "Partecipano le mete proposte che hanno ricevuto punti. Più punti, spicchio più grande.",
     "spin": "Gira la ruota",
     "spinning": "Si gira…",
     "hub": "Gira",
@@ -371,7 +376,7 @@
     "sound": "Suoni della ruota",
     "viewerHint": "Solo owner ed editor possono girare la ruota.",
     "emptyTitle": "La ruota è ancora vuota",
-    "emptyBody": "Servono mete proposte con più voti a favore che contro. Votate le vostre preferite!",
+    "emptyBody": "Servono mete proposte con almeno un punto. Distribuite i vostri 10 punti!",
     "goVote": "Vai a votare",
     "noEligible": "Nessuna meta estraibile in questo momento",
     "remoteResult": "La ruota ha deciso: {{name}}!"

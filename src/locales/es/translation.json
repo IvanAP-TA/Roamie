@@ -40,11 +40,11 @@
       },
       "vote": {
         "title": "Votad juntos",
-        "body": "Un voto a favor o en contra para cada destino y comentarios para debatirlo. Los votos se actualizan en tiempo real para todo el grupo."
+        "body": "Cada uno tiene 10 puntos para repartir entre los destinos, y los comentarios sirven para debatirlo. Los puntos se actualizan en tiempo real para todo el grupo."
       },
       "spin": {
         "title": "Girad la ruleta",
-        "body": "Entran los destinos con más votos a favor que en contra, y más votos significan más probabilidades. El sorteo se hace en el servidor: nadie puede hacer trampa."
+        "body": "Entran los destinos que han recibido puntos, y más puntos significan más probabilidades. El sorteo se hace en el servidor: nadie puede hacer trampa."
       },
       "plan": {
         "title": "Organizad el itinerario",
@@ -63,7 +63,7 @@
       },
       "q3": {
         "q": "¿Cómo funciona la ruleta?",
-        "a": "Cada destino con puntuación positiva recibe una porción proporcional a sus votos netos. El sorteo es aleatorio y ponderado, y se realiza en nuestros servidores."
+        "a": "Cada uno tiene 10 puntos para repartir entre los destinos propuestos. Cada destino con al menos un punto recibe una porción proporcional a sus puntos; el sorteo es aleatorio y ponderado, y se realiza en nuestros servidores."
       },
       "q4": {
         "q": "¿Tengo que instalar una app?",
@@ -256,9 +256,14 @@
     "2": "Medio",
     "3": "Caro"
   },
-  "votes": {
-    "up": "Voto a favor",
-    "down": "Voto en contra",
+  "points": {
+    "add": "Añadir un punto",
+    "remove": "Quitar un punto",
+    "mine": "tuyos {{count}}",
+    "left_one": "Te queda {{count}} punto de 10",
+    "left_other": "Te quedan {{count}} puntos de 10",
+    "noneLeft": "Ya has usado tus 10 puntos: quita alguno de otro destino.",
+    "hint": "Tienes 10 puntos para repartir entre los destinos propuestos. Cuantos más puntos recibe un destino, más grande es su porción en la ruleta.",
     "score_one": "{{count}} punto",
     "score_other": "{{count}} puntos"
   },
@@ -296,7 +301,7 @@
     "expectations": "Qué esperar",
     "proposedBy": "Propuesto por {{name}} {{when}}",
     "allMoods": "Todos",
-    "sortVotes": "Ordenar por votos",
+    "sortVotes": "Ordenar por puntos",
     "sortRecent": "Ordenar por fecha",
     "viewerHint": "Eres viewer: puedes votar y comentar",
     "deleteTitle": "¿Eliminar {{name}}?",
@@ -357,7 +362,7 @@
   },
   "roulette": {
     "title": "La ruleta",
-    "subtitle": "Participan los destinos propuestos con más votos a favor que en contra. Más votos, porción más grande.",
+    "subtitle": "Participan los destinos propuestos que han recibido puntos. Más puntos, porción más grande.",
     "spin": "Girar la ruleta",
     "spinning": "Girando…",
     "hub": "Girar",
@@ -371,7 +376,7 @@
     "sound": "Sonidos de la ruleta",
     "viewerHint": "Solo owners y editores pueden girar la ruleta.",
     "emptyTitle": "La ruleta aún está vacía",
-    "emptyBody": "Hacen falta destinos propuestos con más votos a favor que en contra. ¡Votad vuestros favoritos!",
+    "emptyBody": "Hacen falta destinos propuestos con al menos un punto. ¡Repartid vuestros 10 puntos!",
     "goVote": "Ir a votar",
     "noEligible": "Ahora mismo no hay destinos para sortear",
     "remoteResult": "La ruleta ha decidido: ¡{{name}}!"

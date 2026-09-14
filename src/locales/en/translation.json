@@ -40,11 +40,11 @@
       },
       "vote": {
         "title": "Vote together",
-        "body": "Upvote or downvote each place and talk it over in the comments. Votes update in real time for the whole group."
+        "body": "Everyone has 10 points to spread across the places, and the comments are there to talk it over. Points update in real time for the whole group."
       },
       "spin": {
         "title": "Spin the wheel",
-        "body": "Places with more upvotes than downvotes make it onto the wheel, and more votes mean better odds. The draw happens on the server, so nobody can cheat."
+        "body": "Places that received points make it onto the wheel, and more points mean better odds. The draw happens on the server, so nobody can cheat."
       },
       "plan": {
         "title": "Plan the itinerary",
@@ -63,7 +63,7 @@
       },
       "q3": {
         "q": "How does the wheel work?",
-        "a": "Every place with a positive score gets a slice proportional to its net votes. The draw is random but weighted, and it runs on our servers."
+        "a": "Everyone has 10 points to spread across the proposed places. Every place with at least one point gets a slice proportional to its points; the draw is random but weighted, and it runs on our servers."
       },
       "q4": {
         "q": "Do I need to install an app?",
@@ -256,9 +256,14 @@
     "2": "Mid-range",
     "3": "Pricey"
   },
-  "votes": {
-    "up": "Upvote",
-    "down": "Downvote",
+  "points": {
+    "add": "Add a point",
+    "remove": "Remove a point",
+    "mine": "yours {{count}}",
+    "left_one": "You have {{count}} point left out of 10",
+    "left_other": "You have {{count}} points left out of 10",
+    "noneLeft": "You've used all 10 points: take some back from another place.",
+    "hint": "You have 10 points to spread across the proposed places. The more points a place gets, the bigger its slice on the wheel.",
     "score_one": "{{count}} point",
     "score_other": "{{count}} points"
   },
@@ -296,7 +301,7 @@
     "expectations": "What to expect",
     "proposedBy": "Proposed by {{name}} {{when}}",
     "allMoods": "All",
-    "sortVotes": "Sort by votes",
+    "sortVotes": "Sort by points",
     "sortRecent": "Sort by date",
     "viewerHint": "You're a viewer: you can vote and comment",
     "deleteTitle": "Delete {{name}}?",
@@ -357,7 +362,7 @@
   },
   "roulette": {
     "title": "The wheel",
-    "subtitle": "Proposed places with more upvotes than downvotes take part. More votes, bigger slice.",
+    "subtitle": "Proposed places that received points take part. More points, bigger slice.",
     "spin": "Spin the wheel",
     "spinning": "Spinning…",
     "hub": "Spin",
@@ -371,7 +376,7 @@
     "sound": "Wheel sounds",
     "viewerHint": "Only owners and editors can spin the wheel.",
     "emptyTitle": "The wheel is still empty",
-    "emptyBody": "It needs proposed places with more upvotes than downvotes. Vote for your favourites!",
+    "emptyBody": "It needs proposed places with at least one point. Spread your 10 points!",
     "goVote": "Go vote",
     "noEligible": "No place can be drawn right now",
     "remoteResult": "The wheel has spoken: {{name}}!"

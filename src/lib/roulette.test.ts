@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { angleAtPointer, eligibleEntries, netScore, targetRotation } from './roulette'
-import type { Destination, VoteType } from './types'
+import { angleAtPointer, eligibleEntries, pointsLeft, targetRotation, totalPoints } from './roulette'
+import type { Destination } from './types'
 
-const dest = (id: string, votes: VoteType[], status: Destination['status'] = 'proposed'): Destination => ({
+const dest = (id: string, points: number[], status: Destination['status'] = 'proposed'): Destination => ({
   id,
   trip_id: 't',
   name: id,
@@ -18,29 +18,29 @@ const dest = (id: string, votes: VoteType[], status: Destination['status'] = 'pr
   selected_at: null,
   created_by: null,
   created_at: '2026-09-13T00:00:00Z',
-  votes: votes.map((vote_type, i) => ({ id: `${id}-${i}`, user_id: `u${i}`, vote_type })),
+  votes: points.map((p, i) => ({ id: `${id}-${i}`, user_id: `u${i}`, points: p })),
   comments: [{ count: 0 }],
   creator: null,
 })
 
 describe('roulette', () => {
-  it('computes the net score', () => {
-    expect(netScore(dest('a', ['up', 'up', 'down']))).toBe(1)
+  it('sums the points', () => {
+    expect(totalPoints(dest('a', [3, 2, 5]))).toBe(10)
   })
 
-  it('keeps only proposed destinations with a positive net score', () => {
-    const entries = eligibleEntries([
-      dest('a', ['up', 'up', 'up']),
-      dest('b', ['up']),
-      dest('zero', ['up', 'down']),
-      dest('neg', ['down']),
-      dest('picked', ['up', 'up'], 'selected'),
-    ])
+  it('counts only proposed destinations towards the budget', () => {
+    const list = [dest('a', [4]), dest('b', [3]), dest('picked', [3], 'selected')]
+    expect(pointsLeft(list, 'u0')).toBe(3)
+    expect(pointsLeft(list, 'nobody')).toBe(10)
+  })
+
+  it('keeps only proposed destinations with at least one point', () => {
+    const entries = eligibleEntries([dest('a', [3]), dest('b', [1]), dest('none', []), dest('picked', [2], 'selected')])
     expect(entries.map((e) => e.destination.id)).toEqual(['a', 'b'])
   })
 
-  it('sizes slices proportionally to the score and covers the full circle', () => {
-    const [a, b] = eligibleEntries([dest('a', ['up', 'up', 'up']), dest('b', ['up'])])
+  it('sizes slices proportionally to the points and covers the full circle', () => {
+    const [a, b] = eligibleEntries([dest('a', [2, 1]), dest('b', [1])])
     expect(a.probability).toBeCloseTo(0.75)
     expect(b.probability).toBeCloseTo(0.25)
     expect(a.startAngle).toBe(0)
@@ -49,7 +49,7 @@ describe('roulette', () => {
   })
 
   it('lands the chosen slice under the pointer after several turns', () => {
-    const [a, b] = eligibleEntries([dest('a', ['up', 'up', 'up']), dest('b', ['up'])])
+    const [a, b] = eligibleEntries([dest('a', [3]), dest('b', [1])])
     for (const [entry, current, jitter] of [
       [a, 0, 0],
       [b, 1234.5, 0.99],

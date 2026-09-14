@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { CoverImage } from '@/components/media/CoverImage'
 import { UserAvatar } from '@/components/ui/avatar'
 import { BudgetIndicator, MoodTag } from './moods'
-import { VoteControl } from './VoteControl'
+import { PointsControl } from './PointsControl'
 import type { Destination } from '@/lib/types'
 
 export const DestinationCard = forwardRef<HTMLElement, { destination: Destination; onOpen: () => void }>(
@@ -60,19 +60,19 @@ export const DestinationCard = forwardRef<HTMLElement, { destination: Destinatio
           <div className="scrollbar-none flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto">
             {d.creator && <UserAvatar profile={d.creator} className="size-7 text-[0.6rem]" />}
             {d.mood.slice(0, 3).map((m) => (
-              <MoodTag key={m} mood={m} iconOnly={d.mood.length > 2} />
+              <MoodTag key={m} mood={m} iconOnly={d.mood.length > 1} />
             ))}
           </div>
           <button
             type="button"
             onClick={onOpen}
-            className="inline-flex h-9 items-center gap-1 rounded-full px-2.5 text-sm font-medium text-muted-foreground transition hover:bg-foreground/5 hover:text-foreground"
+            className="inline-flex h-9 items-center gap-1 rounded-full px-2 text-sm font-medium text-muted-foreground transition hover:bg-foreground/5 hover:text-foreground"
             aria-label={t('comments.count', { count: comments })}
           >
             <MessageCircle className="size-4" />
             {comments}
           </button>
-          <VoteControl destination={d} />
+          <PointsControl destination={d} />
         </div>
       </motion.article>
     )

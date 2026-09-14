@@ -25,7 +25,7 @@ async function exportMyData(userId: string, email: string | undefined) {
     supabase.from('profiles').select('*').eq('id', userId).single(),
     supabase.from('trip_members').select('role, joined_at, trip:trips(id, name, description, created_at)').eq('user_id', userId),
     supabase.from('destinations').select('*').eq('created_by', userId),
-    supabase.from('votes').select('destination_id, vote_type, created_at').eq('user_id', userId),
+    supabase.from('votes').select('destination_id, points, created_at').eq('user_id', userId),
     supabase.from('comments').select('destination_id, content, created_at').eq('user_id', userId),
   ])
   const payload = {

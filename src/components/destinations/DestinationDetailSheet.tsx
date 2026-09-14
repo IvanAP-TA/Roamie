@@ -9,7 +9,7 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { Sheet } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
-import { AvatarStack, UserAvatar } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +20,7 @@ import {
 import { CoverImage } from '@/components/media/CoverImage'
 import { AttributionText } from '@/components/media/Attribution'
 import { BudgetIndicator, MoodTag } from './moods'
-import { VoteControl } from './VoteControl'
+import { PointsControl, PointsLeftBadge } from './PointsControl'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
 import type { Destination, DestinationStatus } from '@/lib/types'
@@ -58,8 +58,7 @@ export function DestinationDetailSheet() {
   if (!d) return null
 
   const profileOf = (userId: string) => members.find((m) => m.user_id === userId)?.profile ?? null
-  const upVoters = d.votes.filter((v) => v.vote_type === 'up').map((v) => profileOf(v.user_id))
-  const downVoters = d.votes.filter((v) => v.vote_type === 'down').map((v) => profileOf(v.user_id))
+  const voters = [...d.votes].sort((a, b) => b.points - a.points)
   const canDelete = isOwner || (canEdit && d.created_by === user?.id)
 
   const setStatus = (status: DestinationStatus) =>
@@ -155,22 +154,25 @@ export function DestinationDetailSheet() {
             <AttributionText raw={d.image_attribution} className="mt-2 px-2" />
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 px-2">
-            <VoteControl destination={d} size="lg" />
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              {upVoters.length > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <AvatarStack profiles={upVoters} max={4} size="size-7" />
-                  <span className="font-semibold text-primary">+{upVoters.length}</span>
-                </div>
-              )}
-              {downVoters.length > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <AvatarStack profiles={downVoters} max={3} size="size-7" />
-                  <span className="font-semibold text-dusk">−{downVoters.length}</span>
-                </div>
-              )}
+          <div className="space-y-3 px-2">
+            <div className="flex flex-wrap items-center gap-3">
+              <PointsControl destination={d} size="lg" />
+              {d.status === 'proposed' && <PointsLeftBadge tripId={trip.id} />}
             </div>
+            {voters.length > 0 && (
+              <ul className="flex flex-wrap gap-1.5" aria-label={t('points.score', { count: voters.reduce((s, v) => s + v.points, 0) })}>
+                {voters.map((v) => {
+                  const profile = profileOf(v.user_id)
+                  return (
+                    <li key={v.id} className="inline-flex items-center gap-1 rounded-full bg-foreground/[0.05] py-0.5 pr-2.5 pl-0.5 text-xs">
+                      <UserAvatar profile={profile} className="size-6 text-[0.55rem]" />
+                      <span className="max-w-24 truncate">{profile?.display_name?.split(' ')[0] ?? t('group.formerMember')}</span>
+                      <span className="font-semibold text-primary">+{v.points}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
           </div>
 
           {(d.mood.length > 0 || d.budget_level) && (

@@ -10,11 +10,12 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
+import { PointsLeftBadge } from '@/components/destinations/PointsControl'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
-import { netScore } from '@/lib/roulette'
+import { totalPoints } from '@/lib/roulette'
 import { MOODS, type DestinationStatus, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -52,7 +53,7 @@ export default function DestinationsTab() {
   const list = useMemo(() => {
     const filtered = (destinations ?? []).filter((d) => d.status === status && (!moodFilter || d.mood.includes(moodFilter)))
     return sort === 'votes'
-      ? [...filtered].sort((a, b) => netScore(b) - netScore(a) || b.created_at.localeCompare(a.created_at))
+      ? [...filtered].sort((a, b) => totalPoints(b) - totalPoints(a) || b.created_at.localeCompare(a.created_at))
       : filtered
   }, [destinations, status, moodFilter, sort])
 
@@ -143,12 +144,15 @@ export default function DestinationsTab() {
             </div>
           )}
 
-          {!canEdit && (
-            <p className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground">
-              <Eye className="size-3.5" />
-              {t('destination.viewerHint')}
-            </p>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {status === 'proposed' && counts.proposed > 0 && <PointsLeftBadge tripId={trip.id} />}
+            {!canEdit && (
+              <p className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground">
+                <Eye className="size-3.5" />
+                {t('destination.viewerHint')}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* ── List ── */}
