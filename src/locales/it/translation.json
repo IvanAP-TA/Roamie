@@ -412,6 +412,24 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "climate": {
+    "title": "Clima medio",
+    "best": "Periodo migliore: {{months}}",
+    "noBest": "Nessun mese dal clima mite: guarda temperature e piogge qui sotto.",
+    "hint": "Tocca un mese per i dettagli",
+    "rainDays_one": "{{count}} giorno di pioggia",
+    "rainDays_other": "{{count}} giorni di pioggia",
+    "sun": "{{hours}} h di sole al giorno",
+    "legendTemp": "Temperature (min–max)",
+    "legendRain": "Giorni di pioggia",
+    "legendBest": "Periodo migliore",
+    "table": "Vedi i dati",
+    "colMonth": "Mese",
+    "colRain": "Pioggia (gg)",
+    "colSun": "Sole",
+    "estimate": "Stima sugli ultimi 5 anni di temperature e piogge",
+    "error": "Clima non disponibile al momento."
+  },
   "stops": {
     "place": "Luogo",
     "placePlaceholder": "Cerca il luogo della tappa…",
@@ -531,7 +549,8 @@
             "Supabase: database e autenticazione, ospita i dati del servizio",
             "Google: accesso con account Google",
             "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim, e Photon di komoot per i suggerimenti mentre scrivi); i loro server ricevono il tuo indirizzo IP e il testo della ricerca quando carichi la mappa o cerchi un luogo",
-            "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate"
+            "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate",
+            "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP"
           ]
         },
         {

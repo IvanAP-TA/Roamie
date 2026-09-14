@@ -33,6 +33,10 @@
   --sage: #4f7d5b;
   --paper: #fffaf3;
 
+  /* Chart series (validated with the dataviz palette checks against --paper) */
+  --chart-temp: #c24e27;
+  --chart-rain: #2f6db5;
+
   --glass: rgb(255 249 242 / 0.56);
   --glass-strong: rgb(255 249 242 / 0.84);
   --glass-border: rgb(255 255 255 / 0.6);
@@ -78,6 +82,9 @@
     --sage: #8fbf98;
     --paper: #2a1d22;
 
+    --chart-temp: #e0673c;
+    --chart-rain: #4a8fd6;
+
     --glass: rgb(44 29 35 / 0.55);
     --glass-strong: rgb(40 27 32 / 0.86);
     --glass-border: rgb(255 225 205 / 0.1);
@@ -119,6 +126,8 @@
   --color-dusk: var(--dusk);
   --color-sage: var(--sage);
   --color-paper: var(--paper);
+  --color-chart-temp: var(--chart-temp);
+  --color-chart-rain: var(--chart-rain);
 
   --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces Variable', ui-serif, Georgia, 'Times New Roman', serif;

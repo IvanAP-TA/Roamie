@@ -21,6 +21,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { AttributionText } from '@/components/media/Attribution'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl, PointsLeftBadge } from './PointsControl'
+import { ClimateCard } from './ClimateCard'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
 import type { Destination, DestinationStatus } from '@/lib/types'
@@ -187,6 +188,8 @@ export function DestinationDetailSheet() {
               )}
             </div>
           )}
+
+          {d.lat != null && d.lng != null && <ClimateCard lat={d.lat} lng={d.lng} className="mx-2" />}
 
           {d.expectations && (
             <section className="relative mx-2 rounded-[1.5rem] bg-[linear-gradient(135deg,color-mix(in_oklab,var(--sun)_18%,transparent),color-mix(in_oklab,var(--coral)_10%,transparent))] px-5 pt-5 pb-4">

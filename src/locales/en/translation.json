@@ -412,6 +412,24 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "climate": {
+    "title": "Average climate",
+    "best": "Best time to go: {{months}}",
+    "noBest": "No month with a mild climate: check temperatures and rain below.",
+    "hint": "Tap a month for details",
+    "rainDays_one": "{{count}} rainy day",
+    "rainDays_other": "{{count}} rainy days",
+    "sun": "{{hours}} h of sun a day",
+    "legendTemp": "Temperatures (low–high)",
+    "legendRain": "Rainy days",
+    "legendBest": "Best time to go",
+    "table": "Show the data",
+    "colMonth": "Month",
+    "colRain": "Rain (days)",
+    "colSun": "Sun",
+    "estimate": "Estimate based on the last 5 years of temperatures and rain",
+    "error": "Climate data isn't available right now."
+  },
   "stops": {
     "place": "Place",
     "placePlaceholder": "Search the place for this stop…",
@@ -531,7 +549,8 @@
             "Supabase: database and authentication, hosts the service data",
             "Google: sign-in with your Google account",
             "OpenStreetMap: maps and place search (Nominatim, plus Photon by komoot for suggestions while you type); their servers receive your IP address and search text when you load the map or search for a place",
-            "Wikimedia Commons: destination photos; their servers receive your IP address when images load"
+            "Wikimedia Commons: destination photos; their servers receive your IP address when images load",
+            "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address"
           ]
         },
         {
