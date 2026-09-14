@@ -11,6 +11,8 @@ const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
 const PassportPage = lazy(() => import('@/pages/PassportPage'))
 const JoinPage = lazy(() => import('@/pages/JoinPage'))
 const PublicTripPage = lazy(() => import('@/pages/PublicTripPage'))
+const GuidesIndexPage = lazy(() => import('@/pages/guides/GuidesIndexPage'))
+const GuidePage = lazy(() => import('@/pages/guides/GuidePage'))
 const LegalPage = lazy(() => import('@/pages/LegalPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 const TripLayout = lazy(() => import('@/pages/trip/TripLayout'))
@@ -30,6 +32,12 @@ export default function App() {
         <Route path="/en" element={<LandingPage lang="en" />} />
         <Route path="/es" element={<LandingPage lang="es" />} />
         <Route path="/it" element={<Navigate to="/" replace />} />
+        <Route path="/guide" element={<GuidesIndexPage lang="it" />} />
+        <Route path="/guide/:slug" element={<GuidePage lang="it" />} />
+        <Route path="/en/guides" element={<GuidesIndexPage lang="en" />} />
+        <Route path="/en/guides/:slug" element={<GuidePage lang="en" />} />
+        <Route path="/es/guias" element={<GuidesIndexPage lang="es" />} />
+        <Route path="/es/guias/:slug" element={<GuidePage lang="es" />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/join/:code" element={<JoinPage />} />

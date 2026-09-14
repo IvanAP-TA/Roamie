@@ -2,7 +2,7 @@
 // Post-build step (see "build" in package.json): renders the public pages (landing ×3 languages,
 // legal, 404) into static HTML with their meta tags, so crawlers and link previews get real content.
 import { existsSync } from 'node:fs'
-import { readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { loadEnv } from 'vite'
 
 const root = new URL('../', import.meta.url)
@@ -22,7 +22,7 @@ if (missing.length > 0) {
   throw new Error(`Missing ${missing.map((key) => `${key} (${why(key)})`).join('; ')}`)
 }
 
-const { ROUTES, render } = await import(new URL('entry-prerender.js', ssrDir).href)
+const { ROUTES, render, sitemap } = await import(new URL('entry-prerender.js', ssrDir).href)
 
 const template = await readFile(new URL('index.html', dist), 'utf8')
 const HEAD = /<!--seo:start-->[\s\S]*?<!--seo:end-->/
@@ -43,8 +43,13 @@ for (const route of ROUTES) {
     .replace(/<html lang="[^"]*"/, `<html lang="${route.lang}"`)
     .replace(HEAD, () => [...fontPreloads, head].join('\n    '))
     .replace('<!--app-html-->', () => html)
-  await writeFile(new URL(route.file, dist), page)
+  const target = new URL(route.file, dist)
+  await mkdir(new URL('.', target), { recursive: true })
+  await writeFile(target, page)
   console.log(`  prerendered ${route.path.padEnd(9)} → dist/${route.file}`)
 }
+
+await writeFile(new URL('sitemap.xml', dist), sitemap())
+console.log(`  sitemap     → dist/sitemap.xml (${ROUTES.length - 1} URLs)`)
 
 await rm(ssrDir, { recursive: true, force: true })

@@ -22,6 +22,10 @@
     "group": "Group"
   },
   "landing": {
+    "guides": {
+      "title": "Ideas for your next trip",
+      "body": "Guides written for groups of friends: add the destinations you like to your trip and put them to the vote."
+    },
     "eyebrow": "Group bucket list",
     "titleA": "Your next trip is decided",
     "titleB": "together.",
@@ -97,6 +101,10 @@
       "title": "Page not found · Roamie",
       "description": "This page doesn't exist. Head back to Roamie to plan your next group trip."
     },
+    "guides": {
+      "title": "Travel guides for groups of friends · Roamie",
+      "description": "Ideas and tips for choosing your next group trip: European weekends, beaches, nature, food, nightlife, winter and budget destinations."
+    },
     "app": {
       "title": "Roamie",
       "description": "The travel bucket list for your group."
@@ -109,6 +117,7 @@
     "callbackError": "We couldn't finish signing you in"
   },
   "footer": {
+    "guides": "Guides",
     "noTrackers": "Zero profiling cookies, zero trackers",
     "privacy": "Privacy",
     "terms": "Terms"
@@ -412,6 +421,29 @@
     "dragHint": "Drag ⠿ to reorder stops",
     "reorderFailed": "New order not saved",
     "saved": "Saved"
+  },
+  "guides": {
+    "eyebrow": "Travel guides",
+    "indexTitle": "Ideas for your next group trip",
+    "indexIntro": "Destinations picked with groups of friends in mind, with the best time to go, budget and vibe. Add the ones you like to your Roamie trip and decide together.",
+    "all": "All guides",
+    "more": "More guides",
+    "howToUse": "Add the destinations you like to a Roamie trip: the group votes with 10 points each and, if needed, the wheel decides.",
+    "bestTime": "Best time",
+    "budget": "Budget",
+    "addToTrip": "Add to a trip",
+    "addTitle": "Add {{place}}",
+    "addDescription": "Choose the trip: the destination joins the proposals, ready to be voted on.",
+    "signInBody": "Sign in with Google to add this destination to one of your group's trips.",
+    "noTrips": "You don't have any trips where you can propose destinations yet.",
+    "createTrip": "Create a trip",
+    "tripPlaces_one": "{{count}} destination",
+    "tripPlaces_other": "{{count}} destinations",
+    "added": "{{place}} added to “{{trip}}”",
+    "openTrip": "Open",
+    "ctaTitle": "Decide together where to go",
+    "ctaBody": "Create a trip, invite your group and vote on destinations. Free, with no ads.",
+    "ctaMember": "Go to your trips"
   },
   "publicPage": {
     "sectionTitle": "Public page",

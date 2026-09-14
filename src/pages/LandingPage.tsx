@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowBigUp, CalendarDays, Dices, MapPinPlus, Plus, Sparkles, Vote } from 'lucide-react'
+import { ArrowBigUp, ArrowRight, CalendarDays, Dices, MapPinPlus, Plus, Sparkles, Vote } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useSeo } from '@/hooks/useSeo'
@@ -16,6 +16,8 @@ import { GoogleButton } from '@/components/auth/GoogleButton'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Footer } from '@/components/layout/Footer'
 import { Splash } from '@/components/layout/Splash'
+import { GuideCards } from '@/components/guides/GuideCards'
+import { GUIDE_BASE } from '@/content/guides/meta'
 
 const POSTCARDS = [
   { name: 'Lisboa', country: 'Portugal', votes: 7, rotate: -9, x: '-38%', y: '6%', delay: 0 },
@@ -200,6 +202,25 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
               </li>
             ))}
           </ol>
+        </section>
+
+        <section aria-labelledby="guides-title" className="mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-xl">
+              <h2 id="guides-title" className="text-3xl leading-tight md:text-5xl">
+                {t('landing.guides.title')}
+              </h2>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{t('landing.guides.body')}</p>
+            </div>
+            <Link
+              to={GUIDE_BASE[lang]}
+              className="inline-flex min-h-11 items-center gap-1.5 font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              {t('guides.all')}
+              <ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <GuideCards lang={lang} limit={4} className="mt-8" />
         </section>
 
         <section aria-labelledby="faq-title" className="mx-auto w-full max-w-3xl px-5 pt-20 md:px-8 md:pt-24">

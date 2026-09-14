@@ -23,7 +23,7 @@ export const landingLanguage = (pathname: string): LanguageCode | null =>
   (Object.keys(LANDING_PATHS) as LanguageCode[]).find((code) => LANDING_PATHS[code] === pathname) ?? null
 
 const PAGE_PATHS: Partial<Record<SeoPage, string>> = { privacy: '/privacy', terms: '/terms' }
-const OG_LOCALES: Record<LanguageCode, string> = { it: 'it_IT', en: 'en_GB', es: 'es_ES' }
+export const OG_LOCALES: Record<LanguageCode, string> = { it: 'it_IT', en: 'en_GB', es: 'es_ES' }
 
 export interface PageMeta {
   lang: LanguageCode

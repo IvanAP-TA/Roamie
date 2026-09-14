@@ -1,8 +1,8 @@
 import { Check, Languages } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { localizedPath } from '@/content/guides/meta'
 import { LANGUAGES, type LanguageCode } from '@/i18n'
-import { LANDING_PATHS, landingLanguage } from '@/lib/seo'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,10 +20,9 @@ export function LanguageSwitcher({ className }: { className?: string }) {
 
   const change = (lng: string) => {
     void i18n.changeLanguage(lng)
-    // Each language of the public landing has its own URL.
-    if (landingLanguage(location.pathname)) {
-      navigate({ pathname: LANDING_PATHS[lng as LanguageCode], search: location.search })
-    }
+    // The landings and the guides have one URL per language.
+    const target = localizedPath(location.pathname, lng as LanguageCode)
+    if (target) navigate({ pathname: target, search: location.search })
   }
 
   return (

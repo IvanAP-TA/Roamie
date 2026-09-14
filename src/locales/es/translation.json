@@ -22,6 +22,10 @@
     "group": "Grupo"
   },
   "landing": {
+    "guides": {
+      "title": "Ideas para el próximo viaje",
+      "body": "Guías pensadas para grupos de amigos: añade los destinos que te inspiren a tu viaje y sometedlos a votación."
+    },
     "eyebrow": "Bucket list en grupo",
     "titleA": "El próximo destino se decide",
     "titleB": "juntos.",
@@ -97,6 +101,10 @@
       "title": "Página no encontrada · Roamie",
       "description": "Esta página no existe. Vuelve a Roamie para organizar el próximo viaje en grupo."
     },
+    "guides": {
+      "title": "Guías de viaje para grupos de amigos · Roamie",
+      "description": "Ideas y consejos para elegir el próximo viaje en grupo: escapadas por Europa, playa, naturaleza, comida, vida nocturna, invierno y destinos low cost."
+    },
     "app": {
       "title": "Roamie",
       "description": "La bucket list de viajes de tu grupo."
@@ -109,6 +117,7 @@
     "callbackError": "No hemos podido completar el inicio de sesión"
   },
   "footer": {
+    "guides": "Guías",
     "noTrackers": "Cero cookies de perfilado, cero rastreadores",
     "privacy": "Privacidad",
     "terms": "Términos"
@@ -412,6 +421,29 @@
     "dragHint": "Arrastra ⠿ para reordenar las etapas",
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
+  },
+  "guides": {
+    "eyebrow": "Guías de viaje",
+    "indexTitle": "Ideas para el próximo viaje en grupo",
+    "indexIntro": "Destinos elegidos pensando en grupos de amigos, con la mejor época, el presupuesto y el ambiente. Añade los que te inspiren a tu viaje en Roamie y decidid juntos.",
+    "all": "Todas las guías",
+    "more": "Más guías",
+    "howToUse": "Añade los destinos que te convenzan a un viaje en Roamie: el grupo los vota con 10 puntos cada uno y, si hace falta, decide la ruleta.",
+    "bestTime": "Mejor época",
+    "budget": "Presupuesto",
+    "addToTrip": "Añadir al viaje",
+    "addTitle": "Añadir {{place}}",
+    "addDescription": "Elige el viaje: el destino se suma a las propuestas, listo para votar.",
+    "signInBody": "Inicia sesión con Google para añadir este destino a un viaje de tu grupo.",
+    "noTrips": "Todavía no tienes viajes en los que puedas proponer destinos.",
+    "createTrip": "Crear un viaje",
+    "tripPlaces_one": "{{count}} destino",
+    "tripPlaces_other": "{{count}} destinos",
+    "added": "{{place}} añadido a «{{trip}}»",
+    "openTrip": "Abrir",
+    "ctaTitle": "Decidid juntos adónde ir",
+    "ctaBody": "Crea un viaje, invita al grupo y votad los destinos. Gratis y sin publicidad.",
+    "ctaMember": "Ir a tus viajes"
   },
   "publicPage": {
     "sectionTitle": "Página pública",

@@ -1,0 +1,119 @@
+import type { TFunction } from 'i18next'
+import { GUIDE_CONTENT } from '@/content/guides/content'
+import { GUIDE_BASE, GUIDES, GUIDES_PUBLISHED, guidePath, type GuideMeta } from '@/content/guides/meta'
+import { LANGUAGES, type LanguageCode } from '@/i18n'
+import { LANDING_PATHS, OG_LOCALES, SITE_URL, type PageMeta } from '@/lib/seo'
+
+/** Search/social metadata for the guides (index + articles), used by the prerenderer and the client. */
+
+const absolute = (path: string) => SITE_URL + path
+const ORGANIZATION = { '@type': 'Organization', name: 'Roamie', url: absolute('/'), logo: absolute('/pwa-512x512.png') }
+
+function baseMeta(lang: LanguageCode, t: TFunction, title: string, description: string, pathFor: (lang: LanguageCode) => string) {
+  return {
+    lang,
+    title,
+    description,
+    robots: 'index, follow, max-image-preview:large',
+    canonical: absolute(pathFor(lang)),
+    alternates: [
+      ...LANGUAGES.map(({ code }) => ({ hreflang: code, href: absolute(pathFor(code)) })),
+      { hreflang: 'x-default', href: absolute(pathFor('en')) },
+    ],
+    ogImage: absolute(`/og/${lang}.png`),
+    ogImageAlt: t('seo.ogImageAlt'),
+    ogLocale: OG_LOCALES[lang],
+    ogLocaleAlternates: LANGUAGES.filter((l) => l.code !== lang).map((l) => OG_LOCALES[l.code]),
+  }
+}
+
+function breadcrumbs(lang: LanguageCode, t: TFunction, trail: { name: string; path: string }[]) {
+  const crumbs = [{ name: 'Roamie', path: LANDING_PATHS[lang] }, { name: t('guides.eyebrow'), path: GUIDE_BASE[lang] }, ...trail]
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, name: crumb.name, item: absolute(crumb.path) })),
+  }
+}
+
+export function guidesIndexMeta(lang: LanguageCode, t: TFunction): PageMeta {
+  const meta = baseMeta(lang, t, t('seo.guides.title'), t('seo.guides.description'), (l) => GUIDE_BASE[l])
+  return {
+    ...meta,
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: meta.title,
+        description: meta.description,
+        url: meta.canonical,
+        inLanguage: lang,
+        publisher: ORGANIZATION,
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: GUIDES.map((guide, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: guide.title[lang],
+            url: absolute(guidePath(guide, lang)),
+          })),
+        },
+      },
+      breadcrumbs(lang, t, []),
+    ],
+  }
+}
+
+export function guideMeta(guide: GuideMeta, lang: LanguageCode, t: TFunction): PageMeta {
+  const content = GUIDE_CONTENT[guide.id]
+  const meta = baseMeta(lang, t, `${guide.title[lang]} · Roamie`, guide.description[lang], (l) => guidePath(guide, l))
+
+  const article: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: guide.title[lang],
+    description: guide.description[lang],
+    inLanguage: lang,
+    url: meta.canonical,
+    mainEntityOfPage: meta.canonical,
+    image: meta.ogImage,
+    datePublished: GUIDES_PUBLISHED,
+    dateModified: GUIDES_PUBLISHED,
+    author: ORGANIZATION,
+    publisher: ORGANIZATION,
+  }
+  if (content.places.length > 0) {
+    article.about = {
+      '@type': 'ItemList',
+      itemListElement: content.places.map((place, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'TouristDestination',
+          name: place.name[lang],
+          geo: { '@type': 'GeoCoordinates', latitude: place.lat, longitude: place.lng },
+          address: { '@type': 'PostalAddress', addressCountry: place.countryCode },
+        },
+      })),
+    }
+  }
+
+  const howTo =
+    content.steps.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'HowTo',
+          name: guide.title[lang],
+          description: guide.description[lang],
+          inLanguage: lang,
+          step: content.steps.map((step, index) => ({ '@type': 'HowToStep', position: index + 1, name: step.title[lang], text: step.body[lang] })),
+        }
+      : null
+
+  return {
+    ...meta,
+    jsonLd: [article, howTo, breadcrumbs(lang, t, [{ name: guide.title[lang], path: guidePath(guide, lang) }])].filter(
+      (entry): entry is NonNullable<typeof entry> => entry !== null,
+    ),
+  }
+}

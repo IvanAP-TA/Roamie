@@ -12,7 +12,7 @@ import { MotionConfig } from 'framer-motion'
 import { registerSW } from 'virtual:pwa-register'
 import { AuthProvider } from '@/hooks/useAuth'
 import { Toaster } from '@/components/ui/toaster'
-import { landingLanguage } from '@/lib/seo'
+import { pathLanguage } from '@/content/guides/meta'
 import { hasStoredSession } from '@/lib/supabase'
 import App from './App'
 
@@ -28,8 +28,8 @@ const queryClient = new QueryClient({
 
 registerSW({ immediate: true })
 
-// Landing URLs (/, /en, /es) have a fixed language: render in it from the first frame, like the prerendered HTML.
-const urlLanguage = landingLanguage(window.location.pathname)
+// Landing and guide URLs have a fixed language: render in it from the first frame, like the prerendered HTML.
+const urlLanguage = pathLanguage(window.location.pathname)
 if (urlLanguage && !hasStoredSession()) void i18n.changeLanguage(urlLanguage)
 
 // Prerendered pages already contain markup in #root; React replaces it on the first render.

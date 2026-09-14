@@ -7,36 +7,71 @@ import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MotionConfig } from 'framer-motion'
-import i18n, { type LanguageCode } from '@/i18n'
+import { GUIDE_BASE, GUIDES, guidePath, type GuideMeta } from '@/content/guides/meta'
+import i18n, { LANGUAGES, type LanguageCode } from '@/i18n'
 import { AuthProvider } from '@/hooks/useAuth'
-import { headTags, LANDING_PATHS, pageMeta, type SeoPage } from '@/lib/seo'
+import { guideMeta, guidesIndexMeta } from '@/lib/guideSeo'
+import { headTags, LANDING_PATHS, pageMeta, SITE_URL, type SeoPage } from '@/lib/seo'
 import LandingPage from '@/pages/LandingPage'
 import LegalPage from '@/pages/LegalPage'
 import NotFoundPage from '@/pages/NotFoundPage'
+import GuidesIndexPage from '@/pages/guides/GuidesIndexPage'
+import { GuideArticle } from '@/pages/guides/GuidePage'
 
 export interface PrerenderRoute {
   path: string
-  /** Output file in dist/. Cloudflare Pages and Netlify serve `en.html` at `/en`. */
+  /** Output file in dist/. Vercel's cleanUrls serves `en/guides.html` at `/en/guides`. */
   file: string
-  page: SeoPage
+  page: SeoPage | 'guides' | 'guide'
   lang: LanguageCode
+  guide?: GuideMeta
+  /** hreflang → path of the same page, for the sitemap */
+  alternates?: Record<string, string>
 }
+
+const htmlFile = (path: string) => `${path.slice(1)}.html`
+
+const everyLanguage = (pathFor: (lang: LanguageCode) => string) => ({
+  ...Object.fromEntries(LANGUAGES.map(({ code }) => [code, pathFor(code)])),
+  'x-default': pathFor('en'),
+})
+
+const landingAlternates = everyLanguage((l) => LANDING_PATHS[l])
 
 // Legal pages and the 404 are prerendered in Italian; the client re-renders them in the visitor's language.
 export const ROUTES: PrerenderRoute[] = [
-  { path: LANDING_PATHS.it, file: 'index.html', page: 'landing', lang: 'it' },
-  { path: LANDING_PATHS.en, file: 'en.html', page: 'landing', lang: 'en' },
-  { path: LANDING_PATHS.es, file: 'es.html', page: 'landing', lang: 'es' },
+  { path: LANDING_PATHS.it, file: 'index.html', page: 'landing', lang: 'it', alternates: landingAlternates },
+  { path: LANDING_PATHS.en, file: 'en.html', page: 'landing', lang: 'en', alternates: landingAlternates },
+  { path: LANDING_PATHS.es, file: 'es.html', page: 'landing', lang: 'es', alternates: landingAlternates },
   { path: '/privacy', file: 'privacy.html', page: 'privacy', lang: 'it' },
   { path: '/terms', file: 'terms.html', page: 'terms', lang: 'it' },
   { path: '/404', file: '404.html', page: 'notFound', lang: 'it' },
+  ...LANGUAGES.map(({ code }): PrerenderRoute => ({
+    path: GUIDE_BASE[code],
+    file: htmlFile(GUIDE_BASE[code]),
+    page: 'guides',
+    lang: code,
+    alternates: everyLanguage((l) => GUIDE_BASE[l]),
+  })),
+  ...GUIDES.flatMap((guide) =>
+    LANGUAGES.map(({ code }): PrerenderRoute => ({
+      path: guidePath(guide, code),
+      file: htmlFile(guidePath(guide, code)),
+      page: 'guide',
+      lang: code,
+      guide,
+      alternates: everyLanguage((l) => guidePath(guide, l)),
+    })),
+  ),
 ]
 
-const PAGES: Partial<Record<SeoPage, (lang: LanguageCode) => ReactElement>> = {
-  landing: (lang) => <LandingPage lang={lang} />,
+const PAGES: Partial<Record<PrerenderRoute['page'], (route: PrerenderRoute) => ReactElement>> = {
+  landing: (route) => <LandingPage lang={route.lang} />,
   privacy: () => <LegalPage doc="privacy" />,
   terms: () => <LegalPage doc="terms" />,
   notFound: () => <NotFoundPage />,
+  guides: (route) => <GuidesIndexPage lang={route.lang} />,
+  guide: (route) => <GuideArticle guide={route.guide!} lang={route.lang} />,
 }
 
 export async function render(route: PrerenderRoute): Promise<{ html: string; head: string }> {
@@ -45,10 +80,38 @@ export async function render(route: PrerenderRoute): Promise<{ html: string; hea
     <QueryClientProvider client={new QueryClient()}>
       <MotionConfig reducedMotion="user">
         <StaticRouter location={route.path}>
-          <AuthProvider>{PAGES[route.page]!(route.lang)}</AuthProvider>
+          <AuthProvider>{PAGES[route.page]!(route)}</AuthProvider>
         </StaticRouter>
       </MotionConfig>
     </QueryClientProvider>,
   )
-  return { html, head: headTags(pageMeta(route.page, route.lang, i18n.getFixedT(route.lang))) }
+  const t = i18n.getFixedT(route.lang)
+  const meta =
+    route.page === 'guide'
+      ? guideMeta(route.guide!, route.lang, t)
+      : route.page === 'guides'
+        ? guidesIndexMeta(route.lang, t)
+        : pageMeta(route.page, route.lang, t)
+  return { html, head: headTags(meta) }
+}
+
+/** Every indexable prerendered page, with its language alternates. */
+export function sitemap(): string {
+  const urls = ROUTES.filter((route) => route.page !== 'notFound').map((route) =>
+    [
+      '  <url>',
+      `    <loc>${SITE_URL}${route.path}</loc>`,
+      ...Object.entries(route.alternates ?? {}).map(
+        ([hreflang, path]) => `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${SITE_URL}${path}" />`,
+      ),
+      '  </url>',
+    ].join('\n'),
+  )
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...urls,
+    '</urlset>',
+    '',
+  ].join('\n')
 }
