@@ -6,7 +6,7 @@ import i18n from '@/i18n'
 import { supabase } from '@/lib/supabase'
 import { isLocalSpin } from '@/lib/roulette'
 import { keys } from './useTrips'
-import type { Destination, DestinationComment, ItineraryDay, TripMember } from '@/lib/types'
+import type { ChecklistItem, Destination, DestinationComment, ItineraryDay, TripLink, TripMember } from '@/lib/types'
 
 type Row = Record<string, unknown> & { id?: string }
 type Payload = RealtimePostgresChangesPayload<Row>
@@ -38,6 +38,8 @@ export function useTripRealtime(tripId: string | undefined) {
     const destinations = () => qc.getQueryData<Destination[]>(keys.destinations(tripId)) ?? []
     const itinerary = () => qc.getQueryData<ItineraryDay[]>(keys.itinerary(tripId)) ?? []
     const members = () => qc.getQueryData<TripMember[]>(keys.members(tripId)) ?? []
+    const links = () => qc.getQueryData<TripLink[]>(keys.links(tripId)) ?? []
+    const checklist = () => qc.getQueryData<ChecklistItem[]>(keys.checklist(tripId)) ?? []
     const rowOf = (p: Payload): Row => (p.eventType === 'DELETE' ? p.old : p.new) as Row
 
     const channel = supabase
@@ -92,6 +94,14 @@ export function useTripRealtime(tripId: string | undefined) {
         if (days.some((d) => d.id === row.itinerary_day_id || d.itinerary_items.some((i) => i.id === row.id))) {
           invalidate(keys.itinerary(tripId))
         }
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'trip_links' }, (p: Payload) => {
+        const row = rowOf(p)
+        if (row.trip_id === tripId || links().some((l) => l.id === row.id)) invalidate(keys.links(tripId))
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'checklist_items' }, (p: Payload) => {
+        const row = rowOf(p)
+        if (row.trip_id === tripId || checklist().some((i) => i.id === row.id)) invalidate(keys.checklist(tripId))
       })
       .subscribe()
 

@@ -17,7 +17,7 @@
     "destinations": "Places",
     "map": "Map",
     "roulette": "Wheel",
-    "itinerary": "Itinerary",
+    "itinerary": "Plan",
     "group": "Group"
   },
   "landing": {
@@ -412,6 +412,65 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "plan": {
+    "title": "Plan",
+    "tabs": {
+      "itinerary": "Itinerary",
+      "checklist": "Checklist",
+      "links": "Links"
+    },
+    "subtitle": {
+      "itinerary": "The stops, day by day.",
+      "checklist": "What to book and what to pack, and who's on it.",
+      "links": "Flights, stays and tickets, all in one place."
+    }
+  },
+  "checklist": {
+    "kinds": {
+      "book": "To book",
+      "pack": "To pack"
+    },
+    "placeholder": {
+      "book": "e.g. ferry to the islands",
+      "pack": "e.g. plug adapter"
+    },
+    "add": "Add",
+    "addTo": "Add to “{{list}}”",
+    "progress": "{{done}} of {{total}} done",
+    "empty": "Nothing on the list yet.",
+    "assign": "Assign to someone",
+    "assignedTo": "Assigned to {{name}}",
+    "nobody": "Nobody",
+    "delete": "Delete item",
+    "markDone": "Mark as done",
+    "markTodo": "Mark as to do",
+    "viewerHint": "Only owners and editors can edit the checklist."
+  },
+  "links": {
+    "add": "Add link",
+    "newTitle": "New link",
+    "editTitle": "Edit link",
+    "categories": {
+      "flight": "Flights",
+      "stay": "Stays",
+      "ticket": "Tickets",
+      "transport": "Transport",
+      "other": "Other"
+    },
+    "title": "Title",
+    "titlePlaceholder": "Flight Milan–Lisbon",
+    "url": "Link",
+    "urlInvalid": "Enter a valid web address (http or https).",
+    "note": "Notes",
+    "notePlaceholder": "Booking reference, times, who paid…",
+    "open": "Open {{title}}",
+    "delete": "Delete link",
+    "deleteTitle": "Delete “{{title}}”?",
+    "deleteBody": "The link will be removed for the whole group.",
+    "emptyTitle": "No saved links",
+    "emptyBody": "Keep flight, stay and ticket bookings here so the whole group can find them right away.",
+    "privacyNote": "Only trip members can see them. Don't paste passwords or payment details."
+  },
   "legal": {
     "updated": "Last updated: {{date}}",
     "contactFallback": "the email address provided by the service operator",
@@ -430,7 +489,7 @@
             "Email address: used for authentication only, never shown to other members",
             "Google profile name: visible to members of the trips you belong to",
             "Google profile picture: visible to members of the trips you belong to",
-            "Content you create: trips, destinations, votes, comments and itinerary stops"
+            "Content you create: trips, destinations, points, comments, itinerary stops, useful links and checklist items"
           ]
         },
         {

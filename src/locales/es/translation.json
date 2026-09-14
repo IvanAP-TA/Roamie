@@ -17,7 +17,7 @@
     "destinations": "Destinos",
     "map": "Mapa",
     "roulette": "Ruleta",
-    "itinerary": "Itinerario",
+    "itinerary": "Plan",
     "group": "Grupo"
   },
   "landing": {
@@ -412,6 +412,65 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "plan": {
+    "title": "Plan",
+    "tabs": {
+      "itinerary": "Itinerario",
+      "checklist": "Checklist",
+      "links": "Enlaces"
+    },
+    "subtitle": {
+      "itinerary": "Las etapas, día a día.",
+      "checklist": "Qué reservar y qué llevar, y quién se encarga.",
+      "links": "Vuelos, alojamientos y entradas, todo en un sitio."
+    }
+  },
+  "checklist": {
+    "kinds": {
+      "book": "Por reservar",
+      "pack": "Por llevar"
+    },
+    "placeholder": {
+      "book": "P. ej. ferry a las islas",
+      "pack": "P. ej. adaptador de enchufe"
+    },
+    "add": "Añadir",
+    "addTo": "Añadir a «{{list}}»",
+    "progress": "{{done}} de {{total}} hechas",
+    "empty": "Todavía no hay nada en la lista.",
+    "assign": "Asignar a alguien",
+    "assignedTo": "Asignada a {{name}}",
+    "nobody": "Nadie",
+    "delete": "Eliminar elemento",
+    "markDone": "Marcar como hecha",
+    "markTodo": "Marcar como pendiente",
+    "viewerHint": "Solo owners y editores pueden modificar la checklist."
+  },
+  "links": {
+    "add": "Añadir enlace",
+    "newTitle": "Nuevo enlace",
+    "editTitle": "Editar enlace",
+    "categories": {
+      "flight": "Vuelos",
+      "stay": "Alojamientos",
+      "ticket": "Entradas",
+      "transport": "Transporte",
+      "other": "Otros"
+    },
+    "title": "Título",
+    "titlePlaceholder": "Vuelo Madrid–Lisboa",
+    "url": "Enlace",
+    "urlInvalid": "Introduce una dirección web válida (http o https).",
+    "note": "Notas",
+    "notePlaceholder": "Código de reserva, horarios, quién ha pagado…",
+    "open": "Abrir {{title}}",
+    "delete": "Eliminar enlace",
+    "deleteTitle": "¿Eliminar «{{title}}»?",
+    "deleteBody": "El enlace se eliminará para todo el grupo.",
+    "emptyTitle": "No hay enlaces guardados",
+    "emptyBody": "Guardad aquí las reservas de vuelos, alojamientos y entradas para que todo el grupo las encuentre enseguida.",
+    "privacyNote": "Solo los miembros del viaje pueden verlos. No peguéis contraseñas ni datos de pago."
+  },
   "legal": {
     "updated": "Última actualización: {{date}}",
     "contactFallback": "la dirección de correo indicada por el gestor del servicio",
@@ -430,7 +489,7 @@
             "Dirección de email: usada solo para la autenticación, nunca visible para otros miembros",
             "Nombre del perfil de Google: visible para los miembros de tus viajes",
             "Foto del perfil de Google: visible para los miembros de tus viajes",
-            "El contenido que creas: viajes, destinos, votos, comentarios y etapas del itinerario"
+            "El contenido que creas: viajes, destinos, puntos, comentarios, etapas del itinerario, enlaces útiles y elementos de la checklist"
           ]
         },
         {

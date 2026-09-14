@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarPlus, CalendarRange, GripVertical, Trash2 } from 'lucide-react'
+import { CalendarPlus, CalendarRange, GripVertical, Link2, ListChecks, Trash2, type LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useItinerary, useItineraryMutations } from '@/hooks/useItinerary'
@@ -8,10 +9,21 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
 import { DayCard } from '@/components/itinerary/DayCard'
 import { DayFormSheet, ItemFormSheet } from '@/components/itinerary/ItineraryForms'
+import { ChecklistSection } from '@/components/plan/ChecklistSection'
+import { LinksSection } from '@/components/plan/LinksSection'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
 import type { ItineraryDay, ItineraryItem } from '@/lib/types'
+import { cn } from '@/lib/utils'
+
+const VIEWS = [
+  { id: 'itinerary', icon: CalendarRange },
+  { id: 'checklist', icon: ListChecks },
+  { id: 'links', icon: Link2 },
+] as const satisfies readonly { id: string; icon: LucideIcon }[]
+
+type View = (typeof VIEWS)[number]['id']
 
 const nextDate = (iso: string) => {
   const d = new Date(`${iso}T12:00:00`)
@@ -19,7 +31,7 @@ const nextDate = (iso: string) => {
   return d.toISOString().slice(0, 10)
 }
 
-export default function ItineraryTab() {
+function ItineraryView() {
   const { t, i18n } = useTranslation()
   const { trip, canEdit } = useTripContext()
   const { data: days, isLoading } = useItinerary(trip.id)
@@ -34,21 +46,7 @@ export default function ItineraryTab() {
   const hasItems = days?.some((d) => d.itinerary_items.length > 1)
 
   return (
-    <PageTransition className="mx-auto max-w-3xl px-5 md:px-6">
-      <header className="mb-6 flex items-end justify-between gap-3">
-        <div>
-          <p className="truncate text-sm font-medium text-muted-foreground">{trip.name}</p>
-          <h1 className="text-[2.6rem] leading-none md:text-5xl">{t('itinerary.title')}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">{t('itinerary.subtitle')}</p>
-        </div>
-        {canEdit && days && days.length > 0 && (
-          <Button size="sm" onClick={() => setDayForm({})}>
-            <CalendarPlus />
-            <span className="hidden sm:inline">{t('itinerary.addDay')}</span>
-          </Button>
-        )}
-      </header>
-
+    <>
       {isLoading && (
         <div className="space-y-4">
           <Skeleton className="h-48 rounded-[2rem]" />
@@ -69,12 +67,22 @@ export default function ItineraryTab() {
 
       {days && days.length > 0 && (
         <>
-          {canEdit && hasItems && (
-            <p className="mb-3 inline-flex items-center gap-1 text-xs text-muted-foreground">
-              <GripVertical className="size-3.5" />
-              {t('itinerary.dragHint')}
-            </p>
-          )}
+          <div className="mb-3 flex min-h-9 items-center justify-between gap-3">
+            {canEdit && hasItems ? (
+              <p className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                <GripVertical className="size-3.5" />
+                {t('itinerary.dragHint')}
+              </p>
+            ) : (
+              <span />
+            )}
+            {canEdit && (
+              <Button size="sm" onClick={() => setDayForm({})}>
+                <CalendarPlus />
+                <span className="hidden sm:inline">{t('itinerary.addDay')}</span>
+              </Button>
+            )}
+          </div>
           <motion.div variants={staggerContainer} initial="hidden" animate="show" className="space-y-4">
             {days.map((day) => (
               <motion.div key={day.id} variants={staggerItem}>
@@ -164,6 +172,61 @@ export default function ItineraryTab() {
           }
         }}
       />
+    </>
+  )
+}
+
+/** The trip plan: itinerary, shared checklist and useful links (?view=checklist|links). */
+export default function PlanTab() {
+  const { t } = useTranslation()
+  const { trip } = useTripContext()
+  const [params, setParams] = useSearchParams()
+  const requested = params.get('view')
+  const view: View = VIEWS.some((v) => v.id === requested) ? (requested as View) : 'itinerary'
+
+  const setView = (next: View) =>
+    setParams(
+      (p) => {
+        if (next === 'itinerary') p.delete('view')
+        else p.set('view', next)
+        return p
+      },
+      { replace: true },
+    )
+
+  return (
+    <PageTransition className="mx-auto max-w-3xl px-5 md:px-6">
+      <header className="mb-5">
+        <p className="hidden truncate text-sm font-medium text-muted-foreground md:block">{trip.name}</p>
+        <h1 className="text-[2.3rem] leading-none md:text-5xl">{t('plan.title')}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t(`plan.subtitle.${view}`)}</p>
+      </header>
+
+      <div role="tablist" aria-label={t('plan.title')} className="glass mb-6 flex gap-1 rounded-full p-1">
+        {VIEWS.map(({ id, icon: Icon }) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={view === id}
+            onClick={() => setView(id)}
+            className={cn(
+              'relative flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-2 text-sm font-semibold transition-colors',
+              view === id ? 'text-background' : 'text-muted-foreground hover:text-foreground',
+            )}
+          >
+            {view === id && (
+              <motion.span layoutId="plan-view-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
+            )}
+            <Icon className="relative size-4" />
+            <span className="relative">{t(`plan.tabs.${id}`)}</span>
+          </button>
+        ))}
+      </div>
+
+      {view === 'itinerary' && <ItineraryView />}
+      {view === 'checklist' && <ChecklistSection />}
+      {view === 'links' && <LinksSection />}
     </PageTransition>
   )
 }

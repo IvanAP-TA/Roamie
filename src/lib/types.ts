@@ -105,6 +105,35 @@ export interface TripPreview {
   is_member: boolean
 }
 
+export const LINK_CATEGORIES = ['flight', 'stay', 'ticket', 'transport', 'other'] as const
+export type LinkCategory = (typeof LINK_CATEGORIES)[number]
+
+export interface TripLink {
+  id: string
+  trip_id: string
+  category: LinkCategory
+  title: string
+  url: string | null
+  note: string | null
+  created_by: string | null
+  created_at: string
+}
+
+export const CHECKLIST_KINDS = ['book', 'pack'] as const
+export type ChecklistKind = (typeof CHECKLIST_KINDS)[number]
+
+export interface ChecklistItem {
+  id: string
+  trip_id: string
+  kind: ChecklistKind
+  title: string
+  assignee_id: string | null
+  done: boolean
+  done_at: string | null
+  created_by: string | null
+  created_at: string
+}
+
 /** Stored as JSON in image_attribution / cover_image_attribution. */
 export interface ImageAttribution {
   author: string

@@ -321,6 +321,51 @@ describe('itinerary', () => {
   })
 })
 
+describe('plan: links & checklist', () => {
+  it('editors manage links, viewers only read, URLs must be http(s)', async () => {
+    const [link] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(
+        `insert into public.trip_links (trip_id, category, title, url) values ($1, 'flight', 'Volo andata', 'https://example.com/booking/123') returning id`,
+        [tripId],
+      ),
+    )
+    await rejects(
+      as(db, EDITOR, (q) => q(`insert into public.trip_links (trip_id, title, url) values ($1, 'x', 'javascript:alert(1)')`, [tripId])),
+      /check constraint/,
+    )
+    await rejects(as(db, VIEWER, (q) => q(`insert into public.trip_links (trip_id, title) values ($1, 'x')`, [tripId])), /row-level security/)
+    expect(await as(db, VIEWER, (q) => q(`select id from public.trip_links`))).toHaveLength(1)
+    expect(await as(db, STRANGER, (q) => q(`select id from public.trip_links`))).toHaveLength(0)
+    expect(await as(db, VIEWER, (q) => q(`update public.trip_links set title = 'hack' where id = $1 returning id`, [link.id]))).toHaveLength(0)
+  })
+
+  it('checklist items go only to trip members and record when they are done', async () => {
+    const [item] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(
+        `insert into public.checklist_items (trip_id, kind, title, assignee_id) values ($1, 'book', 'Prenotare il traghetto', $2) returning id`,
+        [tripId, OWNER],
+      ),
+    )
+    await rejects(
+      as(db, EDITOR, (q) => q(`insert into public.checklist_items (trip_id, title, assignee_id) values ($1, 'x', $2)`, [tripId, STRANGER])),
+      /row-level security/,
+    )
+    const [done] = await as(db, OWNER, (q) =>
+      q<{ done_at: string | null }>(`update public.checklist_items set done = true where id = $1 returning done_at`, [item.id]),
+    )
+    expect(done.done_at).not.toBeNull()
+    const [undone] = await as(db, OWNER, (q) =>
+      q<{ done_at: string | null }>(`update public.checklist_items set done = false where id = $1 returning done_at`, [item.id]),
+    )
+    expect(undone.done_at).toBeNull()
+    await rejects(
+      as(db, OWNER, (q) => q(`update public.checklist_items set trip_id = gen_random_uuid() where id = $1`, [item.id])),
+      /permission denied/,
+    )
+    expect(await as(db, VIEWER, (q) => q(`update public.checklist_items set done = true returning id`))).toHaveLength(0)
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))

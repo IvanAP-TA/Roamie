@@ -17,7 +17,7 @@
     "destinations": "Mete",
     "map": "Mappa",
     "roulette": "Ruota",
-    "itinerary": "Itinerario",
+    "itinerary": "Piano",
     "group": "Gruppo"
   },
   "landing": {
@@ -412,6 +412,65 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "plan": {
+    "title": "Piano",
+    "tabs": {
+      "itinerary": "Itinerario",
+      "checklist": "Checklist",
+      "links": "Link"
+    },
+    "subtitle": {
+      "itinerary": "Le tappe, giorno per giorno.",
+      "checklist": "Cosa prenotare e cosa portare, e chi se ne occupa.",
+      "links": "Voli, alloggi e biglietti, tutti in un posto."
+    }
+  },
+  "checklist": {
+    "kinds": {
+      "book": "Da prenotare",
+      "pack": "Da portare"
+    },
+    "placeholder": {
+      "book": "Es. traghetto per le isole",
+      "pack": "Es. adattatore per le prese"
+    },
+    "add": "Aggiungi",
+    "addTo": "Aggiungi a «{{list}}»",
+    "progress": "{{done}} di {{total}} fatte",
+    "empty": "Ancora niente in lista.",
+    "assign": "Assegna a qualcuno",
+    "assignedTo": "Assegnata a {{name}}",
+    "nobody": "Nessuno",
+    "delete": "Elimina voce",
+    "markDone": "Segna come fatta",
+    "markTodo": "Segna come da fare",
+    "viewerHint": "Solo owner ed editor possono modificare la checklist."
+  },
+  "links": {
+    "add": "Aggiungi link",
+    "newTitle": "Nuovo link",
+    "editTitle": "Modifica link",
+    "categories": {
+      "flight": "Voli",
+      "stay": "Alloggi",
+      "ticket": "Biglietti",
+      "transport": "Trasporti",
+      "other": "Altro"
+    },
+    "title": "Titolo",
+    "titlePlaceholder": "Volo Milano–Lisbona",
+    "url": "Link",
+    "urlInvalid": "Inserisci un indirizzo web valido (http o https).",
+    "note": "Note",
+    "notePlaceholder": "Codice di prenotazione, orari, chi ha pagato…",
+    "open": "Apri {{title}}",
+    "delete": "Elimina link",
+    "deleteTitle": "Eliminare «{{title}}»?",
+    "deleteBody": "Il link verrà rimosso per tutto il gruppo.",
+    "emptyTitle": "Nessun link salvato",
+    "emptyBody": "Salvate qui le prenotazioni di voli, alloggi e biglietti: tutto il gruppo le ritrova subito.",
+    "privacyNote": "Visibili solo ai membri del viaggio. Non incollate password o dati di pagamento."
+  },
   "legal": {
     "updated": "Ultimo aggiornamento: {{date}}",
     "contactFallback": "l'indirizzo email indicato dal gestore del servizio",
@@ -430,7 +489,7 @@
             "Indirizzo email: usato solo per l'autenticazione, non è visibile agli altri membri",
             "Nome del profilo Google: visibile ai membri dei viaggi di cui fai parte",
             "Immagine del profilo Google: visibile ai membri dei viaggi di cui fai parte",
-            "I contenuti che crei: viaggi, mete, voti, commenti e tappe dell'itinerario"
+            "I contenuti che crei: viaggi, mete, punti, commenti, tappe dell'itinerario, link utili e voci della checklist"
           ]
         },
         {

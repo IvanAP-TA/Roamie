@@ -21,12 +21,14 @@ import { Switch } from '@/components/ui/misc'
 
 /** GDPR data portability: everything tied to the user, as a JSON download. */
 async function exportMyData(userId: string, email: string | undefined) {
-  const [profile, memberships, destinations, votes, comments] = await Promise.all([
+  const [profile, memberships, destinations, votes, comments, links, checklist] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', userId).single(),
     supabase.from('trip_members').select('role, joined_at, trip:trips(id, name, description, created_at)').eq('user_id', userId),
     supabase.from('destinations').select('*').eq('created_by', userId),
     supabase.from('votes').select('destination_id, points, created_at').eq('user_id', userId),
     supabase.from('comments').select('destination_id, content, created_at').eq('user_id', userId),
+    supabase.from('trip_links').select('trip_id, category, title, url, note, created_at').eq('created_by', userId),
+    supabase.from('checklist_items').select('trip_id, kind, title, done, created_at').eq('created_by', userId),
   ])
   const payload = {
     exported_at: new Date().toISOString(),
@@ -36,6 +38,8 @@ async function exportMyData(userId: string, email: string | undefined) {
     destinations_proposed: unwrap(destinations),
     votes: unwrap(votes),
     comments: unwrap(comments),
+    links_added: unwrap(links),
+    checklist_items_added: unwrap(checklist),
   }
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)

@@ -82,6 +82,17 @@ export default function PreviewTrip() {
     qc.setQueryDefaults(['comments'], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryData(keys.destinations(TRIP.id), DESTINATIONS)
     qc.setQueryData(keys.itinerary(TRIP.id), DAYS)
+    qc.setQueryDefaults(['trip', TRIP.id, 'links'], { staleTime: Infinity })
+    qc.setQueryData(keys.links(TRIP.id), [
+      { id: 'l1', trip_id: TRIP.id, category: 'flight', title: 'Volo Milano–Lisbona', url: 'https://www.example.com/booking/ABC123', note: 'Codice ABC123 · bagaglio da stiva incluso', created_by: 'u1', created_at: '2026-09-10T10:00:00Z' },
+      { id: 'l2', trip_id: TRIP.id, category: 'stay', title: 'Appartamento ad Alfama', url: 'https://www.example.org/stay/42', note: null, created_by: 'u2', created_at: '2026-09-11T10:00:00Z' },
+    ])
+    qc.setQueryDefaults(['trip', TRIP.id, 'checklist'], { staleTime: Infinity })
+    qc.setQueryData(keys.checklist(TRIP.id), [
+      { id: 'c1', trip_id: TRIP.id, kind: 'book', title: 'Prenotare il tram 28 all’alba', assignee_id: 'u2', done: false, done_at: null, created_by: 'u1', created_at: '2026-09-10T10:00:00Z' },
+      { id: 'c2', trip_id: TRIP.id, kind: 'book', title: 'Biglietti per il Mosteiro dos Jerónimos', assignee_id: null, done: true, done_at: '2026-09-12T10:00:00Z', created_by: 'u1', created_at: '2026-09-10T11:00:00Z' },
+      { id: 'c3', trip_id: TRIP.id, kind: 'pack', title: 'Scarpe comode per le salite', assignee_id: 'u3', done: false, done_at: null, created_by: 'u3', created_at: '2026-09-11T10:00:00Z' },
+    ])
     qc.setQueryData(keys.comments('d1'), [
       { id: 'c1', destination_id: 'd1', user_id: 'u3', content: 'Io ci starei una settimana intera!', created_at: '2026-09-09T10:00:00Z', author: MEMBERS[2].profile },
       { id: 'c2', destination_id: 'd1', user_id: 'u1', content: 'Voli ad agosto ancora bassi 👀', created_at: '2026-09-12T10:00:00Z', author: MEMBERS[0].profile },
