@@ -73,6 +73,7 @@
   --chart-rain: #2f6db5;
 
   --glass: rgb(255 249 242 / 0.56);
+  --glass-solid: rgb(255 249 242 / 0.86);
   --glass-strong: rgb(255 249 242 / 0.84);
   --glass-border: rgb(255 255 255 / 0.6);
   --glass-highlight: rgb(255 255 255 / 0.7);
@@ -121,6 +122,7 @@
     --chart-rain: #4a8fd6;
 
     --glass: rgb(44 29 35 / 0.55);
+    --glass-solid: rgb(44 29 35 / 0.9);
     --glass-strong: rgb(40 27 32 / 0.86);
     --glass-border: rgb(255 225 205 / 0.1);
     --glass-highlight: rgb(255 230 210 / 0.08);
@@ -305,9 +307,33 @@
 .aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(70px);
   opacity: 0.55;
-  will-change: transform;
+}
+
+@media (min-width: 768px) and (pointer: fine) {
+  .aurora-blob {
+    will-change: transform;
+  }
+}
+
+/* Phones and tablets: no moving background, no blend mode, no backdrop blur on cards. Each of these makes the
+   GPU repaint large areas on every scroll frame, which mid-range Android phones feel as lag. */
+@media (pointer: coarse) {
+  .aurora-blob {
+    animation: none !important;
+  }
+  .grain::after {
+    display: none;
+  }
+  .glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--glass-solid);
+  }
+  .glass-strong {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

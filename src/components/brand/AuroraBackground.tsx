@@ -1,13 +1,16 @@
 import { cn } from '@/lib/utils'
 
-/** Slow-drifting sunset blobs + film grain. Pure CSS animation: cheap on phones, off with reduced motion. */
+/**
+ * Slow-drifting sunset blobs + film grain. The blobs are soft radial gradients rather than blurred circles
+ * (a large blur filter is expensive to paint), and on touch devices they stand still (see index.css).
+ */
 export function AuroraBackground({ className }: { className?: string }) {
   return (
     <div aria-hidden className={cn('grain pointer-events-none fixed inset-0 -z-10 overflow-hidden', className)}>
       <div
         className="aurora-blob"
         style={{
-          background: 'var(--aurora-1)',
+          background: 'radial-gradient(closest-side, var(--aurora-1), transparent)',
           width: '72vmax',
           height: '72vmax',
           top: '-30vmax',
@@ -18,7 +21,7 @@ export function AuroraBackground({ className }: { className?: string }) {
       <div
         className="aurora-blob"
         style={{
-          background: 'var(--aurora-2)',
+          background: 'radial-gradient(closest-side, var(--aurora-2), transparent)',
           width: '58vmax',
           height: '58vmax',
           top: '-12vmax',
@@ -30,7 +33,7 @@ export function AuroraBackground({ className }: { className?: string }) {
       <div
         className="aurora-blob"
         style={{
-          background: 'var(--aurora-3)',
+          background: 'radial-gradient(closest-side, var(--aurora-3), transparent)',
           width: '52vmax',
           height: '52vmax',
           bottom: '-26vmax',
@@ -42,7 +45,7 @@ export function AuroraBackground({ className }: { className?: string }) {
       <div
         className="aurora-blob"
         style={{
-          background: 'var(--aurora-4)',
+          background: 'radial-gradient(closest-side, var(--aurora-4), transparent)',
           width: '40vmax',
           height: '40vmax',
           bottom: '-18vmax',
