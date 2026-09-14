@@ -72,6 +72,14 @@ describe('bestMonthsLabel', () => {
   })
 })
 
+describe('guide preview images', () => {
+  it('exist for every guide and language (run npm run og-image after adding one)', () => {
+    const images = new Set(Object.keys(import.meta.glob('/public/og/guides/*.png')))
+    const missing = GUIDES.flatMap((guide) => langs.map((lang) => `/public/og/guides/${guide.id}-${lang}.png`)).filter((file) => !images.has(file))
+    expect(missing).toEqual([])
+  })
+})
+
 describe('guide SEO', () => {
   it('links every language and describes the article', () => {
     const t = i18n.getFixedT('es')
@@ -79,6 +87,8 @@ describe('guide SEO', () => {
     expect(howTo.canonical).toBe(`https://roamie.org/es/guias/${GUIDES[0].slug.es}`)
     expect(howTo.alternates.map((a) => a.hreflang)).toEqual(['it', 'en', 'es', 'x-default'])
     expect(howTo.jsonLd.map((d) => (d as { '@type': string })['@type'])).toEqual(['Article', 'HowTo', 'BreadcrumbList'])
+    expect(howTo.ogImage).toBe(`https://roamie.org/og/guides/${GUIDES[0].id}-es.png`)
+    expect(howTo.ogImageAlt).toBe(GUIDES[0].title.es)
 
     const index = guidesIndexMeta('it', i18n.getFixedT('it'))
     expect(index.title).not.toContain('seo.')
