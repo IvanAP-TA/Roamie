@@ -21,6 +21,7 @@ import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
 import { totalPoints } from '@/lib/roulette'
+import { keepOrder } from '@/lib/stableOrder'
 import { MOODS, type Destination, type DestinationStatus, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -30,7 +31,7 @@ const MAX_COMPARE = 3
 export default function DestinationsTab() {
   const { t } = useTranslation()
   const { trip, members, canEdit } = useTripContext()
-  const { data: destinations, isLoading, isError, refetch } = useDestinations(trip.id)
+  const { data: destinations, isLoading, isError, isFetchedAfterMount, refetch } = useDestinations(trip.id)
   const [, setParams] = useSearchParams()
   const [status, setStatus] = useState<DestinationStatus>('proposed')
   const [moodFilter, setMoodFilter] = useState<Mood | null>(null)
@@ -80,12 +81,28 @@ export default function DestinationsTab() {
     [destinations],
   )
 
+  // The order is settled once fresh data arrives, and again only when the tab, filter or sort changes (or the page is
+  // opened again): votes coming in, ours or other members', don't reshuffle the cards under the finger. A card moving
+  // up also dragged the page with it, because the browser keeps the element being tapped in view.
+  const frozenOrder = useRef<{ view: string; ids: string[] } | null>(null)
   const list = useMemo(() => {
     const filtered = (destinations ?? []).filter((d) => d.status === status && (!moodFilter || d.mood.includes(moodFilter)))
-    return sort === 'votes'
-      ? [...filtered].sort((a, b) => totalPoints(b) - totalPoints(a) || b.created_at.localeCompare(a.created_at))
-      : filtered
-  }, [destinations, status, moodFilter, sort])
+    const sorted =
+      sort === 'votes'
+        ? [...filtered].sort((a, b) => totalPoints(b) - totalPoints(a) || b.created_at.localeCompare(a.created_at))
+        : filtered
+    const view = `${status}|${moodFilter ?? ''}|${sort}`
+    const frozen = frozenOrder.current
+
+    if (!frozen || frozen.view !== view || !isFetchedAfterMount) {
+      frozenOrder.current = isFetchedAfterMount ? { view, ids: sorted.map((d) => d.id) } : null
+      return sorted
+    }
+    // Destinations added meanwhile go first, so a new proposal is in sight.
+    const ordered = keepOrder(sorted, frozen.ids)
+    frozenOrder.current = { view, ids: ordered.map((d) => d.id) }
+    return ordered
+  }, [destinations, status, moodFilter, sort, isFetchedAfterMount])
 
   // In the order they were picked; destinations deleted meanwhile drop out.
   const compared = selected.map((id) => destinations?.find((d) => d.id === id)).filter((d): d is Destination => Boolean(d))
@@ -169,13 +186,24 @@ export default function DestinationsTab() {
                 </button>
               ))}
             </div>
-            <div className="hidden shrink-0 gap-2 sm:flex">{viewTools}</div>
+            <div className="hidden shrink-0 gap-2 md:flex">{viewTools}</div>
             {canEdit && (
               <Button className="hidden md:inline-flex" onClick={() => setAdding(true)}>
                 <Plus />
                 {t('destination.add')}
               </Button>
             )}
+          </div>
+
+          {/* Phones and small tablets: the status tabs fill the row above, so proposing, compare & sort sit here. */}
+          <div className="flex items-center gap-2 md:hidden">
+            {canEdit && !selecting && (
+              <Button className="rounded-full" onClick={() => setAdding(true)}>
+                <MapPinPlus />
+                {t('destination.propose')}
+              </Button>
+            )}
+            <div className="ml-auto flex shrink-0 gap-2">{viewTools}</div>
           </div>
 
           {usedMoods.length > 1 && (
@@ -216,8 +244,6 @@ export default function DestinationsTab() {
                 {t('destination.viewerHint')}
               </p>
             )}
-            {/* On phones the status tabs take the whole first row, so compare & sort move down here. */}
-            <div className="ml-auto flex shrink-0 gap-2 sm:hidden">{viewTools}</div>
           </div>
         </div>
 
@@ -270,22 +296,7 @@ export default function DestinationsTab() {
         )}
       </div>
 
-      {/* Mobile FAB, above the dock in the thumb zone */}
-      {canEdit && !selecting && (
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', delay: 0.3 }}
-          className="fixed right-4 bottom-[calc(max(env(safe-area-inset-bottom),0.75rem)+5.75rem)] z-30 md:hidden"
-        >
-          <Button size="lg" className="h-14 rounded-full pr-6 pl-5 shadow-lift" onClick={() => setAdding(true)}>
-            <MapPinPlus className="size-5" />
-            {t('destination.propose')}
-          </Button>
-        </motion.div>
-      )}
-
-      {/* Compare bar, in the same thumb zone */}
+      {/* Compare bar, above the dock in the thumb zone */}
       <AnimatePresence>
         {selecting && (
           <motion.div
