@@ -22,6 +22,7 @@ import { AttributionText } from '@/components/media/Attribution'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl, PointsLeftBadge } from './PointsControl'
 import { ClimateCard } from './ClimateCard'
+import { RatingSection } from './RatingSection'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
 import type { Destination, DestinationStatus } from '@/lib/types'
@@ -188,6 +189,8 @@ export function DestinationDetailSheet() {
               )}
             </div>
           )}
+
+          {d.status === 'visited' && <RatingSection destination={d} className="mx-2" />}
 
           {d.lat != null && d.lng != null && <ClimateCard lat={d.lat} lng={d.lng} className="mx-2" />}
 

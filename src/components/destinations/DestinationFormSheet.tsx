@@ -36,6 +36,7 @@ export function DestinationFormSheet({
   const [picking, setPicking] = useState(false)
   const [name, setName] = useState('')
   const [country, setCountry] = useState<string | null>(null)
+  const [countryCode, setCountryCode] = useState<string | null>(null)
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null)
 
   // Photo: preview + an optional picker, remounted (key) for each new search.
@@ -51,6 +52,7 @@ export function DestinationFormSheet({
     setPicking(false)
     setName(destination?.name ?? '')
     setCountry(destination?.country ?? null)
+    setCountryCode(destination?.country_code ?? null)
     setCoords(destination?.lat != null && destination.lng != null ? { lat: destination.lat, lng: destination.lng } : null)
     setImage(destination?.image_url ? { url: destination.image_url, attribution: destination.image_attribution ?? '' } : null)
     setPicker(null)
@@ -65,6 +67,7 @@ export function DestinationFormSheet({
   const applyPlace = (place: Place) => {
     setName(place.name)
     setCountry(place.country)
+    setCountryCode(place.countryCode)
     setCoords({ lat: place.lat, lng: place.lng })
     // Show the photos of the new place; pre-select the first one only if there's no photo yet.
     openPicker(place.name, !image)
@@ -81,6 +84,7 @@ export function DestinationFormSheet({
     const input: DestinationInput = {
       name: name.trim(),
       country: country?.trim() || null,
+      country_code: countryCode && /^[A-Z]{2}$/.test(countryCode) ? countryCode : null,
       lat: coords?.lat ?? null,
       lng: coords?.lng ?? null,
       image_url: image?.url ?? null,
@@ -126,7 +130,16 @@ export function DestinationFormSheet({
           </div>
           <div className="col-span-2 sm:col-span-1 sm:w-40">
             <Label htmlFor="dest-country">{t('destForm.country')}</Label>
-            <Input id="dest-country" value={country ?? ''} onChange={(e) => setCountry(e.target.value)} placeholder="Portugal" />
+            <Input
+              id="dest-country"
+              value={country ?? ''}
+              onChange={(e) => {
+                setCountry(e.target.value)
+                // A hand-typed country no longer matches the code from the place search.
+                setCountryCode(null)
+              }}
+              placeholder="Portugal"
+            />
           </div>
           <p className="col-span-2 inline-flex items-center gap-1.5 px-1 text-xs text-muted-foreground">
             <LocateFixed className="size-3.5" />

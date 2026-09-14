@@ -1,10 +1,10 @@
 import { Outlet, useNavigate } from 'react-router-dom'
-import { Luggage, Plus, UserRound } from 'lucide-react'
+import { Luggage, Plus, Stamp, UserRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { DockNav } from './DockNav'
 
-/** Shell for the authenticated, non-trip screens (trip list, profile). */
+/** Shell for the authenticated, non-trip screens (trip list, passport, profile). */
 export function AppShell() {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -20,6 +20,7 @@ export function AppShell() {
         items={[
           { to: '/trips', label: t('nav.trips'), icon: Luggage, end: true },
           { label: t('nav.new'), icon: Plus, primary: true, onClick: () => navigate('/trips?new=1') },
+          { to: '/passport', label: t('nav.passport'), icon: Stamp },
           { to: '/profile', label: t('nav.profile'), icon: UserRound },
         ]}
       />

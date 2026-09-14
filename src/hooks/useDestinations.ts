@@ -5,7 +5,7 @@ import { keys, unwrap } from './useTrips'
 import type { BudgetLevel, Destination, DestinationComment, DestinationStatus, Mood } from '@/lib/types'
 
 export const DESTINATION_SELECT =
-  '*, votes(id, user_id, points), comments(count), creator:profiles!destinations_created_by_fkey(display_name, avatar_url)'
+  '*, votes(id, user_id, points), reviews:destination_reviews(id, user_id, rating), comments(count), creator:profiles!destinations_created_by_fkey(display_name, avatar_url)'
 
 const COMMENT_SELECT = 'id, destination_id, user_id, content, created_at, author:profiles(display_name, avatar_url)'
 
@@ -26,6 +26,7 @@ export function useDestinations(tripId: string) {
 export interface DestinationInput {
   name: string
   country: string | null
+  country_code: string | null
   lat: number | null
   lng: number | null
   image_url: string | null
@@ -103,6 +104,37 @@ export function useSetPoints(tripId: string) {
     },
     onError: (_e, _v, ctx) => qc.setQueryData(key, ctx?.previous),
     onSettled: () => qc.invalidateQueries({ queryKey: key }),
+  })
+}
+
+/** A member's final rating of a visited destination (0 removes it); optimistic like points. */
+export function useSetRating(tripId: string) {
+  const qc = useQueryClient()
+  const { user } = useAuth()
+  const key = keys.destinations(tripId)
+
+  return useMutation({
+    mutationFn: async ({ destinationId, rating }: { destinationId: string; rating: number }) => {
+      unwrap(await supabase.rpc('set_rating', { p_destination_id: destinationId, p_rating: rating }))
+    },
+    onMutate: async ({ destinationId, rating }) => {
+      await qc.cancelQueries({ queryKey: key })
+      const previous = qc.getQueryData<Destination[]>(key)
+      qc.setQueryData<Destination[]>(key, (list) =>
+        list?.map((d) => {
+          if (d.id !== destinationId || !user) return d
+          const existing = d.reviews.find((r) => r.user_id === user.id)
+          const others = d.reviews.filter((r) => r.user_id !== user.id)
+          return { ...d, reviews: rating > 0 ? [...others, { id: existing?.id ?? `optimistic-${d.id}`, user_id: user.id, rating }] : others }
+        }),
+      )
+      return { previous }
+    },
+    onError: (_e, _v, ctx) => qc.setQueryData(key, ctx?.previous),
+    onSettled: () => {
+      void qc.invalidateQueries({ queryKey: key })
+      void qc.invalidateQueries({ queryKey: ['passport'] })
+    },
   })
 }
 

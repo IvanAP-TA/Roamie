@@ -48,6 +48,13 @@ export interface VoteSummary {
   points: number
 }
 
+/** A member's final rating (1..5) of a visited destination. */
+export interface ReviewSummary {
+  id: string
+  user_id: string
+  rating: number
+}
+
 export interface Destination {
   id: string
   trip_id: string
@@ -67,6 +74,10 @@ export interface Destination {
   votes: VoteSummary[]
   comments: { count: number }[]
   creator: ProfileSummary | null
+  /** ISO 3166-1 alpha-2, from the place search */
+  country_code: string | null
+  visited_at: string | null
+  reviews: ReviewSummary[]
 }
 
 export interface DestinationComment {

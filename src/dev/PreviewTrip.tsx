@@ -19,6 +19,7 @@ import MapTab from '@/pages/trip/MapTab'
 import RouletteTab from '@/pages/trip/RouletteTab'
 import ItineraryTab from '@/pages/trip/ItineraryTab'
 import GroupTab from '@/pages/trip/GroupTab'
+import PassportPage from '@/pages/PassportPage'
 import type { Destination, ItineraryDay, Trip, TripMember } from '@/lib/types'
 
 const TRIP: Trip = {
@@ -50,6 +51,9 @@ const base = {
   created_by: 'u2',
   comments: [{ count: 2 }],
   creator: MEMBERS[1].profile,
+  country_code: null,
+  visited_at: null,
+  reviews: [],
 }
 
 const DESTINATIONS: Destination[] = [
@@ -58,6 +62,8 @@ const DESTINATIONS: Destination[] = [
   { ...base, id: 'd3', name: 'Oaxaca', country: 'Messico', lat: 17.06, lng: -96.72, mood: ['food_wine', 'culture'], budget_level: 1, expectations: 'Mole, mezcal e mercati.', status: 'proposed', created_at: '2026-09-07T10:00:00Z', votes: votes([3, 2]) },
   { ...base, id: 'd4', name: 'Berlino', country: 'Germania', lat: 52.52, lng: 13.4, mood: ['nightlife'], budget_level: 2, expectations: null, status: 'proposed', created_at: '2026-09-08T10:00:00Z', votes: votes([]) },
   { ...base, id: 'd5', name: 'Kyoto', country: 'Giappone', lat: 35.01, lng: 135.77, mood: ['culture', 'romantic'], budget_level: 3, expectations: 'Templi, giardini zen e sentieri tra i bambù.', status: 'selected', selected_at: '2026-09-10T18:00:00Z', created_at: '2026-09-02T10:00:00Z', votes: votes([5, 4, 3]) },
+  { ...base, id: 'd6', name: 'Porto', country: 'Portogallo', country_code: 'PT', lat: 41.15, lng: -8.61, mood: ['food_wine'], budget_level: 1, expectations: null, status: 'visited', selected_at: '2026-06-01T10:00:00Z', visited_at: '2026-07-10T10:00:00Z', created_at: '2026-05-02T10:00:00Z', votes: [], reviews: [{ id: 'r1', user_id: 'u2', rating: 5 }, { id: 'r2', user_id: 'u3', rating: 4 }] },
+  { ...base, id: 'd7', name: 'Siviglia', country: 'Spagna', country_code: 'ES', lat: 37.39, lng: -5.98, mood: ['culture'], budget_level: 2, expectations: null, status: 'visited', selected_at: '2025-03-01T10:00:00Z', visited_at: '2025-04-12T10:00:00Z', created_at: '2025-02-02T10:00:00Z', votes: [] },
 ]
 
 const DAYS: ItineraryDay[] = [
@@ -87,6 +93,10 @@ export default function PreviewTrip() {
     qc.setQueryDefaults(['trip', TRIP.id], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryDefaults(['comments'], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryData(keys.destinations(TRIP.id), DESTINATIONS)
+    qc.setQueryData(
+      ['passport', undefined],
+      DESTINATIONS.filter((d) => d.status === 'visited').map((d) => ({ ...d, trip: { id: TRIP.id, name: TRIP.name } })),
+    )
     qc.setQueryData(keys.itinerary(TRIP.id), DAYS)
     qc.setQueryDefaults(['trip', TRIP.id, 'links'], { staleTime: Infinity })
     qc.setQueryData(keys.links(TRIP.id), [
@@ -105,6 +115,15 @@ export default function PreviewTrip() {
     ])
     return true
   })
+
+  if (tab === 'passport') {
+    return (
+      <div className="relative min-h-dvh pb-32">
+        <AuroraBackground />
+        <PassportPage />
+      </div>
+    )
+  }
 
   if (tab === 'trips') {
     return (

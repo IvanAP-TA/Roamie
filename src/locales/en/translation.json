@@ -14,6 +14,7 @@
     "trips": "Trips",
     "new": "New",
     "profile": "Profile",
+    "passport": "Passport",
     "destinations": "Places",
     "map": "Map",
     "roulette": "Wheel",
@@ -412,6 +413,33 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "passport": {
+    "eyebrow": "Trips you've taken",
+    "title": "Passport",
+    "emptyTitle": "No stamps yet",
+    "emptyBody": "Mark a destination in your trips as visited: it will show up here, with a map of the countries you've reached.",
+    "goTrips": "Go to trips",
+    "allTrips": "All trips",
+    "statCountries_one": "country",
+    "statCountries_other": "countries",
+    "statPlaces_one": "place visited",
+    "statPlaces_other": "places visited",
+    "statTrips_one": "trip",
+    "statTrips_other": "trips",
+    "map": "Map of visited places",
+    "countries": "Countries reached",
+    "stamps": "Stamps",
+    "notRated": "Not rated yet"
+  },
+  "review": {
+    "title": "How was it?",
+    "prompt": "Give this place your final rating.",
+    "yours": "Your rating",
+    "stars_one": "{{count}} star",
+    "stars_other": "{{count}} stars",
+    "average_one": "{{value}} ★ · {{count}} rating",
+    "average_other": "{{value}} ★ · {{count}} ratings"
+  },
   "compare": {
     "toggle": "Compare places",
     "selectHint": "Tap 2 or 3 places to compare",
@@ -541,7 +569,7 @@
             "Email address: used for authentication only, never shown to other members",
             "Google profile name: visible to members of the trips you belong to",
             "Google profile picture: visible to members of the trips you belong to",
-            "Content you create: trips, destinations, points, comments, itinerary stops, useful links and checklist items"
+            "Content you create: trips, destinations, points, comments, itinerary stops, useful links, checklist items and ratings of visited places"
           ]
         },
         {

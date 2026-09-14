@@ -8,6 +8,7 @@ import AuthCallbackPage from '@/pages/AuthCallbackPage'
 
 const TripsPage = lazy(() => import('@/pages/TripsPage'))
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
+const PassportPage = lazy(() => import('@/pages/PassportPage'))
 const JoinPage = lazy(() => import('@/pages/JoinPage'))
 const LegalPage = lazy(() => import('@/pages/LegalPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
@@ -37,6 +38,7 @@ export default function App() {
         <Route element={<RequireAuth />}>
           <Route element={<AppShell />}>
             <Route path="/trips" element={<TripsPage />} />
+            <Route path="/passport" element={<PassportPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
           <Route path="/trips/:tripId" element={<TripLayout />}>

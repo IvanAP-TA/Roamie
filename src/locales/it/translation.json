@@ -14,6 +14,7 @@
     "trips": "Viaggi",
     "new": "Nuovo",
     "profile": "Profilo",
+    "passport": "Passaporto",
     "destinations": "Mete",
     "map": "Mappa",
     "roulette": "Ruota",
@@ -412,6 +413,33 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "passport": {
+    "eyebrow": "I viaggi fatti",
+    "title": "Passaporto",
+    "emptyTitle": "Ancora nessun timbro",
+    "emptyBody": "Segna come visitata una meta dei tuoi viaggi: comparirà qui, con la mappa dei paesi raggiunti.",
+    "goTrips": "Vai ai viaggi",
+    "allTrips": "Tutti i viaggi",
+    "statCountries_one": "paese",
+    "statCountries_other": "paesi",
+    "statPlaces_one": "meta visitata",
+    "statPlaces_other": "mete visitate",
+    "statTrips_one": "viaggio",
+    "statTrips_other": "viaggi",
+    "map": "Mappa dei luoghi visitati",
+    "countries": "Paesi raggiunti",
+    "stamps": "Timbri",
+    "notRated": "Non ancora votata"
+  },
+  "review": {
+    "title": "Com'è andata?",
+    "prompt": "Dai il tuo voto finale a questa meta.",
+    "yours": "Il tuo voto",
+    "stars_one": "{{count}} stella",
+    "stars_other": "{{count}} stelle",
+    "average_one": "{{value}} ★ · {{count}} voto",
+    "average_other": "{{value}} ★ · {{count}} voti"
+  },
   "compare": {
     "toggle": "Confronta mete",
     "selectHint": "Tocca 2 o 3 mete da confrontare",
@@ -541,7 +569,7 @@
             "Indirizzo email: usato solo per l'autenticazione, non è visibile agli altri membri",
             "Nome del profilo Google: visibile ai membri dei viaggi di cui fai parte",
             "Immagine del profilo Google: visibile ai membri dei viaggi di cui fai parte",
-            "I contenuti che crei: viaggi, mete, punti, commenti, tappe dell'itinerario, link utili e voci della checklist"
+            "I contenuti che crei: viaggi, mete, punti, commenti, tappe dell'itinerario, link utili, voci della checklist e valutazioni delle mete visitate"
           ]
         },
         {

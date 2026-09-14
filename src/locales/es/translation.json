@@ -14,6 +14,7 @@
     "trips": "Viajes",
     "new": "Nuevo",
     "profile": "Perfil",
+    "passport": "Pasaporte",
     "destinations": "Destinos",
     "map": "Mapa",
     "roulette": "Ruleta",
@@ -412,6 +413,33 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "passport": {
+    "eyebrow": "Los viajes hechos",
+    "title": "Pasaporte",
+    "emptyTitle": "Todavía no hay sellos",
+    "emptyBody": "Marca como visitado un destino de tus viajes: aparecerá aquí, con el mapa de los países alcanzados.",
+    "goTrips": "Ir a los viajes",
+    "allTrips": "Todos los viajes",
+    "statCountries_one": "país",
+    "statCountries_other": "países",
+    "statPlaces_one": "destino visitado",
+    "statPlaces_other": "destinos visitados",
+    "statTrips_one": "viaje",
+    "statTrips_other": "viajes",
+    "map": "Mapa de los lugares visitados",
+    "countries": "Países alcanzados",
+    "stamps": "Sellos",
+    "notRated": "Sin valorar"
+  },
+  "review": {
+    "title": "¿Qué tal fue?",
+    "prompt": "Da tu valoración final a este destino.",
+    "yours": "Tu valoración",
+    "stars_one": "{{count}} estrella",
+    "stars_other": "{{count}} estrellas",
+    "average_one": "{{value}} ★ · {{count}} valoración",
+    "average_other": "{{value}} ★ · {{count}} valoraciones"
+  },
   "compare": {
     "toggle": "Comparar destinos",
     "selectHint": "Toca 2 o 3 destinos para compararlos",
@@ -541,7 +569,7 @@
             "Dirección de email: usada solo para la autenticación, nunca visible para otros miembros",
             "Nombre del perfil de Google: visible para los miembros de tus viajes",
             "Foto del perfil de Google: visible para los miembros de tus viajes",
-            "El contenido que creas: viajes, destinos, puntos, comentarios, etapas del itinerario, enlaces útiles y elementos de la checklist"
+            "El contenido que creas: viajes, destinos, puntos, comentarios, etapas del itinerario, enlaces útiles, elementos de la checklist y valoraciones de los destinos visitados"
           ]
         },
         {

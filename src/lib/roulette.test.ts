@@ -21,6 +21,9 @@ const dest = (id: string, points: number[], status: Destination['status'] = 'pro
   votes: points.map((p, i) => ({ id: `${id}-${i}`, user_id: `u${i}`, points: p })),
   comments: [{ count: 0 }],
   creator: null,
+  country_code: null,
+  visited_at: null,
+  reviews: [],
 })
 
 describe('roulette', () => {

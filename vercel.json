@@ -10,6 +10,7 @@
     { "source": "/trips", "destination": "/shell" },
     { "source": "/trips/:path*", "destination": "/shell" },
     { "source": "/profile", "destination": "/shell" },
+    { "source": "/passport", "destination": "/shell" },
     { "source": "/join", "destination": "/shell" },
     { "source": "/join/:path*", "destination": "/shell" },
     { "source": "/auth/:path*", "destination": "/shell" }

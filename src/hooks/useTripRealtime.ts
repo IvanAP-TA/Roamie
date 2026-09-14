@@ -70,6 +70,14 @@ export function useTripRealtime(tripId: string | undefined) {
           list.some((d) => d.id === row.destination_id) || list.some((d) => d.votes.some((v) => v.id === row.id))
         if (relevant) invalidate(keys.destinations(tripId))
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'destination_reviews' }, (p: Payload) => {
+        const row = rowOf(p)
+        const list = destinations()
+        if (list.some((d) => d.id === row.destination_id) || list.some((d) => d.reviews?.some((r) => r.id === row.id))) {
+          invalidate(keys.destinations(tripId))
+          invalidate(['passport'])
+        }
+      })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'comments' }, (p: Payload) => {
         const row = rowOf(p)
         if (typeof row.destination_id === 'string' && destinations().some((d) => d.id === row.destination_id)) {

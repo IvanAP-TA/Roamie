@@ -385,6 +385,39 @@ describe('plan: links & checklist', () => {
   })
 })
 
+describe('passport: visits and ratings', () => {
+  it('records when a destination is visited and keeps country codes valid', async () => {
+    const [visited] = await as(db, OWNER, (q) =>
+      q<{ visited_at: string | null }>(`update public.destinations set status = 'visited', country_code = 'PT' where id = $1 returning visited_at`, [destId]),
+    )
+    expect(visited.visited_at).not.toBeNull()
+    await rejects(as(db, OWNER, (q) => q(`update public.destinations set country_code = 'Portugal' where id = $1`, [destId])), /check constraint/)
+  })
+
+  it('members rate visited destinations only, one rating each', async () => {
+    const rate = (uid: string, id: string, rating: number) => as(db, uid, (q) => q(`select public.set_rating($1, $2)`, [id, rating]))
+    await rate(VIEWER, destId, 4)
+    await rate(VIEWER, destId, 5)
+    await rate(OWNER, destId, 3)
+    const rows = await as(db, EDITOR, (q) =>
+      q<{ rating: number }>(`select rating from public.destination_reviews where destination_id = $1 order by rating`, [destId]),
+    )
+    expect(rows.map((r) => r.rating)).toEqual([3, 5])
+
+    const [proposed] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Oslo') returning id`, [tripId]),
+    )
+    await rejects(rate(EDITOR, proposed.id, 4), /row-level security/)
+    await rejects(rate(STRANGER, destId, 4), /row-level security/)
+    await rejects(rate(VIEWER, destId, 6), /invalid_rating/)
+    expect(await as(db, STRANGER, (q) => q(`select id from public.destination_reviews`))).toHaveLength(0)
+
+    await rate(OWNER, destId, 0)
+    expect(await as(db, OWNER, (q) => q(`select id from public.destination_reviews where user_id = $1`, [OWNER]))).toHaveLength(0)
+    await as(db, EDITOR, (q) => q(`delete from public.destinations where id = $1`, [proposed.id]))
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))
