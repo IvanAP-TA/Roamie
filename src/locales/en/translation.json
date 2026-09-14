@@ -422,6 +422,18 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "install": {
+    "button": "Install the app",
+    "rowHint": "An icon on your home screen, full screen with no browser bar",
+    "cardTitle": "Roamie on your phone",
+    "cardBody": "Install the app: it opens full screen, with no browser bar, from its own icon on your home screen.",
+    "dismiss": "Not now",
+    "iosTitle": "Add Roamie to your Home Screen",
+    "iosBody": "On iPhone and iPad the app installs from Safari in three taps.",
+    "iosStep1": "Tap the Share button (the square with an arrow pointing up).",
+    "iosStep2": "Scroll down and choose “Add to Home Screen”.",
+    "iosStep3": "Confirm with “Add”: Roamie will appear among your apps."
+  },
   "guides": {
     "eyebrow": "Travel guides",
     "indexTitle": "Ideas for your next group trip",

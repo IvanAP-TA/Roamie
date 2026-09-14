@@ -422,6 +422,18 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "install": {
+    "button": "Instalar la app",
+    "rowHint": "Un icono en tu pantalla de inicio, a pantalla completa sin barra del navegador",
+    "cardTitle": "Roamie en tu móvil",
+    "cardBody": "Instala la app: se abre a pantalla completa, sin barra del navegador, desde su icono en la pantalla de inicio.",
+    "dismiss": "Ahora no",
+    "iosTitle": "Añade Roamie a la pantalla de inicio",
+    "iosBody": "En iPhone y iPad la app se instala desde Safari en tres toques.",
+    "iosStep1": "Toca el botón Compartir (el cuadrado con la flecha hacia arriba).",
+    "iosStep2": "Desplázate y elige «Añadir a pantalla de inicio».",
+    "iosStep3": "Confirma con «Añadir»: Roamie aparecerá entre tus apps."
+  },
   "guides": {
     "eyebrow": "Guías de viaje",
     "indexTitle": "Ideas para el próximo viaje en grupo",

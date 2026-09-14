@@ -17,6 +17,7 @@ import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Footer } from '@/components/layout/Footer'
 import { Splash } from '@/components/layout/Splash'
 import { GuideCards } from '@/components/guides/GuideCards'
+import { InstallAppButton } from '@/components/install/InstallApp'
 import { GUIDE_BASE } from '@/content/guides/meta'
 
 const POSTCARDS = [
@@ -175,6 +176,9 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
             >
               <GoogleButton next={next} />
               <p className="px-4 text-center text-xs leading-relaxed text-muted-foreground">{t('landing.privacyNote')}</p>
+              <div className="flex justify-center">
+                <InstallAppButton appearance="link" />
+              </div>
               {!isSupabaseConfigured && import.meta.env.DEV && (
                 <p className="rounded-2xl border border-dashed border-destructive/40 bg-destructive/5 px-4 py-3 text-xs text-destructive">
                   {t('auth.notConfigured')}

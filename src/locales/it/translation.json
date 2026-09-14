@@ -422,6 +422,18 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "install": {
+    "button": "Installa l'app",
+    "rowHint": "Icona sulla schermata Home, a schermo intero senza barra del browser",
+    "cardTitle": "Roamie sul tuo telefono",
+    "cardBody": "Installa l'app: si apre a schermo intero, senza barra del browser, con la sua icona nella schermata Home.",
+    "dismiss": "Non ora",
+    "iosTitle": "Aggiungi Roamie alla schermata Home",
+    "iosBody": "Su iPhone e iPad l'app si installa da Safari in tre tocchi.",
+    "iosStep1": "Tocca il pulsante Condividi (il quadrato con la freccia verso l'alto).",
+    "iosStep2": "Scorri e scegli «Aggiungi alla schermata Home».",
+    "iosStep3": "Conferma con «Aggiungi»: Roamie comparirà tra le tue app."
+  },
   "guides": {
     "eyebrow": "Guide di viaggio",
     "indexTitle": "Idee per il prossimo viaggio di gruppo",

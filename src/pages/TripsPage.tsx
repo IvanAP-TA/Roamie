@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useMyTrips } from '@/hooks/useTrips'
 import { Logo } from '@/components/brand/Logo'
 import { InspirationCard } from '@/components/guides/GuidesLink'
+import { InstallAppCard } from '@/components/install/InstallApp'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
 import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
@@ -99,7 +100,8 @@ export default function TripsPage() {
           </motion.ul>
         )}
 
-        {trips && <InspirationCard className="mt-10" />}
+        {trips && trips.length > 0 && <InstallAppCard className="mt-10" />}
+        {trips && <InspirationCard className="mt-6" />}
       </PageTransition>
 
       <Footer className="mt-8" />

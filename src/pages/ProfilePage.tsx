@@ -11,6 +11,7 @@ import { useSoundEnabled } from '@/lib/sound'
 import { Logo } from '@/components/brand/Logo'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
+import { InstallAppButton } from '@/components/install/InstallApp'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { UserAvatar } from '@/components/ui/avatar'
@@ -164,6 +165,7 @@ export default function ProfilePage() {
               <span className="flex-1 font-medium">{t('profile.sound')}</span>
               <Switch checked={soundOn} onCheckedChange={setSoundOn} label={t('profile.sound')} />
             </div>
+            <InstallAppButton appearance="row" />
           </div>
         </section>
 

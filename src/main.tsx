@@ -14,6 +14,8 @@ import { AuthProvider } from '@/hooks/useAuth'
 import { Toaster } from '@/components/ui/toaster'
 import { pathLanguage } from '@/content/guides/meta'
 import { hasStoredSession } from '@/lib/supabaseEnv'
+// Registers the install-prompt listener before anything renders: the browser fires it early.
+import '@/lib/install'
 import App from './App'
 
 const queryClient = new QueryClient({
