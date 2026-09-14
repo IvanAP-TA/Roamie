@@ -138,6 +138,28 @@ export function useSetRating(tripId: string) {
   })
 }
 
+/** Clears the caller's points on proposed destinations, or everyone's (owners only). Optimistic. */
+export function useResetPoints(tripId: string) {
+  const qc = useQueryClient()
+  const { user } = useAuth()
+  const key = keys.destinations(tripId)
+
+  return useMutation({
+    mutationFn: async (everyone: boolean) =>
+      unwrap<number>(await supabase.rpc('reset_points', { p_trip_id: tripId, ...(everyone && { p_everyone: true }) })),
+    onMutate: async (everyone) => {
+      await qc.cancelQueries({ queryKey: key })
+      const previous = qc.getQueryData<Destination[]>(key)
+      qc.setQueryData<Destination[]>(key, (list) =>
+        list?.map((d) => (d.status === 'proposed' ? { ...d, votes: everyone ? [] : d.votes.filter((v) => v.user_id !== user?.id) } : d)),
+      )
+      return { previous }
+    },
+    onError: (_e, _v, ctx) => qc.setQueryData(key, ctx?.previous),
+    onSettled: () => qc.invalidateQueries({ queryKey: key }),
+  })
+}
+
 export function useComments(destinationId: string | null) {
   return useQuery({
     queryKey: keys.comments(destinationId ?? ''),

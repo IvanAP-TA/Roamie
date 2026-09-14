@@ -422,6 +422,18 @@
     "reorderFailed": "Nuevo orden no guardado",
     "saved": "Guardado"
   },
+  "reset": {
+    "button": "Reiniciar puntos",
+    "mine": "Reiniciar mis puntos",
+    "everyone": "Reiniciar los puntos de todos",
+    "mineTitle": "¿Reiniciar tus puntos?",
+    "mineBody": "Recuperarás los 10 puntos para repartirlos de nuevo entre los destinos propuestos. Los puntos de los demás no cambian.",
+    "everyoneTitle": "¿Reiniciar los puntos de todo el grupo?",
+    "everyoneBody": "Cada miembro recupera sus 10 puntos y la votación empieza de cero. Los destinos se mantienen.",
+    "confirm": "Reiniciar",
+    "mineDone": "Puntos reiniciados: vuelves a tener 10 puntos",
+    "everyoneDone": "Votación reiniciada para todo el grupo"
+  },
   "offline": {
     "banner": "Estás sin conexión: ves lo guardado en este dispositivo. Para editar hace falta conexión.",
     "tripUnavailableTitle": "Viaje aún no guardado sin conexión",
@@ -759,7 +771,10 @@
     "fix": "Fijar estas fechas",
     "fixed": "Fechas fijadas: {{range}}",
     "tripDates": "Fechas del viaje",
-    "unfix": "Reabrir la elección"
+    "unfix": "Reabrir la elección",
+    "promptTitle": "¿Cuándo os vais?",
+    "promptSetup": "Elige una época y que cada uno marque los días que tiene libres.",
+    "promptMark": "Marca los días que tienes libres: Roamie encuentra el momento para el grupo."
   },
   "checklist": {
     "kinds": {

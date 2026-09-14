@@ -422,6 +422,18 @@
     "reorderFailed": "Nuovo ordine non salvato",
     "saved": "Salvato"
   },
+  "reset": {
+    "button": "Azzera punti",
+    "mine": "Azzera i miei punti",
+    "everyone": "Azzera i punti di tutti",
+    "mineTitle": "Azzerare i tuoi punti?",
+    "mineBody": "Riavrai tutti i 10 punti da distribuire di nuovo tra le mete proposte. I punti degli altri non cambiano.",
+    "everyoneTitle": "Azzerare i punti di tutto il gruppo?",
+    "everyoneBody": "Ogni membro riavrà i suoi 10 punti e la votazione ripartirà da zero. Le mete restano.",
+    "confirm": "Azzera",
+    "mineDone": "Punti azzerati: hai di nuovo 10 punti",
+    "everyoneDone": "Votazione azzerata per tutto il gruppo"
+  },
   "offline": {
     "banner": "Sei offline: vedi i dati salvati su questo dispositivo. Per modificare serve la connessione.",
     "tripUnavailableTitle": "Viaggio non ancora salvato offline",
@@ -759,7 +771,10 @@
     "fix": "Fissa queste date",
     "fixed": "Date fissate: {{range}}",
     "tripDates": "Date del viaggio",
-    "unfix": "Riapri la scelta"
+    "unfix": "Riapri la scelta",
+    "promptTitle": "Quando partite?",
+    "promptSetup": "Scegli il periodo e fai segnare a tutti i giorni in cui sono liberi.",
+    "promptMark": "Segna i giorni in cui sei libero: Roamie trova il periodo giusto per il gruppo."
   },
   "checklist": {
     "kinds": {

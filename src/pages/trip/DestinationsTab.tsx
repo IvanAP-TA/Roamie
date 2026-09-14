@@ -14,6 +14,8 @@ import { DestinationFormSheet } from '@/components/destinations/DestinationFormS
 import { GuidesLinkButton } from '@/components/guides/GuidesLink'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
 import { PointsLeftBadge } from '@/components/destinations/PointsControl'
+import { ResetPointsButton } from '@/components/destinations/ResetPoints'
+import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -90,6 +92,31 @@ export default function DestinationsTab() {
 
   const usedMoods = MOODS.filter((m) => destinations?.some((d) => d.status === status && d.mood.includes(m)))
 
+  const viewTools = (
+    <>
+      <Button
+        variant={selecting ? 'default' : 'glass'}
+        size="icon"
+        onClick={() => (selecting ? stopSelecting() : setSelecting(true))}
+        aria-pressed={selecting}
+        aria-label={t('compare.toggle')}
+        title={t('compare.toggle')}
+        disabled={(destinations?.length ?? 0) < 2}
+      >
+        <Columns3 />
+      </Button>
+      <Button
+        variant="glass"
+        size="icon"
+        onClick={() => setSort(sort === 'votes' ? 'recent' : 'votes')}
+        aria-label={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
+        title={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
+      >
+        {sort === 'votes' ? <ArrowDownWideNarrow /> : <Clock />}
+      </Button>
+    </>
+  )
+
   return (
     <PageTransition className="mx-auto max-w-5xl">
       {/* ── Hero ── */}
@@ -113,11 +140,13 @@ export default function DestinationsTab() {
 
       <div className="space-y-6 px-5 pt-6 md:px-6">
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
+        <DatesPrompt />
 
         {/* ── Toolbar ── */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <div className="glass relative flex flex-1 gap-1 rounded-full p-1 sm:flex-none">
+            {/* min-w-0 lets the tabs shrink on narrow phones instead of pushing the page wider than the screen. */}
+            <div className="glass relative flex min-w-0 flex-1 gap-1 rounded-full p-1 sm:flex-none">
               {STATUSES.map((s) => (
                 <button
                   key={s}
@@ -127,41 +156,20 @@ export default function DestinationsTab() {
                     setMoodFilter(null)
                   }}
                   className={cn(
-                    'relative flex-1 rounded-full px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors sm:flex-none sm:px-4',
+                    'relative min-w-0 flex-1 rounded-full px-1.5 py-2 text-[13px] font-semibold min-[360px]:px-2 min-[360px]:text-sm whitespace-nowrap transition-colors sm:flex-none sm:px-4',
                     status === s ? 'text-background' : 'text-muted-foreground hover:text-foreground',
                   )}
                 >
                   {status === s && (
                     <motion.span layoutId="status-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
                   )}
-                  <span className="relative">
+                  <span className="relative block truncate">
                     {t(`status.tab.${s}`)} <span className="opacity-60">{counts[s]}</span>
                   </span>
                 </button>
               ))}
             </div>
-            <Button
-              variant={selecting ? 'default' : 'glass'}
-              size="icon"
-              className="shrink-0"
-              onClick={() => (selecting ? stopSelecting() : setSelecting(true))}
-              aria-pressed={selecting}
-              aria-label={t('compare.toggle')}
-              title={t('compare.toggle')}
-              disabled={(destinations?.length ?? 0) < 2}
-            >
-              <Columns3 />
-            </Button>
-            <Button
-              variant="glass"
-              size="icon"
-              className="shrink-0"
-              onClick={() => setSort(sort === 'votes' ? 'recent' : 'votes')}
-              aria-label={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
-              title={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
-            >
-              {sort === 'votes' ? <ArrowDownWideNarrow /> : <Clock />}
-            </Button>
+            <div className="hidden shrink-0 gap-2 sm:flex">{viewTools}</div>
             {canEdit && (
               <Button className="hidden md:inline-flex" onClick={() => setAdding(true)}>
                 <Plus />
@@ -194,7 +202,13 @@ export default function DestinationsTab() {
                 {t('compare.selectHint')}
               </p>
             ) : (
-              status === 'proposed' && counts.proposed > 0 && <PointsLeftBadge tripId={trip.id} />
+              status === 'proposed' &&
+              counts.proposed > 0 && (
+                <>
+                  <PointsLeftBadge tripId={trip.id} />
+                  <ResetPointsButton destinations={destinations ?? []} />
+                </>
+              )
             )}
             {!canEdit && (
               <p className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground">
@@ -202,6 +216,8 @@ export default function DestinationsTab() {
                 {t('destination.viewerHint')}
               </p>
             )}
+            {/* On phones the status tabs take the whole first row, so compare & sort move down here. */}
+            <div className="ml-auto flex shrink-0 gap-2 sm:hidden">{viewTools}</div>
           </div>
         </div>
 

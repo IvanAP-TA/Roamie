@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, Wallet, type LucideIcon } from 'lucide-react'
@@ -218,6 +218,12 @@ export default function PlanTab() {
   const [params, setParams] = useSearchParams()
   const requested = params.get('view')
   const view: View = VIEWS.some((v) => v.id === requested) ? (requested as View) : 'itinerary'
+  const tabsRef = useRef<HTMLDivElement>(null)
+
+  // On phones the tabs scroll sideways: keep the current one in sight.
+  useEffect(() => {
+    tabsRef.current?.querySelector<HTMLElement>('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest', inline: 'center' })
+  }, [view])
 
   const setView = (next: View) =>
     setParams(
@@ -237,7 +243,7 @@ export default function PlanTab() {
         <p className="mt-2 text-sm text-muted-foreground">{t(`plan.subtitle.${view}`)}</p>
       </header>
 
-      <div role="tablist" aria-label={t('plan.title')} className="glass mb-6 flex gap-1 rounded-full p-1">
+      <div ref={tabsRef} role="tablist" aria-label={t('plan.title')} className="glass scrollbar-none mb-6 flex gap-1 overflow-x-auto rounded-full p-1">
         {VIEWS.map(({ id, icon: Icon }) => (
           <button
             key={id}
@@ -246,7 +252,7 @@ export default function PlanTab() {
             aria-selected={view === id}
             onClick={() => setView(id)}
             className={cn(
-              'relative flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-2 text-sm font-semibold transition-colors',
+              'relative flex min-h-10 flex-none items-center justify-center gap-1.5 rounded-full px-3.5 text-sm font-semibold whitespace-nowrap transition-colors sm:flex-1 sm:px-2',
               view === id ? 'text-background' : 'text-muted-foreground hover:text-foreground',
             )}
           >
@@ -254,8 +260,8 @@ export default function PlanTab() {
               <motion.span layoutId="plan-view-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
             )}
             <Icon className="relative size-4" aria-hidden />
-            {/* Five views don't fit on a phone: there only the active one shows its label. */}
-            <span className={cn('relative', view !== id && 'sr-only sm:not-sr-only')}>{t(`plan.tabs.${id}`)}</span>
+            {/* Labels always visible: on phones the bar scrolls sideways instead of hiding them. */}
+            <span className="relative">{t(`plan.tabs.${id}`)}</span>
           </button>
         ))}
       </div>

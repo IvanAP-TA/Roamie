@@ -813,6 +813,10 @@ export type Database = {
       itinerary_day_trip_id: { Args: { _day_id: string }; Returns: string }
       join_trip: { Args: { p_code: string }; Returns: string }
       regenerate_invite_code: { Args: { p_trip_id: string }; Returns: string }
+      reset_points: {
+        Args: { p_everyone?: boolean; p_trip_id: string }
+        Returns: number
+      }
       save_expense: {
         Args: {
           p_amount: number

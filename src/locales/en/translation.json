@@ -422,6 +422,18 @@
     "reorderFailed": "New order not saved",
     "saved": "Saved"
   },
+  "reset": {
+    "button": "Reset points",
+    "mine": "Reset my points",
+    "everyone": "Reset everyone's points",
+    "mineTitle": "Reset your points?",
+    "mineBody": "You'll get all 10 points back to spread again across the proposed destinations. Other members' points don't change.",
+    "everyoneTitle": "Reset the whole group's points?",
+    "everyoneBody": "Every member gets their 10 points back and the vote starts over. The destinations stay.",
+    "confirm": "Reset",
+    "mineDone": "Points reset: you have 10 points again",
+    "everyoneDone": "Vote reset for the whole group"
+  },
   "offline": {
     "banner": "You're offline: showing what's saved on this device. Editing needs a connection.",
     "tripUnavailableTitle": "Trip not saved for offline yet",
@@ -759,7 +771,10 @@
     "fix": "Set these dates",
     "fixed": "Dates set: {{range}}",
     "tripDates": "Trip dates",
-    "unfix": "Reopen the choice"
+    "unfix": "Reopen the choice",
+    "promptTitle": "When are you going?",
+    "promptSetup": "Choose a period and let everyone mark the days they're free.",
+    "promptMark": "Mark the days you're free: Roamie finds the right time for the group."
   },
   "checklist": {
     "kinds": {

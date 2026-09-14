@@ -596,6 +596,32 @@ describe('shared expenses', () => {
   })
 })
 
+describe('resetting points', () => {
+  it('members clear their own points; only the owner clears everyone', async () => {
+    const [dest] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Reset test') returning id`, [tripId]),
+    )
+    const votesOn = () => as(db, OWNER, (q) => q<{ user_id: string }>(`select user_id from public.votes where destination_id = $1`, [dest.id]))
+
+    await as(db, VIEWER, (q) => q(`select public.set_points($1, 1)`, [dest.id]))
+    await as(db, EDITOR, (q) => q(`select public.set_points($1, 1)`, [dest.id]))
+
+    const [own] = await as(db, VIEWER, (q) => q<{ reset_points: number }>(`select public.reset_points($1)`, [tripId]))
+    expect(own.reset_points).toBeGreaterThanOrEqual(1)
+    expect((await votesOn()).map((v) => v.user_id)).toEqual([EDITOR])
+
+    await rejects(as(db, EDITOR, (q) => q(`select public.reset_points($1, true)`, [tripId])), /forbidden/)
+    await rejects(as(db, STRANGER, (q) => q(`select public.reset_points($1)`, [tripId])), /forbidden/)
+    await rejects(as(db, null, (q) => q(`select public.reset_points($1)`, [tripId])), /permission denied/)
+
+    const [everyone] = await as(db, OWNER, (q) => q<{ reset_points: number }>(`select public.reset_points($1, true)`, [tripId]))
+    expect(everyone.reset_points).toBeGreaterThanOrEqual(1)
+    expect(await votesOn()).toHaveLength(0)
+
+    await as(db, EDITOR, (q) => q(`delete from public.destinations where id = $1`, [dest.id]))
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))
