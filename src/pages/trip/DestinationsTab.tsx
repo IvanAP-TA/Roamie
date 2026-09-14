@@ -1,0 +1,214 @@
+import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowDownWideNarrow, Clock, Eye, MapPinPlus, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useDestinations } from '@/hooks/useDestinations'
+import { useTripContext } from '@/hooks/useTripContext'
+import { PageTransition } from '@/components/layout/PageTransition'
+import { CoverImage } from '@/components/media/CoverImage'
+import { DestinationCard } from '@/components/destinations/DestinationCard'
+import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
+import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
+import { MOOD_META } from '@/components/destinations/moods'
+import { AvatarStack } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
+import { netScore } from '@/lib/roulette'
+import { MOODS, type DestinationStatus, type Mood } from '@/lib/types'
+import { cn } from '@/lib/utils'
+
+const STATUSES: DestinationStatus[] = ['proposed', 'selected', 'visited']
+
+export default function DestinationsTab() {
+  const { t } = useTranslation()
+  const { trip, members, canEdit } = useTripContext()
+  const { data: destinations, isLoading, isError, refetch } = useDestinations(trip.id)
+  const [, setParams] = useSearchParams()
+  const [status, setStatus] = useState<DestinationStatus>('proposed')
+  const [moodFilter, setMoodFilter] = useState<Mood | null>(null)
+  const [sort, setSort] = useState<'votes' | 'recent'>('votes')
+  const [adding, setAdding] = useState(false)
+
+  const open = (id: string) =>
+    setParams((p) => {
+      p.set('d', id)
+      return p
+    })
+
+  const counts = useMemo(
+    () => Object.fromEntries(STATUSES.map((s) => [s, destinations?.filter((d) => d.status === s).length ?? 0])) as Record<DestinationStatus, number>,
+    [destinations],
+  )
+
+  const next = useMemo(
+    () =>
+      destinations
+        ?.filter((d) => d.status === 'selected')
+        .sort((a, b) => (b.selected_at ?? '').localeCompare(a.selected_at ?? ''))[0],
+    [destinations],
+  )
+
+  const list = useMemo(() => {
+    const filtered = (destinations ?? []).filter((d) => d.status === status && (!moodFilter || d.mood.includes(moodFilter)))
+    return sort === 'votes'
+      ? [...filtered].sort((a, b) => netScore(b) - netScore(a) || b.created_at.localeCompare(a.created_at))
+      : filtered
+  }, [destinations, status, moodFilter, sort])
+
+  const usedMoods = MOODS.filter((m) => destinations?.some((d) => d.status === status && d.mood.includes(m)))
+
+  return (
+    <PageTransition className="mx-auto max-w-5xl">
+      {/* ── Hero ── */}
+      <section className="px-3 md:px-6">
+        <CoverImage
+          url={trip.cover_image_url}
+          attribution={trip.cover_image_attribution}
+          seed={trip.id}
+          className="h-60 rounded-[2.25rem] shadow-soft md:h-72"
+        >
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_25%,rgb(20_10_5/0.7))]" />
+          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-white md:inset-x-8 md:bottom-7">
+            <div className="min-w-0">
+              <h1 className="text-[2.5rem] leading-[0.95] drop-shadow-md md:text-6xl">{trip.name}</h1>
+              {trip.description && <p className="mt-2 line-clamp-2 max-w-xl text-sm text-white/85 md:text-base">{trip.description}</p>}
+            </div>
+            <AvatarStack profiles={members.map((m) => m.profile)} max={4} size="size-9" className="shrink-0 [&>*]:ring-white/80" />
+          </div>
+        </CoverImage>
+      </section>
+
+      <div className="space-y-6 px-5 pt-6 md:px-6">
+        {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
+
+        {/* ── Toolbar ── */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="glass relative flex flex-1 gap-1 rounded-full p-1 sm:flex-none">
+              {STATUSES.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    setStatus(s)
+                    setMoodFilter(null)
+                  }}
+                  className={cn(
+                    'relative flex-1 rounded-full px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors sm:flex-none sm:px-4',
+                    status === s ? 'text-background' : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  {status === s && (
+                    <motion.span layoutId="status-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
+                  )}
+                  <span className="relative">
+                    {t(`status.tab.${s}`)} <span className="opacity-60">{counts[s]}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <Button
+              variant="glass"
+              size="icon"
+              className="shrink-0"
+              onClick={() => setSort(sort === 'votes' ? 'recent' : 'votes')}
+              aria-label={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
+              title={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
+            >
+              {sort === 'votes' ? <ArrowDownWideNarrow /> : <Clock />}
+            </Button>
+            {canEdit && (
+              <Button className="hidden md:inline-flex" onClick={() => setAdding(true)}>
+                <Plus />
+                {t('destination.add')}
+              </Button>
+            )}
+          </div>
+
+          {usedMoods.length > 1 && (
+            <div className="scrollbar-none -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:px-0">
+              <Chip size="sm" active={moodFilter === null} onClick={() => setMoodFilter(null)}>
+                {t('destination.allMoods')}
+              </Chip>
+              {usedMoods.map((m) => {
+                const Icon = MOOD_META[m].icon
+                return (
+                  <Chip key={m} size="sm" active={moodFilter === m} onClick={() => setMoodFilter(moodFilter === m ? null : m)}>
+                    <Icon className={cn(moodFilter !== m && MOOD_META[m].tint)} />
+                    {t(`moods.${m}`)}
+                  </Chip>
+                )
+              })}
+            </div>
+          )}
+
+          {!canEdit && (
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground">
+              <Eye className="size-3.5" />
+              {t('destination.viewerHint')}
+            </p>
+          )}
+        </div>
+
+        {/* ── List ── */}
+        {isLoading && (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2].map((i) => (
+              <Skeleton key={i} className="h-[19rem] rounded-[2rem]" />
+            ))}
+          </div>
+        )}
+
+        {isError && (
+          <EmptyState seed="error" title={t('errors.loadDestinations')}>
+            <Button onClick={() => void refetch()}>{t('common.retry')}</Button>
+          </EmptyState>
+        )}
+
+        {destinations && list.length === 0 && (
+          <EmptyState
+            seed={status}
+            icon={<MapPinPlus />}
+            title={t(`destination.empty.${status}.title`)}
+            body={t(`destination.empty.${status}.body`)}
+          >
+            {status === 'proposed' && canEdit && (
+              <Button size="lg" onClick={() => setAdding(true)}>
+                <Plus />
+                {t('destination.add')}
+              </Button>
+            )}
+          </EmptyState>
+        )}
+
+        {list.length > 0 && (
+          <motion.div layout className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence mode="popLayout">
+              {list.map((d) => (
+                <DestinationCard key={d.id} destination={d} onOpen={() => open(d.id)} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </div>
+
+      {/* Mobile FAB, above the dock in the thumb zone */}
+      {canEdit && (
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', delay: 0.3 }}
+          className="fixed right-4 bottom-[calc(max(env(safe-area-inset-bottom),0.75rem)+5.75rem)] z-30 md:hidden"
+        >
+          <Button size="lg" className="h-14 rounded-full pr-6 pl-5 shadow-lift" onClick={() => setAdding(true)}>
+            <MapPinPlus className="size-5" />
+            {t('destination.propose')}
+          </Button>
+        </motion.div>
+      )}
+
+      <DestinationFormSheet open={adding} onOpenChange={setAdding} tripId={trip.id} />
+    </PageTransition>
+  )
+}

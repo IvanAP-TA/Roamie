@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /trips
+Disallow: /profile
+Disallow: /join
+Disallow: /auth/
+Disallow: /shell
+
+Sitemap: https://roamie.org/sitemap.xml

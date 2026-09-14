@@ -1,0 +1,20 @@
+# Response headers for Cloudflare Pages (same syntax on Netlify).
+# __SUPABASE_HOST__ is filled in at build time by scripts/prerender.mjs. `vite preview` reuses the /* block.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://upload.wikimedia.org https://tile.openstreetmap.org https://*.googleusercontent.com; font-src 'self'; connect-src 'self' https://__SUPABASE_HOST__ wss://__SUPABASE_HOST__ https://nominatim.openstreetmap.org https://commons.wikimedia.org https://*.wikipedia.org https://upload.wikimedia.org https://tile.openstreetmap.org; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+# Hashed build assets never change.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/og/*
+  Cache-Control: public, max-age=86400
+
+/sw.js
+  Cache-Control: no-cache

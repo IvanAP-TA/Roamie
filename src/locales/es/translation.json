@@ -1,0 +1,504 @@
+{
+  "common": {
+    "language": "Idioma",
+    "back": "Atrás",
+    "retry": "Reintentar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "more": "Más acciones"
+  },
+  "nav": {
+    "trips": "Viajes",
+    "new": "Nuevo",
+    "profile": "Perfil",
+    "destinations": "Destinos",
+    "map": "Mapa",
+    "roulette": "Ruleta",
+    "itinerary": "Itinerario",
+    "group": "Grupo"
+  },
+  "landing": {
+    "eyebrow": "Bucket list en grupo",
+    "titleA": "El próximo destino se decide",
+    "titleB": "juntos.",
+    "subtitle": "Reunid los lugares con los que soñáis, votadlos con amigos y dejad que la ruleta elija entre los favoritos del grupo.",
+    "steps": {
+      "propose": "Proponed destinos",
+      "vote": "Votad juntos",
+      "spin": "Girad la ruleta"
+    },
+    "badge": "¡Ha salido Kioto!",
+    "privacyNote": "Solo usamos tu nombre, email y avatar de Google para vincularte a tus listas. Sin anuncios, sin rastreadores.",
+    "features": {
+      "title": "Cómo funciona Roamie",
+      "propose": {
+        "title": "Proponed destinos",
+        "body": "Cada uno añade los lugares con los que sueña: una foto libre de Wikimedia Commons, su ubicación en el mapa, el presupuesto y el ambiente del viaje."
+      },
+      "vote": {
+        "title": "Votad juntos",
+        "body": "Un voto a favor o en contra para cada destino y comentarios para debatirlo. Los votos se actualizan en tiempo real para todo el grupo."
+      },
+      "spin": {
+        "title": "Girad la ruleta",
+        "body": "Entran los destinos con más votos a favor que en contra, y más votos significan más probabilidades. El sorteo se hace en el servidor: nadie puede hacer trampa."
+      },
+      "plan": {
+        "title": "Organizad el itinerario",
+        "body": "Con el destino elegido, construid el viaje día a día y reordenad las paradas arrastrándolas."
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "q1": {
+        "q": "¿Roamie es gratis?",
+        "a": "Sí. Roamie es gratuito, sin anuncios y sin suscripciones."
+      },
+      "q2": {
+        "q": "¿Cómo invito a mis amigos?",
+        "a": "Cada viaje tiene un enlace de invitación y un código de 8 caracteres. Quien lo abre inicia sesión con Google y entra en el grupo; puedes cambiar el código cuando quieras."
+      },
+      "q3": {
+        "q": "¿Cómo funciona la ruleta?",
+        "a": "Cada destino con puntuación positiva recibe una porción proporcional a sus votos netos. El sorteo es aleatorio y ponderado, y se realiza en nuestros servidores."
+      },
+      "q4": {
+        "q": "¿Tengo que instalar una app?",
+        "a": "No. Roamie funciona desde el navegador en móviles, tabletas y ordenadores, y puedes añadirlo a la pantalla de inicio como una app."
+      },
+      "q5": {
+        "q": "¿Qué datos recogéis?",
+        "a": "Solo el nombre, el email y la foto de perfil de tu cuenta de Google, para vincularte a tus viajes. Sin rastreadores ni perfiles, y puedes eliminar tu cuenta cuando quieras."
+      }
+    },
+    "cta": {
+      "title": "¿Listos para salir?"
+    }
+  },
+  "seo": {
+    "ogImageAlt": "Roamie: la bucket list de viajes de tu grupo",
+    "landing": {
+      "title": "Roamie · Decidid juntos el próximo viaje en grupo",
+      "description": "Proponed destinos, votadlos con amigos y girad la ruleta: Roamie es la bucket list de viajes gratuita para elegir juntos el próximo viaje."
+    },
+    "privacy": {
+      "title": "Política de privacidad · Roamie",
+      "description": "Qué datos usa Roamie, para qué y cómo ejercer tus derechos. Sin anuncios, sin rastreadores, sin perfiles."
+    },
+    "terms": {
+      "title": "Términos del servicio · Roamie",
+      "description": "Las reglas para usar Roamie, la bucket list de viajes para grupos de amigos: cuentas, contenidos, responsabilidad y eliminación."
+    },
+    "notFound": {
+      "title": "Página no encontrada · Roamie",
+      "description": "Esta página no existe. Vuelve a Roamie para organizar el próximo viaje en grupo."
+    },
+    "app": {
+      "title": "Roamie",
+      "description": "La bucket list de viajes de tu grupo."
+    }
+  },
+  "auth": {
+    "continueWithGoogle": "Continuar con Google",
+    "error": "No se pudo iniciar sesión. Inténtalo de nuevo en breve.",
+    "notConfigured": "Supabase no está configurado: copia .env.example a .env.local e introduce la URL y la clave anon.",
+    "callbackError": "No hemos podido completar el inicio de sesión"
+  },
+  "footer": {
+    "noTrackers": "Cero cookies de perfilado, cero rastreadores",
+    "privacy": "Privacidad",
+    "terms": "Términos"
+  },
+  "notFound": {
+    "title": "Ruta equivocada",
+    "body": "Esta página no aparece en ningún mapa.",
+    "cta": "Volver a la base"
+  },
+  "errors": {
+    "generic": "Algo ha salido mal. Inténtalo de nuevo.",
+    "loadTrips": "No podemos cargar tus viajes",
+    "loadDestinations": "No podemos cargar los destinos",
+    "checkConnection": "Revisa la conexión e inténtalo de nuevo.",
+    "voteFailed": "Voto no guardado, inténtalo de nuevo"
+  },
+  "roles": {
+    "owner": "Owner",
+    "editor": "Editor",
+    "viewer": "Viewer",
+    "editorHint": "Propone destinos, organiza el itinerario, gira la ruleta",
+    "viewerHint": "Vota y comenta"
+  },
+  "media": {
+    "photoCredits": "Créditos de la foto",
+    "credits": "Créditos",
+    "photoBy": "Foto de",
+    "search": "Buscar",
+    "searchPlaceholder": "Busca una foto (p. ej. Lisboa)",
+    "noResults": "No hay fotos pertinentes. Prueba con otro nombre.",
+    "commonsNote": "Fotos con licencia libre de Wikimedia Commons. Siempre se muestran autor y licencia."
+  },
+  "trips": {
+    "greeting": "Hola {{name}}",
+    "title": "Tus viajes",
+    "joinWithCode": "Tengo un código",
+    "create": "Nuevo viaje",
+    "emptyTitle": "Aún no hay viajes",
+    "emptyBody": "Crea una bucket list para tu grupo o únete a una con un código de invitación.",
+    "boardingPass": "Tarjeta de embarque",
+    "destinationCount_one": "{{count}} destino",
+    "destinationCount_other": "{{count}} destinos"
+  },
+  "tripForm": {
+    "createTitle": "Nuevo viaje",
+    "createSubtitle": "Ponle nombre: los destinos los propondréis juntos.",
+    "editTitle": "Editar viaje",
+    "name": "Nombre",
+    "namePlaceholder": "Verano con amigos",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Dos semanas en agosto, presupuesto medio, nada de vuelos al amanecer…",
+    "cover": "Portada",
+    "illustration": "Ilustración {{n}}",
+    "photo": "Foto",
+    "submit": "Crear viaje",
+    "created": "¡Viaje creado! Ahora invita a tu grupo.",
+    "updated": "Viaje actualizado"
+  },
+  "invite": {
+    "invite": "Invitar",
+    "title": "Invita a tu grupo",
+    "subtitle": "Quien abra el enlace entra como editor.",
+    "code": "Código de invitación",
+    "share": "Compartir invitación",
+    "copy": "Copiar enlace",
+    "copied": "Enlace copiado",
+    "shareText": "Únete al viaje «{{trip}}» en Roamie: ¡proponemos destinos, votamos y giramos la ruleta!"
+  },
+  "join": {
+    "enterCodeTitle": "¿Tienes un código?",
+    "enterCodeBody": "Introduce los 8 caracteres que te han enviado.",
+    "continue": "Continuar",
+    "invitedTo": "Te han invitado a",
+    "members_one": "{{count}} viajero",
+    "members_other": "{{count}} viajeros",
+    "join": "Unirme al viaje",
+    "joinWithGoogle": "Unirme con Google",
+    "openTrip": "Abrir el viaje",
+    "alreadyMember": "Ya formas parte de este viaje.",
+    "roleHint": "Entrarás como editor: podrás proponer destinos, votar y comentar.",
+    "welcome": "¡Bienvenido a bordo de «{{trip}}»!",
+    "invalidTitle": "Invitación no válida",
+    "invalidBody": "El código es incorrecto o el owner lo ha regenerado. Pide un enlace actualizado."
+  },
+  "trip": {
+    "backToTrips": "Volver a los viajes",
+    "notFoundTitle": "Viaje no encontrado",
+    "notFoundBody": "Ya no existe o no formas parte de él.",
+    "accessLost": "Ya no formas parte de este viaje"
+  },
+  "group": {
+    "title": "Grupo",
+    "members": "Miembros",
+    "you": "tú",
+    "unknown": "Viajero",
+    "formerMember": "un antiguo miembro",
+    "manage": "Gestionar miembro",
+    "rolesLegend": "Owner: lo gestiona todo. Editor: propone destinos, organiza el itinerario y gira la ruleta. Viewer: vota y comenta.",
+    "settings": "Ajustes",
+    "editDetails": "Editar nombre, descripción y portada",
+    "regenerate": "Regenerar código",
+    "regenerateTitle": "¿Regenerar el código?",
+    "regenerateBody": "El enlace actual dejará de funcionar. Quien ya está en el grupo sigue dentro.",
+    "regenerated": "Nuevo código listo: el enlace anterior ya no funciona",
+    "remove": "Quitar del viaje",
+    "removeTitle": "¿Quitar a {{name}}?",
+    "removeBody": "Perderá el acceso al viaje. Sus votos y comentarios se mantienen.",
+    "removed": "{{name}} ha sido quitado",
+    "leave": "Salir del viaje",
+    "leaveTitle": "¿Salir del viaje?",
+    "leaveBody": "Para volver necesitarás una nueva invitación.",
+    "left": "Has salido del viaje",
+    "delete": "Eliminar viaje",
+    "deleteTitle": "¿Eliminar el viaje?",
+    "deleteBody": "Destinos, votos, comentarios e itinerario se eliminarán para todos. No se puede deshacer.",
+    "deleted": "Viaje eliminado"
+  },
+  "profile": {
+    "title": "Perfil",
+    "displayName": "Nombre visible",
+    "emailPrivate": "Email visible solo para ti",
+    "saved": "Nombre actualizado",
+    "preferences": "Preferencias",
+    "sound": "Sonidos de la ruleta",
+    "privacy": "Privacidad y datos",
+    "export": "Descargar mis datos",
+    "signOut": "Cerrar sesión",
+    "deleteAccount": "Eliminar cuenta",
+    "deleteTitle": "¿Eliminar la cuenta?",
+    "deleteBody": "Borraremos tu perfil, votos, comentarios y los viajes de los que eres owner (para todos sus miembros). Los destinos que propusiste en viajes de otros se quedan, sin tu nombre.",
+    "deleteConfirm": "Eliminar definitivamente",
+    "accountDeleted": "Cuenta eliminada. ¡Buen viaje!"
+  },
+  "moods": {
+    "adventure": "Aventura",
+    "relax": "Relax",
+    "nightlife": "Vida nocturna",
+    "culture": "Cultura",
+    "nature": "Naturaleza",
+    "food_wine": "Comida y vino",
+    "family": "Familia",
+    "romantic": "Romántico"
+  },
+  "budget": {
+    "1": "Económico",
+    "2": "Medio",
+    "3": "Caro"
+  },
+  "votes": {
+    "up": "Voto a favor",
+    "down": "Voto en contra",
+    "score_one": "{{count}} punto",
+    "score_other": "{{count}} puntos"
+  },
+  "comments": {
+    "title": "Comentarios",
+    "empty": "Aún no hay comentarios. ¡Rompe el hielo!",
+    "placeholder": "Escribe un comentario…",
+    "send": "Enviar comentario",
+    "delete": "Eliminar comentario",
+    "count_one": "{{count}} comentario",
+    "count_other": "{{count}} comentarios"
+  },
+  "status": {
+    "proposed": "Propuesto",
+    "selected": "Elegido",
+    "visited": "Visitado",
+    "tab": {
+      "proposed": "Propuestos",
+      "selected": "Elegidos",
+      "visited": "Visitados"
+    },
+    "markVisited": "Marcar como visitado",
+    "backToProposed": "Volver a propuestos",
+    "changed": {
+      "proposed": "{{name}} vuelve a estar entre las propuestas",
+      "selected": "{{name}} es el próximo destino",
+      "visited": "{{name}} marcado como visitado"
+    }
+  },
+  "destination": {
+    "add": "Proponer destino",
+    "propose": "Proponer",
+    "next": "Próximo destino",
+    "selectedWhen": "Elegido {{when}}",
+    "expectations": "Qué esperar",
+    "proposedBy": "Propuesto por {{name}} {{when}}",
+    "allMoods": "Todos",
+    "sortVotes": "Ordenar por votos",
+    "sortRecent": "Ordenar por fecha",
+    "viewerHint": "Eres viewer: puedes votar y comentar",
+    "deleteTitle": "¿Eliminar {{name}}?",
+    "deleteBody": "También se eliminarán sus votos y comentarios.",
+    "deleted": "Destino eliminado",
+    "empty": {
+      "proposed": {
+        "title": "Ningún destino propuesto",
+        "body": "¿Adónde os gustaría ir? Añadid el primero y empezad a votar."
+      },
+      "selected": {
+        "title": "Aún no hay destino elegido",
+        "body": "Girad la ruleta: el destino ganador aparecerá aquí."
+      },
+      "visited": {
+        "title": "Aún no hay sellos en el pasaporte",
+        "body": "Los destinos visitados aparecerán aquí al terminar el viaje."
+      }
+    }
+  },
+  "destForm": {
+    "createTitle": "Propón un destino",
+    "createSubtitle": "Búscalo: las coordenadas y la foto llegan solas.",
+    "editTitle": "Editar destino",
+    "where": "Dónde",
+    "searchPlaceholder": "Ciudad, isla, parque…",
+    "noPlaces": "No se ha encontrado ningún lugar. Prueba a ser más preciso.",
+    "searchFailed": "Búsqueda no disponible, inténtalo en breve.",
+    "rateLimited": "Demasiadas búsquedas seguidas: espera unos segundos.",
+    "searchAttribution": "Búsqueda de lugares: Nominatim",
+    "name": "Nombre del destino",
+    "country": "País",
+    "noCoords": "Sin ubicación: no aparecerá en el mapa",
+    "clearCoords": "Quitar ubicación",
+    "photo": "Foto",
+    "noPhoto": "No hay fotos pertinentes: usaremos una ilustración.",
+    "otherPhoto": "Otra foto ({{current}}/{{total}})",
+    "findPhoto": "Buscar foto",
+    "withoutPhoto": "Sin foto",
+    "mood": "Mood",
+    "budget": "Presupuesto",
+    "expectations": "Qué esperar",
+    "expectationsPlaceholder": "Atardeceres en el Miradouro, pastéis de nata, cuestas empinadas…",
+    "submit": "Proponer destino",
+    "created": "{{name}} añadido a las propuestas",
+    "updated": "Destino actualizado"
+  },
+  "map": {
+    "title": "Mapa",
+    "pinned_one": "{{count}} destino en el mapa",
+    "pinned_other": "{{count}} destinos en el mapa",
+    "unpinned_one": "{{count}} destino sin ubicación",
+    "unpinned_other": "{{count}} destinos sin ubicación"
+  },
+  "roulette": {
+    "title": "La ruleta",
+    "subtitle": "Participan los destinos propuestos con más votos a favor que en contra. Más votos, porción más grande.",
+    "spin": "Girar la ruleta",
+    "spinning": "Girando…",
+    "hub": "Girar",
+    "confirmTitle": "¿Giramos la ruleta?",
+    "confirmBody": "El destino que salga será el próximo destino del grupo, para todos.",
+    "confirmCta": "¡Sí, gira!",
+    "winnerEyebrow": "Nos vamos a",
+    "viewDetails": "Ver el destino",
+    "odds": "Probabilidades",
+    "history": "Ya elegidos",
+    "sound": "Sonidos de la ruleta",
+    "viewerHint": "Solo owners y editores pueden girar la ruleta.",
+    "emptyTitle": "La ruleta aún está vacía",
+    "emptyBody": "Hacen falta destinos propuestos con más votos a favor que en contra. ¡Votad vuestros favoritos!",
+    "goVote": "Ir a votar",
+    "noEligible": "Ahora mismo no hay destinos para sortear",
+    "remoteResult": "La ruleta ha decidido: ¡{{name}}!"
+  },
+  "itinerary": {
+    "title": "Itinerario",
+    "subtitle": "Las etapas, día a día.",
+    "addDay": "Añadir día",
+    "newDay": "Nuevo día",
+    "editDay": "Editar día",
+    "day": "Día {{n}}",
+    "dayTitle": "Título",
+    "dayTitlePlaceholder": "Llegada y casco antiguo",
+    "date": "Fecha",
+    "deleteDay": "Eliminar día",
+    "deleteDayTitle": "¿Eliminar el día {{n}}?",
+    "deleteDayBody": "También se eliminarán todas sus etapas.",
+    "addItem": "Añadir etapa",
+    "newItem": "Nueva etapa",
+    "editItem": "Editar etapa",
+    "deleteItem": "Eliminar etapa",
+    "itemTitle": "Qué",
+    "itemTitlePlaceholder": "Desayuno en el mercado",
+    "time": "Hora",
+    "itemDescription": "Notas",
+    "itemDescriptionPlaceholder": "Reserva, dirección, enlaces útiles…",
+    "stops_one": "{{count}} etapa",
+    "stops_other": "{{count}} etapas",
+    "emptyDay": "Aún no hay etapas.",
+    "emptyTitle": "Ningún día planificado",
+    "emptyBody": "Añadid el primer día y llenadlo de etapas.",
+    "dragHint": "Arrastra ⠿ para reordenar las etapas",
+    "reorderFailed": "Nuevo orden no guardado",
+    "saved": "Guardado"
+  },
+  "legal": {
+    "updated": "Última actualización: {{date}}",
+    "contactFallback": "la dirección de correo indicada por el gestor del servicio",
+    "privacy": {
+      "title": "Política de privacidad",
+      "intro": "Roamie es privado por defecto: solo recogemos lo necesario para que inicies sesión y colabores con tu grupo. Ningún dato se usa para publicidad ni se vende a terceros.",
+      "sections": [
+        {
+          "title": "Responsable del tratamiento",
+          "body": "El responsable es el gestor del servicio Roamie, contactable en {{contact}}."
+        },
+        {
+          "title": "Datos que recogemos",
+          "body": "Cuando inicias sesión con Google solo recibimos:",
+          "items": [
+            "Dirección de email: usada solo para la autenticación, nunca visible para otros miembros",
+            "Nombre del perfil de Google: visible para los miembros de tus viajes",
+            "Foto del perfil de Google: visible para los miembros de tus viajes",
+            "El contenido que creas: viajes, destinos, votos, comentarios y etapas del itinerario"
+          ]
+        },
+        {
+          "title": "Finalidad",
+          "body": "Usamos estos datos exclusivamente para autenticarte, vincularte a las listas de viaje de las que formas parte y mostrar al grupo quién propuso, votó o comentó. Ningún dato se usa para publicidad o perfilado ni se vende a terceros."
+        },
+        {
+          "title": "Base jurídica",
+          "body": "El tratamiento es necesario para prestarte el servicio que solicitas (art. 6.1.b RGPD, ejecución de un contrato)."
+        },
+        {
+          "title": "Cookies y almacenamiento local",
+          "body": "Roamie no usa cookies de perfilado ni herramientas de analítica o seguimiento de terceros (ni Google Analytics, ni píxeles sociales). Solo usamos almacenamiento técnico estrictamente necesario, que por ello no requiere consentimiento:",
+          "items": [
+            "Sesión de acceso (localStorage, gestionada por Supabase Auth) para mantenerte conectado",
+            "Idioma preferido y preferencia de sonido de la ruleta (localStorage)",
+            "Caché de búsquedas de lugares e imágenes, para evitar peticiones repetidas a servicios externos (localStorage)"
+          ]
+        },
+        {
+          "title": "Servicios externos",
+          "body": "Para funcionar, Roamie se apoya en estos proveedores:",
+          "items": [
+            "Supabase: base de datos y autenticación, aloja los datos del servicio",
+            "Google: inicio de sesión con tu cuenta de Google",
+            "OpenStreetMap: mapas y búsqueda de lugares (Nominatim); sus servidores reciben tu dirección IP al cargar el mapa o buscar un lugar",
+            "Wikimedia Commons: fotos de los destinos; sus servidores reciben tu dirección IP al cargar las imágenes"
+          ]
+        },
+        {
+          "title": "Conservación",
+          "body": "Los datos se conservan mientras mantengas tu cuenta. Si la eliminas, borramos tu perfil, los viajes de los que eres propietario, tus votos y comentarios; los destinos que propusiste en viajes de otros se quedan en el grupo sin tu nombre."
+        },
+        {
+          "title": "Tus derechos",
+          "body": "Puedes acceder a tus datos, rectificarlos, exportarlos (Perfil → Descargar mis datos), suprimirlos y oponerte a su tratamiento. Puedes eliminar tu cuenta tú mismo desde Perfil → Eliminar cuenta o escribiendo a {{contact}}. También tienes derecho a presentar una reclamación ante la autoridad de control (en España, la AEPD)."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos del servicio",
+      "intro": "Al usar Roamie aceptas estos términos esenciales, escritos de forma sencilla.",
+      "sections": [
+        {
+          "title": "El servicio",
+          "body": "Roamie te permite crear listas de viaje compartidas, proponer destinos, votarlos, comentarlos y organizar un itinerario con tu grupo. El servicio es gratuito y se ofrece tal cual."
+        },
+        {
+          "title": "Cuentas",
+          "body": "Inicias sesión con tu cuenta de Google. Eres responsable de lo que haces con ella y de a quién invitas a tus viajes mediante el enlace de invitación."
+        },
+        {
+          "title": "Uso correcto",
+          "body": "Te comprometes a no usar Roamie para:",
+          "items": [
+            "publicar contenido ilegal, ofensivo, discriminatorio o que vulnere derechos de terceros",
+            "enviar spam o intentar acceder a viajes de los que no formas parte",
+            "sobrecargar o comprometer el servicio o los servicios externos que utiliza (mapas, búsqueda de lugares, imágenes)"
+          ]
+        },
+        {
+          "title": "Contenido de los usuarios",
+          "body": "Los destinos, comentarios e itinerarios siguen siendo tuyos. Al publicarlos en un viaje los haces visibles para sus miembros. El propietario del viaje puede gestionar los miembros y moderar los comentarios. Las fotos de Wikimedia Commons siguen sujetas a sus licencias, indicadas en cada imagen."
+        },
+        {
+          "title": "Responsabilidad limitada",
+          "body": "Roamie es una herramienta de organización: no vende viajes ni garantiza la exactitud de mapas, lugares o imágenes de fuentes externas. En la medida permitida por la ley, no respondemos de daños indirectos derivados del uso del servicio o de su indisponibilidad temporal."
+        },
+        {
+          "title": "Eliminación de la cuenta",
+          "body": "Puedes eliminar tu cuenta en cualquier momento desde Perfil → Eliminar cuenta: se borrarán tu perfil y los datos asociados, incluidos los viajes de los que eres propietario. Podemos suspender cuentas que incumplan estos términos."
+        },
+        {
+          "title": "Cambios y contacto",
+          "body": "Podemos actualizar estos términos; te avisaremos en la app de los cambios relevantes. Para cualquier duda escribe a {{contact}}."
+        }
+      ]
+    }
+  }
+}

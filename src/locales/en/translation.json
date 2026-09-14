@@ -1,0 +1,504 @@
+{
+  "common": {
+    "language": "Language",
+    "back": "Back",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "more": "More actions"
+  },
+  "nav": {
+    "trips": "Trips",
+    "new": "New",
+    "profile": "Profile",
+    "destinations": "Places",
+    "map": "Map",
+    "roulette": "Wheel",
+    "itinerary": "Itinerary",
+    "group": "Group"
+  },
+  "landing": {
+    "eyebrow": "Group bucket list",
+    "titleA": "Your next trip is decided",
+    "titleB": "together.",
+    "subtitle": "Collect the places you dream about, vote on them with friends and let the wheel pick among the group's favourites.",
+    "steps": {
+      "propose": "Propose places",
+      "vote": "Vote together",
+      "spin": "Spin the wheel"
+    },
+    "badge": "Kyoto it is!",
+    "privacyNote": "We only use your Google name, email and avatar to link you to your lists. No ads, no trackers.",
+    "features": {
+      "title": "How Roamie works",
+      "propose": {
+        "title": "Propose places",
+        "body": "Everyone adds the places they dream about: a free photo from Wikimedia Commons, a pin on the map, the budget and the vibe of the trip."
+      },
+      "vote": {
+        "title": "Vote together",
+        "body": "Upvote or downvote each place and talk it over in the comments. Votes update in real time for the whole group."
+      },
+      "spin": {
+        "title": "Spin the wheel",
+        "body": "Places with more upvotes than downvotes make it onto the wheel, and more votes mean better odds. The draw happens on the server, so nobody can cheat."
+      },
+      "plan": {
+        "title": "Plan the itinerary",
+        "body": "Once the destination is picked, build the trip day by day and reorder the stops by dragging them."
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "q1": {
+        "q": "Is Roamie free?",
+        "a": "Yes. Roamie is free, with no ads and no subscriptions."
+      },
+      "q2": {
+        "q": "How do I invite my friends?",
+        "a": "Every trip has an invite link and an 8-character code. Whoever opens it signs in with Google and joins the group, and you can change the code whenever you like."
+      },
+      "q3": {
+        "q": "How does the wheel work?",
+        "a": "Every place with a positive score gets a slice proportional to its net votes. The draw is random but weighted, and it runs on our servers."
+      },
+      "q4": {
+        "q": "Do I need to install an app?",
+        "a": "No. Roamie works in the browser on phones, tablets and computers, and you can add it to your home screen like an app."
+      },
+      "q5": {
+        "q": "What data do you collect?",
+        "a": "Only the name, email and profile picture of your Google account, to link you to your trips. No trackers or profiling, and you can delete your account at any time."
+      }
+    },
+    "cta": {
+      "title": "Ready to roam?"
+    }
+  },
+  "seo": {
+    "ogImageAlt": "Roamie: the travel bucket list for your group",
+    "landing": {
+      "title": "Roamie · Plan your next group trip together",
+      "description": "Propose destinations, vote with friends and spin the wheel: Roamie is the free group travel bucket list for choosing your next trip together."
+    },
+    "privacy": {
+      "title": "Privacy policy · Roamie",
+      "description": "What data Roamie uses, why, and how to exercise your rights. No ads, no trackers, no profiling."
+    },
+    "terms": {
+      "title": "Terms of service · Roamie",
+      "description": "The rules for using Roamie, the travel bucket list for groups of friends: accounts, content, liability and deletion."
+    },
+    "notFound": {
+      "title": "Page not found · Roamie",
+      "description": "This page doesn't exist. Head back to Roamie to plan your next group trip."
+    },
+    "app": {
+      "title": "Roamie",
+      "description": "The travel bucket list for your group."
+    }
+  },
+  "auth": {
+    "continueWithGoogle": "Continue with Google",
+    "error": "Sign-in failed. Please try again shortly.",
+    "notConfigured": "Supabase isn't configured: copy .env.example to .env.local and fill in the URL and anon key.",
+    "callbackError": "We couldn't finish signing you in"
+  },
+  "footer": {
+    "noTrackers": "Zero profiling cookies, zero trackers",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "notFound": {
+    "title": "Wrong turn",
+    "body": "This page isn't on any map.",
+    "cta": "Back to base"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "loadTrips": "We can't load your trips",
+    "loadDestinations": "We can't load the destinations",
+    "checkConnection": "Check your connection and try again.",
+    "voteFailed": "Vote not saved, try again"
+  },
+  "roles": {
+    "owner": "Owner",
+    "editor": "Editor",
+    "viewer": "Viewer",
+    "editorHint": "Proposes places, plans the itinerary, spins the wheel",
+    "viewerHint": "Votes and comments"
+  },
+  "media": {
+    "photoCredits": "Photo credits",
+    "credits": "Credits",
+    "photoBy": "Photo by",
+    "search": "Search",
+    "searchPlaceholder": "Search a photo (e.g. Lisbon)",
+    "noResults": "No relevant photo found. Try a different name.",
+    "commonsNote": "Freely licensed photos from Wikimedia Commons. Author and licence are always shown."
+  },
+  "trips": {
+    "greeting": "Hi {{name}}",
+    "title": "Your trips",
+    "joinWithCode": "I have a code",
+    "create": "New trip",
+    "emptyTitle": "No trips yet",
+    "emptyBody": "Create a bucket list for your group or join one with an invite code.",
+    "boardingPass": "Boarding pass",
+    "destinationCount_one": "{{count}} place",
+    "destinationCount_other": "{{count}} places"
+  },
+  "tripForm": {
+    "createTitle": "New trip",
+    "createSubtitle": "Give it a name — you'll propose places together.",
+    "editTitle": "Edit trip",
+    "name": "Name",
+    "namePlaceholder": "Summer with friends",
+    "description": "Description",
+    "descriptionPlaceholder": "Two weeks in August, mid budget, no dawn flights…",
+    "cover": "Cover",
+    "illustration": "Illustration {{n}}",
+    "photo": "Photo",
+    "submit": "Create trip",
+    "created": "Trip created! Now invite your group.",
+    "updated": "Trip updated"
+  },
+  "invite": {
+    "invite": "Invite",
+    "title": "Invite your group",
+    "subtitle": "Anyone opening the link joins as an editor.",
+    "code": "Invite code",
+    "share": "Share invite",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "shareText": "Join the trip “{{trip}}” on Roamie: let's propose places, vote and spin the wheel!"
+  },
+  "join": {
+    "enterCodeTitle": "Got an invite code?",
+    "enterCodeBody": "Enter the 8 characters you received.",
+    "continue": "Continue",
+    "invitedTo": "You're invited to",
+    "members_one": "{{count}} traveller",
+    "members_other": "{{count}} travellers",
+    "join": "Join the trip",
+    "joinWithGoogle": "Join with Google",
+    "openTrip": "Open the trip",
+    "alreadyMember": "You're already part of this trip.",
+    "roleHint": "You'll join as an editor: you can propose places, vote and comment.",
+    "welcome": "Welcome aboard “{{trip}}”!",
+    "invalidTitle": "Invalid invite",
+    "invalidBody": "The code is wrong or the owner regenerated it. Ask for an updated link."
+  },
+  "trip": {
+    "backToTrips": "Back to trips",
+    "notFoundTitle": "Trip not found",
+    "notFoundBody": "It no longer exists or you're not a member.",
+    "accessLost": "You're no longer part of this trip"
+  },
+  "group": {
+    "title": "Group",
+    "members": "Members",
+    "you": "you",
+    "unknown": "Traveller",
+    "formerMember": "a former member",
+    "manage": "Manage member",
+    "rolesLegend": "Owner: manages everything. Editor: proposes places, plans the itinerary and spins the wheel. Viewer: votes and comments.",
+    "settings": "Settings",
+    "editDetails": "Edit name, description and cover",
+    "regenerate": "Regenerate code",
+    "regenerateTitle": "Regenerate the code?",
+    "regenerateBody": "The current link will stop working. People already in the group stay in.",
+    "regenerated": "New code ready: the old link no longer works",
+    "remove": "Remove from trip",
+    "removeTitle": "Remove {{name}}?",
+    "removeBody": "They'll lose access to the trip. Their votes and comments stay.",
+    "removed": "{{name}} was removed",
+    "leave": "Leave trip",
+    "leaveTitle": "Leave this trip?",
+    "leaveBody": "You'll need a new invite to come back.",
+    "left": "You left the trip",
+    "delete": "Delete trip",
+    "deleteTitle": "Delete this trip?",
+    "deleteBody": "Places, votes, comments and itinerary will be deleted for everyone. This can't be undone.",
+    "deleted": "Trip deleted"
+  },
+  "profile": {
+    "title": "Profile",
+    "displayName": "Display name",
+    "emailPrivate": "Email visible only to you",
+    "saved": "Name updated",
+    "preferences": "Preferences",
+    "sound": "Wheel sounds",
+    "privacy": "Privacy & data",
+    "export": "Download my data",
+    "signOut": "Sign out",
+    "deleteAccount": "Delete account",
+    "deleteTitle": "Delete your account?",
+    "deleteBody": "We'll erase your profile, votes, comments and the trips you own (for all their members). Places you proposed in other people's trips stay, without your name.",
+    "deleteConfirm": "Delete permanently",
+    "accountDeleted": "Account deleted. Safe travels!"
+  },
+  "moods": {
+    "adventure": "Adventure",
+    "relax": "Relax",
+    "nightlife": "Nightlife",
+    "culture": "Culture",
+    "nature": "Nature",
+    "food_wine": "Food & Wine",
+    "family": "Family",
+    "romantic": "Romantic"
+  },
+  "budget": {
+    "1": "Cheap",
+    "2": "Mid-range",
+    "3": "Pricey"
+  },
+  "votes": {
+    "up": "Upvote",
+    "down": "Downvote",
+    "score_one": "{{count}} point",
+    "score_other": "{{count}} points"
+  },
+  "comments": {
+    "title": "Comments",
+    "empty": "No comments yet. Break the ice!",
+    "placeholder": "Write a comment…",
+    "send": "Send comment",
+    "delete": "Delete comment",
+    "count_one": "{{count}} comment",
+    "count_other": "{{count}} comments"
+  },
+  "status": {
+    "proposed": "Proposed",
+    "selected": "Picked",
+    "visited": "Visited",
+    "tab": {
+      "proposed": "Proposed",
+      "selected": "Picked",
+      "visited": "Visited"
+    },
+    "markVisited": "Mark as visited",
+    "backToProposed": "Move back to proposed",
+    "changed": {
+      "proposed": "{{name}} is back among the proposals",
+      "selected": "{{name}} is the next destination",
+      "visited": "{{name}} marked as visited"
+    }
+  },
+  "destination": {
+    "add": "Propose a place",
+    "propose": "Propose",
+    "next": "Next destination",
+    "selectedWhen": "Picked {{when}}",
+    "expectations": "What to expect",
+    "proposedBy": "Proposed by {{name}} {{when}}",
+    "allMoods": "All",
+    "sortVotes": "Sort by votes",
+    "sortRecent": "Sort by date",
+    "viewerHint": "You're a viewer: you can vote and comment",
+    "deleteTitle": "Delete {{name}}?",
+    "deleteBody": "Its votes and comments will be deleted too.",
+    "deleted": "Place deleted",
+    "empty": {
+      "proposed": {
+        "title": "No places proposed",
+        "body": "Where would you love to go? Add the first one and start voting."
+      },
+      "selected": {
+        "title": "Nothing picked yet",
+        "body": "Spin the wheel: the winning place will show up here."
+      },
+      "visited": {
+        "title": "No passport stamps yet",
+        "body": "Visited places will show up here once the trip is done."
+      }
+    }
+  },
+  "destForm": {
+    "createTitle": "Propose a place",
+    "createSubtitle": "Search for it: coordinates and photo come along.",
+    "editTitle": "Edit place",
+    "where": "Where",
+    "searchPlaceholder": "City, island, park…",
+    "noPlaces": "No place found. Try being more specific.",
+    "searchFailed": "Search unavailable, try again shortly.",
+    "rateLimited": "Too many searches in a row: wait a few seconds.",
+    "searchAttribution": "Place search: Nominatim",
+    "name": "Place name",
+    "country": "Country",
+    "noCoords": "No location: it won't appear on the map",
+    "clearCoords": "Remove location",
+    "photo": "Photo",
+    "noPhoto": "No relevant photo: we'll use an illustration.",
+    "otherPhoto": "Another photo ({{current}}/{{total}})",
+    "findPhoto": "Find a photo",
+    "withoutPhoto": "No photo",
+    "mood": "Mood",
+    "budget": "Budget",
+    "expectations": "What to expect",
+    "expectationsPlaceholder": "Sunsets at the Miradouro, pastéis de nata, steep hills…",
+    "submit": "Propose place",
+    "created": "{{name}} added to the proposals",
+    "updated": "Place updated"
+  },
+  "map": {
+    "title": "Map",
+    "pinned_one": "{{count}} place on the map",
+    "pinned_other": "{{count}} places on the map",
+    "unpinned_one": "{{count}} place without a location",
+    "unpinned_other": "{{count}} places without a location"
+  },
+  "roulette": {
+    "title": "The wheel",
+    "subtitle": "Proposed places with more upvotes than downvotes take part. More votes, bigger slice.",
+    "spin": "Spin the wheel",
+    "spinning": "Spinning…",
+    "hub": "Spin",
+    "confirmTitle": "Shall we spin?",
+    "confirmBody": "The winning place becomes the group's next destination, for everyone.",
+    "confirmCta": "Yes, spin!",
+    "winnerEyebrow": "We're off to",
+    "viewDetails": "See the place",
+    "odds": "Odds",
+    "history": "Already picked",
+    "sound": "Wheel sounds",
+    "viewerHint": "Only owners and editors can spin the wheel.",
+    "emptyTitle": "The wheel is still empty",
+    "emptyBody": "It needs proposed places with more upvotes than downvotes. Vote for your favourites!",
+    "goVote": "Go vote",
+    "noEligible": "No place can be drawn right now",
+    "remoteResult": "The wheel has spoken: {{name}}!"
+  },
+  "itinerary": {
+    "title": "Itinerary",
+    "subtitle": "Your stops, day by day.",
+    "addDay": "Add day",
+    "newDay": "New day",
+    "editDay": "Edit day",
+    "day": "Day {{n}}",
+    "dayTitle": "Title",
+    "dayTitlePlaceholder": "Arrival and old town",
+    "date": "Date",
+    "deleteDay": "Delete day",
+    "deleteDayTitle": "Delete day {{n}}?",
+    "deleteDayBody": "All its stops will be deleted too.",
+    "addItem": "Add stop",
+    "newItem": "New stop",
+    "editItem": "Edit stop",
+    "deleteItem": "Delete stop",
+    "itemTitle": "What",
+    "itemTitlePlaceholder": "Breakfast at the market",
+    "time": "Time",
+    "itemDescription": "Notes",
+    "itemDescriptionPlaceholder": "Booking, address, useful links…",
+    "stops_one": "{{count}} stop",
+    "stops_other": "{{count}} stops",
+    "emptyDay": "No stops yet.",
+    "emptyTitle": "No days planned",
+    "emptyBody": "Add the first day and fill it with stops.",
+    "dragHint": "Drag ⠿ to reorder stops",
+    "reorderFailed": "New order not saved",
+    "saved": "Saved"
+  },
+  "legal": {
+    "updated": "Last updated: {{date}}",
+    "contactFallback": "the email address provided by the service operator",
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "Roamie is private by default: we only collect what's needed to sign you in and collaborate with your group. No data is used for advertising or sold to third parties.",
+      "sections": [
+        {
+          "title": "Data controller",
+          "body": "The controller is the operator of the Roamie service, reachable at {{contact}}."
+        },
+        {
+          "title": "Data we collect",
+          "body": "When you sign in with Google we only receive:",
+          "items": [
+            "Email address: used for authentication only, never shown to other members",
+            "Google profile name: visible to members of the trips you belong to",
+            "Google profile picture: visible to members of the trips you belong to",
+            "Content you create: trips, destinations, votes, comments and itinerary stops"
+          ]
+        },
+        {
+          "title": "Purpose",
+          "body": "We use this data solely to authenticate you, link you to the trip lists you belong to and show your group who proposed, voted or commented. No data is used for advertising or profiling, or sold to third parties."
+        },
+        {
+          "title": "Legal basis",
+          "body": "Processing is necessary to provide the service you request (Art. 6(1)(b) GDPR, performance of a contract)."
+        },
+        {
+          "title": "Cookies and local storage",
+          "body": "Roamie uses no profiling cookies and no third-party analytics or tracking tools (no Google Analytics, no social pixels). We only use strictly necessary technical storage, which therefore needs no consent:",
+          "items": [
+            "Sign-in session (localStorage, managed by Supabase Auth) to keep you logged in",
+            "Preferred language and wheel sound preference (localStorage)",
+            "Cache of place and image searches, to avoid repeated requests to external services (localStorage)"
+          ]
+        },
+        {
+          "title": "External services",
+          "body": "To work, Roamie relies on these providers:",
+          "items": [
+            "Supabase: database and authentication, hosts the service data",
+            "Google: sign-in with your Google account",
+            "OpenStreetMap: maps and place search (Nominatim); their servers receive your IP address when you load the map or search for a place",
+            "Wikimedia Commons: destination photos; their servers receive your IP address when images load"
+          ]
+        },
+        {
+          "title": "Retention",
+          "body": "Data is kept for as long as you keep your account. If you delete it, we erase your profile, the trips you own, your votes and comments; destinations you proposed in other people's trips stay with the group without your name."
+        },
+        {
+          "title": "Your rights",
+          "body": "You can access, correct, export (Profile → Download my data) or delete your data and object to its processing. You can delete your account yourself from Profile → Delete account, or by writing to {{contact}}. You also have the right to lodge a complaint with your data protection authority."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "intro": "By using Roamie you agree to these short, plain-language terms.",
+      "sections": [
+        {
+          "title": "The service",
+          "body": "Roamie lets you create shared trip lists, propose destinations, vote and comment on them and plan an itinerary with your group. The service is free and provided as is."
+        },
+        {
+          "title": "Accounts",
+          "body": "You sign in with your Google account. You're responsible for what you do with it and for who you invite to your trips through the invite link."
+        },
+        {
+          "title": "Fair use",
+          "body": "You agree not to use Roamie to:",
+          "items": [
+            "post illegal, offensive or discriminatory content, or content that infringes others' rights",
+            "send spam or try to access trips you're not a member of",
+            "overload or compromise the service or the external services it uses (maps, place search, images)"
+          ]
+        },
+        {
+          "title": "User content",
+          "body": "Destinations, comments and itineraries remain yours. Posting them in a trip makes them visible to its members. The trip owner can manage members and moderate comments. Wikimedia Commons photos remain subject to their licences, shown on every image."
+        },
+        {
+          "title": "Limited liability",
+          "body": "Roamie is a planning tool: it doesn't sell travel and doesn't guarantee the accuracy of maps, places or images from external sources. To the extent permitted by law, we're not liable for indirect damages arising from use of the service or its temporary unavailability."
+        },
+        {
+          "title": "Deleting your account",
+          "body": "You can delete your account at any time from Profile → Delete account: your profile and associated data will be erased, including the trips you own. We may suspend accounts that violate these terms."
+        },
+        {
+          "title": "Changes and contact",
+          "body": "We may update these terms; we'll let you know in the app about significant changes. For any question write to {{contact}}."
+        }
+      ]
+    }
+  }
+}

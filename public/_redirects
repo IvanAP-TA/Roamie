@@ -1,0 +1,9 @@
+# Cloudflare Pages / Netlify. Prerendered pages (/, /en, /es, /privacy, /terms) are real files;
+# app routes get the empty, noindex app shell; any other path is a real 404 (404.html).
+/it          /         301
+/trips       /shell    200
+/trips/*     /shell    200
+/profile     /shell    200
+/join        /shell    200
+/join/*      /shell    200
+/auth/*      /shell    200

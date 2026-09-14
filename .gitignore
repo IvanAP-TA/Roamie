@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+dev-dist
+*.local
+.env
+.env.*
+!.env.example
+!.env.production
+.DS_Store
+*.log
+.claude/settings.local.json
+supabase/.temp
+supabase/.branches
