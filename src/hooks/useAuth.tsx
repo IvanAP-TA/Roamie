@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import type { Session, User } from '@supabase/supabase-js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { isSupabaseConfigured, supabase } from '@/lib/supabase'
-import { appUrl, safeNextPath } from '@/lib/utils'
+import { safeNextPath } from '@/lib/utils'
 import type { Profile } from '@/lib/types'
 
 interface AuthContextValue {
@@ -47,7 +47,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   })
 
   const signInWithGoogle = useCallback(async (next?: string) => {
-    const redirectTo = `${appUrl()}/auth/callback?next=${encodeURIComponent(safeNextPath(next))}`
+    // Always come back to the current origin: the PKCE code verifier lives in this origin's localStorage.
+    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNextPath(next))}`
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo, queryParams: { prompt: 'select_account' } },

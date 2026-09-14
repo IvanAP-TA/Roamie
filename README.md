@@ -85,7 +85,7 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   - Editor: destinations, itinerary, roulette
   - Viewer: read, vote and comment on their own content
 - **User-supplied URLs.** Photos can only be Wikimedia Commons files (`upload.wikimedia.org`) or built-in scenes, enforced by check constraints and again in the client. Avatars can only be Google URLs. Attribution links are https only. This blocks tracking pixels and CSS/HTML injection from other group members.
-- **HTTP headers.** `public/_headers` sets a strict Content-Security-Policy (no inline scripts, only the hosts the app talks to), HSTS, `X-Frame-Options: DENY`, `nosniff`, a restrictive Permissions-Policy, and long-lived caching for hashed assets.
+- **HTTP headers.** `vercel.json` sets a strict Content-Security-Policy (no inline scripts, only the hosts the app talks to), HSTS, `X-Frame-Options: DENY`, `nosniff`, a restrictive Permissions-Policy, and long-lived caching for hashed assets.
 - **RPCs:**
   - `get_trip_preview`: the only thing `anon` can call. It returns name, cover and member count.
   - `join_trip`, `regenerate_invite_code`, `cast_vote` (toggle), `spin_roulette`, `delete_account`
@@ -95,22 +95,17 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 - **SEO.**
   - The public pages are prerendered at build time (`src/entry-prerender.tsx` + `scripts/prerender.mjs`): `/` (Italian), `/en`, `/es`, `/privacy`, `/terms` and `404.html`. Each ships its real content, title, description, canonical, Open Graph/Twitter tags and, on the landing, hreflang alternates and JSON-LD (`WebSite`, `Organization`, `WebApplication`, `FAQPage`).
   - Every landing URL has a fixed language; the language switcher moves between them. `useSeo` keeps the same tags in sync on client-side navigation.
-  - Signed-in routes and invite links are served by `shell.html` (`noindex`) through `public/_redirects`; unknown paths get a real 404 status. `robots.txt` and `sitemap.xml` are in `public/`.
+  - Signed-in routes and invite links are served by `shell.html` (`noindex`) through the rewrites in `vercel.json`; unknown paths get a real 404 status. `robots.txt` and `sitemap.xml` are in `public/`.
 - **Nominatim policy.** Searches run only on explicit submit (no autocomplete), through a global client queue limited to 1 request per second, with results cached in localStorage. Browsers can't set `User-Agent`, so the app identifies itself with the `Referer` header and the `email` parameter.
 - **Wikimedia images.** Lookup tries the Wikipedia lead image first, resolved on Commons (so only freely licensed files are used), then a Commons file search whose titles must contain the place name. Maps, flags, coats of arms and tiny files are discarded. If nothing relevant remains, the card shows an illustrated scene instead. Attribution (author, licence, source) is stored as JSON and shown on every image.
 - **Privacy.** There are no analytics, no third-party trackers and no consent banner. Only strictly necessary storage is used (Supabase session, language, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
 
-## Deploying (Cloudflare Pages)
+## Deploying (Vercel)
 
 1. Push the repository to GitHub (**private**: the backup workflow stores database dumps as artifacts).
-2. In Cloudflare, create a *Workers & Pages → Pages* project from the repository:
-   - **Build command:** `npm run build`
-   - **Output directory:** `dist`
-   - **Environment variables:** `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_CONTACT_EMAIL`, `NODE_VERSION=22`
-3. Under *Custom domains*, add `roamie.org` and `www.roamie.org`, then add a redirect rule from `www` to the apex domain.
-4. In the `roamie.org` zone, enable **DNSSEC**, and in *SSL/TLS* set the mode to *Full (strict)* with **Always Use HTTPS** on.
-
-`_headers` and `_redirects` use syntax that also works on Netlify. Other hosts need equivalent header, rewrite and 404 rules.
+2. Import it in Vercel. `vercel.json` sets the build (`npm run build` → `dist`), clean URLs, rewrites, headers and caching. The public Supabase values come from the committed `.env.production`; optionally add `VITE_CONTACT_EMAIL` in *Settings → Environment Variables*.
+3. In Supabase *Authentication → URL Configuration*, add the Vercel domain to **Redirect URLs** (e.g. `https://roamie.vercel.app/**`) so Google sign-in works there too.
+4. Under *Settings → Domains*, add `roamie.org` and `www.roamie.org` (redirecting to the apex), then point the DNS records at Vercel as instructed.
 
 ## Backups and keep-alive
 
@@ -134,5 +129,5 @@ psql --single-transaction --variable ON_ERROR_STOP=1 --file roles.sql --file sch
 
 Keep these free-tier limits in mind:
 
-- **OpenStreetMap tiles:** the public tile servers are meant for light use. If traffic grows, switch the `TileLayer` URL to another free or self-hosted provider, and update `img-src`/`connect-src` in `public/_headers`.
+- **OpenStreetMap tiles:** the public tile servers are meant for light use. If traffic grows, switch the `TileLayer` URL to another free or self-hosted provider, and update `img-src`/`connect-src` in `vercel.json`.
 - **Supabase Auth emails:** not used (Google sign-in only).

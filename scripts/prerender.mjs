@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-// Post-build step (see "build" in package.json):
-//  1. renders the public pages (landing ×3 languages, legal, 404) into static HTML with their meta tags
-//  2. fills the Supabase host into the Content-Security-Policy in dist/_headers
+// Post-build step (see "build" in package.json): renders the public pages (landing ×3 languages,
+// legal, 404) into static HTML with their meta tags, so crawlers and link previews get real content.
 import { readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { loadEnv } from 'vite'
 
@@ -10,7 +9,9 @@ const dist = new URL('dist/', root)
 const ssrDir = new URL('dist-ssr/', root)
 
 const env = loadEnv('production', process.cwd(), 'VITE_')
-if (!env.VITE_SUPABASE_URL) throw new Error('VITE_SUPABASE_URL is required: the CSP in _headers must allow the Supabase host')
+if (!env.VITE_SUPABASE_URL || !env.VITE_SUPABASE_ANON_KEY) {
+  throw new Error('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are required for a working production build')
+}
 
 const { ROUTES, render } = await import(new URL('entry-prerender.js', ssrDir).href)
 
@@ -36,9 +37,5 @@ for (const route of ROUTES) {
   await writeFile(new URL(route.file, dist), page)
   console.log(`  prerendered ${route.path.padEnd(9)} → dist/${route.file}`)
 }
-
-const headersFile = new URL('_headers', dist)
-const headers = await readFile(headersFile, 'utf8')
-await writeFile(headersFile, headers.split('__SUPABASE_HOST__').join(new URL(env.VITE_SUPABASE_URL).host))
 
 await rm(ssrDir, { recursive: true, force: true })
