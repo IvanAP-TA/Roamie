@@ -494,6 +494,13 @@
     "dueIn": "The wheel spins in {{time}}",
     "dueNow": "The wheel is about to spin…"
   },
+  "story": {
+    "share": "Share",
+    "download": "Download image",
+    "wheelEyebrow": "The wheel has spoken 🎡",
+    "footer": "Plan yours on roamie.org",
+    "shareTitle": "Decided with Roamie"
+  },
   "notifications": {
     "title": "Notifications",
     "device": "Notifications on this device",

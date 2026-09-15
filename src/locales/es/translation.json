@@ -494,6 +494,13 @@
     "dueIn": "La ruleta gira en {{time}}",
     "dueNow": "La ruleta está a punto de girar…"
   },
+  "story": {
+    "share": "Compartir",
+    "download": "Descargar imagen",
+    "wheelEyebrow": "La ruleta ha decidido 🎡",
+    "footer": "Decidid también vosotros en roamie.org",
+    "shareTitle": "Decidido con Roamie"
+  },
   "notifications": {
     "title": "Notificaciones",
     "device": "Notificaciones en este dispositivo",

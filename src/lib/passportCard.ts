@@ -19,19 +19,19 @@ export interface PassportCardData {
 export const CARD_WIDTH = 1080
 export const CARD_HEIGHT = 1920
 
-const DISPLAY = '"Fraunces Variable", Georgia, serif'
-const SANS = '"Instrument Sans Variable", system-ui, sans-serif'
-const INK = '#fff8f1'
-const SUN = '#ffd08a'
+export const DISPLAY = '"Fraunces Variable", Georgia, serif'
+export const SANS = '"Instrument Sans Variable", system-ui, sans-serif'
+export const INK = '#fff8f1'
+export const SUN = '#ffd08a'
 
-function fit(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+export function fit(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
   if (ctx.measureText(text).width <= maxWidth) return text
   let cut = text
   while (cut.length > 1 && ctx.measureText(`${cut}…`).width > maxWidth) cut = cut.slice(0, -1)
   return `${cut.trimEnd()}…`
 }
 
-function roundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+export function roundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath()
   ctx.moveTo(x + r, y)
   ctx.arcTo(x + w, y, x + w, y + h, r)
@@ -41,7 +41,7 @@ function roundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: num
   ctx.closePath()
 }
 
-function background(ctx: CanvasRenderingContext2D) {
+export function background(ctx: CanvasRenderingContext2D) {
   const sky = ctx.createLinearGradient(0, 0, 0, CARD_HEIGHT)
   sky.addColorStop(0, '#1f1418')
   sky.addColorStop(0.45, '#5a2a45')

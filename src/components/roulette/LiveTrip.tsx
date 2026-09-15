@@ -12,11 +12,13 @@ import { keys } from '@/hooks/useTrips'
 import { onSpinAnnounced, revealOrder, SHOW_TIMING, slicesFromSpin, type LiveSpin, type SpinEntry } from '@/lib/liveSpin'
 import { targetRotation, totalPoints } from '@/lib/roulette'
 import { playWin } from '@/lib/sound'
+import { renderDecisionCard, storyPhotoUrl } from '@/lib/storyCard'
 import { supabase } from '@/lib/supabase'
 import type { Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { Floating } from '@/components/layout/Floating'
 import { CoverImage } from '@/components/media/CoverImage'
+import { ShareStoryButton } from '@/components/media/ShareStoryButton'
 import { UserAvatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { RouletteWheel } from './RouletteWheel'
@@ -257,6 +259,10 @@ function Overlay({ children, onClose, closable }: { children: ReactNode; onClose
   )
 }
 
+/** Most points first, for the story image. */
+const storyRanking = (entries: SpinEntry[], pointsLabel: (count: number) => string) =>
+  [...revealOrder(entries)].reverse().map((e) => ({ id: e.id, name: e.name, points: e.points, pointsLabel: pointsLabel(e.points) }))
+
 /** Destinations and points, uncovered from last place to first. */
 function RevealRanking({ entries }: { entries: SpinEntry[] }) {
   const { t } = useTranslation()
@@ -316,10 +322,28 @@ function RevealShow({ entries, onClose }: { entries: SpinEntry[]; onClose: () =>
   return (
     <Overlay onClose={onClose} closable>
       <RevealRanking entries={entries} />
-      <div className={cn('mt-6 flex gap-2 transition-opacity duration-500', finished ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+      <div className={cn('mt-6 flex flex-wrap justify-center gap-2 transition-opacity duration-500', finished ? 'opacity-100' : 'pointer-events-none opacity-0')}>
         <Button variant="glass" onClick={onClose}>
           {t('secret.close')}
         </Button>
+        <ShareStoryButton
+          fileName="roamie-voto.png"
+          title={t('story.shareTitle')}
+          render={() => {
+            const ranking = storyRanking(entries, (count) => t('secret.points', { count }))
+            return renderDecisionCard({
+              kind: 'reveal',
+              eyebrow: t('secret.revealEyebrow'),
+              title: t('secret.revealHeading'),
+              subtitle: null,
+              tripName: trip.name,
+              ranking,
+              winnerId: ranking[0]?.id ?? null,
+              photoUrl: null,
+              footer: t('story.footer'),
+            })
+          }}
+        />
         <Button
           onClick={() => {
             onClose()
@@ -338,7 +362,7 @@ type Phase = 'reveal' | 'countdown' | 'spin' | 'result'
 
 function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }) {
   const { t } = useTranslation()
-  const { members } = useTripContext()
+  const { trip, members } = useTripContext()
   const { data: destinations } = useDestinations(spin.trip_id)
   const [, setParams] = useSearchParams()
   const slices = useMemo(() => slicesFromSpin(spin.entries), [spin.entries])
@@ -387,6 +411,18 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
   }, [spin, winnerSlice, rotation])
 
   const winnerName = winner?.name ?? winnerSlice?.destination.name ?? ''
+  const story = () =>
+    renderDecisionCard({
+      kind: 'wheel',
+      eyebrow: t('story.wheelEyebrow'),
+      title: winnerName,
+      subtitle: winner?.country ?? null,
+      tripName: trip.name,
+      ranking: storyRanking(spin.entries, (count) => t('secret.points', { count })),
+      winnerId: spin.winner_id,
+      photoUrl: storyPhotoUrl(winner?.image_url),
+      footer: t('story.footer'),
+    })
 
   return (
     <Overlay onClose={onClose} closable={phase === 'result'}>
@@ -417,6 +453,7 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
       )}
 
       {phase === 'result' && (
+        <div className="flex w-full flex-col items-center gap-4">
         <motion.div
           initial={{ scale: 0.6, rotate: -8, y: 40 }}
           animate={{ scale: 1, rotate: 0, y: 0 }}
@@ -456,6 +493,8 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
             )}
           </div>
         </motion.div>
+        <ShareStoryButton render={story} fileName="roamie-ruota.png" title={t('story.shareTitle')} />
+        </div>
       )}
     </Overlay>
   )

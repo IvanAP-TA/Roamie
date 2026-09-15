@@ -494,6 +494,13 @@
     "dueIn": "La ruota gira tra {{time}}",
     "dueNow": "La ruota sta per girare…"
   },
+  "story": {
+    "share": "Condividi",
+    "download": "Scarica immagine",
+    "wheelEyebrow": "La ruota ha deciso 🎡",
+    "footer": "Decidete anche voi su roamie.org",
+    "shareTitle": "Deciso con Roamie"
+  },
   "notifications": {
     "title": "Notifiche",
     "device": "Notifiche su questo dispositivo",
