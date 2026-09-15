@@ -1,6 +1,6 @@
 /** The text of each notification, in the language the device was subscribed in. */
 
-export type PushKind = 'destination' | 'roulette' | 'dates_open' | 'dates_fixed' | 'member' | 'comment'
+export type PushKind = 'destination' | 'roulette' | 'dates_open' | 'dates_fixed' | 'member' | 'comment' | 'mention'
 export type PushLang = 'it' | 'en' | 'es'
 
 export interface PushData {
@@ -10,6 +10,8 @@ export interface PushData {
   start?: string
   end?: string | null
   excerpt?: string
+  /** A mention of the whole group (@all) */
+  all?: boolean
 }
 
 export interface PushMessage {
@@ -31,6 +33,8 @@ const TEXT: Record<
     datesFixed: (range: string) => string
     member: (actor: string) => string
     comment: (actor: string, destination: string, excerpt: string) => string
+    mention: (actor: string, destination: string, excerpt: string) => string
+    mentionAll: (actor: string, destination: string, excerpt: string) => string
   }
 > = {
   it: {
@@ -41,6 +45,8 @@ const TEXT: Record<
     datesFixed: (range) => `Date fissate: ${range} ✈️`,
     member: (actor) => `${actor} è entrato nel gruppo`,
     comment: (actor, destination, excerpt) => `${actor} su ${destination}: “${excerpt}”`,
+    mention: (actor, destination, excerpt) => `${actor} ti ha menzionato su ${destination}: “${excerpt}”`,
+    mentionAll: (actor, destination, excerpt) => `${actor} a tutto il gruppo su ${destination}: “${excerpt}”`,
   },
   en: {
     someone: 'Someone',
@@ -50,6 +56,8 @@ const TEXT: Record<
     datesFixed: (range) => `Dates are set: ${range} ✈️`,
     member: (actor) => `${actor} joined the group`,
     comment: (actor, destination, excerpt) => `${actor} on ${destination}: “${excerpt}”`,
+    mention: (actor, destination, excerpt) => `${actor} mentioned you on ${destination}: “${excerpt}”`,
+    mentionAll: (actor, destination, excerpt) => `${actor} to everyone on ${destination}: “${excerpt}”`,
   },
   es: {
     someone: 'Alguien',
@@ -59,6 +67,8 @@ const TEXT: Record<
     datesFixed: (range) => `Fechas decididas: ${range} ✈️`,
     member: (actor) => `${actor} se ha unido al grupo`,
     comment: (actor, destination, excerpt) => `${actor} en ${destination}: «${excerpt}»`,
+    mention: (actor, destination, excerpt) => `${actor} te ha mencionado en ${destination}: «${excerpt}»`,
+    mentionAll: (actor, destination, excerpt) => `${actor} a todo el grupo en ${destination}: «${excerpt}»`,
   },
 }
 
@@ -90,6 +100,8 @@ export function renderPush(kind: PushKind, lang: string, data: PushData, tripId:
         return [text.member(actor), `${trip}/group`, trip]
       case 'comment':
         return [text.comment(actor, destination, data.excerpt ?? ''), destinationUrl, data.destination_id ?? trip]
+      case 'mention':
+        return [(data.all ? text.mentionAll : text.mention)(actor, destination, data.excerpt ?? ''), destinationUrl, data.destination_id ?? trip]
     }
   })()
 

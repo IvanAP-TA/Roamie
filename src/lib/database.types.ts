@@ -272,6 +272,7 @@ export type Database = {
           dates: boolean
           destinations: boolean
           members: boolean
+          mentions: boolean
           roulette: boolean
           updated_at: string
           user_id: string
@@ -281,6 +282,7 @@ export type Database = {
           dates?: boolean
           destinations?: boolean
           members?: boolean
+          mentions?: boolean
           roulette?: boolean
           updated_at?: string
           user_id?: string
@@ -290,6 +292,7 @@ export type Database = {
           dates?: boolean
           destinations?: boolean
           members?: boolean
+          mentions?: boolean
           roulette?: boolean
           updated_at?: string
           user_id?: string

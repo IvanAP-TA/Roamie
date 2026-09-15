@@ -280,7 +280,10 @@
   "comments": {
     "title": "Commenti",
     "empty": "Ancora nessun commento. Rompi il ghiaccio!",
-    "placeholder": "Scrivi un commento…",
+    "placeholder": "Commenta… usa @ per taggare",
+    "everyone": "Tutto il gruppo",
+    "mentionList": "Persone da taggare",
+    "allLimited": "Hai già scritto a tutto il gruppo più volte nell'ultima ora: riprova più tardi.",
     "send": "Invia commento",
     "delete": "Elimina commento",
     "count_one": "{{count}} commento",
@@ -531,6 +534,10 @@
       "comments": {
         "title": "Commenti",
         "hint": "Sulle mete che hai proposto o commentato"
+      },
+      "mentions": {
+        "title": "Menzioni",
+        "hint": "Quando qualcuno ti tagga o scrive @all"
       }
     }
   },

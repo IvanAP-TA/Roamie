@@ -280,7 +280,10 @@
   "comments": {
     "title": "Comentarios",
     "empty": "Aún no hay comentarios. ¡Rompe el hielo!",
-    "placeholder": "Escribe un comentario…",
+    "placeholder": "Comenta… usa @ para mencionar",
+    "everyone": "Todo el grupo",
+    "mentionList": "Personas para mencionar",
+    "allLimited": "Ya has escrito a todo el grupo varias veces en la última hora: inténtalo más tarde.",
     "send": "Enviar comentario",
     "delete": "Eliminar comentario",
     "count_one": "{{count}} comentario",
@@ -531,6 +534,10 @@
       "comments": {
         "title": "Comentarios",
         "hint": "En los destinos que has propuesto o comentado"
+      },
+      "mentions": {
+        "title": "Menciones",
+        "hint": "Cuando alguien te etiqueta o escribe @all"
       }
     }
   },

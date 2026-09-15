@@ -280,7 +280,10 @@
   "comments": {
     "title": "Comments",
     "empty": "No comments yet. Break the ice!",
-    "placeholder": "Write a comment…",
+    "placeholder": "Comment… use @ to tag",
+    "everyone": "Everyone in the group",
+    "mentionList": "People to tag",
+    "allLimited": "You've already written to the whole group several times in the last hour: try again later.",
     "send": "Send comment",
     "delete": "Delete comment",
     "count_one": "{{count}} comment",
@@ -531,6 +534,10 @@
       "comments": {
         "title": "Comments",
         "hint": "On places you proposed or commented on"
+      },
+      "mentions": {
+        "title": "Mentions",
+        "hint": "When someone tags you or writes @all"
       }
     }
   },

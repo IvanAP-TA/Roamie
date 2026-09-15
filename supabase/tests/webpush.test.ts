@@ -119,5 +119,11 @@ describe('notification texts', () => {
       url: '/trips/t1/itinerary?view=dates',
     })
     expect(renderPush('member', 'fr', { actor: 'Sam' }, 't1', null)).toMatchObject({ title: 'Roamie', body: 'Sam è entrato nel gruppo', url: '/trips/t1/group' })
+    expect(
+      renderPush('mention', 'it', { actor: 'Vera', destination: 'Oslo', destination_id: 'd2', excerpt: '@Olivia ci sei?', all: false }, 't1', 'Nord'),
+    ).toMatchObject({ body: 'Vera ti ha menzionato su Oslo: “@Olivia ci sei?”', url: '/trips/t1?d=d2', tag: 'mention:d2' })
+    expect(renderPush('mention', 'en', { actor: 'Vera', destination: 'Oslo', destination_id: 'd2', excerpt: 'Ready? @all', all: true }, 't1', 'North').body).toBe(
+      'Vera to everyone on Oslo: “Ready? @all”',
+    )
   })
 })

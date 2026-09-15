@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Bell, BellOff, CalendarDays, FerrisWheel, Loader2, MapPinPlus, MessageCircle, UserPlus } from 'lucide-react'
+import { AtSign, Bell, BellOff, CalendarDays, FerrisWheel, Loader2, MapPinPlus, MessageCircle, UserPlus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -14,13 +14,14 @@ const CATEGORIES = [
   { id: 'roulette', icon: FerrisWheel },
   { id: 'dates', icon: CalendarDays },
   { id: 'members', icon: UserPlus },
+  { id: 'mentions', icon: AtSign },
   { id: 'comments', icon: MessageCircle },
 ] as const
 
 type Category = (typeof CATEGORIES)[number]['id']
 type Preferences = Record<Category, boolean>
 
-const EVERYTHING_ON: Preferences = { destinations: true, roulette: true, dates: true, members: true, comments: true }
+const EVERYTHING_ON: Preferences = { destinations: true, roulette: true, dates: true, members: true, mentions: true, comments: true }
 
 /** Profile section: push on this device, and which events to be told about (shared by all the user's devices). */
 export function NotificationSettings() {
@@ -52,7 +53,7 @@ export function NotificationSettings() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('notification_preferences')
-        .select('destinations, roulette, dates, members, comments')
+        .select('destinations, roulette, dates, members, mentions, comments')
         .maybeSingle()
       if (error) throw error
       return data ?? EVERYTHING_ON

@@ -831,6 +831,54 @@ describe('push notifications', () => {
 
     await db.exec(`delete from public.push_outbox; delete from public.push_subscriptions; delete from public.notification_preferences;`)
   })
+
+  it('sends mentions to the members tagged, or to everyone with @all, once per person', async () => {
+    await subscribe(OWNER)
+    await subscribe(EDITOR)
+    await subscribe(VIEWER)
+    const [dest] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Stavanger') returning id`, [tripId]),
+    )
+    const comment = (user: string, content: string) =>
+      as(db, user, (q) => q(`insert into public.comments (destination_id, content) values ($1, $2)`, [dest.id, content]))
+    await clearQueue()
+
+    // The owner is tagged; the stranger's id is ignored (not in the trip). The editor proposed it: a plain comment.
+    await comment(VIEWER, `<@${OWNER}> <@${STRANGER}> guarda qui`)
+    expect(await queued()).toEqual([
+      {
+        user_id: OWNER,
+        kind: 'mention',
+        data: expect.objectContaining({ actor: 'Vera', destination: 'Stavanger', excerpt: '@Olivia @… guarda qui', all: false }),
+      },
+      { user_id: EDITOR, kind: 'comment', data: expect.objectContaining({ excerpt: '@Olivia @… guarda qui' }) },
+    ])
+
+    // @all: every other member, as a mention only, even with comment notifications turned off.
+    await clearQueue()
+    await as(db, VIEWER, (q) => q(`insert into public.notification_preferences (comments) values (false)`))
+    await comment(OWNER, 'Si parte? @all')
+    expect(await recipients('mention')).toEqual([EDITOR, VIEWER].sort())
+    expect(await recipients('comment')).toEqual([])
+
+    // Mentions turned off: the proposer still hears about it as a comment.
+    await clearQueue()
+    await as(db, EDITOR, (q) => q(`insert into public.notification_preferences (mentions) values (false)`))
+    await comment(OWNER, `<@${EDITOR}> ci sei?`)
+    expect(await queued()).toEqual([{ user_id: EDITOR, kind: 'comment', data: expect.objectContaining({ all: false }) }])
+
+    // An e-mail address isn't @all, and @all has a limit.
+    await clearQueue()
+    await comment(VIEWER, 'scrivimi a vera@allegra.it')
+    expect(await recipients('mention')).toEqual([])
+    await comment(OWNER, '@ALL due')
+    await comment(OWNER, '@all tre')
+    await rejects(comment(OWNER, '@all quattro'), /mention_all_limited/)
+    await comment(OWNER, 'senza tag va bene')
+
+    await db.query(`delete from public.destinations where id = $1`, [dest.id])
+    await db.exec(`delete from public.push_outbox; delete from public.push_subscriptions; delete from public.notification_preferences;`)
+  })
 })
 
 describe('membership lifecycle & account deletion', () => {

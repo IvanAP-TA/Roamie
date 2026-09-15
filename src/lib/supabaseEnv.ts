@@ -53,6 +53,7 @@ export type RpcErrorCode =
   | 'points_budget_exceeded'
   | 'destination_not_proposed'
   | 'invalid_spin_time'
+  | 'mention_all_limited'
 
 export function rpcErrorCode(error: { message?: string } | null | undefined): RpcErrorCode | null {
   const known: RpcErrorCode[] = [
@@ -64,6 +65,7 @@ export function rpcErrorCode(error: { message?: string } | null | undefined): Rp
     'points_budget_exceeded',
     'destination_not_proposed',
     'invalid_spin_time',
+    'mention_all_limited',
   ]
   return known.find((code) => error?.message?.includes(code)) ?? null
 }
