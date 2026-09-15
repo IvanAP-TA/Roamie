@@ -32,7 +32,8 @@ export interface DestinationInput {
   image_url: string | null
   image_attribution: string | null
   mood: Mood[]
-  budget_level: BudgetLevel | null
+  /** Only set by guides now; the app shows a level estimated from the destination's costs. */
+  budget_level?: BudgetLevel | null
   expectations: string | null
 }
 

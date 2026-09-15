@@ -26,6 +26,7 @@ import { CostEstimate } from './CostEstimate'
 import { RatingSection } from './RatingSection'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
+import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination, DestinationStatus } from '@/lib/types'
 import { timeAgo } from '@/lib/utils'
 
@@ -63,6 +64,7 @@ export function DestinationDetailSheet() {
   const profileOf = (userId: string) => members.find((m) => m.user_id === userId)?.profile ?? null
   const voters = [...d.votes].sort((a, b) => b.points - a.points)
   const canDelete = isOwner || (canEdit && d.created_by === user?.id)
+  const budget = estimatedBudgetLevel(d)
 
   const setStatus = (status: DestinationStatus) =>
     update.mutate(
@@ -178,14 +180,14 @@ export function DestinationDetailSheet() {
             )}
           </div>
 
-          {(d.mood.length > 0 || d.budget_level) && (
+          {(d.mood.length > 0 || budget) && (
             <div className="flex flex-wrap items-center gap-2 px-2">
               {d.mood.map((m) => (
                 <MoodTag key={m} mood={m} />
               ))}
-              {d.budget_level && (
+              {budget && (
                 <span className="inline-flex h-7 items-center rounded-full bg-foreground/[0.05] px-2.5 text-xs">
-                  <BudgetIndicator level={d.budget_level} showLabel className="[&_.text-sm]:text-xs" />
+                  <BudgetIndicator level={budget} showLabel className="[&_.text-sm]:text-xs" />
                 </span>
               )}
             </div>

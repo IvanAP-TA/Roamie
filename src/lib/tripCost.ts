@@ -1,4 +1,5 @@
 import priceLevels from '@/data/price-levels.json'
+import type { BudgetLevel } from '@/lib/types'
 
 /**
  * Rough per-person costs of a destination, with no external calls:
@@ -108,4 +109,15 @@ export function estimateTripCost(
     total = { low: round(fare.low + stay * 0.8, 10), high: round(fare.high + stay * 1.25, 10) }
   }
   return { flight, local, days, total }
+}
+
+/** Week-long trip per person, middle of the estimate, above which a destination counts as €€ and €€€. */
+const BUDGET_BANDS = [700, 1200]
+
+/** €, €€ or €€€ from the estimated cost of a week there, flight included; null when it can't be estimated. */
+export function estimatedBudgetLevel(destination: { lat: number | null; lng: number | null; country_code: string | null }): BudgetLevel | null {
+  const { total } = estimateTripCost(destination, 7)
+  if (!total) return null
+  const middle = (total.low + total.high) / 2
+  return middle <= BUDGET_BANDS[0] ? 1 : middle <= BUDGET_BANDS[1] ? 2 : 3
 }

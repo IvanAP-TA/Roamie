@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { distanceKm, estimateTripCost, flightFromItaly, ITALY_DAILY, localCosts, tripDays } from './tripCost'
+import { distanceKm, estimatedBudgetLevel, estimateTripCost, flightFromItaly, ITALY_DAILY, localCosts, tripDays } from './tripCost'
 
 const PARIS = { lat: 48.8566, lng: 2.3522 }
 const TOKYO = { lat: 35.6762, lng: 139.6503 }
@@ -54,6 +54,15 @@ describe('trip estimate', () => {
     const stay = local.night * 4 + local.day * 5
     expect(estimate.total!.low).toBe(Math.round((flight.low + stay * 0.8) / 10) * 10)
     expect(estimate.total!.high).toBe(Math.round((flight.high + stay * 1.25) / 10) * 10)
+  })
+
+  it('rates a week there from € to €€€, flight included', () => {
+    expect(estimatedBudgetLevel({ ...FLORENCE, country_code: 'IT' })).toBe(1)
+    expect(estimatedBudgetLevel({ ...PARIS, country_code: 'FR' })).toBe(2)
+    expect(estimatedBudgetLevel({ ...TOKYO, country_code: 'JP' })).toBe(3)
+    // Cheap to stay, but the long flight makes it anything but a budget trip from Italy.
+    expect(estimatedBudgetLevel({ lat: 13.7563, lng: 100.5018, country_code: 'TH' })).toBeGreaterThan(1)
+    expect(estimatedBudgetLevel({ lat: null, lng: null, country_code: 'FR' })).toBeNull()
   })
 
   it('gives no total when a part is unknown', () => {

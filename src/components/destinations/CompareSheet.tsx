@@ -7,6 +7,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { Skeleton } from '@/components/ui/misc'
 import { Sheet } from '@/components/ui/sheet'
 import { totalPoints } from '@/lib/roulette'
+import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { useBestMonthsLabel } from './ClimateCard'
 import { BudgetIndicator, MoodTag } from './moods'
@@ -63,7 +64,10 @@ export function CompareSheet({
     {
       key: 'budget',
       label: t('compare.budget'),
-      render: (d) => (d.budget_level ? <BudgetIndicator level={d.budget_level} showLabel className="[&_.text-sm]:text-xs" /> : empty),
+      render: (d) => {
+        const level = estimatedBudgetLevel(d)
+        return level ? <BudgetIndicator level={level} showLabel className="[&_.text-sm]:text-xs" /> : empty
+      },
     },
     {
       key: 'mood',

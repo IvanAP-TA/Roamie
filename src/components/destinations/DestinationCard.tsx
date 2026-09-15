@@ -6,6 +6,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { UserAvatar } from '@/components/ui/avatar'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl } from './PointsControl'
+import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -21,6 +22,7 @@ export const DestinationCard = forwardRef<
 >(function DestinationCard({ destination: d, onOpen, selectable = false, selected = false }, ref) {
   const { t } = useTranslation()
   const comments = d.comments[0]?.count ?? 0
+  const budget = estimatedBudgetLevel(d)
 
   return (
     <motion.article
@@ -74,10 +76,10 @@ export const DestinationCard = forwardRef<
             <h3 className="truncate text-[1.7rem] leading-tight drop-shadow-md">{d.name}</h3>
             <div className="flex items-center gap-2 text-sm text-white/85">
               {d.country && <span className="truncate">{d.country}</span>}
-              {d.budget_level && (
+              {budget && (
                 <>
                   <span className="size-1 rounded-full bg-white/60" />
-                  <BudgetIndicator level={d.budget_level} className="[&_span_span]:!text-white [&_.text-foreground\/20]:!text-white/35" />
+                  <BudgetIndicator level={budget} className="[&_span_span]:!text-white [&_.text-foreground\/20]:!text-white/35" />
                 </>
               )}
             </div>

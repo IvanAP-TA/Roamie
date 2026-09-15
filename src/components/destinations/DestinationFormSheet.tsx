@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Check, ImageOff, Images, Loader2, LocateFixed, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -14,7 +13,7 @@ import { PlaceSearch } from '@/components/places/PlaceSearch'
 import { useCreateDestination, useUpdateDestination, type DestinationInput } from '@/hooks/useDestinations'
 import type { Place } from '@/lib/nominatim'
 import { serializeAttribution, type WikiImage } from '@/lib/wikimedia'
-import { MOODS, type BudgetLevel, type Destination, type Mood } from '@/lib/types'
+import { MOODS, type Destination, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { MOOD_META } from './moods'
 
@@ -44,7 +43,6 @@ export function DestinationFormSheet({
   const [picker, setPicker] = useState<{ key: number; query: string; autoSelect: boolean } | null>(null)
 
   const [mood, setMood] = useState<Mood[]>([])
-  const [budget, setBudget] = useState<BudgetLevel | null>(null)
   const [expectations, setExpectations] = useState('')
 
   useEffect(() => {
@@ -57,7 +55,6 @@ export function DestinationFormSheet({
     setImage(destination?.image_url ? { url: destination.image_url, attribution: destination.image_attribution ?? '' } : null)
     setPicker(null)
     setMood(destination?.mood ?? [])
-    setBudget(destination?.budget_level ?? null)
     setExpectations(destination?.expectations ?? '')
   }, [open, destination])
 
@@ -90,7 +87,6 @@ export function DestinationFormSheet({
       image_url: image?.url ?? null,
       image_attribution: image?.attribution || null,
       mood,
-      budget_level: budget,
       expectations: expectations.trim() || null,
     }
     try {
@@ -206,31 +202,6 @@ export function DestinationFormSheet({
                 </Chip>
               )
             })}
-          </div>
-        </section>
-
-        {/* ── Budget ── */}
-        <section>
-          <Label>{t('destForm.budget')}</Label>
-          <div className="grid grid-cols-3 gap-1 rounded-2xl bg-foreground/[0.05] p-1">
-            {([1, 2, 3] as const).map((level) => (
-              <button
-                key={level}
-                type="button"
-                aria-pressed={budget === level}
-                onClick={() => setBudget(budget === level ? null : level)}
-                className={cn(
-                  'relative flex flex-col items-center rounded-xl py-2 transition-colors',
-                  budget === level ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {budget === level && (
-                  <motion.span layoutId="budget-pill" className="absolute inset-0 rounded-xl bg-[var(--paper)] shadow-soft" transition={{ type: 'spring', stiffness: 450, damping: 32 }} />
-                )}
-                <span className="relative font-semibold">{'€'.repeat(level)}</span>
-                <span className="relative text-[0.68rem]">{t(`budget.${level}`)}</span>
-              </button>
-            ))}
           </div>
         </section>
 
