@@ -152,6 +152,45 @@ export type Database = {
           },
         ]
       }
+      destination_reasons: {
+        Row: {
+          created_at: string
+          destination_id: string
+          id: string
+          text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          destination_id: string
+          id?: string
+          text: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          destination_id?: string
+          id?: string
+          text?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "destination_reasons_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "destination_reasons_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       destination_reviews: {
         Row: {
           created_at: string
@@ -386,6 +425,42 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "push_subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reason_likes: {
+        Row: {
+          created_at: string
+          id: string
+          reason_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reason_id: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reason_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reason_likes_reason_id_fkey"
+            columns: ["reason_id"]
+            isOneToOne: false
+            referencedRelation: "destination_reasons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reason_likes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"

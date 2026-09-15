@@ -69,6 +69,16 @@ export interface ReviewSummary {
   rating: number
 }
 
+/** A member's reason to go somewhere ("Perché andarci"). */
+export interface ReasonSummary {
+  id: string
+  user_id: string
+  text: string
+  created_at: string
+  /** During a secret vote, only the member's own */
+  likes: { id: string; user_id: string }[]
+}
+
 export interface Destination {
   id: string
   trip_id: string
@@ -92,6 +102,7 @@ export interface Destination {
   country_code: string | null
   visited_at: string | null
   reviews: ReviewSummary[]
+  reasons: ReasonSummary[]
 }
 
 export interface DestinationComment {

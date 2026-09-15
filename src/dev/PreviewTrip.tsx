@@ -66,10 +66,15 @@ const base = {
   country_code: null,
   visited_at: null,
   reviews: [],
+  reasons: [],
 }
 
 const DESTINATIONS: Destination[] = [
-  { ...base, id: 'd1', name: 'Lisbona', country: 'Portogallo', lat: 38.72, lng: -9.14, mood: ['culture', 'food_wine', 'nightlife'], budget_level: 2, expectations: 'Tramonti al Miradouro, pastéis de nata e tram che si arrampicano.', status: 'proposed', created_at: '2026-09-05T10:00:00Z', votes: votes([4, 3, 2]) },
+  { ...base, id: 'd1', name: 'Lisbona', country: 'Portogallo', lat: 38.72, lng: -9.14, mood: ['culture', 'food_wine', 'nightlife'], budget_level: 2, expectations: 'Tramonti al Miradouro, pastéis de nata e tram che si arrampicano.', status: 'proposed', created_at: '2026-09-05T10:00:00Z', votes: votes([4, 3, 2]), reasons: [
+    { id: 'r1', user_id: 'u2', text: 'Voli a 40€ da Bologna ad agosto', created_at: '2026-09-06T10:00:00Z', likes: [{ id: 'l1', user_id: 'u3' }, { id: 'l2', user_id: 'u4' }] },
+    { id: 'r2', user_id: 'u3', text: 'Si mangia benissimo e costa poco', created_at: '2026-09-07T10:00:00Z', likes: [{ id: 'l3', user_id: 'u1' }] },
+    { id: 'r3', user_id: 'u1', text: 'Tramonti incredibili', created_at: '2026-09-08T10:00:00Z', likes: [] },
+  ] },
   { ...base, id: 'd2', name: 'Isole Lofoten', country: 'Norvegia', lat: 68.2, lng: 13.6, mood: ['nature', 'adventure'], budget_level: 3, expectations: null, status: 'proposed', created_at: '2026-09-06T10:00:00Z', votes: votes([2, 1]) },
   { ...base, id: 'd3', name: 'Oaxaca', country: 'Messico', lat: 17.06, lng: -96.72, mood: ['food_wine', 'culture'], budget_level: 1, expectations: 'Mole, mezcal e mercati.', status: 'proposed', created_at: '2026-09-07T10:00:00Z', votes: votes([3, 2]) },
   { ...base, id: 'd4', name: 'Berlino', country: 'Germania', lat: 52.52, lng: 13.4, mood: ['nightlife'], budget_level: 2, expectations: null, status: 'proposed', created_at: '2026-09-08T10:00:00Z', votes: votes([]) },

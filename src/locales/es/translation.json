@@ -289,6 +289,20 @@
     "count_one": "{{count}} comentario",
     "count_other": "{{count}} comentarios"
   },
+  "reasons": {
+    "title": "Por qué ir",
+    "empty": "Nadie ha dicho aún por qué ir. ¡Convence al grupo!",
+    "placeholder": "Un motivo para ir…",
+    "add": "Añadir",
+    "left_one": "Puedes añadir {{count}} motivo más",
+    "left_other": "Puedes añadir {{count}} motivos más",
+    "limit": "Ya has escrito 3 motivos para este destino",
+    "like": "Me convence",
+    "hiddenLikes": "Voto secreto: los 👍 se ven en la revelación",
+    "delete": "Eliminar motivo",
+    "more_one": "+{{count}} más",
+    "more_other": "+{{count}} más"
+  },
   "status": {
     "proposed": "Propuesto",
     "selected": "Elegido",

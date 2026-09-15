@@ -289,6 +289,20 @@
     "count_one": "{{count}} commento",
     "count_other": "{{count}} commenti"
   },
+  "reasons": {
+    "title": "Perché andarci",
+    "empty": "Nessuno ha ancora scritto perché andarci. Convinci il gruppo!",
+    "placeholder": "Un motivo per andarci…",
+    "add": "Aggiungi",
+    "left_one": "Puoi aggiungere ancora {{count}} motivo",
+    "left_other": "Puoi aggiungere ancora {{count}} motivi",
+    "limit": "Hai già scritto 3 motivi per questa meta",
+    "like": "Mi convince",
+    "hiddenLikes": "Voto segreto: i 👍 si vedono alla rivelazione",
+    "delete": "Elimina motivo",
+    "more_one": "+{{count}} altro",
+    "more_other": "+{{count}} altri"
+  },
   "status": {
     "proposed": "Proposta",
     "selected": "Estratta",

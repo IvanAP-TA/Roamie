@@ -289,6 +289,20 @@
     "count_one": "{{count}} comment",
     "count_other": "{{count}} comments"
   },
+  "reasons": {
+    "title": "Why go",
+    "empty": "Nobody has said why to go yet. Win the group over!",
+    "placeholder": "A reason to go…",
+    "add": "Add",
+    "left_one": "You can add {{count}} more reason",
+    "left_other": "You can add {{count}} more reasons",
+    "limit": "You've already written 3 reasons for this place",
+    "like": "Convincing",
+    "hiddenLikes": "Secret vote: 👍 show up at the reveal",
+    "delete": "Delete reason",
+    "more_one": "+{{count}} more",
+    "more_other": "+{{count}} more"
+  },
   "status": {
     "proposed": "Proposed",
     "selected": "Picked",

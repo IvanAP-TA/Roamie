@@ -24,6 +24,7 @@ const dest = (id: string, points: number[], status: Destination['status'] = 'pro
   country_code: null,
   visited_at: null,
   reviews: [],
+  reasons: [],
 })
 
 describe('roulette', () => {

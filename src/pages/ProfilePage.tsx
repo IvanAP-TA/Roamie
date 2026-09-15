@@ -23,12 +23,14 @@ import { Switch } from '@/components/ui/misc'
 
 /** GDPR data portability: everything tied to the user, as a JSON download. */
 async function exportMyData(userId: string, email: string | undefined) {
-  const [profile, memberships, destinations, votes, comments, links, checklist, ratings, visitedPlaces, hiddenVisits, availability] = await Promise.all([
+  const [profile, memberships, destinations, votes, comments, reasons, reasonLikes, links, checklist, ratings, visitedPlaces, hiddenVisits, availability] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', userId).single(),
     supabase.from('trip_members').select('role, joined_at, trip:trips(id, name, description, created_at)').eq('user_id', userId),
     supabase.from('destinations').select('*').eq('created_by', userId),
     supabase.from('votes').select('destination_id, points, created_at').eq('user_id', userId),
     supabase.from('comments').select('destination_id, content, created_at').eq('user_id', userId),
+    supabase.from('destination_reasons').select('destination_id, text, created_at').eq('user_id', userId),
+    supabase.from('reason_likes').select('reason_id, created_at').eq('user_id', userId),
     supabase.from('trip_links').select('trip_id, category, title, url, note, created_at').eq('created_by', userId),
     supabase.from('checklist_items').select('trip_id, kind, title, done, created_at').eq('created_by', userId),
     supabase.from('destination_reviews').select('destination_id, rating, created_at').eq('user_id', userId),
@@ -44,6 +46,8 @@ async function exportMyData(userId: string, email: string | undefined) {
     destinations_proposed: unwrap(destinations),
     votes: unwrap(votes),
     comments: unwrap(comments),
+    reasons: unwrap(reasons),
+    reason_likes: unwrap(reasonLikes),
     links_added: unwrap(links),
     checklist_items_added: unwrap(checklist),
     ratings: unwrap(ratings),

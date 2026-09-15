@@ -5,7 +5,7 @@ import { keys, unwrap } from './useTrips'
 import type { BudgetLevel, Destination, DestinationComment, DestinationStatus, Mood } from '@/lib/types'
 
 export const DESTINATION_SELECT =
-  '*, votes(id, user_id, points), reviews:destination_reviews(id, user_id, rating), comments(count), creator:profiles!destinations_created_by_fkey(display_name, avatar_url)'
+  '*, votes(id, user_id, points), reviews:destination_reviews(id, user_id, rating), comments(count), creator:profiles!destinations_created_by_fkey(display_name, avatar_url), reasons:destination_reasons(id, user_id, text, created_at, likes:reason_likes(id, user_id))'
 
 const COMMENT_SELECT = 'id, destination_id, user_id, content, created_at, author:profiles(display_name, avatar_url)'
 

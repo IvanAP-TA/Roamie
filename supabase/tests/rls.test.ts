@@ -462,6 +462,70 @@ describe('secret voting and the live wheel', () => {
   })
 })
 
+describe('reasons to go', () => {
+  let trip: string
+  let dest: string
+  // Like counts as the member sees them (the count runs under their own permissions).
+  const reasons = (user: string) =>
+    as(db, user, (q) =>
+      q<{ id: string; text: string; likes: number }>(
+        `select r.id, r.text, (select count(*)::int from public.reason_likes l where l.reason_id = r.id) as likes
+         from public.destination_reasons r where r.destination_id = $1 order by r.created_at, r.text`,
+        [dest],
+      ),
+    )
+  const add = (user: string, text: string) =>
+    as(db, user, (q) => q<{ id: string }>(`insert into public.destination_reasons (destination_id, text) values ($1, $2) returning id`, [dest, text]))
+
+  beforeAll(async () => {
+    const [t] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Motivi') returning id`))
+    trip = t.id
+    await db.query(`insert into public.trip_members (trip_id, user_id, role) values ($1, $2, 'editor'), ($1, $3, 'viewer')`, [trip, EDITOR, VIEWER])
+    const [d] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Porto') returning id`, [trip]))
+    dest = d.id
+  })
+
+  it('lets members write up to 3 reasons each, readable only within the trip', async () => {
+    for (const text of ['Voli a 40€', 'Si mangia benissimo', 'Il mare a due passi']) await add(VIEWER, text)
+    await rejects(add(VIEWER, 'Un quarto'), /reasons_limit/)
+    await add(EDITOR, 'Costa poco')
+    await rejects(add(EDITOR, '   '), /check constraint/)
+    await rejects(add(EDITOR, 'x'.repeat(121)), /check constraint/)
+    await rejects(add(STRANGER, 'Intruso'), /row-level security/)
+    await rejects(
+      as(db, VIEWER, (q) => q(`insert into public.destination_reasons (destination_id, user_id, text) values ($1, $2, 'A nome suo')`, [dest, EDITOR])),
+      /row-level security/,
+    )
+    expect(await reasons(STRANGER)).toHaveLength(0)
+    expect(await reasons(OWNER)).toHaveLength(4)
+
+    // Only the author or the trip owner removes a reason.
+    const costa = (await reasons(OWNER)).find((r) => r.text === 'Costa poco')!
+    expect(await as(db, VIEWER, (q) => q(`delete from public.destination_reasons where id = $1 returning id`, [costa.id]))).toHaveLength(0)
+    expect(await as(db, OWNER, (q) => q(`delete from public.destination_reasons where id = $1 returning id`, [costa.id]))).toHaveLength(1)
+  })
+
+  it('hides who liked what during a secret vote, until the reveal', async () => {
+    const voli = (await reasons(OWNER)).find((r) => r.text === 'Voli a 40€')!
+    const like = (user: string) => as(db, user, (q) => q(`insert into public.reason_likes (reason_id) values ($1)`, [voli.id]))
+    const likesSeenBy = async (user: string) => (await reasons(user)).find((r) => r.id === voli.id)?.likes
+    await like(OWNER)
+    await rejects(like(OWNER), /duplicate key/)
+    await rejects(like(STRANGER), /row-level security/)
+    expect(await likesSeenBy(EDITOR)).toBe(1)
+
+    await as(db, OWNER, (q) => q(`select public.set_secret_voting($1, true)`, [trip]))
+    await like(EDITOR)
+    expect(await likesSeenBy(VIEWER)).toBe(0)
+    expect(await likesSeenBy(EDITOR)).toBe(1)
+    expect(await likesSeenBy(OWNER)).toBe(1)
+    expect(await as(db, VIEWER, (q) => q(`delete from public.reason_likes where reason_id = $1 returning id`, [voli.id]))).toHaveLength(0)
+
+    await as(db, OWNER, (q) => q(`select public.reveal_votes($1)`, [trip]))
+    expect(await likesSeenBy(VIEWER)).toBe(2)
+  })
+})
+
 describe('itinerary', () => {
   it('editors build days and items, viewers only read', async () => {
     const [day] = await as(db, EDITOR, (q) =>

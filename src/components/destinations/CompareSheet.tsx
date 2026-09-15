@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Trophy } from 'lucide-react'
+import { ThumbsUp, Trophy } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useClimate } from '@/hooks/useClimate'
@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/misc'
 import { Sheet } from '@/components/ui/sheet'
 import { totalPoints } from '@/lib/roulette'
 import { useTripContext } from '@/hooks/useTripContext'
+import { sortReasons } from '@/lib/reasons'
 import { votesHidden } from '@/lib/secretVoting'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
@@ -63,6 +64,30 @@ export function CompareSheet({
           )}
         </span>
       ),
+    },
+    {
+      key: 'reasons',
+      label: t('reasons.title'),
+      render: (d) => {
+        const top = sortReasons(d.reasons ?? [], hidden).slice(0, 2)
+        if (top.length === 0) return empty
+        return (
+          <ul className="space-y-1.5">
+            {top.map((r) => (
+              <li key={r.id} className="text-xs leading-snug">
+                <span className="line-clamp-3">“{r.text}”</span>
+                {!hidden && r.likes.length > 0 && (
+                  <span className="mt-0.5 inline-flex items-center gap-1 font-semibold text-primary tabular-nums">
+                    <ThumbsUp className="size-3" />
+                    {r.likes.length}
+                  </span>
+                )}
+              </li>
+            ))}
+            {d.reasons.length > 2 && <li className="text-xs text-muted-foreground">{t('reasons.more', { count: d.reasons.length - 2 })}</li>}
+          </ul>
+        )
+      },
     },
     { key: 'best', label: t('compare.bestTime'), render: (d) => <BestTimeCell destination={d} /> },
     {

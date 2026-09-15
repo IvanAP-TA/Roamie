@@ -24,6 +24,7 @@ import { PointsControl, PointsLeftBadge } from './PointsControl'
 import { ClimateCard } from './ClimateCard'
 import { CostEstimate } from './CostEstimate'
 import { RatingSection } from './RatingSection'
+import { ReasonsSection } from './ReasonsSection'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
 import { votesHidden } from '@/lib/secretVoting'
@@ -190,6 +191,8 @@ export function DestinationDetailSheet() {
               </ul>
             )}
           </div>
+
+          {(d.status === 'proposed' || d.reasons?.length > 0) && <ReasonsSection destination={d} className="px-2" />}
 
           {(d.mood.length > 0 || budget) && (
             <div className="flex flex-wrap items-center gap-2 px-2">

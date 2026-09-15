@@ -95,6 +95,19 @@ export function useTripRealtime(tripId: string | undefined) {
           }
         }
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'destination_reasons' }, (p: Payload) => {
+        const row = rowOf(p)
+        const list = destinations()
+        if (list.some((d) => d.id === row.destination_id) || list.some((d) => d.reasons?.some((r) => r.id === row.id))) {
+          invalidate(keys.destinations(tripId))
+        }
+      })
+      // Likes the member may not see (someone else's, during a secret vote) never arrive: realtime applies the same rules.
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reason_likes' }, (p: Payload) => {
+        const row = rowOf(p)
+        const relevant = destinations().some((d) => d.reasons?.some((r) => r.id === row.reason_id || r.likes.some((l) => l.id === row.id)))
+        if (relevant) invalidate(keys.destinations(tripId))
+      })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'itinerary_days' }, (p: Payload) => {
         const row = rowOf(p)
         if (row.trip_id === tripId || itinerary().some((d) => d.id === row.id)) invalidate(keys.itinerary(tripId))

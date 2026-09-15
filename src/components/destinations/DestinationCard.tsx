@@ -1,11 +1,12 @@
 import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
-import { Check, CheckCheck, MessageCircle, Sparkles } from 'lucide-react'
+import { Check, CheckCheck, MessageCircle, Sparkles, ThumbsUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { CoverImage } from '@/components/media/CoverImage'
 import { UserAvatar } from '@/components/ui/avatar'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl } from './PointsControl'
+import { sortReasons } from '@/lib/reasons'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -23,6 +24,8 @@ export const DestinationCard = forwardRef<
   const { t } = useTranslation()
   const comments = d.comments[0]?.count ?? 0
   const budget = estimatedBudgetLevel(d)
+  const reasons = d.reasons?.length ?? 0
+  const topReason = reasons > 0 ? sortReasons(d.reasons, false)[0] : null
 
   return (
     <motion.article
@@ -87,6 +90,15 @@ export const DestinationCard = forwardRef<
           </div>
         </CoverImage>
       </button>
+
+      {topReason && (
+        // Your own likes are the only ones counted during a secret vote, so this order gives nothing away.
+        <button type="button" onClick={onOpen} className="flex w-full items-center gap-2 px-4 pt-3 text-left text-sm">
+          <ThumbsUp className="size-3.5 shrink-0 text-primary" />
+          <span className="min-w-0 flex-1 truncate">{topReason.text}</span>
+          {reasons > 1 && <span className="shrink-0 text-xs text-muted-foreground">{t('reasons.more', { count: reasons - 1 })}</span>}
+        </button>
+      )}
 
       <div className="flex items-center gap-2 px-3.5 py-3">
         <div className="scrollbar-none flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto">
