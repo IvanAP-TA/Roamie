@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { GuidePlace } from '@/content/guides/content'
+import { guidePlaceImage } from '@/content/guides/images'
 import type { LanguageCode } from '@/i18n'
 import { supabase } from '@/lib/supabase'
 import type { Destination } from '@/lib/types'
@@ -20,11 +21,14 @@ export function useAddGuidePlace(lang: LanguageCode) {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async ({ tripId, place }: { tripId: string; place: GuidePlace }) => {
-      // A missing photo never blocks the proposal: the card falls back to an illustration.
-      const image = await findPlaceImages(place.name[lang], lang).then(
-        (found) => found[0] ?? null,
-        () => null,
-      )
+      // The same photo as in the guide; a search only for places without one. A missing photo never blocks the
+      // proposal: the card falls back to an illustration.
+      const image =
+        guidePlaceImage(place.key) ??
+        (await findPlaceImages(place.name[lang], lang).then(
+          (found) => found[0] ?? null,
+          () => null,
+        ))
       return unwrap<Destination>(
         await supabase
           .from('destinations')

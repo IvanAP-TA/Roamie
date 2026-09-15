@@ -1,0 +1,463 @@
+{
+  "amsterdam": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Colorful_canal_houses_at_golden_hour_in_Damrak_avenue_Amsterdam_the_Netherlands.jpg/960px-Colorful_canal_houses_at_golden_hour_in_Damrak_avenue_Amsterdam_the_Netherlands.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Colorful_canal_houses_at_golden_hour_in_Damrak_avenue_Amsterdam_the_Netherlands.jpg"
+    }
+  },
+  "barcelona": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Evening_light_over_Barcelona.jpg/960px-Evening_light_over_Barcelona.jpg",
+    "width": 960,
+    "height": 448,
+    "attribution": {
+      "author": "M McBey",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Evening_light_over_Barcelona.jpg"
+    }
+  },
+  "belgrade": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Panorama_Belgrad.jpg/960px-Panorama_Belgrad.jpg",
+    "width": 960,
+    "height": 531,
+    "attribution": {
+      "author": "ZlatanJovanovic",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panorama_Belgrad.jpg"
+    }
+  },
+  "berlin": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Museumsinsel_Berlin_Juli_2021_1_%28cropped%29_b.jpg/960px-Museumsinsel_Berlin_Juli_2021_1_%28cropped%29_b.jpg",
+    "width": 960,
+    "height": 560,
+    "attribution": {
+      "author": "File:Museumsinsel Berlin Juli 2021 1 (cropped).jpg : Kasa Fue derivative work: Georgfotoart",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Museumsinsel_Berlin_Juli_2021_1_(cropped)_b.jpg"
+    }
+  },
+  "bled": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Lake_Bled_from_the_Mountain.jpg/960px-Lake_Bled_from_the_Mountain.jpg",
+    "width": 960,
+    "height": 720,
+    "attribution": {
+      "author": "Canadianhockey91",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lake_Bled_from_the_Mountain.jpg"
+    }
+  },
+  "bologna": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Torri_di_Bologna%2C_Bologna.jpg/960px-Torri_di_Bologna%2C_Bologna.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Fabio Ciminelli",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Torri_di_Bologna,_Bologna.jpg"
+    }
+  },
+  "budapest": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg/960px-View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg",
+    "width": 960,
+    "height": 497,
+    "attribution": {
+      "author": "Visions of Domino",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_from_Gell%C3%A9rt_Hill_to_the_Danube,_Hungary_-_Budapest_(28493220635).jpg"
+    }
+  },
+  "budva": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Budva_%2826871774051%29.jpg/960px-Budva_%2826871774051%29.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Nick Savchenko from Kiev, Ukraine",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Budva_(26871774051).jpg"
+    }
+  },
+  "cappadocia": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Cappadocia_balloon_trip%2C_Ortahisar_Castle_%2811893715185%29.jpg/960px-Cappadocia_balloon_trip%2C_Ortahisar_Castle_%2811893715185%29.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Arian Zwegers from Brussels, Belgium",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cappadocia_balloon_trip,_Ortahisar_Castle_(11893715185).jpg"
+    }
+  },
+  "copenhagen": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/2018_-_Christiansborg_from_the_Marble_Bridge.jpg/960px-2018_-_Christiansborg_from_the_Marble_Bridge.jpg",
+    "width": 960,
+    "height": 634,
+    "attribution": {
+      "author": "Moahim",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2018_-_Christiansborg_from_the_Marble_Bridge.jpg"
+    }
+  },
+  "dolomites": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Faloria_Cortina_d%27Ampezzo_10.jpg/960px-Faloria_Cortina_d%27Ampezzo_10.jpg",
+    "width": 960,
+    "height": 664,
+    "attribution": {
+      "author": "kallerna",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Faloria_Cortina_d%27Ampezzo_10.jpg"
+    }
+  },
+  "hanoi": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Hanoi_skyline_with_Ba_Vi_Mountain.jpg/960px-Hanoi_skyline_with_Ba_Vi_Mountain.jpg",
+    "width": 960,
+    "height": 512,
+    "attribution": {
+      "author": "Quangnlnhe182394",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hanoi_skyline_with_Ba_Vi_Mountain.jpg"
+    }
+  },
+  "hvar": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/View_of_Hvar_02.jpg/960px-View_of_Hvar_02.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Bernard Gagnon",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Hvar_02.jpg"
+    }
+  },
+  "ibiza": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/ForbysIbizaTown_03.jpg/960px-ForbysIbizaTown_03.jpg",
+    "width": 960,
+    "height": 720,
+    "attribution": {
+      "author": "Forbfruit at German Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:ForbysIbizaTown_03.jpg"
+    }
+  },
+  "istanbul": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Historical_peninsula_and_modern_skyline_of_Istanbul.jpg/960px-Historical_peninsula_and_modern_skyline_of_Istanbul.jpg",
+    "width": 960,
+    "height": 464,
+    "attribution": {
+      "author": "Hunanuk",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Historical_peninsula_and_modern_skyline_of_Istanbul.jpg"
+    }
+  },
+  "krakow": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG/960px-Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG",
+    "width": 960,
+    "height": 654,
+    "attribution": {
+      "author": "Jorge Lascar",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG"
+    }
+  },
+  "ksamil": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Ksamill-1.jpg/960px-Ksamill-1.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Cannm01",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ksamill-1.jpg"
+    }
+  },
+  "lagos": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/A_lady_by_the_Lagos_Jetty.jpg/960px-A_lady_by_the_Lagos_Jetty.jpg",
+    "width": 960,
+    "height": 768,
+    "attribution": {
+      "author": "Solasly",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_lady_by_the_Lagos_Jetty.jpg"
+    }
+  },
+  "lisbon": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Lisboa_-_Portugal_%2852597836992%29.jpg/960px-Lisboa_-_Portugal_%2852597836992%29.jpg",
+    "width": 960,
+    "height": 615,
+    "attribution": {
+      "author": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lisboa_-_Portugal_(52597836992).jpg"
+    }
+  },
+  "livigno": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Livigno_sera.jpg/960px-Livigno_sera.jpg",
+    "width": 960,
+    "height": 631,
+    "attribution": {
+      "author": "Maurizio Moro5153",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Livigno_sera.jpg"
+    }
+  },
+  "lofoten": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Moskenes_Reinebringen_lub_2025-07-21_img09_Aussicht.jpg/960px-Moskenes_Reinebringen_lub_2025-07-21_img09_Aussicht.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Lukas Beck",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moskenes_Reinebringen_lub_2025-07-21_img09_Aussicht.jpg"
+    }
+  },
+  "lyon": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Lyon-part-dieu-2023.jpg/960px-Lyon-part-dieu-2023.jpg",
+    "width": 960,
+    "height": 642,
+    "attribution": {
+      "author": "Aldg692VX",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lyon-part-dieu-2023.jpg"
+    }
+  },
+  "madeira": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Funchal%2C_Jardins_da_Quinta_Vigia_%28lookout%29.jpg/960px-Funchal%2C_Jardins_da_Quinta_Vigia_%28lookout%29.jpg",
+    "width": 960,
+    "height": 540,
+    "attribution": {
+      "author": "Dr. Thomas Liptak",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Funchal,_Jardins_da_Quinta_Vigia_(lookout).jpg"
+    }
+  },
+  "marrakech": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Pavillon_Menarag%C3%A4rten.jpg/960px-Pavillon_Menarag%C3%A4rten.jpg",
+    "width": 960,
+    "height": 638,
+    "attribution": {
+      "author": "Acp",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pavillon_Menarag%C3%A4rten.jpg"
+    }
+  },
+  "menorca": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Holiday_in_Menorca_May_June_2013_%288948376687%29.jpg/960px-Holiday_in_Menorca_May_June_2013_%288948376687%29.jpg",
+    "width": 960,
+    "height": 540,
+    "attribution": {
+      "author": "Ian Kirk from Broadstone, Dorset, UK",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Holiday_in_Menorca_May_June_2013_(8948376687).jpg"
+    }
+  },
+  "naples": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Napoli_-_Maschio_Angioino_-_202209302342_3.jpg/960px-Napoli_-_Maschio_Angioino_-_202209302342_3.jpg",
+    "width": 960,
+    "height": 540,
+    "attribution": {
+      "author": "Richard Nevell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Napoli_-_Maschio_Angioino_-_202209302342_3.jpg"
+    }
+  },
+  "oaxaca": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Oaxaqa_%2841%29.jpg/960px-Oaxaqa_%2841%29.jpg",
+    "width": 960,
+    "height": 638,
+    "attribution": {
+      "author": "Prsjl",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Oaxaqa_(41).jpg"
+    }
+  },
+  "osaka": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Osaka_Castle_03bs3200.jpg/960px-Osaka_Castle_03bs3200.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "663highland",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Osaka_Castle_03bs3200.jpg"
+    }
+  },
+  "paros": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/%CE%9C%CE%AC%CF%81%CF%80%CE%B7%CF%83%CF%83%CE%B1_%CE%A0%CE%AC%CF%81%CE%BF%CF%85_5956.jpg/960px-%CE%9C%CE%AC%CF%81%CF%80%CE%B7%CF%83%CF%83%CE%B1_%CE%A0%CE%AC%CF%81%CE%BF%CF%85_5956.jpg",
+    "width": 960,
+    "height": 540,
+    "attribution": {
+      "author": "C messier",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%CE%9C%CE%AC%CF%81%CF%80%CE%B7%CF%83%CF%83%CE%B1_%CE%A0%CE%AC%CF%81%CE%BF%CF%85_5956.jpg"
+    }
+  },
+  "picos": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Picu_Urriellu.jpg/960px-Picu_Urriellu.jpg",
+    "width": 960,
+    "height": 755,
+    "attribution": {
+      "author": "Evölah",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Picu_Urriellu.jpg"
+    }
+  },
+  "prague": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Prague_%286365119737%29.jpg/960px-Prague_%286365119737%29.jpg",
+    "width": 960,
+    "height": 571,
+    "attribution": {
+      "author": "Moyan Brenn from Italy",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Prague_(6365119737).jpg"
+    }
+  },
+  "rovaniemi": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Rovaniemi_Montage.jpg/960px-Rovaniemi_Montage.jpg",
+    "width": 960,
+    "height": 1554,
+    "attribution": {
+      "author": "Jari Kolehmainen , Flickr user lindstormORG , Idobi , Andriychenko , Biergerry , Arktikum , and Vincent Guth vingtcent",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rovaniemi_Montage.jpg"
+    }
+  },
+  "salento": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/The_heel_of_the_boot_of_Italy.jpeg/960px-The_heel_of_the_boot_of_Italy.jpeg",
+    "width": 960,
+    "height": 636,
+    "attribution": {
+      "author": "Chris Hadfield @ NASA",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_heel_of_the_boot_of_Italy.jpeg"
+    }
+  },
+  "san-sebastian": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/San_Sebasti%C3%A1n_-_Ayuntamiento_10.jpg/960px-San_Sebasti%C3%A1n_-_Ayuntamiento_10.jpg",
+    "width": 960,
+    "height": 674,
+    "attribution": {
+      "author": "Zarateman",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:San_Sebasti%C3%A1n_-_Ayuntamiento_10.jpg"
+    }
+  },
+  "skye": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Panorama_in_the_Isle_of_Skye_1.JPG/960px-Panorama_in_the_Isle_of_Skye_1.JPG",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Mimihitam",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panorama_in_the_Isle_of_Skye_1.JPG"
+    }
+  },
+  "sofia": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Panoramic_view_over_central_Sofia_and_the_Vitosha_Mountain_2017-10-08.jpg/960px-Panoramic_view_over_central_Sofia_and_the_Vitosha_Mountain_2017-10-08.jpg",
+    "width": 960,
+    "height": 766,
+    "attribution": {
+      "author": "Deensel",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panoramic_view_over_central_Sofia_and_the_Vitosha_Mountain_2017-10-08.jpg"
+    }
+  },
+  "tbilisi": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/View_of_Tbilisi_from_Tabori_Church_2023-10-08-2.jpg/960px-View_of_Tbilisi_from_Tabori_Church_2023-10-08-2.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Alexey Komarov",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Tbilisi_from_Tabori_Church_2023-10-08-2.jpg"
+    }
+  },
+  "tenerife": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Tenerife%2C_Canary_Islands_ESA23970088.jpeg/960px-Tenerife%2C_Canary_Islands_ESA23970088.jpeg",
+    "width": 960,
+    "height": 960,
+    "attribution": {
+      "author": "European Space Agency",
+      "license": "CC BY-SA 3.0 igo",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tenerife,_Canary_Islands_ESA23970088.jpeg"
+    }
+  },
+  "tromso": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Troms%C3%B8_sentrum_%285835702754%29.jpg/960px-Troms%C3%B8_sentrum_%285835702754%29.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "The Municipality of Tromsø from Tromsø, Norway",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Troms%C3%B8_sentrum_(5835702754).jpg"
+    }
+  },
+  "valencia": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Malvarrosa_Beach%2C_Valencia%2C_Spain_%2829812271043%29.jpg/960px-Malvarrosa_Beach%2C_Valencia%2C_Spain_%2829812271043%29.jpg",
+    "width": 960,
+    "height": 540,
+    "attribution": {
+      "author": "Boris Dzhingarov",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malvarrosa_Beach,_Valencia,_Spain_(29812271043).jpg"
+    }
+  },
+  "vienna": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Schoenbrunn_philharmoniker_2012.jpg/960px-Schoenbrunn_philharmoniker_2012.jpg",
+    "width": 960,
+    "height": 432,
+    "attribution": {
+      "author": "Superbass",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Schoenbrunn_philharmoniker_2012.jpg"
+    }
+  },
+  "vilnius": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Vilnius_old_town_by_Augustas_Didzgalvis.jpg/960px-Vilnius_old_town_by_Augustas_Didzgalvis.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "BigHead",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vilnius_old_town_by_Augustas_Didzgalvis.jpg"
+    }
+  }
+}
