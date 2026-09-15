@@ -1,11 +1,14 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { RequireAuth } from '@/components/auth/RequireAuth'
-import { AppShell } from '@/components/layout/AppShell'
 import { Splash } from '@/components/layout/Splash'
 import LandingPage from '@/pages/LandingPage'
 import AuthCallbackPage from '@/pages/AuthCallbackPage'
 
+// Everything but the landing page loads on demand, animation library included (MotionShell): the first visit to
+// roamie.org downloads only what the landing needs.
+const MotionShell = lazy(() => import('@/components/layout/MotionShell'))
+const AppShell = lazy(() => import('@/components/layout/AppShell').then((module) => ({ default: module.AppShell })))
 const TripsPage = lazy(() => import('@/pages/TripsPage'))
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
 const PassportPage = lazy(() => import('@/pages/PassportPage'))
@@ -32,37 +35,40 @@ export default function App() {
         <Route path="/en" element={<LandingPage lang="en" />} />
         <Route path="/es" element={<LandingPage lang="es" />} />
         <Route path="/it" element={<Navigate to="/" replace />} />
-        <Route path="/guide" element={<GuidesIndexPage lang="it" />} />
-        <Route path="/guide/:slug" element={<GuidePage lang="it" />} />
-        <Route path="/en/guides" element={<GuidesIndexPage lang="en" />} />
-        <Route path="/en/guides/:slug" element={<GuidePage lang="en" />} />
-        <Route path="/es/guias" element={<GuidesIndexPage lang="es" />} />
-        <Route path="/es/guias/:slug" element={<GuidePage lang="es" />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
-        <Route path="/join" element={<JoinPage />} />
-        <Route path="/join/:code" element={<JoinPage />} />
-        <Route path="/p/:slug" element={<PublicTripPage />} />
-        <Route path="/privacy" element={<LegalPage doc="privacy" />} />
-        <Route path="/terms" element={<LegalPage doc="terms" />} />
 
-        <Route element={<RequireAuth />}>
-          <Route element={<AppShell />}>
-            <Route path="/trips" element={<TripsPage />} />
-            <Route path="/passport" element={<PassportPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+        <Route element={<MotionShell />}>
+          <Route path="/guide" element={<GuidesIndexPage lang="it" />} />
+          <Route path="/guide/:slug" element={<GuidePage lang="it" />} />
+          <Route path="/en/guides" element={<GuidesIndexPage lang="en" />} />
+          <Route path="/en/guides/:slug" element={<GuidePage lang="en" />} />
+          <Route path="/es/guias" element={<GuidesIndexPage lang="es" />} />
+          <Route path="/es/guias/:slug" element={<GuidePage lang="es" />} />
+          <Route path="/join" element={<JoinPage />} />
+          <Route path="/join/:code" element={<JoinPage />} />
+          <Route path="/p/:slug" element={<PublicTripPage />} />
+          <Route path="/privacy" element={<LegalPage doc="privacy" />} />
+          <Route path="/terms" element={<LegalPage doc="terms" />} />
+
+          <Route element={<RequireAuth />}>
+            <Route element={<AppShell />}>
+              <Route path="/trips" element={<TripsPage />} />
+              <Route path="/passport" element={<PassportPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+            <Route path="/trips/:tripId" element={<TripLayout />}>
+              <Route index element={<DestinationsTab />} />
+              <Route path="map" element={<MapTab />} />
+              <Route path="roulette" element={<RouletteTab />} />
+              <Route path="itinerary" element={<ItineraryTab />} />
+              <Route path="group" element={<GroupTab />} />
+              <Route path="*" element={<Navigate to="." replace />} />
+            </Route>
           </Route>
-          <Route path="/trips/:tripId" element={<TripLayout />}>
-            <Route index element={<DestinationsTab />} />
-            <Route path="map" element={<MapTab />} />
-            <Route path="roulette" element={<RouletteTab />} />
-            <Route path="itinerary" element={<ItineraryTab />} />
-            <Route path="group" element={<GroupTab />} />
-            <Route path="*" element={<Navigate to="." replace />} />
-          </Route>
+
+          {DevPreview && <Route path="/__preview/:tab?" element={<DevPreview />} />}
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
-
-        {DevPreview && <Route path="/__preview/:tab?" element={<DevPreview />} />}
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   )

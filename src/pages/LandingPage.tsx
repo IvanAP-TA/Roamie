@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { ArrowBigUp, ArrowRight, CalendarDays, Dices, MapPinPlus, Plus, Sparkles, Vote } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
@@ -20,6 +19,11 @@ import { GuideCards } from '@/components/guides/GuideCards'
 import { InstallAppButton } from '@/components/install/InstallApp'
 import { GUIDE_BASE } from '@/content/guides/meta'
 
+/**
+ * The landing page animates with CSS only (see the intro rules in index.css): it's the page most visitors see first,
+ * and the animation library would be the biggest script to start on a phone.
+ */
+
 const POSTCARDS = [
   { name: 'Lisboa', country: 'Portugal', votes: 7, rotate: -9, x: '-38%', y: '6%', delay: 0 },
   { name: 'Oaxaca', country: 'México', votes: 5, rotate: 8, x: '38%', y: '10%', delay: 0.6 },
@@ -33,59 +37,92 @@ const FEATURES = [
   { key: 'plan', icon: CalendarDays },
 ] as const
 
+/** A card that can be dragged around and springs back to its place when let go. */
+function Postcard({ card, index }: { card: (typeof POSTCARDS)[number]; index: number }) {
+  const start = useRef<{ x: number; y: number } | null>(null)
+  const [offset, setOffset] = useState<{ x: number; y: number } | null>(null)
+  const dragging = offset !== null
+
+  const end = () => {
+    start.current = null
+    setOffset(null)
+  }
+
+  return (
+    <div
+      className="postcard absolute top-[4%] left-1/2 w-[38%] sm:top-[8%] sm:w-[46%]"
+      style={
+        {
+          '--x': card.x,
+          '--y': card.y,
+          '--r': `${card.rotate}deg`,
+          '--delay': `${0.15 + card.delay}s`,
+          zIndex: dragging ? 10 : index,
+        } as React.CSSProperties
+      }
+    >
+      <div
+        onPointerDown={(e) => {
+          e.currentTarget.setPointerCapture(e.pointerId)
+          start.current = { x: e.clientX, y: e.clientY }
+          setOffset({ x: 0, y: 0 })
+        }}
+        onPointerMove={(e) => start.current && setOffset({ x: e.clientX - start.current.x, y: e.clientY - start.current.y })}
+        onPointerUp={end}
+        onPointerCancel={end}
+        style={
+          dragging
+            ? { transform: `translate(${offset.x}px, ${offset.y}px) rotate(${-card.rotate}deg) scale(1.06)`, transition: 'none' }
+            : ({ '--lift-r': `${-card.rotate / 2}deg` } as React.CSSProperties)
+        }
+        className={cn(
+          'touch-none transition-transform duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] select-none',
+          dragging ? 'cursor-grabbing' : 'cursor-grab hover:[transform:translateY(-8px)_rotate(var(--lift-r))]',
+        )}
+      >
+        <div
+          // CSS animation: it runs on the compositor instead of a JavaScript update every frame.
+          style={{ animationDuration: `${5 + index}s`, animationDelay: `${card.delay}s` }}
+          className="animate-float rounded-[1.6rem] bg-paper p-2 shadow-lift"
+        >
+          <Scene seed={card.name} className="aspect-[3/4] rounded-[1.2rem]">
+            <span className="absolute top-2.5 right-2.5 flex size-11 rotate-12 items-center justify-center rounded-full border-[1.5px] border-dashed border-white/80 text-[0.5rem] leading-none font-bold tracking-[0.12em] text-white/90 uppercase">
+              roamie
+            </span>
+          </Scene>
+          <div className="flex items-end justify-between gap-2 px-1.5 pt-2 pb-1">
+            <div className="min-w-0">
+              <p className="truncate font-display text-lg leading-tight italic">{card.name}</p>
+              <p className="truncate text-[0.7rem] text-muted-foreground">{card.country}</p>
+            </div>
+            <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-accent-foreground">
+              <ArrowBigUp className="size-3.5" />
+              {card.votes}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function PostcardFan() {
   const { t } = useTranslation()
   return (
     <div className="relative mx-auto aspect-[3/2] w-full max-w-[22rem] sm:aspect-[5/4] sm:max-w-[26rem] md:max-w-[32rem]">
       {POSTCARDS.map((card, i) => (
-        <motion.div
-          key={card.name}
-          className="absolute top-[4%] left-1/2 w-[38%] cursor-grab active:cursor-grabbing sm:top-[8%] sm:w-[46%]"
-          style={{ x: '-50%', zIndex: i }}
-          initial={{ opacity: 0, y: 60, rotate: 0, translateX: '0%' }}
-          animate={{ opacity: 1, y: 0, rotate: card.rotate, translateX: card.x, translateY: card.y }}
-          transition={{ type: 'spring', stiffness: 120, damping: 16, delay: 0.15 + card.delay }}
-          drag
-          dragSnapToOrigin
-          dragElastic={0.5}
-          whileDrag={{ scale: 1.06, rotate: 0, zIndex: 10 }}
-          whileHover={{ y: -8, rotate: card.rotate / 2 }}
-        >
-          <div
-            // CSS animation: it runs on the compositor instead of a JavaScript update every frame.
-            style={{ animationDuration: `${5 + i}s`, animationDelay: `${card.delay}s` }}
-            className="animate-float rounded-[1.6rem] bg-paper p-2 shadow-lift"
-          >
-            <Scene seed={card.name} className="aspect-[3/4] rounded-[1.2rem]">
-              <span className="absolute top-2.5 right-2.5 flex size-11 rotate-12 items-center justify-center rounded-full border-[1.5px] border-dashed border-white/80 text-[0.5rem] leading-none font-bold tracking-[0.12em] text-white/90 uppercase">
-                roamie
-              </span>
-            </Scene>
-            <div className="flex items-end justify-between gap-2 px-1.5 pt-2 pb-1">
-              <div className="min-w-0">
-                <p className="truncate font-display text-lg leading-tight italic">{card.name}</p>
-                <p className="truncate text-[0.7rem] text-muted-foreground">{card.country}</p>
-              </div>
-              <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-accent-foreground">
-                <ArrowBigUp className="size-3.5" />
-                {card.votes}
-              </span>
-            </div>
-          </div>
-        </motion.div>
+        <Postcard key={card.name} card={card} index={i} />
       ))}
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: 'spring', delay: 1.1 }}
-        className="glass-strong absolute right-[2%] bottom-[2%] z-20 flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-sm font-semibold"
+      <div
+        style={{ '--delay': '1.1s' } as React.CSSProperties}
+        className="intro-pop glass-strong absolute right-[2%] bottom-[2%] z-20 flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-sm font-semibold"
       >
         <span className="flex size-8 items-center justify-center rounded-full bg-[conic-gradient(var(--sun),var(--coral),var(--primary),var(--sun))] text-white">
           <Dices className="size-4" />
         </span>
         {t('landing.badge')}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -129,13 +166,8 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
           </section>
 
           <section className="order-2 flex flex-col gap-5 md:order-1 md:gap-6">
-            <motion.div
-              // Transform-only entrance: the headline is the LCP element and is visible in the prerendered HTML.
-              initial={{ y: 20 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-4"
-            >
+            {/* Transform-only entrance: the headline is the LCP element and is visible in the prerendered HTML. */}
+            <div className="intro-rise space-y-4">
               <span className="glass inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
                 <Sparkles className="size-3.5" />
                 {t('landing.eyebrow')}
@@ -147,32 +179,25 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
                 </span>
               </h1>
               <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">{t('landing.subtitle')}</p>
-            </motion.div>
+            </div>
 
-            <motion.ol
-              initial="hidden"
-              animate="show"
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.35 } } }}
-              className="glass flex w-full max-w-md divide-x divide-dashed divide-foreground/15 rounded-3xl"
-            >
+            <ol className="glass flex w-full max-w-md divide-x divide-dashed divide-foreground/15 rounded-3xl">
               {steps.map((step, i) => (
-                <motion.li
+                <li
                   key={step.label}
-                  variants={{ hidden: { y: 10 }, show: { y: 0 } }}
-                  className="flex flex-1 flex-col items-center gap-1 px-2 py-3 text-center"
+                  style={{ '--rise': '10px', '--duration': '0.5s', '--delay': `${0.35 + i * 0.08}s` } as React.CSSProperties}
+                  className="intro-rise flex flex-1 flex-col items-center gap-1 px-2 py-3 text-center"
                 >
                   <span className="font-display text-xs text-muted-foreground italic">0{i + 1}</span>
                   <step.icon className="size-5 text-primary" />
                   <span className="text-[0.78rem] leading-tight font-semibold">{step.label}</span>
-                </motion.li>
+                </li>
               ))}
-            </motion.ol>
+            </ol>
 
-            <motion.div
-              initial={{ y: 16 }}
-              animate={{ y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="w-full max-w-md space-y-3"
+            <div
+              style={{ '--rise': '16px', '--duration': '0.6s', '--delay': '0.5s' } as React.CSSProperties}
+              className="intro-rise w-full max-w-md space-y-3"
             >
               <GoogleButton next={next} />
               <p className="px-4 text-center text-xs leading-relaxed text-muted-foreground">{t('landing.privacyNote')}</p>
@@ -184,7 +209,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
                   {t('auth.notConfigured')}
                 </p>
               )}
-            </motion.div>
+            </div>
           </section>
         </div>
 

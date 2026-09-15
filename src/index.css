@@ -348,6 +348,38 @@
   }
 }
 
+/* ─── Landing intro, in CSS so the landing page never downloads the animation library ──────────────────────
+   It already plays on the prerendered HTML; main.tsx adds .no-intro before React re-renders that markup, so it
+   doesn't play twice. Reduced motion shortens every animation to nothing (rule above). */
+@keyframes intro-rise {
+  from { transform: translateY(var(--rise, 20px)); }
+  to { transform: none; }
+}
+@keyframes intro-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+/* Postcards fan out from the centre: --x, --y and --r are each card's final offset and tilt. */
+@keyframes intro-deal {
+  from { opacity: 0; transform: translate(-50%, 60px) rotate(0deg); }
+  to { opacity: 1; transform: translate(calc(-50% + var(--x)), var(--y)) rotate(var(--r)); }
+}
+.intro-rise {
+  animation: intro-rise var(--duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s) both;
+}
+.intro-pop {
+  animation: intro-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0s) both;
+}
+.postcard {
+  transform: translate(calc(-50% + var(--x)), var(--y)) rotate(var(--r));
+  animation: intro-deal 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) var(--delay, 0s) both;
+}
+.no-intro .intro-rise,
+.no-intro .intro-pop,
+.no-intro .postcard {
+  animation: none;
+}
+
 .skeleton-shimmer {
   background: linear-gradient(
     100deg,
