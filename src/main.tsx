@@ -34,7 +34,21 @@ const queryClient = new QueryClient({
   },
 })
 
-registerSW({ immediate: true })
+registerSW({
+  immediate: true,
+  // An installed app is mostly resumed from the background rather than loaded, so the browser rarely looks for a new
+  // version by itself: check when the app comes back into view, and hourly while it stays open.
+  onRegisteredSW(_url, registration) {
+    if (!registration) return
+    const check = () => {
+      if (navigator.onLine) void registration.update()
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') check()
+    })
+    setInterval(check, 60 * 60 * 1000)
+  },
+})
 
 // After the page has loaded, so the analytics script never competes with the first paint.
 if (document.readyState === 'complete') startAnalytics()
