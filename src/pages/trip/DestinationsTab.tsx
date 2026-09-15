@@ -5,6 +5,7 @@ import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus } from 'luc
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useDestinations } from '@/hooks/useDestinations'
+import { useShowOnScrollUp } from '@/hooks/useShowOnScrollUp'
 import { useTripContext } from '@/hooks/useTripContext'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { CoverImage } from '@/components/media/CoverImage'
@@ -37,6 +38,7 @@ export default function DestinationsTab() {
   const [moodFilter, setMoodFilter] = useState<Mood | null>(null)
   const [sort, setSort] = useState<'votes' | 'recent'>('votes')
   const [adding, setAdding] = useState(false)
+  const showFab = useShowOnScrollUp()
 
   // Compare mode: tapping cards selects up to 3 of them. The ref mirrors the selection so taps that
   // arrive before a re-render still see the latest value.
@@ -142,6 +144,8 @@ export default function DestinationsTab() {
           url={trip.cover_image_url}
           attribution={trip.cover_image_attribution}
           seed={trip.id}
+          sizes="(min-width: 1024px) 1000px, 100vw"
+          priority
           className="h-60 rounded-[2.25rem] shadow-soft md:h-72"
         >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_25%,rgb(20_10_5/0.7))]" />
@@ -195,16 +199,8 @@ export default function DestinationsTab() {
             )}
           </div>
 
-          {/* Phones and small tablets: the status tabs fill the row above, so proposing, compare & sort sit here. */}
-          <div className="flex items-center gap-2 md:hidden">
-            {canEdit && !selecting && (
-              <Button className="rounded-full" onClick={() => setAdding(true)}>
-                <MapPinPlus />
-                {t('destination.propose')}
-              </Button>
-            )}
-            <div className="ml-auto flex shrink-0 gap-2">{viewTools}</div>
-          </div>
+          {/* Phones and small tablets: the status tabs fill the row above, so compare & sort sit here. */}
+          <div className="flex justify-end gap-2 md:hidden">{viewTools}</div>
 
           {usedMoods.length > 1 && (
             <div className="scrollbar-none -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:px-0">
@@ -295,6 +291,23 @@ export default function DestinationsTab() {
           </motion.div>
         )}
       </div>
+
+      {/* Floating "Propose": above the dock on phones, bottom right on larger screens (next to the toolbar button).
+          It steps aside while scrolling down through the list and comes back on the way up. */}
+      {canEdit && !selecting && (
+        <div
+          inert={!showFab}
+          className={cn(
+            'fixed right-4 bottom-[calc(max(env(safe-area-inset-bottom),0.75rem)+5.75rem)] z-30 transition-[translate,opacity] duration-300 ease-out md:right-8 md:bottom-8',
+            showFab ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0',
+          )}
+        >
+          <Button size="lg" className="h-14 rounded-full pr-6 pl-5 shadow-lift" onClick={() => setAdding(true)}>
+            <MapPinPlus className="size-5" />
+            {t('destination.propose')}
+          </Button>
+        </div>
+      )}
 
       {/* Compare bar, above the dock in the thumb zone */}
       <AnimatePresence>
