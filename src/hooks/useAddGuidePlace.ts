@@ -38,7 +38,6 @@ export function useAddGuidePlace(lang: LanguageCode) {
             image_url: image?.url ?? null,
             image_attribution: image ? serializeAttribution(image.attribution) : null,
             mood: place.moods,
-            budget_level: place.budget,
             expectations: place.text[lang],
           })
           .select(DESTINATION_SELECT)
