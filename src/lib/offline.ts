@@ -4,7 +4,7 @@ import { createStore, del, get, set } from 'idb-keyval'
 
 /**
  * Offline trips: the query cache is saved in IndexedDB, so a trip opened once stays readable without a
- * connection (itinerary, checklist, links, expenses, dates…). It's cleared on sign-out and when another
+ * connection (itinerary, checklist, links, dates…). It's cleared on sign-out and when another
  * account signs in on the same device.
  */
 

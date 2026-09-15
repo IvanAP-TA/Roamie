@@ -11,7 +11,7 @@ const query = (queryKey: unknown[], state: { data?: unknown; status?: 'success' 
 
 describe('shouldPersistQuery', () => {
   it("keeps the user's trips and every trip's data on the device", () => {
-    for (const key of [['trips'], ['trip', 't1'], ['trip', 't1', 'itinerary'], ['trip', 't1', 'expenses'], ['passport', 'u1', 'places']]) {
+    for (const key of [['trips'], ['trip', 't1'], ['trip', 't1', 'itinerary'], ['trip', 't1', 'links'], ['passport', 'u1', 'places']]) {
       expect(shouldPersistQuery(query(key))).toBe(true)
     }
   })

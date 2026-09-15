@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, Wallet, type LucideIcon } from 'lucide-react'
+import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
 import { buildItineraryIcs, fileSlug } from '@/lib/ics'
 import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +13,6 @@ import { DayCard } from '@/components/itinerary/DayCard'
 import { DayFormSheet, ItemFormSheet } from '@/components/itinerary/ItineraryForms'
 import { ChecklistSection } from '@/components/plan/ChecklistSection'
 import { DatesSection } from '@/components/plan/DatesSection'
-import { ExpensesSection } from '@/components/expenses/ExpensesSection'
 import { LinksSection } from '@/components/plan/LinksSection'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
@@ -25,7 +24,6 @@ const VIEWS = [
   { id: 'dates', icon: CalendarDays },
   { id: 'itinerary', icon: CalendarRange },
   { id: 'checklist', icon: ListChecks },
-  { id: 'expenses', icon: Wallet },
   { id: 'links', icon: Link2 },
 ] as const satisfies readonly { id: string; icon: LucideIcon }[]
 
@@ -211,7 +209,7 @@ function ItineraryView() {
   )
 }
 
-/** The trip plan: dates, itinerary, checklist, shared expenses and useful links (?view=dates|checklist|expenses|links). */
+/** The trip plan: dates, itinerary, checklist and useful links (?view=dates|checklist|links). */
 export default function PlanTab() {
   const { t } = useTranslation()
   const { trip } = useTripContext()
@@ -269,7 +267,6 @@ export default function PlanTab() {
       {view === 'dates' && <DatesSection />}
       {view === 'itinerary' && <ItineraryView />}
       {view === 'checklist' && <ChecklistSection />}
-      {view === 'expenses' && <ExpensesSection />}
       {view === 'links' && <LinksSection />}
     </PageTransition>
   )

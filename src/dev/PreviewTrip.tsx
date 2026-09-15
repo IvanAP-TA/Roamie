@@ -122,23 +122,6 @@ export default function PreviewTrip() {
     qc.setQueryData(keys.itinerary(TRIP.id), DAYS)
     const range = (user: string, status: 'yes' | 'maybe', from: number, to: number) =>
       Array.from({ length: to - from + 1 }, (_, i) => ({ user_id: user, day: `2027-07-${String(from + i).padStart(2, '0')}`, status }))
-    qc.setQueryDefaults(keys.expenses(TRIP.id), { staleTime: Infinity })
-    const share = (...users: string[]) => users.map((user_id) => ({ user_id, weight: 1 }))
-    const spend = (id: string, over: Record<string, unknown>) => ({
-      id, list_id: 'x1', kind: 'expense', title: '', amount: 0, currency: 'EUR', rate: 1, paid_by: 'u1', spent_on: '2027-07-11',
-      category: null, created_by: 'u1', created_at: '2027-07-11T20:00:00Z', expense_shares: share('u1', 'u2', 'u3', 'u4'), ...over,
-    })
-    qc.setQueryData(keys.expenses(TRIP.id), [
-      {
-        id: 'x1', trip_id: TRIP.id, name: 'Estate a Lisbona', currency: 'EUR', created_by: 'u1', created_at: '2027-07-01T10:00:00Z',
-        expenses: [
-          spend('s1', { title: 'Cena al Time Out Market', amount: 124.8, paid_by: 'u2', spent_on: '2027-07-12', category: 'food' }),
-          spend('s2', { title: 'Rimborso', kind: 'transfer', amount: 30, paid_by: 'u4', spent_on: '2027-07-12', expense_shares: share('u1'), category: null }),
-          spend('s3', { title: 'Appartamento Alfama', amount: 640, paid_by: 'u1', spent_on: '2027-07-10', category: 'stay' }),
-          spend('s4', { title: 'Tour in barca', amount: 180, currency: 'USD', rate: 0.87489, paid_by: 'u3', spent_on: '2027-07-11', category: 'activity', expense_shares: share('u1', 'u3') }),
-        ],
-      },
-    ])
     qc.setQueryDefaults(keys.availability(TRIP.id), { staleTime: Infinity })
     qc.setQueryData(keys.availability(TRIP.id), [
       ...range('u1', 'yes', 3, 20),

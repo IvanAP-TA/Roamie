@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { useDestinations } from '@/hooks/useDestinations'
-import { useExpenseLists } from '@/hooks/useExpenses'
 import { useItinerary } from '@/hooks/useItinerary'
 import { useChecklist, useTripLinks } from '@/hooks/usePlan'
 import { useAvailability } from '@/hooks/useTripDates'
@@ -37,7 +36,6 @@ export default function TripLayout() {
   useItinerary(tripId!)
   useChecklist(tripId!)
   useTripLinks(tripId!)
-  useExpenseLists(tripId!)
   useAvailability(tripId!)
 
   const trip = tripQuery.data
