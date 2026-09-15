@@ -76,7 +76,7 @@
       },
       "q5": {
         "q": "What data do you collect?",
-        "a": "Only the name, email and profile picture of your Google account, to link you to your trips. No trackers or profiling, and you can delete your account at any time."
+        "a": "Only the name, email and profile picture of your Google account, to link you to your trips. No trackers or profiling (we count site visits anonymously, without cookies), and you can delete your account at any time."
       }
     },
     "cta": {
@@ -812,7 +812,7 @@
         },
         {
           "title": "Cookies and local storage",
-          "body": "Roamie uses no profiling cookies and no third-party analytics or tracking tools (no Google Analytics, no social pixels). We only use strictly necessary technical storage, which therefore needs no consent:",
+          "body": "Roamie uses no profiling cookies and no tracking tools (no Google Analytics, no social pixels). To know how many visits the site gets we use Cloudflare Web Analytics, which counts them in aggregate without cookies or personal identifiers. We only use strictly necessary technical storage, which therefore needs no consent:",
           "items": [
             "Sign-in session (localStorage, managed by Supabase Auth) to keep you logged in",
             "Preferred language and wheel sound preference (localStorage)",
@@ -830,12 +830,13 @@
             "OpenStreetMap: maps and place search (Nominatim, plus Photon by komoot for suggestions while you type); their servers receive your IP address and search text when you load the map or search for a place",
             "Wikimedia Commons: destination photos; their servers receive your IP address when images load",
             "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address",
-            "Browser push services (Google Firebase Cloud Messaging for Chrome and Android, Apple Push Notification service, Mozilla Push Service): they deliver the notifications you turn on; they receive encrypted messages, which they can't read, and the device's delivery address"
+            "Browser push services (Google Firebase Cloud Messaging for Chrome and Android, Apple Push Notification service, Mozilla Push Service): they deliver the notifications you turn on; they receive encrypted messages, which they can't read, and the device's delivery address",
+            "Cloudflare Web Analytics: anonymous, aggregate statistics on visits and site speed, without cookies; its servers receive the page address, the browser type and your IP address, which is not stored or used to identify you"
           ]
         },
         {
           "title": "Transfers outside the European Union",
-          "body": "The service data is stored in the European Union. Some providers (Google, Apple, Mozilla, Vercel and the delivery networks of the map and image services) may process technical data such as your IP address outside the EU, in particular in the United States: such transfers rely on the EU-US Data Privacy Framework or on the standard contractual clauses approved by the European Commission."
+          "body": "The service data is stored in the European Union. Some providers (Google, Apple, Mozilla, Cloudflare, Vercel and the delivery networks of the map and image services) may process technical data such as your IP address outside the EU, in particular in the United States: such transfers rely on the EU-US Data Privacy Framework or on the standard contractual clauses approved by the European Commission."
         },
         {
           "title": "Retention",

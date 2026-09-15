@@ -29,7 +29,7 @@
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://upload.wikimedia.org https://thumb.wikimedia.org https://tile.openstreetmap.org https://*.googleusercontent.com; font-src 'self'; connect-src 'self' https://tvcumfzhnuljngdzuuue.supabase.co wss://tvcumfzhnuljngdzuuue.supabase.co https://nominatim.openstreetmap.org https://photon.komoot.io https://archive-api.open-meteo.com https://commons.wikimedia.org https://*.wikipedia.org https://upload.wikimedia.org https://thumb.wikimedia.org https://tile.openstreetmap.org; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+          "value": "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://upload.wikimedia.org https://thumb.wikimedia.org https://tile.openstreetmap.org https://*.googleusercontent.com; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://tvcumfzhnuljngdzuuue.supabase.co wss://tvcumfzhnuljngdzuuue.supabase.co https://nominatim.openstreetmap.org https://photon.komoot.io https://archive-api.open-meteo.com https://commons.wikimedia.org https://*.wikipedia.org https://upload.wikimedia.org https://thumb.wikimedia.org https://tile.openstreetmap.org; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
         }
       ]
     },

@@ -12,6 +12,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { MotionConfig } from 'framer-motion'
 import { registerSW } from 'virtual:pwa-register'
 import { AuthProvider } from '@/hooks/useAuth'
+import { startAnalytics } from '@/lib/analytics'
 import { OfflineBanner } from '@/components/layout/OfflineBanner'
 import { Toaster } from '@/components/ui/toaster'
 import { CACHE_BUSTER, OFFLINE_MAX_AGE, offlinePersister, shouldPersistQuery } from '@/lib/offline'
@@ -34,6 +35,10 @@ const queryClient = new QueryClient({
 })
 
 registerSW({ immediate: true })
+
+// After the page has loaded, so the analytics script never competes with the first paint.
+if (document.readyState === 'complete') startAnalytics()
+else window.addEventListener('load', startAnalytics, { once: true })
 
 // Landing and guide URLs have a fixed language: render in it from the first frame, like the prerendered HTML.
 const urlLanguage = pathLanguage(window.location.pathname)

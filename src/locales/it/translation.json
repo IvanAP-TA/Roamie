@@ -76,7 +76,7 @@
       },
       "q5": {
         "q": "Quali dati raccogliete?",
-        "a": "Solo nome, email e foto profilo del tuo account Google, per collegarti ai tuoi viaggi. Niente tracker né profilazione, e puoi eliminare l'account in qualsiasi momento."
+        "a": "Solo nome, email e foto profilo del tuo account Google, per collegarti ai tuoi viaggi. Niente tracker né profilazione (le visite al sito le contiamo in forma anonima, senza cookie), e puoi eliminare l'account in qualsiasi momento."
       }
     },
     "cta": {
@@ -812,7 +812,7 @@
         },
         {
           "title": "Cookie e archiviazione locale",
-          "body": "Roamie non usa cookie di profilazione né strumenti di analisi o tracciamento di terze parti (niente Google Analytics, niente pixel social). Usiamo solo archiviazione tecnica strettamente necessaria, che per questo non richiede consenso:",
+          "body": "Roamie non usa cookie di profilazione né strumenti di tracciamento (niente Google Analytics, niente pixel social). Per sapere quante visite riceve il sito usiamo Cloudflare Web Analytics, che le conta in forma aggregata senza cookie né identificativi personali. Usiamo solo archiviazione tecnica strettamente necessaria, che per questo non richiede consenso:",
           "items": [
             "Sessione di accesso (localStorage, gestita da Supabase Auth) per mantenerti autenticato",
             "Lingua preferita e preferenza audio della ruota (localStorage)",
@@ -830,12 +830,13 @@
             "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim, e Photon di komoot per i suggerimenti mentre scrivi); i loro server ricevono il tuo indirizzo IP e il testo della ricerca quando carichi la mappa o cerchi un luogo",
             "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate",
             "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP",
-            "Servizi push dei browser (Google Firebase Cloud Messaging per Chrome e Android, Apple Push Notification service, Mozilla Push Service): recapitano le notifiche che attivi; ricevono i messaggi cifrati, che non possono leggere, e l'indirizzo di recapito del dispositivo"
+            "Servizi push dei browser (Google Firebase Cloud Messaging per Chrome e Android, Apple Push Notification service, Mozilla Push Service): recapitano le notifiche che attivi; ricevono i messaggi cifrati, che non possono leggere, e l'indirizzo di recapito del dispositivo",
+            "Cloudflare Web Analytics: statistiche anonime e aggregate su visite e velocità del sito, senza cookie; i suoi server ricevono l'indirizzo della pagina, il tipo di browser e il tuo indirizzo IP, che non viene conservato né usato per identificarti"
           ]
         },
         {
           "title": "Trasferimenti fuori dall'Unione Europea",
-          "body": "I dati del servizio sono conservati nell'Unione Europea. Alcuni fornitori (Google, Apple, Mozilla, Vercel e le reti di distribuzione dei servizi di mappe e immagini) possono trattare dati tecnici come l'indirizzo IP anche fuori dall'UE, in particolare negli Stati Uniti: in questi casi il trasferimento si basa sul Data Privacy Framework UE-USA o sulle clausole contrattuali standard approvate dalla Commissione europea."
+          "body": "I dati del servizio sono conservati nell'Unione Europea. Alcuni fornitori (Google, Apple, Mozilla, Cloudflare, Vercel e le reti di distribuzione dei servizi di mappe e immagini) possono trattare dati tecnici come l'indirizzo IP anche fuori dall'UE, in particolare negli Stati Uniti: in questi casi il trasferimento si basa sul Data Privacy Framework UE-USA o sulle clausole contrattuali standard approvate dalla Commissione europea."
         },
         {
           "title": "Conservazione",
