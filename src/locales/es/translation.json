@@ -434,6 +434,39 @@
     "mineDone": "Puntos reiniciados: vuelves a tener 10 puntos",
     "everyoneDone": "Votación reiniciada para todo el grupo"
   },
+  "notifications": {
+    "title": "Notificaciones",
+    "device": "Notificaciones en este dispositivo",
+    "deviceHint": "Te avisamos de las novedades de tus viajes, incluso con la app cerrada.",
+    "blocked": "Bloqueadas por el navegador: vuelve a activarlas en los ajustes del sitio.",
+    "enabled": "Notificaciones activadas",
+    "denied": "Permiso no concedido: puedes cambiarlo en los ajustes del navegador.",
+    "failed": "No se han podido cambiar las notificaciones. Inténtalo de nuevo.",
+    "needsInstall": "En iPhone y iPad las notificaciones solo llegan si añades Roamie a la pantalla de inicio (iOS 16.4 o posterior).",
+    "unsupported": "Este navegador no admite notificaciones push.",
+    "categories": {
+      "destinations": {
+        "title": "Nuevos destinos",
+        "hint": "Cuando alguien propone un destino"
+      },
+      "roulette": {
+        "title": "Ruleta",
+        "hint": "Cuando la ruleta elige el destino"
+      },
+      "dates": {
+        "title": "Fechas",
+        "hint": "Cuando se abre la elección de fechas y cuando se deciden"
+      },
+      "members": {
+        "title": "Nuevos miembros",
+        "hint": "Cuando alguien se une al grupo"
+      },
+      "comments": {
+        "title": "Comentarios",
+        "hint": "En los destinos que has propuesto o comentado"
+      }
+    }
+  },
   "offline": {
     "banner": "Estás sin conexión: ves lo guardado en este dispositivo. Para editar hace falta conexión.",
     "tripUnavailableTitle": "Viaje aún no guardado sin conexión",
@@ -751,7 +784,8 @@
             "Dirección de email: usada solo para la autenticación, nunca visible para otros miembros",
             "Nombre del perfil de Google: visible para los miembros de tus viajes",
             "Foto del perfil de Google: visible para los miembros de tus viajes",
-            "El contenido que creas: viajes, destinos, puntos, comentarios, disponibilidad de fechas, etapas del itinerario, enlaces útiles, elementos de la checklist, valoraciones de los destinos visitados y lugares añadidos a tu pasaporte (solo visibles para ti)"
+            "El contenido que creas: viajes, destinos, puntos, comentarios, disponibilidad de fechas, etapas del itinerario, enlaces útiles, elementos de la checklist, valoraciones de los destinos visitados y lugares añadidos a tu pasaporte (solo visibles para ti)",
+            "Si activas las notificaciones: la dirección de entrega que el navegador asigna al dispositivo, las claves para cifrar los mensajes, el idioma y las categorías que elijas; los eliminamos cuando desactivas las notificaciones, cierras sesión o eliminas la cuenta"
           ]
         },
         {
@@ -781,12 +815,13 @@
             "Google: inicio de sesión con tu cuenta de Google",
             "OpenStreetMap: mapas y búsqueda de lugares (Nominatim, y Photon de komoot para las sugerencias mientras escribes); sus servidores reciben tu dirección IP y el texto de la búsqueda al cargar el mapa o buscar un lugar",
             "Wikimedia Commons: fotos de los destinos; sus servidores reciben tu dirección IP al cargar las imágenes",
-            "Open-Meteo: clima medio de los destinos; sus servidores reciben las coordenadas aproximadas del destino y tu dirección IP"
+            "Open-Meteo: clima medio de los destinos; sus servidores reciben las coordenadas aproximadas del destino y tu dirección IP",
+            "Servicios push de los navegadores (Google Firebase Cloud Messaging para Chrome y Android, Apple Push Notification service, Mozilla Push Service): entregan las notificaciones que activas; reciben los mensajes cifrados, que no pueden leer, y la dirección de entrega del dispositivo"
           ]
         },
         {
           "title": "Transferencias fuera de la Unión Europea",
-          "body": "Los datos del servicio se almacenan en la Unión Europea. Algunos proveedores (Google, Vercel y las redes de distribución de los servicios de mapas e imágenes) pueden tratar datos técnicos como tu dirección IP fuera de la UE, en particular en Estados Unidos: esas transferencias se basan en el Marco de Privacidad de Datos UE-EE. UU. o en las cláusulas contractuales tipo aprobadas por la Comisión Europea."
+          "body": "Los datos del servicio se almacenan en la Unión Europea. Algunos proveedores (Google, Apple, Mozilla, Vercel y las redes de distribución de los servicios de mapas e imágenes) pueden tratar datos técnicos como tu dirección IP fuera de la UE, en particular en Estados Unidos: esas transferencias se basan en el Marco de Privacidad de Datos UE-EE. UU. o en las cláusulas contractuales tipo aprobadas por la Comisión Europea."
         },
         {
           "title": "Conservación",

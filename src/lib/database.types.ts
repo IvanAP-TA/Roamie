@@ -266,6 +266,130 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          comments: boolean
+          dates: boolean
+          destinations: boolean
+          members: boolean
+          roulette: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comments?: boolean
+          dates?: boolean
+          destinations?: boolean
+          members?: boolean
+          roulette?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          comments?: boolean
+          dates?: boolean
+          destinations?: boolean
+          members?: boolean
+          roulette?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      push_outbox: {
+        Row: {
+          claimed_at: string | null
+          created_at: string
+          data: Json
+          id: number
+          kind: string
+          trip_id: string | null
+          user_id: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          created_at?: string
+          data?: Json
+          id?: never
+          kind: string
+          trip_id?: string | null
+          user_id: string
+        }
+        Update: {
+          claimed_at?: string | null
+          created_at?: string
+          data?: Json
+          id?: never
+          kind?: string
+          trip_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_outbox_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "push_outbox_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          id: string
+          lang: string
+          p256dh: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: string
+          lang?: string
+          p256dh: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: string
+          lang?: string
+          p256dh?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       itinerary_days: {
         Row: {
           date: string | null
@@ -668,6 +792,10 @@ export type Database = {
       reset_points: {
         Args: { p_everyone?: boolean; p_trip_id: string }
         Returns: number
+      }
+      save_push_subscription: {
+        Args: { p_auth: string; p_endpoint: string; p_lang: string; p_p256dh: string }
+        Returns: undefined
       }
       set_availability: {
         Args: { p_days: string[]; p_status?: string; p_trip_id: string }

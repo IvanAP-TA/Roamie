@@ -13,6 +13,7 @@ import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
 import { InstallAppButton } from '@/components/install/InstallApp'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
+import { NotificationSettings } from '@/components/notifications/NotificationSettings'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { UserAvatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -170,6 +171,8 @@ export default function ProfilePage() {
             <InstallAppButton appearance="row" />
           </div>
         </section>
+
+        <NotificationSettings />
 
         <section className="space-y-3">
           <h2 className="text-2xl">{t('profile.privacy')}</h2>

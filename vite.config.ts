@@ -49,6 +49,8 @@ export default defineConfig(({ isSsrBuild }) => ({
         },
         workbox: {
           navigateFallback: '/shell.html',
+          // Push notifications: public/push-sw.js
+          importScripts: ['push-sw.js'],
           // Files opened directly (sitemap.xml, robots.txt, icons…) and the serverless functions must come from
           // the network: the app shell doesn't know them and would render its 404 page.
           navigateFallbackDenylist: [/^\/api\//, /\/[^/?]+\.[a-z0-9]+$/i],

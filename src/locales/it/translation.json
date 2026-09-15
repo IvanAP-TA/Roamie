@@ -434,6 +434,39 @@
     "mineDone": "Punti azzerati: hai di nuovo 10 punti",
     "everyoneDone": "Votazione azzerata per tutto il gruppo"
   },
+  "notifications": {
+    "title": "Notifiche",
+    "device": "Notifiche su questo dispositivo",
+    "deviceHint": "Ti avvisiamo delle novità nei tuoi viaggi, anche ad app chiusa.",
+    "blocked": "Bloccate dal browser: riattivale dalle impostazioni del sito.",
+    "enabled": "Notifiche attivate",
+    "denied": "Permesso non concesso: puoi cambiarlo dalle impostazioni del browser.",
+    "failed": "Non è stato possibile cambiare le notifiche. Riprova.",
+    "needsInstall": "Su iPhone e iPad le notifiche arrivano solo se aggiungi Roamie alla schermata Home (iOS 16.4 o successivo).",
+    "unsupported": "Questo browser non supporta le notifiche push.",
+    "categories": {
+      "destinations": {
+        "title": "Nuove mete",
+        "hint": "Quando qualcuno propone una meta"
+      },
+      "roulette": {
+        "title": "Ruota",
+        "hint": "Quando la ruota sceglie la meta"
+      },
+      "dates": {
+        "title": "Date",
+        "hint": "Quando si apre la scelta delle date e quando vengono fissate"
+      },
+      "members": {
+        "title": "Nuovi membri",
+        "hint": "Quando qualcuno entra nel gruppo"
+      },
+      "comments": {
+        "title": "Commenti",
+        "hint": "Sulle mete che hai proposto o commentato"
+      }
+    }
+  },
   "offline": {
     "banner": "Sei offline: vedi i dati salvati su questo dispositivo. Per modificare serve la connessione.",
     "tripUnavailableTitle": "Viaggio non ancora salvato offline",
@@ -751,7 +784,8 @@
             "Indirizzo email: usato solo per l'autenticazione, non è visibile agli altri membri",
             "Nome del profilo Google: visibile ai membri dei viaggi di cui fai parte",
             "Immagine del profilo Google: visibile ai membri dei viaggi di cui fai parte",
-            "I contenuti che crei: viaggi, mete, punti, commenti, disponibilità per le date, tappe dell'itinerario, link utili, voci della checklist, valutazioni delle mete visitate e luoghi aggiunti al tuo passaporto (visibili solo a te)"
+            "I contenuti che crei: viaggi, mete, punti, commenti, disponibilità per le date, tappe dell'itinerario, link utili, voci della checklist, valutazioni delle mete visitate e luoghi aggiunti al tuo passaporto (visibili solo a te)",
+            "Se attivi le notifiche: l'indirizzo di recapito che il browser assegna al dispositivo, le chiavi per cifrare i messaggi, la lingua e le categorie che scegli; li eliminiamo quando disattivi le notifiche, esci dall'account o lo elimini"
           ]
         },
         {
@@ -781,12 +815,13 @@
             "Google: accesso con account Google",
             "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim, e Photon di komoot per i suggerimenti mentre scrivi); i loro server ricevono il tuo indirizzo IP e il testo della ricerca quando carichi la mappa o cerchi un luogo",
             "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate",
-            "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP"
+            "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP",
+            "Servizi push dei browser (Google Firebase Cloud Messaging per Chrome e Android, Apple Push Notification service, Mozilla Push Service): recapitano le notifiche che attivi; ricevono i messaggi cifrati, che non possono leggere, e l'indirizzo di recapito del dispositivo"
           ]
         },
         {
           "title": "Trasferimenti fuori dall'Unione Europea",
-          "body": "I dati del servizio sono conservati nell'Unione Europea. Alcuni fornitori (Google, Vercel e le reti di distribuzione dei servizi di mappe e immagini) possono trattare dati tecnici come l'indirizzo IP anche fuori dall'UE, in particolare negli Stati Uniti: in questi casi il trasferimento si basa sul Data Privacy Framework UE-USA o sulle clausole contrattuali standard approvate dalla Commissione europea."
+          "body": "I dati del servizio sono conservati nell'Unione Europea. Alcuni fornitori (Google, Apple, Mozilla, Vercel e le reti di distribuzione dei servizi di mappe e immagini) possono trattare dati tecnici come l'indirizzo IP anche fuori dall'UE, in particolare negli Stati Uniti: in questi casi il trasferimento si basa sul Data Privacy Framework UE-USA o sulle clausole contrattuali standard approvate dalla Commissione europea."
         },
         {
           "title": "Conservazione",

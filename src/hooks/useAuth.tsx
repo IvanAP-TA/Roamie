@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import i18n from '@/i18n'
 import { clearOfflineCache } from '@/lib/offline'
 import { isSupabaseConfigured, needsAuthCheck, readStoredSession } from '@/lib/supabaseEnv'
 import { safeNextPath } from '@/lib/utils'
@@ -81,6 +82,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [userId, queryClient])
 
+  // A device with notifications on stays attached to this account, in the language currently in use.
+  useEffect(() => {
+    if (!userId) return
+    const sync = () => {
+      import('@/lib/push').then((push) => push.syncPush(i18n.resolvedLanguage ?? 'it')).catch(() => undefined)
+    }
+    sync()
+    i18n.on('languageChanged', sync)
+    return () => i18n.off('languageChanged', sync)
+  }, [userId])
+
   const { data: profile = null } = useQuery({
     queryKey: ['profile', userId],
     enabled: Boolean(userId),
@@ -105,6 +117,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     const supabase = await loadSupabase()
+    // The next person signing in on this device must not get this account's notifications.
+    await import('@/lib/push').then((push) => push.disablePush()).catch(() => undefined)
     await supabase.auth.signOut()
     queryClient.clear()
     await clearOfflineCache()

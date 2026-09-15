@@ -12,7 +12,8 @@ const MIGRATIONS_DIR = join(import.meta.dirname, '..', 'migrations')
 const SUPABASE_STUB = /* sql */ `
   create role anon nologin;
   create role authenticated nologin;
-  grant usage on schema public to anon, authenticated;
+  create role service_role nologin bypassrls;
+  grant usage on schema public to anon, authenticated, service_role;
   alter default privileges in schema public grant all on tables to anon, authenticated;
   alter default privileges in schema public grant all on functions to anon, authenticated;
   alter default privileges in schema public grant all on sequences to anon, authenticated;
@@ -25,7 +26,8 @@ const SUPABASE_STUB = /* sql */ `
     raw_user_meta_data jsonb default '{}'::jsonb
   );
   create function auth.uid() returns uuid language sql stable as $$
-    select nullif(current_setting('request.jwt.claims', true)::jsonb ->> 'sub', '')::uuid
+    -- Like Supabase's: after a transaction the setting is left as '' rather than unset.
+    select nullif(nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub', '')::uuid
   $$;
   grant execute on function auth.uid() to anon, authenticated;
 

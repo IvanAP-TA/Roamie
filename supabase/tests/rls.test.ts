@@ -557,6 +557,122 @@ describe('resetting points', () => {
   })
 })
 
+describe('push notifications', () => {
+  const P256DH = `B${'A'.repeat(86)}`
+  const AUTH = 'A'.repeat(22)
+  const endpoint = (device: string) => `https://push.example.com/send/${device}`
+  const subscribe = (user: string, device = user) =>
+    as(db, user, (q) => q(`select public.save_push_subscription($1, $2, $3, 'it')`, [endpoint(device), P256DH, AUTH]))
+  const queued = async () =>
+    (
+      await db.query<{ user_id: string; kind: string; data: Record<string, string> }>(
+        `select user_id, kind, data from public.push_outbox where claimed_at is null order by id`,
+      )
+    ).rows
+  const recipients = async (kind: string) =>
+    (await queued())
+      .filter((row) => row.kind === kind)
+      .map((row) => row.user_id)
+      .sort()
+  const clearQueue = () => db.query(`delete from public.push_outbox`)
+
+  it('keeps devices private and moves a device to the account signed in on it', async () => {
+    await subscribe(EDITOR)
+    await subscribe(VIEWER)
+    expect(await as(db, EDITOR, (q) => q(`select endpoint from public.push_subscriptions`))).toEqual([{ endpoint: endpoint(EDITOR) }])
+    await rejects(
+      as(db, EDITOR, (q) => q(`insert into public.push_subscriptions (endpoint, p256dh, auth) values ('https://push.example.com/x', $1, $2)`, [P256DH, AUTH])),
+      /permission denied/,
+    )
+    await rejects(as(db, null, (q) => q(`select public.save_push_subscription('https://push.example.com/x', $1, $2, 'it')`, [P256DH, AUTH])), /permission denied/)
+    await rejects(as(db, EDITOR, (q) => q(`select public.save_push_subscription('http://push.example.com/x', $1, $2, 'it')`, [P256DH, AUTH])), /check constraint/)
+
+    // The editor's phone, now signed in with another account.
+    await subscribe(STRANGER, EDITOR)
+    expect(await as(db, EDITOR, (q) => q(`select endpoint from public.push_subscriptions`))).toHaveLength(0)
+    await subscribe(EDITOR)
+    expect(await as(db, STRANGER, (q) => q(`delete from public.push_subscriptions returning id`))).toHaveLength(0)
+  })
+
+  it('keeps the queue and the key pair out of reach of the app', async () => {
+    await rejects(as(db, EDITOR, (q) => q(`select * from public.push_outbox`)), /permission denied/)
+    await rejects(as(db, EDITOR, (q) => q(`select * from public.claim_push_batch()`)), /permission denied/)
+    await rejects(as(db, EDITOR, (q) => q(`select public.push_vapid_keys()`)), /permission denied/)
+    await rejects(
+      as(db, EDITOR, (q) => q(`select public.enqueue_push($1, 'member', 'members', '{}', array[$2]::uuid[])`, [tripId, VIEWER])),
+      /permission denied/,
+    )
+  })
+
+  it('queues new destinations, dates and members for the other members with a device', async () => {
+    await clearQueue()
+    const [dest] = await as(db, OWNER, (q) =>
+      q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Tromsø') returning id`, [tripId]),
+    )
+    // Not the owner (who proposed it, and has no device) nor the stranger (subscribed, but not in the trip).
+    expect(await recipients('destination')).toEqual([EDITOR, VIEWER].sort())
+    expect((await queued())[0].data).toMatchObject({ actor: 'Olivia', destination: 'Tromsø', destination_id: dest.id })
+
+    await db.query(
+      `update public.trips set start_date = null, end_date = null, date_window_start = null, date_window_end = null, trip_length = null where id = $1`,
+      [tripId],
+    )
+    await as(db, EDITOR, (q) =>
+      q(`update public.trips set date_window_start = '2027-07-01', date_window_end = '2027-08-31', trip_length = 5 where id = $1`, [tripId]),
+    )
+    expect(await recipients('dates_open')).toEqual([VIEWER])
+    await as(db, OWNER, (q) => q(`update public.trips set start_date = '2027-07-10', end_date = '2027-07-14' where id = $1`, [tripId]))
+    expect(await recipients('dates_fixed')).toEqual([EDITOR, VIEWER].sort())
+
+    const NEWCOMER = '55555555-5555-4555-8555-555555555555'
+    await createUser(db, NEWCOMER, 'Mia')
+    await db.query(`insert into public.trip_members (trip_id, user_id, role) values ($1, $2, 'viewer')`, [tripId, NEWCOMER])
+    expect(await recipients('member')).toEqual([EDITOR, VIEWER].sort())
+    await db.query(`delete from public.trip_members where user_id = $1`, [NEWCOMER])
+    await db.query(`delete from public.destinations where id = $1`, [dest.id])
+  })
+
+  it('sends comments to the proposer and earlier commenters, minus the categories turned off', async () => {
+    const [dest] = await as(db, EDITOR, (q) =>
+      q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Bergen') returning id`, [tripId]),
+    )
+    await clearQueue()
+    await as(db, VIEWER, (q) => q(`insert into public.notification_preferences (comments) values (false)`))
+    expect(await as(db, STRANGER, (q) => q(`update public.notification_preferences set comments = true returning user_id`))).toHaveLength(0)
+    await rejects(
+      as(db, STRANGER, (q) => q(`insert into public.notification_preferences (user_id, comments) values ($1, true)`, [VIEWER])),
+      /row-level security/,
+    )
+
+    await as(db, VIEWER, (q) => q(`insert into public.comments (destination_id, content) values ($1, 'Aurora boreale!')`, [dest.id]))
+    expect(await queued()).toEqual([
+      { user_id: EDITOR, kind: 'comment', data: expect.objectContaining({ actor: 'Vera', destination: 'Bergen', excerpt: 'Aurora boreale!' }) },
+    ])
+    await clearQueue()
+    await as(db, OWNER, (q) => q(`insert into public.comments (destination_id, content) values ($1, 'Ci sto')`, [dest.id]))
+    // The editor proposed it; the viewer commented before but turned comments off.
+    expect(await recipients('comment')).toEqual([EDITOR])
+    await db.query(`delete from public.destinations where id = $1`, [dest.id])
+  })
+
+  it('hands each queued row to the delivery function once, with the device to send it to', async () => {
+    const claim = () =>
+      db.transaction(async (tx) => {
+        await tx.exec('set local role service_role')
+        return (await tx.query<{ kind: string; endpoint: string; trip_name: string; lang: string }>(`select * from public.claim_push_batch()`)).rows
+      })
+    const pending = await queued()
+    expect(pending.length).toBeGreaterThan(0)
+    const batch = await claim()
+    expect(batch).toHaveLength(pending.length)
+    expect(batch[0]).toMatchObject({ kind: 'comment', endpoint: endpoint(EDITOR), lang: 'it' })
+    expect(batch[0].trip_name).toBeTruthy()
+    expect(await claim()).toHaveLength(0)
+
+    await db.exec(`delete from public.push_outbox; delete from public.push_subscriptions; delete from public.notification_preferences;`)
+  })
+})
+
 describe('membership lifecycle & account deletion', () => {
   it('owner cannot leave or be removed; members can leave', async () => {
     const ownerLeft = await as(db, OWNER, (q) => q(`delete from public.trip_members where user_id = $1 returning id`, [OWNER]))

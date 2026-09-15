@@ -434,6 +434,39 @@
     "mineDone": "Points reset: you have 10 points again",
     "everyoneDone": "Vote reset for the whole group"
   },
+  "notifications": {
+    "title": "Notifications",
+    "device": "Notifications on this device",
+    "deviceHint": "We let you know what's new in your trips, even when the app is closed.",
+    "blocked": "Blocked by the browser: turn them back on in the site settings.",
+    "enabled": "Notifications on",
+    "denied": "Permission not granted: you can change it in the browser settings.",
+    "failed": "Couldn't change notifications. Please try again.",
+    "needsInstall": "On iPhone and iPad, notifications only arrive if you add Roamie to the Home Screen (iOS 16.4 or later).",
+    "unsupported": "This browser doesn't support push notifications.",
+    "categories": {
+      "destinations": {
+        "title": "New places",
+        "hint": "When someone proposes a place"
+      },
+      "roulette": {
+        "title": "Wheel",
+        "hint": "When the wheel picks the destination"
+      },
+      "dates": {
+        "title": "Dates",
+        "hint": "When the date poll opens and when the dates are set"
+      },
+      "members": {
+        "title": "New members",
+        "hint": "When someone joins the group"
+      },
+      "comments": {
+        "title": "Comments",
+        "hint": "On places you proposed or commented on"
+      }
+    }
+  },
   "offline": {
     "banner": "You're offline: showing what's saved on this device. Editing needs a connection.",
     "tripUnavailableTitle": "Trip not saved for offline yet",
@@ -751,7 +784,8 @@
             "Email address: used for authentication only, never shown to other members",
             "Google profile name: visible to members of the trips you belong to",
             "Google profile picture: visible to members of the trips you belong to",
-            "Content you create: trips, destinations, points, comments, date availability, itinerary stops, useful links, checklist items, ratings of visited places and places added to your passport (visible only to you)"
+            "Content you create: trips, destinations, points, comments, date availability, itinerary stops, useful links, checklist items, ratings of visited places and places added to your passport (visible only to you)",
+            "If you turn on notifications: the delivery address your browser assigns to the device, the keys to encrypt messages, the language and the categories you choose; we delete them when you turn notifications off, sign out or delete your account"
           ]
         },
         {
@@ -781,12 +815,13 @@
             "Google: sign-in with your Google account",
             "OpenStreetMap: maps and place search (Nominatim, plus Photon by komoot for suggestions while you type); their servers receive your IP address and search text when you load the map or search for a place",
             "Wikimedia Commons: destination photos; their servers receive your IP address when images load",
-            "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address"
+            "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address",
+            "Browser push services (Google Firebase Cloud Messaging for Chrome and Android, Apple Push Notification service, Mozilla Push Service): they deliver the notifications you turn on; they receive encrypted messages, which they can't read, and the device's delivery address"
           ]
         },
         {
           "title": "Transfers outside the European Union",
-          "body": "The service data is stored in the European Union. Some providers (Google, Vercel and the delivery networks of the map and image services) may process technical data such as your IP address outside the EU, in particular in the United States: such transfers rely on the EU-US Data Privacy Framework or on the standard contractual clauses approved by the European Commission."
+          "body": "The service data is stored in the European Union. Some providers (Google, Apple, Mozilla, Vercel and the delivery networks of the map and image services) may process technical data such as your IP address outside the EU, in particular in the United States: such transfers rely on the EU-US Data Privacy Framework or on the standard contractual clauses approved by the European Commission."
         },
         {
           "title": "Retention",
