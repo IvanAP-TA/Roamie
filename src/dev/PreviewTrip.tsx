@@ -12,6 +12,7 @@ import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { DockNav } from '@/components/layout/DockNav'
 import { DestinationDetailSheet } from '@/components/destinations/DestinationDetailSheet'
+import { LiveTripProvider } from '@/components/roulette/LiveTrip'
 import { TicketCard } from '@/components/trips/TicketCard'
 import { Button } from '@/components/ui/button'
 import DestinationsTab from '@/pages/trip/DestinationsTab'
@@ -38,6 +39,8 @@ const TRIP: Trip = {
   date_window_end: '2027-08-15',
   trip_length: 5,
   roulette_spin_at: null,
+  secret_voting: false,
+  votes_revealed_at: null,
   start_date: null,
   end_date: null,
 }
@@ -183,6 +186,7 @@ export default function PreviewTrip() {
 
   return (
     <TripContext.Provider value={{ trip: TRIP, members: MEMBERS, me: MEMBERS[0], role: 'owner', isOwner: true, canEdit: true }}>
+      <LiveTripProvider>
       <div className="relative min-h-dvh">
         <AuroraBackground />
         <AppHeader
@@ -210,6 +214,7 @@ export default function PreviewTrip() {
         />
         <DestinationDetailSheet />
       </div>
+      </LiveTripProvider>
     </TripContext.Provider>
   )
 }

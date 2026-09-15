@@ -14,8 +14,8 @@ const STATUS_RING: Record<Destination['status'], string> = {
   visited: '#4f7d5b',
 }
 
-function pinIcon(d: Destination) {
-  const score = totalPoints(d)
+function pinIcon(d: Destination, hidePoints: boolean) {
+  const score = hidePoints ? 0 : totalPoints(d)
   // safeImageUrl rejects quotes and backslashes, so the value can't break out of url('…').
   const photoUrl = safeImageUrl(d.image_url)
   const photo = photoUrl ? `background-image:url('${escapeHtml(photoUrl)}');` : ''
@@ -54,10 +54,13 @@ export function TripMap({
   destinations,
   onOpen,
   className,
+  hidePoints = false,
 }: {
   destinations: Destination[]
   onOpen: (id: string) => void
   className?: string
+  /** Secret vote in progress: no scores on the pins. */
+  hidePoints?: boolean
 }) {
   const { t } = useTranslation()
   const pinned = useMemo(() => destinations.filter((d) => d.lat != null && d.lng != null), [destinations])
@@ -80,13 +83,14 @@ export function TripMap({
       />
       <FitToPins points={points} />
       {pinned.map((d) => (
-        <Marker key={d.id} position={[d.lat!, d.lng!]} icon={pinIcon(d)} title={d.name}>
+        <Marker key={d.id} position={[d.lat!, d.lng!]} icon={pinIcon(d, hidePoints)} title={d.name}>
           <Popup closeButton={false} minWidth={200}>
             <button type="button" onClick={() => onOpen(d.id)} className="flex w-full items-center gap-3 p-3 text-left">
               <div className="min-w-0 flex-1">
                 <p className="truncate font-display text-lg leading-tight">{d.name}</p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {d.country} · {t(`status.${d.status}`)} · {t('points.score', { count: totalPoints(d) })}
+                  {d.country} · {t(`status.${d.status}`)}
+                  {!hidePoints && <> · {t('points.score', { count: totalPoints(d) })}</>}
                 </p>
               </div>
               <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">

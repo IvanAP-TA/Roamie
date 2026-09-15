@@ -390,6 +390,61 @@ export type Database = {
           },
         ]
       }
+      roulette_spins: {
+        Row: {
+          created_at: string
+          entries: Json
+          id: string
+          landing: number
+          revealed_votes: boolean
+          spun_by: string | null
+          trip_id: string
+          winner_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          entries: Json
+          id?: string
+          landing: number
+          revealed_votes?: boolean
+          spun_by?: string | null
+          trip_id: string
+          winner_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          entries?: Json
+          id?: string
+          landing?: number
+          revealed_votes?: boolean
+          spun_by?: string | null
+          trip_id?: string
+          winner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roulette_spins_spun_by_fkey"
+            columns: ["spun_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roulette_spins_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roulette_spins_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       itinerary_days: {
         Row: {
           date: string | null
@@ -624,6 +679,8 @@ export type Database = {
           start_date: string | null
           trip_length: number | null
           roulette_spin_at: string | null
+          secret_voting: boolean
+          votes_revealed_at: string | null
         }
         Insert: {
           cover_image_attribution?: string | null
@@ -641,6 +698,8 @@ export type Database = {
           start_date?: string | null
           trip_length?: number | null
           roulette_spin_at?: string | null
+          secret_voting?: boolean
+          votes_revealed_at?: string | null
         }
         Update: {
           cover_image_attribution?: string | null
@@ -658,6 +717,8 @@ export type Database = {
           start_date?: string | null
           trip_length?: number | null
           roulette_spin_at?: string | null
+          secret_voting?: boolean
+          votes_revealed_at?: string | null
         }
         Relationships: [
           {
@@ -799,6 +860,15 @@ export type Database = {
       save_push_subscription: {
         Args: { p_auth: string; p_endpoint: string; p_lang: string; p_p256dh: string }
         Returns: undefined
+      }
+      reveal_votes: { Args: { p_trip_id: string }; Returns: undefined }
+      set_secret_voting: {
+        Args: { p_secret: boolean; p_trip_id: string }
+        Returns: undefined
+      }
+      vote_progress: {
+        Args: { p_trip_id: string }
+        Returns: { done: number; members: number; voted: number }[]
       }
       schedule_roulette: {
         Args: { p_at?: string; p_trip_id: string }

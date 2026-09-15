@@ -17,6 +17,7 @@ import { GuidesLinkButton } from '@/components/guides/GuidesLink'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
 import { PointsLeftBadge } from '@/components/destinations/PointsControl'
 import { ResetPointsButton } from '@/components/destinations/ResetPoints'
+import { SecretVotingControl } from '@/components/destinations/SecretVotingControl'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
@@ -232,6 +233,7 @@ export default function DestinationsTab() {
                 <>
                   <PointsLeftBadge tripId={trip.id} />
                   <ResetPointsButton destinations={destinations ?? []} />
+                  <SecretVotingControl />
                 </>
               )
             )}

@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
-import { toast } from 'sonner'
-import i18n from '@/i18n'
+import { announceSpin, type LiveSpin } from '@/lib/liveSpin'
 import { supabase } from '@/lib/supabase'
-import { isLocalSpin } from '@/lib/roulette'
+import { voteProgressKey } from './useSecretVoting'
 import { keys } from './useTrips'
 import type { ChecklistItem, Destination, DestinationComment, ItineraryDay, TripLink, TripMember } from '@/lib/types'
 
@@ -44,8 +43,15 @@ export function useTripRealtime(tripId: string | undefined) {
 
     const channel = supabase
       .channel(`trip:${tripId}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'trips', filter: `id=eq.${tripId}` }, () =>
-        invalidate(keys.trip(tripId)),
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'trips', filter: `id=eq.${tripId}` }, () => {
+        invalidate(keys.trip(tripId))
+        // A secret round started or was revealed: which votes this member may read has changed.
+        invalidate(keys.destinations(tripId))
+        invalidate(voteProgressKey(tripId))
+      })
+      // Every spin, by hand or scheduled: the live wheel plays it for everyone with the trip open.
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'roulette_spins', filter: `trip_id=eq.${tripId}` }, (p: Payload) =>
+        announceSpin(p.new as unknown as LiveSpin),
       )
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trip_members' }, (p: Payload) => {
         const row = rowOf(p)
@@ -58,9 +64,6 @@ export function useTripRealtime(tripId: string | undefined) {
         const row = rowOf(p)
         const cached = destinations().find((d) => d.id === row.id)
         if (row.trip_id !== tripId && !cached) return
-        if (p.eventType === 'UPDATE' && row.status === 'selected' && cached?.status === 'proposed' && !isLocalSpin(String(row.id))) {
-          toast(i18n.t('roulette.remoteResult', { name: String(row.name) }), { icon: '🎡' })
-        }
         invalidate(keys.destinations(tripId))
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'votes' }, (p: Payload) => {

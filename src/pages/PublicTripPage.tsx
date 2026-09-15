@@ -170,7 +170,7 @@ function TripContent({ trip, signedIn }: { trip: PublicTrip; signedIn: boolean }
                         </p>
                       )}
                     </div>
-                    {d.points > 0 && (
+                    {d.points != null && d.points > 0 && (
                       <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary tabular-nums">
                         {t('points.score', { count: d.points })}
                       </span>

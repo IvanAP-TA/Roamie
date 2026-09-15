@@ -16,6 +16,7 @@ import { AppHeader } from '@/components/layout/AppHeader'
 import { DockNav } from '@/components/layout/DockNav'
 import { Splash } from '@/components/layout/Splash'
 import { DestinationDetailSheet } from '@/components/destinations/DestinationDetailSheet'
+import { LiveTripProvider } from '@/components/roulette/LiveTrip'
 import { InviteTicket } from '@/components/trips/InviteTicket'
 import { Button } from '@/components/ui/button'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
@@ -102,6 +103,7 @@ export default function TripLayout() {
 
   return (
     <TripContext.Provider value={value}>
+      <LiveTripProvider>
       <div className="relative min-h-dvh">
         <AuroraBackground />
         <AppHeader
@@ -151,6 +153,7 @@ export default function TripLayout() {
           <InviteTicket trip={value.trip} />
         </Sheet>
       </div>
+      </LiveTripProvider>
     </TripContext.Provider>
   )
 }

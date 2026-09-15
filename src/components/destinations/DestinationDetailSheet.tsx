@@ -26,6 +26,7 @@ import { CostEstimate } from './CostEstimate'
 import { RatingSection } from './RatingSection'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
+import { votesHidden } from '@/lib/secretVoting'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination, DestinationStatus } from '@/lib/types'
 import { timeAgo } from '@/lib/utils'
@@ -65,6 +66,7 @@ export function DestinationDetailSheet() {
   const voters = [...d.votes].sort((a, b) => b.points - a.points)
   const canDelete = isOwner || (canEdit && d.created_by === user?.id)
   const budget = estimatedBudgetLevel(d)
+  const hiddenVotes = votesHidden(trip)
 
   const setStatus = (status: DestinationStatus) =>
     update.mutate(
@@ -172,7 +174,8 @@ export function DestinationDetailSheet() {
               <PointsControl destination={d} size="lg" />
               {d.status === 'proposed' && <PointsLeftBadge tripId={trip.id} />}
             </div>
-            {voters.length > 0 && (
+            {hiddenVotes && <p className="text-xs text-muted-foreground">{t('secret.detailHint')}</p>}
+            {!hiddenVotes && voters.length > 0 && (
               <ul className="flex flex-wrap gap-1.5" aria-label={t('points.score', { count: voters.reduce((s, v) => s + v.points, 0) })}>
                 {voters.map((v) => {
                   const profile = profileOf(v.user_id)

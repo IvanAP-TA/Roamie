@@ -35,7 +35,8 @@ export function RouletteWheel({
   hubLabel,
   spinning,
 }: {
-  entries: RouletteEntry[]
+  /** Only the slice geometry and the destination's id and name are drawn: the live wheel passes a recorded spin. */
+  entries: (Pick<RouletteEntry, 'startAngle' | 'endAngle'> & { destination: { id: string; name: string } })[]
   rotation: MotionValue<number>
   onHubClick?: () => void
   hubDisabled?: boolean

@@ -59,8 +59,3 @@ export function targetRotation(current: number, entry: Pick<RouletteEntry, 'star
 export function angleAtPointer(rotation: number) {
   return (((360 - rotation) % 360) + 360) % 360
 }
-
-// Spins started from this device, so the realtime "someone spun the wheel" toast isn't shown twice.
-const localSpins = new Set<string>()
-export const markLocalSpin = (destinationId: string) => localSpins.add(destinationId)
-export const isLocalSpin = (destinationId: string) => localSpins.has(destinationId)

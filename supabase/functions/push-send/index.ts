@@ -60,11 +60,18 @@ async function drain() {
   const gone = new Set<string>()
 
   // A few rounds at most: anything queued meanwhile triggers another call.
-  for (let round = 0; round < 10; round++) {
+  for (let round = 0; round < 12; round++) {
     const { data, error } = await admin.rpc('claim_push_batch', { p_limit: BATCH })
     if (error) throw error
     const rows = (data ?? []) as OutboxRow[]
-    if (rows.length === 0) break
+    if (rows.length === 0) {
+      // Nothing due yet. Notifications held back a few seconds (the roulette result, so it doesn't spoil the live
+      // wheel) are sent by this same call once due: nothing else would trigger another one.
+      const { data: dueIn } = await admin.rpc('push_next_due')
+      if (typeof dueIn !== 'number' || dueIn > 30) break
+      await new Promise((resolve) => setTimeout(resolve, Math.max(dueIn, 0) * 1000 + 250))
+      continue
+    }
 
     await Promise.all(
       rows.map(async (row) => {

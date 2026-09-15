@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CalendarClock, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -33,7 +33,27 @@ export function RouletteSchedule({ className }: { className?: string }) {
   const [value, setValue] = useState('')
 
   const at = trip.roulette_spin_at ? new Date(trip.roulette_spin_at) : null
+  const atTime = at?.getTime()
+
+  // In the last hour, a live countdown instead of the date.
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    if (atTime == null || atTime - Date.now() > 60 * 60 * 1000) return
+    const timer = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(timer)
+  }, [atTime])
+
   if (!at && !canEdit) return null
+
+  const remaining = atTime != null ? atTime - now : null
+  const countdown =
+    remaining == null || remaining > 60 * 60 * 1000
+      ? null
+      : remaining > 0
+        ? t('live.dueIn', {
+            time: `${Math.floor(remaining / 60_000)}:${String(Math.floor((remaining % 60_000) / 1000)).padStart(2, '0')}`,
+          })
+        : t('live.dueNow')
 
   const when = (date: Date) =>
     new Intl.DateTimeFormat(i18n.resolvedLanguage, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(date)
@@ -73,7 +93,9 @@ export function RouletteSchedule({ className }: { className?: string }) {
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold first-letter:uppercase">{t('roulette.scheduled', { when: when(at) })}</span>
-            <span className="block text-xs text-muted-foreground">{t('roulette.scheduledHint')}</span>
+            <span className={cn('block text-xs', countdown ? 'font-semibold text-primary tabular-nums' : 'text-muted-foreground')}>
+              {countdown ?? t('roulette.scheduledHint')}
+            </span>
           </span>
           {canEdit && (
             <span className="ml-auto flex gap-1">

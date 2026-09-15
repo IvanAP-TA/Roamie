@@ -10,6 +10,7 @@ import { PageTransition } from '@/components/layout/PageTransition'
 import { StopsMap, dayColor, isLocated } from '@/components/map/StopsMap'
 import { TripMap } from '@/components/map/TripMap'
 import { Skeleton } from '@/components/ui/misc'
+import { votesHidden } from '@/lib/secretVoting'
 import { cn } from '@/lib/utils'
 
 type Layer = 'destinations' | 'stops'
@@ -86,7 +87,7 @@ export default function MapTab() {
         ) : layer === 'stops' ? (
           <StopsMap days={days ?? []} className={mapClass} />
         ) : (
-          <TripMap destinations={destinations ?? []} onOpen={open} className={mapClass} />
+          <TripMap destinations={destinations ?? []} onOpen={open} className={mapClass} hidePoints={votesHidden(trip)} />
         )}
         <div className="pointer-events-none absolute top-3 left-3 z-[400] flex max-w-[calc(100%-1.5rem)] flex-wrap gap-1.5">
           {layer === 'destinations'

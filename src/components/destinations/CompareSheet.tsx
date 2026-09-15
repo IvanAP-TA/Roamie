@@ -7,6 +7,8 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { Skeleton } from '@/components/ui/misc'
 import { Sheet } from '@/components/ui/sheet'
 import { totalPoints } from '@/lib/roulette'
+import { useTripContext } from '@/hooks/useTripContext'
+import { votesHidden } from '@/lib/secretVoting'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { useBestMonthsLabel } from './ClimateCard'
@@ -39,6 +41,8 @@ export function CompareSheet({
 }) {
   const { t } = useTranslation()
   const { user } = useAuth()
+  const { trip } = useTripContext()
+  const hidden = votesHidden(trip)
   const topPoints = Math.max(...destinations.map(totalPoints))
   const leaders = destinations.filter((d) => totalPoints(d) === topPoints)
   const hasClimate = destinations.some((d) => d.lat != null && d.lng != null)
@@ -49,9 +53,9 @@ export function CompareSheet({
       label: t('compare.points'),
       render: (d) => (
         <span className="flex flex-col gap-0.5">
-          <span className="text-lg leading-none font-semibold tabular-nums">{totalPoints(d)}</span>
+          <span className="text-lg leading-none font-semibold tabular-nums">{hidden ? t('secret.hidden') : totalPoints(d)}</span>
           <span className="text-xs text-muted-foreground">{t('points.mine', { count: d.votes.find((v) => v.user_id === user?.id)?.points ?? 0 })}</span>
-          {topPoints > 0 && leaders.length === 1 && leaders[0].id === d.id && (
+          {!hidden && topPoints > 0 && leaders.length === 1 && leaders[0].id === d.id && (
             <span className="mt-1 inline-flex w-fit items-center gap-1 rounded-full bg-accent px-2 py-0.5 text-[0.68rem] font-semibold text-accent-foreground">
               <Trophy className="size-3" />
               {t('compare.leader')}

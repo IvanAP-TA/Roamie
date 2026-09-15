@@ -358,6 +358,110 @@ describe('scheduled spins', () => {
   })
 })
 
+describe('secret voting and the live wheel', () => {
+  let trip: string
+  let lisbon: string
+  let oslo: string
+  const pointsOf = (user: string) =>
+    as(db, user, (q) => q<{ user_id: string; points: number }>(`select v.user_id, v.points from public.votes v join public.destinations d on d.id = v.destination_id where d.trip_id = $1`, [trip]))
+  const give = (user: string, destination: string, points: number) =>
+    as(db, user, (q) => q(`select public.set_points($1, $2)`, [destination, points]))
+  const revealedAt = async () =>
+    (await db.query<{ votes_revealed_at: string | null }>(`select votes_revealed_at from public.trips where id = $1`, [trip])).rows[0].votes_revealed_at
+
+  beforeAll(async () => {
+    const [t] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Voto segreto') returning id`))
+    trip = t.id
+    await db.query(`insert into public.trip_members (trip_id, user_id, role) values ($1, $2, 'editor'), ($1, $3, 'viewer')`, [trip, EDITOR, VIEWER])
+    const rows = await as(db, OWNER, (q) =>
+      q<{ id: string; name: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Lisbona'), ($1, 'Oslo') returning id, name`, [trip]),
+    )
+    lisbon = rows.find((r) => r.name === 'Lisbona')!.id
+    oslo = rows.find((r) => r.name === 'Oslo')!.id
+  })
+
+  it('lets owners and editors run a secret round, in which members see only their own points', async () => {
+    await rejects(as(db, VIEWER, (q) => q(`select public.set_secret_voting($1, true)`, [trip])), /forbidden/)
+    await as(db, EDITOR, (q) => q(`select public.set_secret_voting($1, true)`, [trip]))
+    await give(OWNER, lisbon, 4)
+    await give(VIEWER, lisbon, 3)
+
+    expect((await pointsOf(OWNER)).map((v) => v.user_id)).toEqual([OWNER])
+    expect((await pointsOf(VIEWER)).map((v) => v.user_id)).toEqual([VIEWER])
+
+    // Not even the public page gives them away.
+    await db.query(`update public.trips set public_slug = 'voto-segreto' where id = $1`, [trip])
+    const [page] = await as(db, null, (q) => q<{ get_public_trip: { destinations: { name: string; points: number | null }[] } }>(`select public.get_public_trip('voto-segreto')`))
+    expect(page.get_public_trip.destinations.find((d) => d.name === 'Lisbona')?.points).toBeNull()
+
+    const [progress] = await as(db, VIEWER, (q) => q<{ voted: number; done: number; members: number }>(`select * from public.vote_progress($1)`, [trip]))
+    expect(progress).toEqual({ voted: 2, done: 0, members: 3 })
+    await rejects(as(db, STRANGER, (q) => q(`select * from public.vote_progress($1)`, [trip])), /forbidden/)
+
+    await rejects(as(db, VIEWER, (q) => q(`select public.reveal_votes($1)`, [trip])), /forbidden/)
+    await as(db, EDITOR, (q) => q(`select public.reveal_votes($1)`, [trip]))
+    expect(await revealedAt()).not.toBeNull()
+    expect(await pointsOf(OWNER)).toHaveLength(2)
+  })
+
+  it('reveals by itself once every member has used all their points', async () => {
+    await as(db, OWNER, (q) => q(`select public.set_secret_voting($1, true)`, [trip]))
+    expect(await pointsOf(OWNER)).toHaveLength(1)
+    await give(OWNER, lisbon, 10)
+    await give(VIEWER, oslo, 7)
+    expect(await revealedAt()).toBeNull()
+    await give(EDITOR, oslo, 10)
+    expect(await revealedAt()).not.toBeNull()
+    expect(await pointsOf(VIEWER)).toHaveLength(4)
+  })
+
+  it('records the wheel of every spin for all members, and a spin ends a secret round', async () => {
+    await as(db, OWNER, (q) => q(`select public.set_secret_voting($1, true)`, [trip]))
+    await as(db, VIEWER, (q) => q(`select public.save_push_subscription('https://push.example.com/send/live', $1, $2, 'it')`, [`B${'A'.repeat(86)}`, 'A'.repeat(22)]))
+
+    const [{ spin_roulette: winner }] = await as(db, EDITOR, (q) => q<{ spin_roulette: string }>(`select public.spin_roulette($1)`, [trip]))
+    const spins = await as(db, VIEWER, (q) =>
+      q<{ winner_id: string; entries: { id: string; name: string; points: number }[]; landing: number; revealed_votes: boolean; spun_by: string }>(
+        `select winner_id, entries, landing, revealed_votes, spun_by from public.roulette_spins where trip_id = $1`,
+        [trip],
+      ),
+    )
+    expect(spins).toHaveLength(1)
+    const [spin] = spins
+    expect(spin.winner_id).toBe(winner)
+    // Oslo 7 + 10 = 17 before Lisbona 10 + 3 = 13: slices in drawing order, with the points as drawn.
+    expect(spin.entries).toEqual([
+      { id: oslo, name: 'Oslo', points: 17 },
+      { id: lisbon, name: 'Lisbona', points: 13 },
+    ])
+    expect(spin.landing).toBeGreaterThanOrEqual(0)
+    expect(spin.landing).toBeLessThan(1)
+    expect(spin).toMatchObject({ revealed_votes: true, spun_by: EDITOR })
+    expect(await revealedAt()).not.toBeNull()
+
+    expect(await as(db, STRANGER, (q) => q(`select id from public.roulette_spins where trip_id = $1`, [trip]))).toHaveLength(0)
+    await rejects(
+      as(db, OWNER, (q) => q(`insert into public.roulette_spins (trip_id, entries, landing) values ($1, '[]', 0.5)`, [trip])),
+      /permission denied/,
+    )
+
+    // The result notification waits for the wheel to stop.
+    const { rows: queued } = await db.query<{ delay: number }>(
+      `select extract(epoch from send_after - created_at)::float as delay from public.push_outbox where kind = 'roulette' and trip_id = $1`,
+      [trip],
+    )
+    expect(queued).toHaveLength(1)
+    expect(queued[0].delay).toBeGreaterThanOrEqual(10)
+    const claimed = await db.transaction(async (tx) => {
+      await tx.exec('set local role service_role')
+      return (await tx.query(`select * from public.claim_push_batch()`)).rows
+    })
+    expect(claimed).toHaveLength(0)
+
+    await db.exec(`delete from public.push_outbox; delete from public.push_subscriptions;`)
+  })
+})
+
 describe('itinerary', () => {
   it('editors build days and items, viewers only read', async () => {
     const [day] = await as(db, EDITOR, (q) =>

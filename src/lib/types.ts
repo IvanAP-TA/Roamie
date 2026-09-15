@@ -34,6 +34,9 @@ export interface Trip {
   trip_length: number | null
   /** When the wheel spins by itself; set by owners and editors */
   roulette_spin_at: string | null
+  /** Secret voting: members see only their own points until votes_revealed_at is set */
+  secret_voting: boolean
+  votes_revealed_at: string | null
   /** Final dates, once fixed */
   start_date: string | null
   end_date: string | null
@@ -146,7 +149,7 @@ export interface PublicTrip {
   destinations: (Pick<
     Destination,
     'id' | 'name' | 'country' | 'country_code' | 'lat' | 'lng' | 'image_url' | 'image_attribution' | 'mood' | 'budget_level' | 'status'
-  > & { points: number })[]
+  > & { /** null while the trip's votes are secret */ points: number | null })[]
   days: {
     day_number: number
     date: string | null
