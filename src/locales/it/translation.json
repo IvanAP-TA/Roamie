@@ -388,7 +388,19 @@
     "emptyBody": "Servono mete proposte con almeno un punto. Distribuite i vostri 10 punti!",
     "goVote": "Vai a votare",
     "noEligible": "Nessuna meta estraibile in questo momento",
-    "remoteResult": "La ruota ha deciso: {{name}}!"
+    "remoteResult": "La ruota ha deciso: {{name}}!",
+    "schedule": "Programma la ruota",
+    "scheduleTitle": "Programma la ruota",
+    "scheduleBody": "Scegli giorno e ora: la ruota girerà da sola tra le mete con punti, anche se nessuno ha l'app aperta. Fino ad allora si può continuare a votare.",
+    "when": "Giorno e ora",
+    "scheduleCta": "Programma",
+    "scheduled": "La ruota girerà da sola {{when}}",
+    "scheduledHint": "Fino ad allora si può continuare a votare. Chi ha le notifiche attive riceverà il risultato.",
+    "change": "Cambia",
+    "cancelSchedule": "Annulla",
+    "scheduleSaved": "Ruota programmata: {{when}}",
+    "scheduleCancelled": "Programmazione annullata",
+    "invalidTime": "Scegli un momento almeno tra qualche minuto ed entro un anno."
   },
   "itinerary": {
     "title": "Itinerario",

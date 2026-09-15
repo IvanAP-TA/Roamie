@@ -623,6 +623,7 @@ export type Database = {
           public_slug: string | null
           start_date: string | null
           trip_length: number | null
+          roulette_spin_at: string | null
         }
         Insert: {
           cover_image_attribution?: string | null
@@ -639,6 +640,7 @@ export type Database = {
           public_slug?: string | null
           start_date?: string | null
           trip_length?: number | null
+          roulette_spin_at?: string | null
         }
         Update: {
           cover_image_attribution?: string | null
@@ -655,6 +657,7 @@ export type Database = {
           public_slug?: string | null
           start_date?: string | null
           trip_length?: number | null
+          roulette_spin_at?: string | null
         }
         Relationships: [
           {
@@ -795,6 +798,10 @@ export type Database = {
       }
       save_push_subscription: {
         Args: { p_auth: string; p_endpoint: string; p_lang: string; p_p256dh: string }
+        Returns: undefined
+      }
+      schedule_roulette: {
+        Args: { p_at?: string; p_trip_id: string }
         Returns: undefined
       }
       set_availability: {

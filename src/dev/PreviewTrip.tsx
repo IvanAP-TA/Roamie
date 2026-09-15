@@ -37,6 +37,7 @@ const TRIP: Trip = {
   date_window_start: '2027-07-01',
   date_window_end: '2027-08-15',
   trip_length: 5,
+  roulette_spin_at: null,
   start_date: null,
   end_date: null,
 }

@@ -388,7 +388,19 @@
     "emptyBody": "Hacen falta destinos propuestos con al menos un punto. ¡Repartid vuestros 10 puntos!",
     "goVote": "Ir a votar",
     "noEligible": "Ahora mismo no hay destinos para sortear",
-    "remoteResult": "La ruleta ha decidido: ¡{{name}}!"
+    "remoteResult": "La ruleta ha decidido: ¡{{name}}!",
+    "schedule": "Programar la ruleta",
+    "scheduleTitle": "Programar la ruleta",
+    "scheduleBody": "Elige día y hora: la ruleta girará sola entre los destinos con puntos, aunque nadie tenga la app abierta. Hasta entonces se puede seguir votando.",
+    "when": "Día y hora",
+    "scheduleCta": "Programar",
+    "scheduled": "La ruleta girará sola {{when}}",
+    "scheduledHint": "Hasta entonces se puede seguir votando. Quien tenga las notificaciones activadas recibirá el resultado.",
+    "change": "Cambiar",
+    "cancelSchedule": "Anular",
+    "scheduleSaved": "Ruleta programada: {{when}}",
+    "scheduleCancelled": "Programación anulada",
+    "invalidTime": "Elige un momento dentro de unos minutos como mínimo y antes de un año."
   },
   "itinerary": {
     "title": "Itinerario",

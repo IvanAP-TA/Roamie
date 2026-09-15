@@ -302,6 +302,62 @@ describe('roulette', () => {
   })
 })
 
+describe('scheduled spins', () => {
+  const inAnHour = () => new Date(Date.now() + 60 * 60 * 1000).toISOString()
+  const spinAt = async (trip: string) =>
+    (await db.query<{ roulette_spin_at: string | null }>(`select roulette_spin_at from public.trips where id = $1`, [trip])).rows[0].roulette_spin_at
+  let withPoints: string
+  let pointless: string
+  let winner: string
+
+  beforeAll(async () => {
+    const [a] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Ruota programmata') returning id`))
+    const [b] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Nessun punto') returning id`))
+    withPoints = a.id
+    pointless = b.id
+    const [d] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Siviglia') returning id`, [withPoints]))
+    winner = d.id
+    await db.query(`insert into public.votes (destination_id, user_id, points) values ($1, $2, 3)`, [winner, OWNER])
+    await as(db, OWNER, (q) => q(`insert into public.destinations (trip_id, name) values ($1, 'Senza voti')`, [pointless]))
+  })
+
+  it('lets owners and editors schedule a time ahead, and nobody set it directly', async () => {
+    await rejects(as(db, VIEWER, (q) => q(`select public.schedule_roulette($1, $2)`, [tripId, inAnHour()])), /forbidden/)
+    await rejects(as(db, STRANGER, (q) => q(`select public.schedule_roulette($1, $2)`, [tripId, inAnHour()])), /forbidden/)
+    await rejects(as(db, EDITOR, (q) => q(`select public.schedule_roulette($1, now() - interval '1 hour')`, [tripId])), /invalid_spin_time/)
+    await rejects(as(db, EDITOR, (q) => q(`select public.schedule_roulette($1, now() + interval '2 years')`, [tripId])), /invalid_spin_time/)
+
+    await as(db, EDITOR, (q) => q(`select public.schedule_roulette($1, $2)`, [tripId, inAnHour()]))
+    const [seen] = await as(db, VIEWER, (q) => q<{ roulette_spin_at: string | null }>(`select roulette_spin_at from public.trips where id = $1`, [tripId]))
+    expect(seen.roulette_spin_at).not.toBeNull()
+    await rejects(as(db, EDITOR, (q) => q(`update public.trips set roulette_spin_at = now() where id = $1`, [tripId])), /permission denied/)
+    await rejects(as(db, EDITOR, (q) => q(`select public.run_scheduled_spins()`)), /permission denied/)
+
+    // Without a time: cancelled.
+    await as(db, EDITOR, (q) => q(`select public.schedule_roulette($1)`, [tripId]))
+    expect(await spinAt(tripId)).toBeNull()
+  })
+
+  it('spins trips whose time has come once, and lets a schedule with nothing to draw lapse', async () => {
+    await db.query(`update public.trips set roulette_spin_at = now() - interval '1 minute' where id = any($1::uuid[])`, [[withPoints, pointless]])
+    const { rows } = await db.query<{ run_scheduled_spins: number }>(`select public.run_scheduled_spins()`)
+    expect(rows[0].run_scheduled_spins).toBe(1)
+
+    const [d] = (await db.query<{ status: string }>(`select status from public.destinations where id = $1`, [winner])).rows
+    expect(d.status).toBe('selected')
+    expect(await spinAt(withPoints)).toBeNull()
+    expect(await spinAt(pointless)).toBeNull()
+    expect((await db.query<{ run_scheduled_spins: number }>(`select public.run_scheduled_spins()`)).rows[0].run_scheduled_spins).toBe(0)
+  })
+
+  it('a spin by hand replaces the scheduled one', async () => {
+    await db.query(`update public.destinations set status = 'proposed' where id = $1`, [winner])
+    await as(db, OWNER, (q) => q(`select public.schedule_roulette($1, $2)`, [withPoints, inAnHour()]))
+    await as(db, OWNER, (q) => q(`select public.spin_roulette($1)`, [withPoints]))
+    expect(await spinAt(withPoints)).toBeNull()
+  })
+})
+
 describe('itinerary', () => {
   it('editors build days and items, viewers only read', async () => {
     const [day] = await as(db, EDITOR, (q) =>

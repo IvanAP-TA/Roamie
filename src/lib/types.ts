@@ -32,6 +32,8 @@ export interface Trip {
   date_window_start: string | null
   date_window_end: string | null
   trip_length: number | null
+  /** When the wheel spins by itself; set by owners and editors */
+  roulette_spin_at: string | null
   /** Final dates, once fixed */
   start_date: string | null
   end_date: string | null

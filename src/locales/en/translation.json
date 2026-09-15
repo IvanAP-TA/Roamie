@@ -388,7 +388,19 @@
     "emptyBody": "It needs proposed places with at least one point. Spread your 10 points!",
     "goVote": "Go vote",
     "noEligible": "No place can be drawn right now",
-    "remoteResult": "The wheel has spoken: {{name}}!"
+    "remoteResult": "The wheel has spoken: {{name}}!",
+    "schedule": "Schedule the wheel",
+    "scheduleTitle": "Schedule the wheel",
+    "scheduleBody": "Pick a day and time: the wheel will spin by itself among the places with points, even if nobody has the app open. Voting stays open until then.",
+    "when": "Day and time",
+    "scheduleCta": "Schedule",
+    "scheduled": "The wheel will spin by itself {{when}}",
+    "scheduledHint": "Voting stays open until then. Anyone with notifications on will get the result.",
+    "change": "Change",
+    "cancelSchedule": "Cancel",
+    "scheduleSaved": "Wheel scheduled: {{when}}",
+    "scheduleCancelled": "Schedule cancelled",
+    "invalidTime": "Pick a time at least a few minutes from now and within a year."
   },
   "itinerary": {
     "title": "Itinerary",

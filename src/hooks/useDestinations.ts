@@ -139,6 +139,17 @@ export function useSetRating(tripId: string) {
   })
 }
 
+/** Sets the day and time the wheel spins by itself, or cancels it (no time). */
+export function useScheduleRoulette(tripId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (at: Date | null) => {
+      unwrap(await supabase.rpc('schedule_roulette', { p_trip_id: tripId, ...(at && { p_at: at.toISOString() }) }))
+    },
+    onSettled: () => qc.invalidateQueries({ queryKey: keys.trip(tripId) }),
+  })
+}
+
 /** Clears the caller's points on proposed destinations, or everyone's (owners only). Optimistic. */
 export function useResetPoints(tripId: string) {
   const qc = useQueryClient()

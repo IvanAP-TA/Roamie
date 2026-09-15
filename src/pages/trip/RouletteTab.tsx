@@ -14,6 +14,7 @@ import { playWin, unlockAudio, useSoundEnabled } from '@/lib/sound'
 import { rpcErrorCode } from '@/lib/supabase'
 import type { Destination } from '@/lib/types'
 import { PageTransition } from '@/components/layout/PageTransition'
+import { RouletteSchedule } from '@/components/roulette/RouletteSchedule'
 import { RouletteWheel, SLICE_COLORS } from '@/components/roulette/RouletteWheel'
 import { CoverImage } from '@/components/media/CoverImage'
 import { AttributionText } from '@/components/media/Attribution'
@@ -132,14 +133,18 @@ export default function RouletteTab() {
       {isLoading && <Skeleton className="mx-auto mt-8 aspect-square w-full max-w-[22rem] rounded-full" />}
 
       {!isLoading && entries.length === 0 && phase === 'idle' && (
-        <EmptyState seed="2" icon={<Dices />} title={t('roulette.emptyTitle')} body={t('roulette.emptyBody')}>
-          <Button asChild size="lg">
-            <Link to={`/trips/${trip.id}`}>
-              {t('roulette.goVote')}
-              <ArrowRight />
-            </Link>
-          </Button>
-        </EmptyState>
+        <>
+          <EmptyState seed="2" icon={<Dices />} title={t('roulette.emptyTitle')} body={t('roulette.emptyBody')}>
+            <Button asChild size="lg">
+              <Link to={`/trips/${trip.id}`}>
+                {t('roulette.goVote')}
+                <ArrowRight />
+              </Link>
+            </Button>
+          </EmptyState>
+          {/* The spin can be set before anyone has voted: "vote by Friday, the wheel spins at nine". */}
+          <RouletteSchedule className="mx-auto max-w-md" />
+        </>
       )}
 
       {!isLoading && entries.length > 0 && (
@@ -164,6 +169,7 @@ export default function RouletteTab() {
                 {t('roulette.viewerHint')}
               </p>
             )}
+            <RouletteSchedule />
           </div>
 
           <section className="glass rounded-[2rem] p-5">
@@ -245,7 +251,7 @@ export default function RouletteTab() {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-sm overflow-hidden rounded-[2.25rem] bg-paper p-2 shadow-lift"
             >
-              <CoverImage url={winner.image_url} seed={winner.name} pin showAttribution={false} className="h-64 rounded-[1.9rem]">
+              <CoverImage url={winner.image_url} seed={winner.name} pin showAttribution={false} sizes="384px" className="h-64 rounded-[1.9rem]">
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgb(20_10_5/0.7))]" />
                 <Button variant="glass" size="icon-sm" className="absolute top-3 right-3" onClick={reset} aria-label={t('common.close')}>
                   <X />
