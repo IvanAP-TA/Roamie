@@ -195,7 +195,15 @@ export function DestinationDetailSheet() {
 
           {d.status === 'visited' && <RatingSection destination={d} className="mx-2" />}
 
-          {d.lat != null && d.lng != null && <ClimateCard lat={d.lat} lng={d.lng} className="mx-2" />}
+          {d.lat != null && d.lng != null && (
+            <ClimateCard
+              lat={d.lat}
+              lng={d.lng}
+              // "Vietnam" pinned in the middle of Vietnam: its climate says little about the rest of the country.
+              broadArea={Boolean(d.country && d.name.trim().toLocaleLowerCase() === d.country.trim().toLocaleLowerCase())}
+              className="mx-2"
+            />
+          )}
 
           <CostEstimate destination={d} className="mx-2" />
 

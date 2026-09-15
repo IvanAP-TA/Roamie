@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
+import { CloudRain, Flame, Info, Snowflake, Wind } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useClimate } from '@/hooks/useClimate'
-import { monthRanges, type Climate } from '@/lib/climate'
+import { monthRanges, type Climate, type ClimateWarning } from '@/lib/climate'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
@@ -18,24 +19,50 @@ function useMonthNames(lang: string) {
   }, [lang])
 }
 
-/** "Best time to go: May–Aug" text, or null when no month is pleasant. */
-export function useBestMonthsLabel(climate: Climate | undefined): string | null {
+/** "May–Aug, Dec" style text for a set of months. */
+function useMonthsLabel() {
   const { i18n } = useTranslation()
   const names = useMonthNames(i18n.resolvedLanguage ?? 'en')
-  if (!climate || climate.best.length === 0) return null
-  return monthRanges(climate.best)
-    .map(([from, to]) => (from === to ? names.long[from] : `${names.short[from]}–${names.short[to]}`))
-    .join(', ')
+  return (months: number[]) =>
+    monthRanges(months)
+      .map(([from, to]) => (from === to ? names.long[from] : `${names.short[from]}–${names.short[to]}`))
+      .join(', ')
 }
 
+/** "Best time to go: May–Aug" text, or null when no month is pleasant. */
+export function useBestMonthsLabel(climate: Climate | undefined): string | null {
+  const label = useMonthsLabel()
+  if (!climate || climate.best.length === 0) return null
+  return label(climate.best)
+}
+
+const WARNINGS: { kind: ClimateWarning; icon: typeof Flame; tint: string }[] = [
+  { kind: 'heat', icon: Flame, tint: 'text-chart-temp' },
+  { kind: 'rain', icon: CloudRain, tint: 'text-chart-rain' },
+  { kind: 'wind', icon: Wind, tint: 'text-muted-foreground' },
+  { kind: 'cold', icon: Snowflake, tint: 'text-chart-rain' },
+]
+
 /**
- * Month-by-month climate: two aligned small charts (temperature range, rainy days) instead of one
- * dual-axis plot, best months tinted and also named in text, a per-month readout on hover/focus/tap,
- * and the full numbers in a table.
+ * Month-by-month climate: two aligned small charts (temperature range, rainfall) instead of one
+ * dual-axis plot, best months tinted and also named in text, warnings for heat, downpours, storms and
+ * cold, a per-month readout on hover/focus/tap, and the full numbers in a table.
  */
-export function ClimateCard({ lat, lng, className }: { lat: number; lng: number; className?: string }) {
+export function ClimateCard({
+  lat,
+  lng,
+  broadArea = false,
+  className,
+}: {
+  lat: number
+  lng: number
+  /** The destination is a whole country or region: one point can't stand for all of it. */
+  broadArea?: boolean
+  className?: string
+}) {
   const { t, i18n } = useTranslation()
   const names = useMonthNames(i18n.resolvedLanguage ?? 'en')
+  const monthsLabel = useMonthsLabel()
   const { data: climate, isLoading, isError, refetch } = useClimate(lat, lng)
   const bestLabel = useBestMonthsLabel(climate)
   const [active, setActive] = useState<number | null>(null)
@@ -53,19 +80,21 @@ export function ClimateCard({ lat, lng, className }: { lat: number; lng: number;
     )
   }
 
-  const { months, best, years } = climate
+  const { months, best, warnings, years } = climate
   const bestSet = new Set(best)
   const low = Math.min(...months.map((m) => m.tempMin)) - 2
   const high = Math.max(...months.map((m) => m.tempMax)) + 2
   const tempPct = (value: number) => ((value - low) / (high - low)) * 100
-  const rainMax = Math.max(10, ...months.map((m) => m.rainDays))
+  const rainMax = Math.max(100, ...months.map((m) => m.rainMm))
+  const activeWarnings = WARNINGS.filter(({ kind }) => warnings[kind].length > 0)
 
   const readout = (i: number) => {
     const m = months[i]
     return [
       names.long[i],
       `${Math.round(m.tempMin)}–${Math.round(m.tempMax)} °C`,
-      t('climate.rainDays', { count: Math.round(m.rainDays) }),
+      t('climate.feels', { temp: Math.round(m.feelsMax) }),
+      t('climate.rainMm', { mm: Math.round(m.rainMm) }),
       t('climate.sun', { hours: Math.round(m.sunHours) }),
     ].join(' · ')
   }
@@ -81,6 +110,25 @@ export function ClimateCard({ lat, lng, className }: { lat: number; lng: number;
         </span>
       </div>
       <p className="mt-1 text-sm font-semibold">{bestLabel ? t('climate.best', { months: bestLabel }) : t('climate.noBest')}</p>
+
+      {activeWarnings.length > 0 && (
+        <ul className="mt-2 space-y-1">
+          {activeWarnings.map(({ kind, icon: Icon, tint }) => (
+            <li key={kind} className="flex items-start gap-2 text-xs">
+              <Icon className={cn('mt-px size-3.5 shrink-0', tint)} aria-hidden />
+              <span>{t(`climate.warning.${kind}`, { months: monthsLabel(warnings[kind]) })}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {broadArea && (
+        <p className="mt-2 flex items-start gap-2 text-xs text-muted-foreground">
+          <Info className="mt-px size-3.5 shrink-0" aria-hidden />
+          {t('climate.broadArea')}
+        </p>
+      )}
+
       <p className="mt-1.5 min-h-4 text-xs text-muted-foreground" aria-live="polite">
         {active != null ? readout(active) : t('climate.hint')}
       </p>
@@ -109,11 +157,11 @@ export function ClimateCard({ lat, lng, className }: { lat: number; lng: number;
                 style={{ bottom: `${tempPct(m.tempMin)}%`, top: `${100 - tempPct(m.tempMax)}%` }}
               />
             </span>
-            {/* rainy days, from a shared baseline */}
+            {/* rainfall, from a shared baseline */}
             <span className="relative mt-2 block h-12 w-full border-b border-border">
               <span
                 className="absolute bottom-0 left-1/2 w-2 -translate-x-1/2 rounded-t-[4px] bg-chart-rain"
-                style={{ height: `${Math.max((m.rainDays / rainMax) * 100, m.rainDays > 0 ? 4 : 0)}%` }}
+                style={{ height: `${Math.max((m.rainMm / rainMax) * 100, m.rainMm >= 1 ? 4 : 0)}%` }}
               />
             </span>
             <span className="mt-1 mb-1 text-[0.58rem] leading-none text-muted-foreground uppercase">{names.short[i].slice(0, 1)}</span>
@@ -146,6 +194,7 @@ export function ClimateCard({ lat, lng, className }: { lat: number; lng: number;
               <tr>
                 <th className="py-1 pr-2 font-medium">{t('climate.colMonth')}</th>
                 <th className="py-1 pr-2 font-medium">°C</th>
+                <th className="py-1 pr-2 font-medium">{t('climate.colFeels')}</th>
                 <th className="py-1 pr-2 font-medium">{t('climate.colRain')}</th>
                 <th className="py-1 font-medium">{t('climate.colSun')}</th>
               </tr>
@@ -157,7 +206,8 @@ export function ClimateCard({ lat, lng, className }: { lat: number; lng: number;
                   <td className="py-1 pr-2">
                     {Math.round(m.tempMin)}–{Math.round(m.tempMax)}
                   </td>
-                  <td className="py-1 pr-2">{Math.round(m.rainDays)}</td>
+                  <td className="py-1 pr-2">{Math.round(m.feelsMax)}</td>
+                  <td className="py-1 pr-2">{Math.round(m.rainMm)}</td>
                   <td className="py-1">{Math.round(m.sunHours)} h</td>
                 </tr>
               ))}

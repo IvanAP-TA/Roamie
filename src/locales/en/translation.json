@@ -648,18 +648,26 @@
     "best": "Best time to go: {{months}}",
     "noBest": "No month with a mild climate: check temperatures and rain below.",
     "hint": "Tap a month for details",
-    "rainDays_one": "{{count}} rainy day",
-    "rainDays_other": "{{count}} rainy days",
     "sun": "{{hours}} h of sun a day",
     "legendTemp": "Temperatures (low–high)",
-    "legendRain": "Rainy days",
+    "legendRain": "Rainfall (mm)",
     "legendBest": "Best time to go",
     "table": "Show the data",
     "colMonth": "Month",
-    "colRain": "Rain (days)",
+    "colRain": "Rain (mm)",
     "colSun": "Sun",
-    "estimate": "Estimate based on the last 5 years of temperatures and rain",
-    "error": "Climate data isn't available right now."
+    "estimate": "Estimate from the last 5 years of feels-like temperatures, rain and wind",
+    "error": "Climate data isn't available right now.",
+    "colFeels": "Feels like",
+    "rainMm": "{{mm}} mm of rain",
+    "feels": "feels like {{temp}} °C",
+    "broadArea": "The climate varies a lot across the country: these figures are for the point on the map. Pick a city for a closer estimate.",
+    "warning": {
+      "heat": "Intense heat: {{months}}",
+      "rain": "Heavy rain: {{months}}",
+      "wind": "Strong winds and storms: {{months}}",
+      "cold": "Bitter cold: {{months}}"
+    }
   },
   "stops": {
     "place": "Place",

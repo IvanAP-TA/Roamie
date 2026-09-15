@@ -648,18 +648,26 @@
     "best": "Periodo migliore: {{months}}",
     "noBest": "Nessun mese dal clima mite: guarda temperature e piogge qui sotto.",
     "hint": "Tocca un mese per i dettagli",
-    "rainDays_one": "{{count}} giorno di pioggia",
-    "rainDays_other": "{{count}} giorni di pioggia",
     "sun": "{{hours}} h di sole al giorno",
     "legendTemp": "Temperature (min–max)",
-    "legendRain": "Giorni di pioggia",
+    "legendRain": "Pioggia (mm)",
     "legendBest": "Periodo migliore",
     "table": "Vedi i dati",
     "colMonth": "Mese",
-    "colRain": "Pioggia (gg)",
+    "colRain": "Pioggia (mm)",
     "colSun": "Sole",
-    "estimate": "Stima sugli ultimi 5 anni di temperature e piogge",
-    "error": "Clima non disponibile al momento."
+    "estimate": "Stima sugli ultimi 5 anni di temperature percepite, piogge e vento",
+    "error": "Clima non disponibile al momento.",
+    "colFeels": "Percepita",
+    "rainMm": "{{mm}} mm di pioggia",
+    "feels": "percepita {{temp}} °C",
+    "broadArea": "Il clima cambia molto da una regione all'altra del Paese: questi dati valgono per il punto sulla mappa. Scegli una città per una stima più precisa.",
+    "warning": {
+      "heat": "Caldo intenso: {{months}}",
+      "rain": "Piogge abbondanti: {{months}}",
+      "wind": "Vento forte e tempeste: {{months}}",
+      "cold": "Freddo intenso: {{months}}"
+    }
   },
   "stops": {
     "place": "Luogo",

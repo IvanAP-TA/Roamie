@@ -648,18 +648,26 @@
     "best": "Mejor época: {{months}}",
     "noBest": "Ningún mes con clima templado: mira las temperaturas y las lluvias abajo.",
     "hint": "Toca un mes para ver los detalles",
-    "rainDays_one": "{{count}} día de lluvia",
-    "rainDays_other": "{{count}} días de lluvia",
     "sun": "{{hours}} h de sol al día",
     "legendTemp": "Temperaturas (mín–máx)",
-    "legendRain": "Días de lluvia",
+    "legendRain": "Lluvia (mm)",
     "legendBest": "Mejor época",
     "table": "Ver los datos",
     "colMonth": "Mes",
-    "colRain": "Lluvia (días)",
+    "colRain": "Lluvia (mm)",
     "colSun": "Sol",
-    "estimate": "Estimación basada en los últimos 5 años de temperaturas y lluvias",
-    "error": "El clima no está disponible ahora mismo."
+    "estimate": "Estimación de los últimos 5 años de sensación térmica, lluvias y viento",
+    "error": "El clima no está disponible ahora mismo.",
+    "colFeels": "Sensación",
+    "rainMm": "{{mm}} mm de lluvia",
+    "feels": "sensación de {{temp}} °C",
+    "broadArea": "El clima cambia mucho de una región a otra del país: estos datos valen para el punto del mapa. Elige una ciudad para una estimación más precisa.",
+    "warning": {
+      "heat": "Calor intenso: {{months}}",
+      "rain": "Lluvias abundantes: {{months}}",
+      "wind": "Viento fuerte y tormentas: {{months}}",
+      "cold": "Frío intenso: {{months}}"
+    }
   },
   "stops": {
     "place": "Lugar",
