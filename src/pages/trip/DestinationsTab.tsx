@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useDestinations } from '@/hooks/useDestinations'
 import { useShowOnScrollUp } from '@/hooks/useShowOnScrollUp'
 import { useTripContext } from '@/hooks/useTripContext'
+import { Floating } from '@/components/layout/Floating'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { CoverImage } from '@/components/media/CoverImage'
 import { CompareSheet } from '@/components/destinations/CompareSheet'
@@ -292,6 +293,7 @@ export default function DestinationsTab() {
         )}
       </div>
 
+      <Floating>
       {/* Floating "Propose": above the dock on phones, bottom right on larger screens (next to the toolbar button).
           It steps aside while scrolling down through the list and comes back on the way up. */}
       {canEdit && !selecting && (
@@ -331,6 +333,7 @@ export default function DestinationsTab() {
           </motion.div>
         )}
       </AnimatePresence>
+      </Floating>
 
       <DestinationFormSheet open={adding} onOpenChange={setAdding} tripId={trip.id} />
 

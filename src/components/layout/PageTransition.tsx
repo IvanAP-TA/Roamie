@@ -5,7 +5,8 @@ export function PageTransition({ children, className }: { children: React.ReactN
   return (
     <motion.div
       initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      // A leftover "blur(0px)" would still make this the containing block of any position: fixed descendant.
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)', transitionEnd: { filter: 'none' } }}
       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       className={cn(className)}
     >

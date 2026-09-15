@@ -13,6 +13,7 @@ import { eligibleEntries, markLocalSpin, targetRotation, type RouletteEntry } fr
 import { playWin, unlockAudio, useSoundEnabled } from '@/lib/sound'
 import { rpcErrorCode } from '@/lib/supabase'
 import type { Destination } from '@/lib/types'
+import { Floating } from '@/components/layout/Floating'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { RouletteSchedule } from '@/components/roulette/RouletteSchedule'
 import { RouletteWheel, SLICE_COLORS } from '@/components/roulette/RouletteWheel'
@@ -234,6 +235,7 @@ export default function RouletteTab() {
         }}
       />
 
+      <Floating>
       <AnimatePresence>
         {phase === 'result' && winner && (
           <motion.div
@@ -288,6 +290,7 @@ export default function RouletteTab() {
           </motion.div>
         )}
       </AnimatePresence>
+      </Floating>
     </PageTransition>
   )
 }
