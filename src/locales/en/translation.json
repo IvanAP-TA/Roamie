@@ -434,6 +434,21 @@
     "mineDone": "Points reset: you have 10 points again",
     "everyoneDone": "Vote reset for the whole group"
   },
+  "cost": {
+    "title": "Estimated costs per person",
+    "totalDays_one": "≈ {{range}} for {{count}} day",
+    "totalDays_other": "≈ {{range}} for {{count}} days",
+    "totalWeek": "≈ {{range}} for a week",
+    "flight": "Return flight from Italy",
+    "flightNear": "Close by: train or car",
+    "flightUnknown": "Needs the place's location",
+    "stay": "Accommodation",
+    "perNight": "~{{amount}} a night",
+    "daily": "Food, transport and activities",
+    "perDay": "~{{amount}} a day",
+    "disclaimer": "Rough estimate: the flight from the distance to Rome, local costs from the country's price level",
+    "source": "Prices: World Bank {{years}} (CC BY 4.0)"
+  },
   "notifications": {
     "title": "Notifications",
     "device": "Notifications on this device",

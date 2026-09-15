@@ -434,6 +434,21 @@
     "mineDone": "Puntos reiniciados: vuelves a tener 10 puntos",
     "everyoneDone": "Votación reiniciada para todo el grupo"
   },
+  "cost": {
+    "title": "Costes estimados por persona",
+    "totalDays_one": "≈ {{range}} por {{count}} día",
+    "totalDays_other": "≈ {{range}} por {{count}} días",
+    "totalWeek": "≈ {{range}} por una semana",
+    "flight": "Vuelo de ida y vuelta desde Italia",
+    "flightNear": "Cerca: en tren o en coche",
+    "flightUnknown": "Hace falta la ubicación del destino",
+    "stay": "Alojamiento",
+    "perNight": "~{{amount}} por noche",
+    "daily": "Comida, transporte y actividades",
+    "perDay": "~{{amount}} al día",
+    "disclaimer": "Estimación orientativa: el vuelo según la distancia a Roma, los costes locales según los precios del país",
+    "source": "Precios: Banco Mundial {{years}} (CC BY 4.0)"
+  },
   "notifications": {
     "title": "Notificaciones",
     "device": "Notificaciones en este dispositivo",
