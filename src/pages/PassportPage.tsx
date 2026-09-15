@@ -267,7 +267,7 @@ export default function PassportPage() {
                     onClick={() => openStamp(s)}
                     className="flex w-full items-center gap-3 rounded-[1.75rem] bg-paper p-3 pr-12 text-left shadow-soft transition-shadow hover:shadow-lift"
                   >
-                    <CoverImage url={s.imageUrl} seed={s.name} pin showAttribution={false} className="size-20 shrink-0 rounded-[1.25rem]" />
+                    <CoverImage url={s.imageUrl} seed={s.name} pin showAttribution={false} sizes="80px" className="size-20 shrink-0 rounded-[1.25rem]" />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-display text-xl leading-tight">{s.name}</span>
                       <span className="block truncate text-xs text-muted-foreground">

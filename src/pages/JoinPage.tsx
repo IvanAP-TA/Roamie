@@ -102,7 +102,14 @@ export default function JoinPage() {
               className="drop-shadow-[0_30px_40px_rgb(150_70_30/0.25)]"
             >
               <div className="ticket-notch overflow-hidden rounded-[2rem] bg-paper [--notch-y:calc(100%-8.75rem)]">
-                <CoverImage url={trip.cover_image_url} attribution={trip.cover_image_attribution} seed={trip.id} className="h-52">
+                <CoverImage
+                  url={trip.cover_image_url}
+                  attribution={trip.cover_image_attribution}
+                  seed={trip.id}
+                  sizes="(min-width: 640px) 448px, 100vw"
+                  priority
+                  className="h-52"
+                >
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_45%,rgb(0_0_0/0.45))]" />
                   <div className="absolute bottom-4 left-5 text-white">
                     <p className="text-[0.65rem] font-bold tracking-[0.24em] uppercase opacity-85">{t('join.invitedTo')}</p>

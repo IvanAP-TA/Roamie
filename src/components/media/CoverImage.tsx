@@ -3,6 +3,7 @@ import { MapPin } from 'lucide-react'
 import { Scene } from '@/components/brand/Scene'
 import { AttributionChip } from './Attribution'
 import { cn, safeImageUrl } from '@/lib/utils'
+import { commonsSrcSet } from '@/lib/wikimedia'
 
 export const SCENE_PREFIX = 'scene:'
 
@@ -20,6 +21,8 @@ export function CoverImage({
   pin = false,
   showAttribution = true,
   attributionClassName,
+  sizes,
+  priority = false,
 }: {
   url: string | null | undefined
   attribution?: string | null
@@ -30,11 +33,16 @@ export function CoverImage({
   pin?: boolean
   showAttribution?: boolean
   attributionClassName?: string
+  /** How wide the image is shown (the `sizes` attribute), so a Commons photo is fetched at a fitting width */
+  sizes?: string
+  /** The page's main image: loaded right away and first */
+  priority?: boolean
 }) {
   // Remember which URL failed, so switching to another photo tries loading it again.
   const [failedUrl, setFailedUrl] = useState<string | null>(null)
   const isScene = Boolean(url?.startsWith(SCENE_PREFIX))
   const photoUrl = isScene ? null : safeImageUrl(url)
+  const srcSet = photoUrl && sizes ? commonsSrcSet(photoUrl) : undefined
 
   if (!photoUrl || failedUrl === photoUrl) {
     const sceneSeed = isScene ? url!.slice(SCENE_PREFIX.length) : seed
@@ -53,8 +61,11 @@ export function CoverImage({
       <img
         key={photoUrl}
         src={photoUrl}
+        srcSet={srcSet}
+        sizes={srcSet ? sizes : undefined}
         alt=""
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : undefined}
         decoding="async"
         crossOrigin="anonymous"
         referrerPolicy="strict-origin-when-cross-origin"

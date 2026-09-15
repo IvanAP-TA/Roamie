@@ -104,7 +104,14 @@ function TripContent({ trip, signedIn }: { trip: PublicTrip; signedIn: boolean }
   return (
     <>
       <section className="overflow-hidden rounded-[2rem] shadow-soft">
-        <CoverImage url={trip.cover_image_url} attribution={trip.cover_image_attribution} seed={trip.slug} className="h-72 md:h-96">
+        <CoverImage
+          url={trip.cover_image_url}
+          attribution={trip.cover_image_attribution}
+          seed={trip.slug}
+          sizes="100vw"
+          priority
+          className="h-72 md:h-96"
+        >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgb(20_10_5/0.7))]" />
           <div className="absolute inset-x-5 bottom-6 text-white md:inset-x-8 md:bottom-8">
             <p className="text-[0.68rem] font-bold tracking-[0.24em] uppercase opacity-85">{t('publicPage.eyebrow')}</p>
@@ -137,7 +144,14 @@ function TripContent({ trip, signedIn }: { trip: PublicTrip; signedIn: boolean }
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {trip.destinations.map((d) => (
               <li key={d.id} className="overflow-hidden rounded-[1.75rem] bg-paper shadow-soft">
-                <CoverImage url={d.image_url} attribution={d.image_attribution} seed={d.name} pin className="h-44">
+                <CoverImage
+                  url={d.image_url}
+                  attribution={d.image_attribution}
+                  seed={d.name}
+                  pin
+                  sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+                  className="h-44"
+                >
                   {d.status !== 'proposed' && (
                     <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-[var(--glass-strong)] px-2.5 py-1 text-[0.68rem] font-bold tracking-wide uppercase backdrop-blur-md">
                       {d.status === 'selected' ? <Sparkles className="size-3.5 text-primary" /> : <CheckCheck className="size-3.5 text-sage" />}

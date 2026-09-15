@@ -212,6 +212,20 @@ export function sizedThumb(url: string, width: 250 | 330 | 500 | 960): string {
   return url.includes('/thumb/') ? url.replace(/\/\d+px-([^/]+)$/, `/${width}px-$1`) : url
 }
 
+const SRCSET_WIDTHS = [330, 500, 960, 1280]
+
+/**
+ * `srcset` for a Commons thumbnail ("…/960px-File.jpg"): the standard widths up to the one in the URL, so phones get a
+ * smaller file and nothing is requested larger than what Commons already rendered. Undefined for anything else.
+ */
+export function commonsSrcSet(url: string): string | undefined {
+  const match = /^https:\/\/(upload|thumb)\.wikimedia\.org\/.+\/thumb\/.+\/(\d+)px-[^/]+$/.exec(url)
+  if (!match) return undefined
+  const widths = SRCSET_WIDTHS.filter((width) => width <= Number(match[2]))
+  if (widths.length < 2) return undefined
+  return widths.map((width) => `${url.replace(/\/\d+px-([^/]+)$/, `/${width}px-$1`)} ${width}w`).join(', ')
+}
+
 export function serializeAttribution(a: ImageAttribution): string {
   return JSON.stringify(a)
 }

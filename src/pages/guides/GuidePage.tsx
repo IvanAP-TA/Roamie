@@ -61,6 +61,8 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
               url={cover?.url}
               attribution={cover ? serializeAttribution(cover.attribution) : null}
               seed={guide.id}
+              sizes="(min-width: 896px) 832px, 100vw"
+              priority
               className="mt-2 h-44 rounded-[2rem] shadow-soft md:h-60"
             />
             <p className="mt-8 text-sm font-semibold tracking-wide text-primary uppercase">{t('guides.eyebrow')}</p>
@@ -103,6 +105,7 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
                       url={photo?.url}
                       attribution={photo ? serializeAttribution(photo.attribution) : null}
                       seed={place.key}
+                      sizes="(min-width: 768px) 208px, 100vw"
                       className="flex h-44 items-center justify-center md:h-full md:min-h-56"
                       attributionClassName="right-2 bottom-2"
                     >

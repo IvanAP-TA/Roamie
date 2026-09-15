@@ -24,7 +24,7 @@ export function NextDestinationCard({ destination: d, onOpen }: { destination: D
         className="absolute -inset-[60%] animate-spin-slow bg-[conic-gradient(from_0deg,var(--sun),var(--coral),var(--primary),var(--dusk),var(--sun))]"
       />
       <span className="relative flex items-center gap-4 rounded-[calc(2rem-2px)] bg-paper p-3 pr-5">
-        <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} className="size-20 shrink-0 rounded-[1.4rem]" />
+        <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} sizes="80px" className="size-20 shrink-0 rounded-[1.4rem]" />
         <span className="min-w-0 flex-1">
           <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold tracking-[0.18em] text-primary uppercase">
             <Sparkles className="size-3.5" />

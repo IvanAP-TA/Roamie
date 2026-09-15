@@ -94,7 +94,7 @@ function TripPicker({ place, lang, onDone }: { place: GuidePlace; lang: Language
               onClick={() => choose(trip.id, trip.name)}
               className="flex w-full items-center gap-3 rounded-[1.25rem] bg-foreground/[0.04] p-2.5 text-left transition hover:bg-foreground/[0.07] disabled:opacity-60"
             >
-              <CoverImage url={trip.cover_image_url} seed={trip.id} showAttribution={false} className="size-12 shrink-0 rounded-xl" />
+              <CoverImage url={trip.cover_image_url} seed={trip.id} showAttribution={false} sizes="48px" className="size-12 shrink-0 rounded-xl" />
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-semibold">{trip.name}</span>
                 <span className="block text-xs text-muted-foreground">

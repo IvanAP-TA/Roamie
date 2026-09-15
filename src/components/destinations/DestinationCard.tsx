@@ -49,6 +49,7 @@ export const DestinationCard = forwardRef<
           attribution={d.image_attribution}
           seed={d.name}
           pin
+          sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
           className="h-56"
           imgClassName="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105"
           attributionClassName="top-3 right-3 bottom-auto"

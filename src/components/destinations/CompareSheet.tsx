@@ -97,7 +97,7 @@ export function CompareSheet({
               {destinations.map((d) => (
                 <th key={d.id} scope="col" className="min-w-[6.25rem] pb-2 text-left align-top font-normal">
                   <button type="button" onClick={() => onOpenDestination(d.id)} className="group w-full text-left" aria-label={t('compare.open', { name: d.name })}>
-                    <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} className="aspect-[4/3] w-full rounded-2xl shadow-soft" />
+                    <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} sizes="200px" className="aspect-[4/3] w-full rounded-2xl shadow-soft" />
                     <span className="mt-2 line-clamp-2 block font-display text-lg leading-tight group-hover:underline">{d.name}</span>
                     {d.country && <span className="block truncate text-xs text-muted-foreground">{d.country}</span>}
                   </button>

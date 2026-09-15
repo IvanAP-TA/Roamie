@@ -15,6 +15,7 @@ export function guideCardPhoto(guide: GuideMeta): GuideCardMedia | null {
         url={cover.url}
         seed={guide.id}
         showAttribution={false}
+        sizes="(min-width: 1024px) 240px, (min-width: 640px) 50vw, 100vw"
         className="h-full transition-transform duration-500 group-hover:scale-[1.03]"
       />
     ),

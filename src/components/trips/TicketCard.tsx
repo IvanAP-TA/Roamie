@@ -30,7 +30,13 @@ export function TicketCard({ trip, myRole }: { trip: TripListItem; myRole: Role 
         to={`/trips/${trip.id}`}
         className="ticket-notch block overflow-hidden rounded-[1.75rem] bg-paper outline-none [--notch-y:calc(100%-3.5rem)] focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <CoverImage url={trip.cover_image_url} attribution={trip.cover_image_attribution} seed={trip.id} className="h-40">
+        <CoverImage
+          url={trip.cover_image_url}
+          attribution={trip.cover_image_attribution}
+          seed={trip.id}
+          sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+          className="h-40"
+        >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.15),transparent_40%,rgb(0_0_0/0.25))]" />
           <div className="absolute top-3 left-3 flex gap-1.5">
             {myRole && (

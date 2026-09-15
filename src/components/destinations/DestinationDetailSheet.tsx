@@ -93,7 +93,15 @@ export function DestinationDetailSheet() {
       >
         <div className="-mx-2 space-y-6 md:-mx-3">
           <div>
-            <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} className="h-64 rounded-[1.75rem] shadow-soft md:mt-2">
+            <CoverImage
+              url={d.image_url}
+              seed={d.name}
+              pin
+              showAttribution={false}
+              sizes="(min-width: 768px) 560px, 100vw"
+              priority
+              className="h-64 rounded-[1.75rem] shadow-soft md:mt-2"
+            >
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.25),transparent_30%,transparent_55%,rgb(20_10_5/0.65))]" />
               <div className="absolute inset-x-3 top-3 flex items-center justify-between">
                 {d.status !== 'proposed' ? (
