@@ -417,7 +417,7 @@ describe('secret voting and the live wheel', () => {
 
   it('records the wheel of every spin for all members, and a spin ends a secret round', async () => {
     await as(db, OWNER, (q) => q(`select public.set_secret_voting($1, true)`, [trip]))
-    await as(db, VIEWER, (q) => q(`select public.save_push_subscription('https://push.example.com/send/live', $1, $2, 'it')`, [`B${'A'.repeat(86)}`, 'A'.repeat(22)]))
+    await as(db, VIEWER, (q) => q(`select public.save_push_subscription('https://fcm.googleapis.com/fcm/send/live', $1, $2, 'it')`, [`B${'A'.repeat(86)}`, 'A'.repeat(22)]))
 
     const [{ spin_roulette: winner }] = await as(db, EDITOR, (q) => q<{ spin_roulette: string }>(`select public.spin_roulette($1)`, [trip]))
     const spins = await as(db, VIEWER, (q) =>
@@ -784,7 +784,7 @@ describe('resetting points', () => {
 describe('push notifications', () => {
   const P256DH = `B${'A'.repeat(86)}`
   const AUTH = 'A'.repeat(22)
-  const endpoint = (device: string) => `https://push.example.com/send/${device}`
+  const endpoint = (device: string) => `https://fcm.googleapis.com/fcm/send/${device}`
   const subscribe = (user: string, device = user) =>
     as(db, user, (q) => q(`select public.save_push_subscription($1, $2, $3, 'it')`, [endpoint(device), P256DH, AUTH]))
   const queued = async () =>
@@ -805,11 +805,11 @@ describe('push notifications', () => {
     await subscribe(VIEWER)
     expect(await as(db, EDITOR, (q) => q(`select endpoint from public.push_subscriptions`))).toEqual([{ endpoint: endpoint(EDITOR) }])
     await rejects(
-      as(db, EDITOR, (q) => q(`insert into public.push_subscriptions (endpoint, p256dh, auth) values ('https://push.example.com/x', $1, $2)`, [P256DH, AUTH])),
+      as(db, EDITOR, (q) => q(`insert into public.push_subscriptions (endpoint, p256dh, auth) values ('https://fcm.googleapis.com/fcm/x', $1, $2)`, [P256DH, AUTH])),
       /permission denied/,
     )
-    await rejects(as(db, null, (q) => q(`select public.save_push_subscription('https://push.example.com/x', $1, $2, 'it')`, [P256DH, AUTH])), /permission denied/)
-    await rejects(as(db, EDITOR, (q) => q(`select public.save_push_subscription('http://push.example.com/x', $1, $2, 'it')`, [P256DH, AUTH])), /check constraint/)
+    await rejects(as(db, null, (q) => q(`select public.save_push_subscription('https://fcm.googleapis.com/fcm/x', $1, $2, 'it')`, [P256DH, AUTH])), /permission denied/)
+    await rejects(as(db, EDITOR, (q) => q(`select public.save_push_subscription('http://fcm.googleapis.com/fcm/x', $1, $2, 'it')`, [P256DH, AUTH])), /check constraint/)
 
     // The editor's phone, now signed in with another account.
     await subscribe(STRANGER, EDITOR)
@@ -965,5 +965,49 @@ describe('membership lifecycle & account deletion', () => {
     await as(db, OWNER, (q) => q(`select public.delete_account()`))
     const { rows } = await db.query(`select 1 from public.trips where id = $1`, [tripId])
     expect(rows).toHaveLength(0)
+  })
+})
+
+describe('limits against abuse', () => {
+  const SPAMMER = '66666666-6666-4666-8666-666666666666'
+  let trip: string
+
+  beforeAll(async () => {
+    await createUser(db, SPAMMER, 'Spam')
+    const [t] = await as(db, SPAMMER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Tanti link') returning id`))
+    trip = t.id
+  })
+
+  it("accepts push subscriptions only from the browsers' push services, up to 10 per person", async () => {
+    const save = (endpoint: string) =>
+      as(db, SPAMMER, (q) => q(`select public.save_push_subscription($1, $2, $3, 'it')`, [endpoint, `B${'A'.repeat(86)}`, 'A'.repeat(22)]))
+    await rejects(save('https://evil.example.com/collect'), /check constraint/)
+    await rejects(save('https://fcm.googleapis.com.evil.example/x'), /check constraint/)
+    await save('https://web.push.apple.com/abc')
+    await save('https://updates.push.services.mozilla.com/wpush/v2/abc')
+    await save('https://wns2-par02p.notify.windows.com/w/?token=abc')
+    for (let i = 0; i < 7; i++) await save(`https://fcm.googleapis.com/fcm/send/${i}`)
+    await rejects(save('https://fcm.googleapis.com/fcm/send/extra'), /limit_reached/)
+    // A device already saved can always be saved again.
+    await save('https://fcm.googleapis.com/fcm/send/3')
+    await db.exec(`delete from public.push_subscriptions`)
+  })
+
+  it('caps how much one person can create, and how fast they comment', async () => {
+    const links = (n: number) =>
+      as(db, SPAMMER, (q) =>
+        q(`insert into public.trip_links (trip_id, title, category, created_by) select $1, 'Link ' || g, 'other', $2 from generate_series(1, ${n}) g`, [trip, SPAMMER]),
+      )
+    await links(100)
+    await rejects(links(1), /limit_reached/)
+
+    const [d] = await as(db, SPAMMER, (q) => q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Spam') returning id`, [trip]))
+    const comments = (n: number) =>
+      as(db, SPAMMER, (q) => q(`insert into public.comments (destination_id, content) select $1, 'ciao ' || g from generate_series(1, ${n}) g`, [d.id]))
+    await comments(30)
+    await rejects(comments(1), /rate_limited/)
+
+    // The API can't empty a table, whatever the row rules.
+    await rejects(as(db, SPAMMER, (q) => q(`truncate public.comments`)), /permission denied/)
   })
 })
