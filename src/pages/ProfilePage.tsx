@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ChevronRight, Download, FileText, Loader2, Lock, LogOut, ShieldCheck, Trash2, Volume2 } from 'lucide-react'
+import { ChevronRight, Download, FileText, Loader2, Lock, LogOut, Plane, ShieldCheck, Trash2, Volume2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -14,6 +14,7 @@ import { Footer } from '@/components/layout/Footer'
 import { InstallAppButton } from '@/components/install/InstallApp'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { GuestBanner } from '@/components/auth/GuestUpgrade'
+import { OriginSelect } from '@/components/destinations/OriginSelect'
 import { NotificationSettings } from '@/components/notifications/NotificationSettings'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { UserAvatar } from '@/components/ui/avatar'
@@ -175,6 +176,14 @@ export default function ProfilePage() {
               <Volume2 className="size-5 text-primary" />
               <span className="flex-1 font-medium">{t('profile.sound')}</span>
               <Switch checked={soundOn} onCheckedChange={setSoundOn} label={t('profile.sound')} />
+            </div>
+            <div className="flex items-center gap-3 px-5 py-3.5">
+              <Plane className="size-5 text-primary" />
+              <span className="min-w-0 flex-1">
+                <span className="block font-medium">{t('profile.origin')}</span>
+                <span className="block text-xs text-muted-foreground">{t('profile.originHint')}</span>
+              </span>
+              <OriginSelect label={t('profile.origin')} />
             </div>
             <InstallAppButton appearance="row" />
           </div>

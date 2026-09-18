@@ -10,6 +10,7 @@ import { totalPoints } from '@/lib/roulette'
 import { useTripContext } from '@/hooks/useTripContext'
 import { sortReasons } from '@/lib/reasons'
 import { votesHidden } from '@/lib/secretVoting'
+import { useOrigin } from '@/lib/origin'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { useBestMonthsLabel } from './ClimateCard'
@@ -44,6 +45,7 @@ export function CompareSheet({
   const { user } = useAuth()
   const { trip } = useTripContext()
   const hidden = votesHidden(trip)
+  const [origin] = useOrigin()
   const topPoints = Math.max(...destinations.map(totalPoints))
   const leaders = destinations.filter((d) => totalPoints(d) === topPoints)
   const hasClimate = destinations.some((d) => d.lat != null && d.lng != null)
@@ -94,7 +96,7 @@ export function CompareSheet({
       key: 'budget',
       label: t('compare.budget'),
       render: (d) => {
-        const level = estimatedBudgetLevel(d)
+        const level = estimatedBudgetLevel(d, origin)
         return level ? <BudgetIndicator level={level} showLabel className="[&_.text-sm]:text-xs" /> : empty
       },
     },

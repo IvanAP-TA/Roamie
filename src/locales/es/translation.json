@@ -269,7 +269,9 @@
     "deleteTitle": "¿Eliminar la cuenta?",
     "deleteBody": "Borraremos tu perfil, votos, comentarios y los viajes de los que eres owner (para todos sus miembros). Los destinos que propusiste en viajes de otros se quedan, sin tu nombre.",
     "deleteConfirm": "Eliminar definitivamente",
-    "accountDeleted": "Cuenta eliminada. ¡Buen viaje!"
+    "accountDeleted": "Cuenta eliminada. ¡Buen viaje!",
+    "origin": "Salgo desde",
+    "originHint": "Para estimar el precio de los vuelos a los destinos"
   },
   "moods": {
     "adventure": "Aventura",
@@ -486,15 +488,16 @@
     "totalDays_one": "≈ {{range}} por {{count}} día",
     "totalDays_other": "≈ {{range}} por {{count}} días",
     "totalWeek": "≈ {{range}} por una semana",
-    "flight": "Vuelo de ida y vuelta desde Italia",
     "flightNear": "Cerca: en tren o en coche",
     "flightUnknown": "Hace falta la ubicación del destino",
     "stay": "Alojamiento",
     "perNight": "~{{amount}} por noche",
     "daily": "Comida, transporte y actividades",
     "perDay": "~{{amount}} al día",
-    "disclaimer": "Estimación orientativa: el vuelo según la distancia a Roma, los costes locales según los precios del país",
-    "source": "Precios: Banco Mundial {{years}} (CC BY 4.0)"
+    "disclaimer": "Estimación orientativa: el vuelo según la distancia al aeropuerto principal del país de salida, los costes locales según los precios del país",
+    "source": "Precios: Banco Mundial {{years}} (CC BY 4.0)",
+    "flightFrom": "Vuelo de ida y vuelta desde",
+    "origin": "País de salida"
   },
   "secret": {
     "toggle": "Voto secreto",

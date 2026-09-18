@@ -1,9 +1,10 @@
 import priceLevels from '@/data/price-levels.json'
+import { ORIGIN_HUBS } from '@/lib/origin'
 import type { BudgetLevel } from '@/lib/types'
 
 /**
  * Rough per-person costs of a destination, with no external calls:
- * - the return flight from Italy, from the distance to Rome;
+ * - the return flight from the user's country (see lib/origin), from the distance to its main airport;
  * - a night's stay and a day's spending (food, local transport, activities), scaled from Italian prices by how
  *   expensive the country is (World Bank price levels, scripts/price-levels.mjs).
  */
@@ -21,9 +22,10 @@ export interface TripCostEstimate {
   total: Range | null
 }
 
+/** Rome Fiumicino: the fares below were tuned on flights from Italy. */
 const ROME = { lat: 41.8003, lng: 12.2389 }
 
-/** Within this distance of Rome there's no flight to price. */
+/** Within this distance of the departure airport there's no flight to price. */
 const NEAR_KM = 300
 
 /** Return economy fares from Italy (€ per person), booked a few weeks ahead outside the peak season. */
@@ -56,8 +58,10 @@ export function distanceKm(from: { lat: number; lng: number }, to: { lat: number
   return 2 * 6371 * Math.asin(Math.sqrt(a))
 }
 
-export function flightFromItaly(lat: number, lng: number): Range | 'near' {
-  const km = distanceKm(ROME, { lat, lng })
+/** Return fare from a country (ISO code, see lib/origin) to a place; an unknown country counts as Italy. */
+export function flightFrom(origin: string, lat: number, lng: number): Range | 'near' {
+  const hub = ORIGIN_HUBS[origin]
+  const km = distanceKm(hub ? { lat: hub[0], lng: hub[1] } : ROME, { lat, lng })
   if (km < NEAR_KM) return 'near'
   const upper = FARES.findIndex(([limit]) => km <= limit)
   if (upper === -1) {
@@ -72,6 +76,8 @@ export function flightFromItaly(lat: number, lng: number): Range | 'near' {
     high: round(fromHigh + (toHigh - fromHigh) * share, 10),
   }
 }
+
+export const flightFromItaly = (lat: number, lng: number) => flightFrom('IT', lat, lng)
 
 export function localCosts(countryCode: string | null | undefined): { night: number; day: number } | null {
   const level = countryCode ? (priceLevels.levels as Record<string, number>)[countryCode.toUpperCase()] : undefined
@@ -96,8 +102,9 @@ export function tripDays(trip: { start_date: string | null; end_date: string | n
 export function estimateTripCost(
   destination: { lat: number | null; lng: number | null; country_code: string | null },
   days: number,
+  origin = 'IT',
 ): TripCostEstimate {
-  const flight = destination.lat != null && destination.lng != null ? flightFromItaly(destination.lat, destination.lng) : null
+  const flight = destination.lat != null && destination.lng != null ? flightFrom(origin, destination.lat, destination.lng) : null
   const local = localCosts(destination.country_code)
 
   // A total needs both parts: without the flight it would look far cheaper than the trip is.
@@ -115,8 +122,11 @@ export function estimateTripCost(
 const BUDGET_BANDS = [700, 1200]
 
 /** €, €€ or €€€ from the estimated cost of a week there, flight included; null when it can't be estimated. */
-export function estimatedBudgetLevel(destination: { lat: number | null; lng: number | null; country_code: string | null }): BudgetLevel | null {
-  const { total } = estimateTripCost(destination, 7)
+export function estimatedBudgetLevel(
+  destination: { lat: number | null; lng: number | null; country_code: string | null },
+  origin = 'IT',
+): BudgetLevel | null {
+  const { total } = estimateTripCost(destination, 7, origin)
   if (!total) return null
   const middle = (total.low + total.high) / 2
   return middle <= BUDGET_BANDS[0] ? 1 : middle <= BUDGET_BANDS[1] ? 2 : 3

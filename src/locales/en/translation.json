@@ -269,7 +269,9 @@
     "deleteTitle": "Delete your account?",
     "deleteBody": "We'll erase your profile, votes, comments and the trips you own (for all their members). Places you proposed in other people's trips stay, without your name.",
     "deleteConfirm": "Delete permanently",
-    "accountDeleted": "Account deleted. Safe travels!"
+    "accountDeleted": "Account deleted. Safe travels!",
+    "origin": "Travelling from",
+    "originHint": "Used to estimate flight prices to destinations"
   },
   "moods": {
     "adventure": "Adventure",
@@ -486,15 +488,16 @@
     "totalDays_one": "≈ {{range}} for {{count}} day",
     "totalDays_other": "≈ {{range}} for {{count}} days",
     "totalWeek": "≈ {{range}} for a week",
-    "flight": "Return flight from Italy",
     "flightNear": "Close by: train or car",
     "flightUnknown": "Needs the place's location",
     "stay": "Accommodation",
     "perNight": "~{{amount}} a night",
     "daily": "Food, transport and activities",
     "perDay": "~{{amount}} a day",
-    "disclaimer": "Rough estimate: the flight from the distance to Rome, local costs from the country's price level",
-    "source": "Prices: World Bank {{years}} (CC BY 4.0)"
+    "disclaimer": "Rough estimate: the flight from the distance to the departure country's main airport, local costs from the country's price level",
+    "source": "Prices: World Bank {{years}} (CC BY 4.0)",
+    "flightFrom": "Return flight from",
+    "origin": "Departure country"
   },
   "secret": {
     "toggle": "Secret vote",

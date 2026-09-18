@@ -1,0 +1,4779 @@
+{
+ "sources": "Wikidata (CC0): codes, capitals, driving side · Unicode CLDR (Unicode licence): currencies, languages · countries-and-timezones (MIT): time zones",
+ "countries": {
+  "AC": {
+   "capital": [
+    -7.93,
+    -14.41
+   ],
+   "currencies": [
+    "SHP"
+   ],
+   "languages": [],
+   "drive": "left"
+  },
+  "AD": {
+   "num": "020",
+   "capital": [
+    42.51,
+    1.52
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "ca"
+   ],
+   "tz": "Europe/Andorra",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "AE": {
+   "num": "784",
+   "capital": [
+    24.45,
+    54.4
+   ],
+   "hub": [
+    25.2532,
+    55.3657
+   ],
+   "currencies": [
+    "AED"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Dubai",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "right"
+  },
+  "AF": {
+   "num": "004",
+   "capital": [
+    34.53,
+    69.17
+   ],
+   "currencies": [
+    "AFN"
+   ],
+   "languages": [
+    "fa",
+    "ps"
+   ],
+   "tz": "Asia/Kabul",
+   "utc": [
+    270,
+    270
+   ],
+   "drive": "right"
+  },
+  "AG": {
+   "num": "028",
+   "capital": [
+    17.12,
+    -61.84
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "AI": {
+   "num": "660",
+   "capital": [
+    18.22,
+    -63.05
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "AL": {
+   "num": "008",
+   "capital": [
+    41.33,
+    19.82
+   ],
+   "currencies": [
+    "ALL"
+   ],
+   "languages": [
+    "sq"
+   ],
+   "tz": "Europe/Tirane",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "AM": {
+   "num": "051",
+   "capital": [
+    40.18,
+    44.51
+   ],
+   "currencies": [
+    "AMD"
+   ],
+   "languages": [
+    "hy"
+   ],
+   "tz": "Asia/Yerevan",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "right"
+  },
+  "AO": {
+   "num": "024",
+   "capital": [
+    -8.84,
+    13.23
+   ],
+   "currencies": [
+    "AOA"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "AR": {
+   "num": "032",
+   "capital": [
+    -34.6,
+    -58.38
+   ],
+   "currencies": [
+    "ARS"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Argentina/Buenos_Aires",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "right"
+  },
+  "AS": {
+   "num": "016",
+   "capital": [
+    -14.28,
+    -170.7
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "sm",
+    "en"
+   ],
+   "tz": "Pacific/Pago_Pago",
+   "utc": [
+    -660,
+    -660
+   ],
+   "drive": "right"
+  },
+  "AT": {
+   "num": "040",
+   "capital": [
+    48.21,
+    16.37
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "de"
+   ],
+   "tz": "Europe/Vienna",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "AU": {
+   "num": "036",
+   "capital": [
+    -35.29,
+    149.13
+   ],
+   "hub": [
+    -33.9399,
+    151.1753
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Australia/Sydney",
+   "utc": [
+    480,
+    630
+   ],
+   "drive": "left"
+  },
+  "AW": {
+   "num": "533",
+   "capital": [
+    12.52,
+    -70.04
+   ],
+   "currencies": [
+    "AWG"
+   ],
+   "languages": [
+    "nl",
+    "pap"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "AX": {
+   "num": "248",
+   "capital": [
+    60.1,
+    19.94
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "sv"
+   ],
+   "tz": "Europe/Helsinki",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "AZ": {
+   "num": "031",
+   "capital": [
+    40.37,
+    49.84
+   ],
+   "currencies": [
+    "AZN"
+   ],
+   "languages": [
+    "az"
+   ],
+   "tz": "Asia/Baku",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "right"
+  },
+  "BA": {
+   "num": "070",
+   "capital": [
+    43.86,
+    18.41
+   ],
+   "currencies": [
+    "BAM"
+   ],
+   "languages": [
+    "bs",
+    "hr",
+    "sr"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "BB": {
+   "num": "052",
+   "capital": [
+    13.1,
+    -59.62
+   ],
+   "currencies": [
+    "BBD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Barbados",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "BD": {
+   "num": "050",
+   "capital": [
+    23.73,
+    90.39
+   ],
+   "currencies": [
+    "BDT"
+   ],
+   "languages": [
+    "bn"
+   ],
+   "tz": "Asia/Dhaka",
+   "utc": [
+    360,
+    360
+   ],
+   "drive": "left"
+  },
+  "BE": {
+   "num": "056",
+   "capital": [
+    50.85,
+    4.35
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "nl",
+    "fr",
+    "de"
+   ],
+   "tz": "Europe/Brussels",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "BF": {
+   "num": "854",
+   "capital": [
+    12.37,
+    -1.53
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "BG": {
+   "num": "100",
+   "capital": [
+    42.7,
+    23.32
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "bg"
+   ],
+   "tz": "Europe/Sofia",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "BH": {
+   "num": "048",
+   "capital": [
+    26.22,
+    50.58
+   ],
+   "currencies": [
+    "BHD"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Qatar",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "BI": {
+   "num": "108",
+   "capital": [
+    -3.43,
+    29.93
+   ],
+   "currencies": [
+    "BIF"
+   ],
+   "languages": [
+    "rn",
+    "fr",
+    "en"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "BJ": {
+   "num": "204",
+   "capital": [
+    6.48,
+    2.62
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "BL": {
+   "num": "652",
+   "capital": [
+    17.9,
+    -62.85
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "BM": {
+   "num": "060",
+   "capital": [
+    32.3,
+    -64.78
+   ],
+   "currencies": [
+    "BMD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Atlantic/Bermuda",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "BN": {
+   "num": "096",
+   "capital": [
+    4.92,
+    114.92
+   ],
+   "currencies": [
+    "BND"
+   ],
+   "languages": [
+    "ms"
+   ],
+   "tz": "Asia/Kuching",
+   "utc": [
+    480,
+    480
+   ],
+   "drive": "left"
+  },
+  "BO": {
+   "num": "068",
+   "capital": [
+    -19.05,
+    -65.26
+   ],
+   "hub": [
+    -17.6448,
+    -63.1354
+   ],
+   "currencies": [
+    "BOB"
+   ],
+   "languages": [
+    "es",
+    "qu",
+    "ay"
+   ],
+   "tz": "America/La_Paz",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "BR": {
+   "num": "076",
+   "capital": [
+    -15.79,
+    -47.88
+   ],
+   "hub": [
+    -23.4356,
+    -46.4731
+   ],
+   "currencies": [
+    "BRL"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "America/Sao_Paulo",
+   "utc": [
+    -300,
+    -120
+   ],
+   "drive": "right"
+  },
+  "BS": {
+   "num": "044",
+   "capital": [
+    25.08,
+    -77.34
+   ],
+   "currencies": [
+    "BSD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Toronto",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "left"
+  },
+  "BT": {
+   "num": "064",
+   "capital": [
+    27.47,
+    89.63
+   ],
+   "currencies": [
+    "BTN",
+    "INR"
+   ],
+   "languages": [
+    "dz"
+   ],
+   "tz": "Asia/Thimphu",
+   "utc": [
+    360,
+    360
+   ],
+   "drive": "left"
+  },
+  "BW": {
+   "num": "072",
+   "capital": [
+    -24.66,
+    25.91
+   ],
+   "currencies": [
+    "BWP"
+   ],
+   "languages": [
+    "en",
+    "tn"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "BY": {
+   "num": "112",
+   "capital": [
+    53.9,
+    27.56
+   ],
+   "currencies": [
+    "BYN"
+   ],
+   "languages": [
+    "ru",
+    "be"
+   ],
+   "tz": "Europe/Minsk",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "BZ": {
+   "num": "084",
+   "capital": [
+    17.25,
+    -88.77
+   ],
+   "currencies": [
+    "BZD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Belize",
+   "utc": [
+    -360,
+    -360
+   ],
+   "drive": "right"
+  },
+  "CA": {
+   "num": "124",
+   "capital": [
+    45.42,
+    -75.69
+   ],
+   "hub": [
+    43.6777,
+    -79.6248
+   ],
+   "currencies": [
+    "CAD"
+   ],
+   "languages": [
+    "en",
+    "fr"
+   ],
+   "tz": "America/Toronto",
+   "utc": [
+    -420,
+    -210
+   ],
+   "drive": "right"
+  },
+  "CC": {
+   "num": "166",
+   "capital": [
+    -12.19,
+    96.83
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Asia/Yangon",
+   "utc": [
+    390,
+    390
+   ],
+   "drive": "left"
+  },
+  "CD": {
+   "num": "180",
+   "capital": [
+    -4.32,
+    15.31
+   ],
+   "currencies": [
+    "CDF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Kinshasa",
+   "utc": [
+    60,
+    120
+   ],
+   "drive": "right"
+  },
+  "CF": {
+   "num": "140",
+   "capital": [
+    4.37,
+    18.56
+   ],
+   "currencies": [
+    "XAF"
+   ],
+   "languages": [
+    "sg",
+    "fr"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "CG": {
+   "num": "178",
+   "capital": [
+    -4.27,
+    15.27
+   ],
+   "currencies": [
+    "XAF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "CH": {
+   "num": "756",
+   "capital": [
+    46.95,
+    7.45
+   ],
+   "hub": [
+    47.4582,
+    8.5555
+   ],
+   "currencies": [
+    "CHF"
+   ],
+   "languages": [
+    "de",
+    "gsw",
+    "fr"
+   ],
+   "tz": "Europe/Zurich",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "CI": {
+   "num": "384",
+   "capital": [
+    6.82,
+    -5.27
+   ],
+   "hub": [
+    5.2539,
+    -3.9263
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "CK": {
+   "num": "184",
+   "capital": [
+    -21.21,
+    -159.77
+   ],
+   "currencies": [
+    "NZD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Pacific/Rarotonga",
+   "utc": [
+    -600,
+    -600
+   ],
+   "drive": "left"
+  },
+  "CL": {
+   "num": "152",
+   "capital": [
+    -33.44,
+    -70.65
+   ],
+   "currencies": [
+    "CLP"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Santiago",
+   "utc": [
+    -360,
+    -180
+   ],
+   "drive": "right"
+  },
+  "CM": {
+   "num": "120",
+   "capital": [
+    3.86,
+    11.52
+   ],
+   "hub": [
+    4.0061,
+    9.7195
+   ],
+   "currencies": [
+    "XAF"
+   ],
+   "languages": [
+    "fr",
+    "en"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "CN": {
+   "num": "156",
+   "capital": [
+    39.9,
+    116.41
+   ],
+   "hub": [
+    31.1443,
+    121.8083
+   ],
+   "currencies": [
+    "CNY"
+   ],
+   "languages": [
+    "zh"
+   ],
+   "tz": "Asia/Shanghai",
+   "utc": [
+    360,
+    480
+   ],
+   "drive": "right"
+  },
+  "CO": {
+   "num": "170",
+   "capital": [
+    4.61,
+    -74.08
+   ],
+   "currencies": [
+    "COP"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Bogota",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "right"
+  },
+  "CR": {
+   "num": "188",
+   "capital": [
+    9.93,
+    -84.08
+   ],
+   "currencies": [
+    "CRC"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Costa_Rica",
+   "utc": [
+    -360,
+    -360
+   ],
+   "drive": "right"
+  },
+  "CU": {
+   "num": "192",
+   "capital": [
+    23.14,
+    -82.36
+   ],
+   "currencies": [
+    "CUP"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Havana",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "right"
+  },
+  "CV": {
+   "num": "132",
+   "capital": [
+    14.92,
+    -23.51
+   ],
+   "currencies": [
+    "CVE"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "Atlantic/Cape_Verde",
+   "utc": [
+    -60,
+    -60
+   ],
+   "drive": "right"
+  },
+  "CW": {
+   "num": "531",
+   "capital": [
+    12.11,
+    -68.93
+   ],
+   "currencies": [
+    "XCG"
+   ],
+   "languages": [
+    "pap",
+    "nl"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "CX": {
+   "num": "162",
+   "capital": [
+    -10.42,
+    105.68
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Asia/Bangkok",
+   "utc": [
+    420,
+    420
+   ],
+   "drive": "left"
+  },
+  "CY": {
+   "num": "196",
+   "capital": [
+    35.17,
+    33.37
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "el",
+    "tr"
+   ],
+   "tz": "Asia/Famagusta",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "CZ": {
+   "num": "203",
+   "capital": [
+    50.09,
+    14.42
+   ],
+   "currencies": [
+    "CZK"
+   ],
+   "languages": [
+    "cs"
+   ],
+   "tz": "Europe/Prague",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "DE": {
+   "num": "276",
+   "capital": [
+    52.52,
+    13.38
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "de"
+   ],
+   "tz": "Europe/Berlin",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "DJ": {
+   "num": "262",
+   "capital": [
+    11.6,
+    43.15
+   ],
+   "currencies": [
+    "DJF"
+   ],
+   "languages": [
+    "fr",
+    "ar"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "DK": {
+   "num": "208",
+   "capital": [
+    55.68,
+    12.57
+   ],
+   "currencies": [
+    "DKK"
+   ],
+   "languages": [
+    "da"
+   ],
+   "tz": "Europe/Berlin",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "DM": {
+   "num": "212",
+   "capital": [
+    15.3,
+    -61.38
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "DO": {
+   "num": "214",
+   "capital": [
+    18.46,
+    -69.94
+   ],
+   "currencies": [
+    "DOP"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Santo_Domingo",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "DZ": {
+   "num": "012",
+   "capital": [
+    36.78,
+    3.06
+   ],
+   "currencies": [
+    "DZD"
+   ],
+   "languages": [
+    "ar",
+    "fr"
+   ],
+   "tz": "Africa/Algiers",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "EC": {
+   "num": "218",
+   "capital": [
+    -0.22,
+    -78.51
+   ],
+   "hub": [
+    -2.1575,
+    -79.8837
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "es",
+    "qu"
+   ],
+   "tz": "America/Guayaquil",
+   "utc": [
+    -360,
+    -300
+   ],
+   "drive": "right"
+  },
+  "EE": {
+   "num": "233",
+   "capital": [
+    59.44,
+    24.75
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "et"
+   ],
+   "tz": "Europe/Tallinn",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "EG": {
+   "num": "818",
+   "capital": [
+    30.04,
+    31.24
+   ],
+   "currencies": [
+    "EGP"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Africa/Cairo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "ER": {
+   "num": "232",
+   "capital": [
+    15.33,
+    38.92
+   ],
+   "currencies": [
+    "ERN"
+   ],
+   "languages": [
+    "ti",
+    "en",
+    "ar"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "ES": {
+   "num": "724",
+   "capital": [
+    40.42,
+    -3.7
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "Europe/Madrid",
+   "utc": [
+    0,
+    60
+   ],
+   "drive": "right"
+  },
+  "ET": {
+   "num": "231",
+   "capital": [
+    9.04,
+    38.75
+   ],
+   "currencies": [
+    "ETB"
+   ],
+   "languages": [
+    "am"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "FI": {
+   "num": "246",
+   "capital": [
+    60.17,
+    24.94
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fi",
+    "sv"
+   ],
+   "tz": "Europe/Helsinki",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "FJ": {
+   "num": "242",
+   "capital": [
+    -18.13,
+    178.43
+   ],
+   "currencies": [
+    "FJD"
+   ],
+   "languages": [
+    "en",
+    "hif",
+    "fj"
+   ],
+   "tz": "Pacific/Fiji",
+   "utc": [
+    720,
+    720
+   ],
+   "drive": "left"
+  },
+  "FK": {
+   "num": "238",
+   "capital": [
+    -51.69,
+    -57.85
+   ],
+   "currencies": [
+    "FKP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Atlantic/Stanley",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "left"
+  },
+  "FM": {
+   "num": "583",
+   "capital": [
+    6.92,
+    158.19
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Pacific/Kosrae",
+   "utc": [
+    660,
+    660
+   ],
+   "drive": "right"
+  },
+  "FO": {
+   "num": "234",
+   "capital": [
+    62.01,
+    -6.77
+   ],
+   "currencies": [
+    "DKK"
+   ],
+   "languages": [
+    "fo"
+   ],
+   "tz": "Atlantic/Faroe",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "FR": {
+   "num": "250",
+   "capital": [
+    48.86,
+    2.35
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Europe/Paris",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "GA": {
+   "num": "266",
+   "capital": [
+    0.41,
+    9.44
+   ],
+   "currencies": [
+    "XAF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "GB": {
+   "num": "826",
+   "capital": [
+    51.51,
+    -0.13
+   ],
+   "currencies": [
+    "GBP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Europe/London",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "left"
+  },
+  "GD": {
+   "num": "308",
+   "capital": [
+    12.05,
+    -61.75
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "GE": {
+   "num": "268",
+   "capital": [
+    41.72,
+    44.79
+   ],
+   "currencies": [
+    "GEL"
+   ],
+   "languages": [
+    "ka"
+   ],
+   "tz": "Asia/Tbilisi",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "right"
+  },
+  "GF": {
+   "num": "254",
+   "capital": [
+    4.94,
+    -52.33
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "America/Cayenne",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "right"
+  },
+  "GG": {
+   "num": "831",
+   "capital": [
+    49.46,
+    -2.55
+   ],
+   "currencies": [
+    "GBP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Europe/London",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "left"
+  },
+  "GH": {
+   "num": "288",
+   "capital": [
+    5.56,
+    -0.2
+   ],
+   "currencies": [
+    "GHS"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "GI": {
+   "num": "292",
+   "capital": [
+    36.14,
+    -5.35
+   ],
+   "currencies": [
+    "GIP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Europe/Gibraltar",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "GL": {
+   "num": "304",
+   "capital": [
+    64.18,
+    -51.73
+   ],
+   "currencies": [
+    "DKK"
+   ],
+   "languages": [
+    "kl"
+   ],
+   "tz": "America/Danmarkshavn",
+   "utc": [
+    -240,
+    0
+   ],
+   "drive": "right"
+  },
+  "GM": {
+   "num": "270",
+   "capital": [
+    13.45,
+    -16.58
+   ],
+   "currencies": [
+    "GMD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "GN": {
+   "num": "324",
+   "capital": [
+    9.51,
+    -13.71
+   ],
+   "currencies": [
+    "GNF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "GP": {
+   "num": "312",
+   "capital": [
+    16,
+    -61.73
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "GQ": {
+   "num": "226",
+   "capital": [
+    1.59,
+    10.82
+   ],
+   "currencies": [
+    "XAF"
+   ],
+   "languages": [
+    "es",
+    "fr",
+    "pt"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "GR": {
+   "num": "300",
+   "capital": [
+    37.98,
+    23.73
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "el"
+   ],
+   "tz": "Europe/Athens",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "GS": {
+   "num": "239",
+   "capital": [
+    -54.28,
+    -36.49
+   ],
+   "currencies": [
+    "GBP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Atlantic/South_Georgia",
+   "utc": [
+    -120,
+    -120
+   ],
+   "drive": "left"
+  },
+  "GT": {
+   "num": "320",
+   "capital": [
+    14.64,
+    -90.51
+   ],
+   "currencies": [
+    "GTQ"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Guatemala",
+   "utc": [
+    -360,
+    -360
+   ],
+   "drive": "right"
+  },
+  "GU": {
+   "num": "316",
+   "capital": [
+    13.48,
+    144.75
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en",
+    "ch"
+   ],
+   "tz": "Pacific/Guam",
+   "utc": [
+    600,
+    600
+   ],
+   "drive": "right"
+  },
+  "GW": {
+   "num": "624",
+   "capital": [
+    11.86,
+    -15.58
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "Africa/Bissau",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "GY": {
+   "num": "328",
+   "capital": [
+    6.81,
+    -58.15
+   ],
+   "currencies": [
+    "GYD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Guyana",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "HN": {
+   "num": "340",
+   "capital": [
+    14.11,
+    -87.2
+   ],
+   "currencies": [
+    "HNL"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Tegucigalpa",
+   "utc": [
+    -360,
+    -360
+   ],
+   "drive": "right"
+  },
+  "HR": {
+   "num": "191",
+   "capital": [
+    45.81,
+    15.98
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "hr"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "HT": {
+   "num": "332",
+   "capital": [
+    18.55,
+    -72.34
+   ],
+   "currencies": [
+    "HTG",
+    "USD"
+   ],
+   "languages": [
+    "ht",
+    "fr"
+   ],
+   "tz": "America/Port-au-Prince",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "right"
+  },
+  "HU": {
+   "num": "348",
+   "capital": [
+    47.5,
+    19.04
+   ],
+   "currencies": [
+    "HUF"
+   ],
+   "languages": [
+    "hu"
+   ],
+   "tz": "Europe/Budapest",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "ID": {
+   "num": "360",
+   "capital": [
+    -6.18,
+    106.83
+   ],
+   "currencies": [
+    "IDR"
+   ],
+   "languages": [
+    "id"
+   ],
+   "tz": "Asia/Jakarta",
+   "utc": [
+    420,
+    540
+   ],
+   "drive": "left"
+  },
+  "IE": {
+   "num": "372",
+   "capital": [
+    53.35,
+    -6.26
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "en",
+    "ga"
+   ],
+   "tz": "Europe/Dublin",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "left"
+  },
+  "IL": {
+   "num": "376",
+   "capital": [
+    31.78,
+    35.23
+   ],
+   "currencies": [
+    "ILS"
+   ],
+   "languages": [
+    "he",
+    "ar"
+   ],
+   "tz": "Asia/Jerusalem",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "IM": {
+   "num": "833",
+   "capital": [
+    54.15,
+    -4.48
+   ],
+   "currencies": [
+    "GBP"
+   ],
+   "languages": [
+    "en",
+    "gv"
+   ],
+   "tz": "Europe/London",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "left"
+  },
+  "IN": {
+   "num": "356",
+   "capital": [
+    28.61,
+    77.21
+   ],
+   "hub": [
+    28.5562,
+    77.1
+   ],
+   "currencies": [
+    "INR"
+   ],
+   "languages": [
+    "hi",
+    "en"
+   ],
+   "tz": "Asia/Kolkata",
+   "utc": [
+    330,
+    330
+   ],
+   "drive": "left"
+  },
+  "IO": {
+   "num": "086",
+   "capital": [
+    -7.31,
+    72.41
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Indian/Chagos",
+   "utc": [
+    360,
+    360
+   ],
+   "drive": "right"
+  },
+  "IQ": {
+   "num": "368",
+   "capital": [
+    33.32,
+    44.37
+   ],
+   "currencies": [
+    "IQD"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Baghdad",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "IR": {
+   "num": "364",
+   "capital": [
+    35.69,
+    51.39
+   ],
+   "currencies": [
+    "IRR"
+   ],
+   "languages": [
+    "fa"
+   ],
+   "tz": "Asia/Tehran",
+   "utc": [
+    210,
+    210
+   ],
+   "drive": "right"
+  },
+  "IS": {
+   "num": "352",
+   "capital": [
+    64.15,
+    -21.93
+   ],
+   "currencies": [
+    "ISK"
+   ],
+   "languages": [
+    "is"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "IT": {
+   "num": "380",
+   "capital": [
+    41.89,
+    12.48
+   ],
+   "hub": [
+    41.8003,
+    12.2389
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "it"
+   ],
+   "tz": "Europe/Rome",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "JE": {
+   "num": "832",
+   "capital": [
+    49.19,
+    -2.11
+   ],
+   "currencies": [
+    "GBP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Europe/London",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "left"
+  },
+  "JM": {
+   "num": "388",
+   "capital": [
+    17.97,
+    -76.79
+   ],
+   "currencies": [
+    "JMD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Jamaica",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "left"
+  },
+  "JO": {
+   "num": "400",
+   "capital": [
+    31.93,
+    35.93
+   ],
+   "currencies": [
+    "JOD"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Amman",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "JP": {
+   "num": "392",
+   "capital": [
+    35.69,
+    139.69
+   ],
+   "currencies": [
+    "JPY"
+   ],
+   "languages": [
+    "ja"
+   ],
+   "tz": "Asia/Tokyo",
+   "utc": [
+    540,
+    540
+   ],
+   "drive": "left"
+  },
+  "KE": {
+   "num": "404",
+   "capital": [
+    -1.29,
+    36.82
+   ],
+   "currencies": [
+    "KES"
+   ],
+   "languages": [
+    "sw",
+    "en"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "left"
+  },
+  "KG": {
+   "num": "417",
+   "capital": [
+    42.87,
+    74.57
+   ],
+   "currencies": [
+    "KGS"
+   ],
+   "languages": [
+    "ky",
+    "ru"
+   ],
+   "tz": "Asia/Bishkek",
+   "utc": [
+    360,
+    360
+   ],
+   "drive": "right"
+  },
+  "KH": {
+   "num": "116",
+   "capital": [
+    11.57,
+    104.92
+   ],
+   "currencies": [
+    "KHR"
+   ],
+   "languages": [
+    "km"
+   ],
+   "tz": "Asia/Bangkok",
+   "utc": [
+    420,
+    420
+   ],
+   "drive": "right"
+  },
+  "KI": {
+   "num": "296",
+   "capital": [
+    1.33,
+    172.97
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "en",
+    "gil"
+   ],
+   "tz": "Pacific/Kanton",
+   "utc": [
+    720,
+    840
+   ],
+   "drive": "left"
+  },
+  "KM": {
+   "num": "174",
+   "capital": [
+    -11.7,
+    43.25
+   ],
+   "currencies": [
+    "KMF"
+   ],
+   "languages": [
+    "ar",
+    "zdj",
+    "wni"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "KN": {
+   "num": "659",
+   "capital": [
+    17.3,
+    -62.73
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "KP": {
+   "num": "408",
+   "capital": [
+    39.02,
+    125.75
+   ],
+   "currencies": [
+    "KPW"
+   ],
+   "languages": [
+    "ko"
+   ],
+   "tz": "Asia/Pyongyang",
+   "utc": [
+    540,
+    540
+   ],
+   "drive": "right"
+  },
+  "KR": {
+   "num": "410",
+   "capital": [
+    37.56,
+    126.99
+   ],
+   "currencies": [
+    "KRW"
+   ],
+   "languages": [
+    "ko"
+   ],
+   "tz": "Asia/Seoul",
+   "utc": [
+    540,
+    540
+   ],
+   "drive": "right"
+  },
+  "KW": {
+   "num": "414",
+   "capital": [
+    29.38,
+    47.98
+   ],
+   "currencies": [
+    "KWD"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Riyadh",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "KY": {
+   "num": "136",
+   "capital": [
+    19.3,
+    -81.38
+   ],
+   "currencies": [
+    "KYD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Panama",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "left"
+  },
+  "KZ": {
+   "num": "398",
+   "capital": [
+    51.13,
+    71.43
+   ],
+   "hub": [
+    43.3521,
+    77.0405
+   ],
+   "currencies": [
+    "KZT"
+   ],
+   "languages": [
+    "ru",
+    "kk"
+   ],
+   "tz": "Asia/Almaty",
+   "utc": [
+    300,
+    300
+   ],
+   "drive": "right"
+  },
+  "LA": {
+   "num": "418",
+   "capital": [
+    17.98,
+    102.63
+   ],
+   "currencies": [
+    "LAK"
+   ],
+   "languages": [
+    "lo"
+   ],
+   "tz": "Asia/Bangkok",
+   "utc": [
+    420,
+    420
+   ],
+   "drive": "right"
+  },
+  "LB": {
+   "num": "422",
+   "capital": [
+    33.89,
+    35.51
+   ],
+   "currencies": [
+    "LBP"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Beirut",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "LC": {
+   "num": "662",
+   "capital": [
+    14.01,
+    -60.99
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "LI": {
+   "num": "438",
+   "capital": [
+    47.14,
+    9.52
+   ],
+   "currencies": [
+    "CHF"
+   ],
+   "languages": [
+    "de",
+    "gsw"
+   ],
+   "tz": "Europe/Zurich",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "LK": {
+   "num": "144",
+   "capital": [
+    6.93,
+    79.86
+   ],
+   "currencies": [
+    "LKR"
+   ],
+   "languages": [
+    "si",
+    "ta"
+   ],
+   "tz": "Asia/Colombo",
+   "utc": [
+    330,
+    330
+   ],
+   "drive": "left"
+  },
+  "LR": {
+   "num": "430",
+   "capital": [
+    6.31,
+    -10.8
+   ],
+   "currencies": [
+    "LRD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Monrovia",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "LS": {
+   "num": "426",
+   "capital": [
+    -29.31,
+    27.48
+   ],
+   "currencies": [
+    "ZAR",
+    "LSL"
+   ],
+   "languages": [
+    "st",
+    "en"
+   ],
+   "tz": "Africa/Johannesburg",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "LT": {
+   "num": "440",
+   "capital": [
+    54.69,
+    25.28
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "lt"
+   ],
+   "tz": "Europe/Vilnius",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "LU": {
+   "num": "442",
+   "capital": [
+    49.61,
+    6.13
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr",
+    "lb",
+    "de"
+   ],
+   "tz": "Europe/Brussels",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "LV": {
+   "num": "428",
+   "capital": [
+    56.95,
+    24.11
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "lv"
+   ],
+   "tz": "Europe/Riga",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "LY": {
+   "num": "434",
+   "capital": [
+    32.89,
+    13.19
+   ],
+   "currencies": [
+    "LYD"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Africa/Tripoli",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "MA": {
+   "num": "504",
+   "capital": [
+    34.02,
+    -6.84
+   ],
+   "hub": [
+    33.3675,
+    -7.5898
+   ],
+   "currencies": [
+    "MAD"
+   ],
+   "languages": [
+    "ar",
+    "fr",
+    "tzm"
+   ],
+   "tz": "Africa/Casablanca",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "MC": {
+   "num": "492",
+   "capital": [
+    43.73,
+    7.42
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Europe/Paris",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "MD": {
+   "num": "498",
+   "capital": [
+    47.02,
+    28.84
+   ],
+   "currencies": [
+    "MDL"
+   ],
+   "languages": [
+    "ro"
+   ],
+   "tz": "Europe/Chisinau",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "ME": {
+   "num": "499",
+   "capital": [
+    42.44,
+    19.26
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "sr"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "MF": {
+   "num": "663",
+   "capital": [
+    18.07,
+    -63.08
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "MG": {
+   "num": "450",
+   "capital": [
+    -18.91,
+    47.53
+   ],
+   "currencies": [
+    "MGA"
+   ],
+   "languages": [
+    "mg",
+    "fr",
+    "en"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "MH": {
+   "num": "584",
+   "capital": [
+    7.09,
+    171.38
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en",
+    "mh"
+   ],
+   "tz": "Pacific/Kwajalein",
+   "utc": [
+    720,
+    720
+   ],
+   "drive": "right"
+  },
+  "MK": {
+   "num": "807",
+   "capital": [
+    42,
+    21.43
+   ],
+   "currencies": [
+    "MKD"
+   ],
+   "languages": [
+    "mk"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "ML": {
+   "num": "466",
+   "capital": [
+    12.65,
+    -7.99
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "MM": {
+   "num": "104",
+   "capital": [
+    19.75,
+    96.12
+   ],
+   "currencies": [
+    "MMK"
+   ],
+   "languages": [
+    "my"
+   ],
+   "tz": "Asia/Yangon",
+   "utc": [
+    390,
+    390
+   ],
+   "drive": "right"
+  },
+  "MN": {
+   "num": "496",
+   "capital": [
+    47.92,
+    106.91
+   ],
+   "currencies": [
+    "MNT"
+   ],
+   "languages": [
+    "mn"
+   ],
+   "tz": "Asia/Ulaanbaatar",
+   "utc": [
+    420,
+    480
+   ],
+   "drive": "right"
+  },
+  "MP": {
+   "num": "580",
+   "capital": [
+    15.21,
+    145.75
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Pacific/Guam",
+   "utc": [
+    600,
+    600
+   ],
+   "drive": "right"
+  },
+  "MQ": {
+   "num": "474",
+   "capital": [
+    14.6,
+    -61.07
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "America/Martinique",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "MR": {
+   "num": "478",
+   "capital": [
+    18.09,
+    -15.98
+   ],
+   "currencies": [
+    "MRU"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "MS": {
+   "num": "500",
+   "capital": [
+    16.71,
+    -62.22
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "MT": {
+   "num": "470",
+   "capital": [
+    35.9,
+    14.51
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "mt",
+    "en"
+   ],
+   "tz": "Europe/Malta",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "left"
+  },
+  "MU": {
+   "num": "480",
+   "capital": [
+    -20.16,
+    57.5
+   ],
+   "currencies": [
+    "MUR"
+   ],
+   "languages": [
+    "fr",
+    "en"
+   ],
+   "tz": "Indian/Mauritius",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "left"
+  },
+  "MV": {
+   "num": "462",
+   "capital": [
+    4.18,
+    73.51
+   ],
+   "currencies": [
+    "MVR"
+   ],
+   "languages": [
+    "dv"
+   ],
+   "tz": "Indian/Maldives",
+   "utc": [
+    300,
+    300
+   ],
+   "drive": "left"
+  },
+  "MW": {
+   "num": "454",
+   "capital": [
+    -13.99,
+    33.77
+   ],
+   "currencies": [
+    "MWK"
+   ],
+   "languages": [
+    "en",
+    "ny"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "MX": {
+   "num": "484",
+   "capital": [
+    19.35,
+    -99.14
+   ],
+   "currencies": [
+    "MXN"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Mexico_City",
+   "utc": [
+    -480,
+    -300
+   ],
+   "drive": "right"
+  },
+  "MY": {
+   "num": "458",
+   "capital": [
+    3.15,
+    101.7
+   ],
+   "currencies": [
+    "MYR"
+   ],
+   "languages": [
+    "ms"
+   ],
+   "tz": "Asia/Kuching",
+   "utc": [
+    480,
+    480
+   ],
+   "drive": "left"
+  },
+  "MZ": {
+   "num": "508",
+   "capital": [
+    -25.97,
+    32.57
+   ],
+   "currencies": [
+    "MZN"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "NA": {
+   "num": "516",
+   "capital": [
+    -22.57,
+    17.08
+   ],
+   "currencies": [
+    "NAD",
+    "ZAR"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Windhoek",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "NC": {
+   "num": "540",
+   "capital": [
+    -22.27,
+    166.45
+   ],
+   "currencies": [
+    "XPF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Pacific/Noumea",
+   "utc": [
+    660,
+    660
+   ],
+   "drive": "right"
+  },
+  "NE": {
+   "num": "562",
+   "capital": [
+    13.52,
+    2.12
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "NF": {
+   "num": "574",
+   "capital": [
+    -29.05,
+    167.97
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Pacific/Norfolk",
+   "utc": [
+    660,
+    660
+   ],
+   "drive": "left"
+  },
+  "NG": {
+   "num": "566",
+   "capital": [
+    9.06,
+    7.49
+   ],
+   "hub": [
+    6.5774,
+    3.3212
+   ],
+   "currencies": [
+    "NGN"
+   ],
+   "languages": [
+    "en",
+    "yo"
+   ],
+   "tz": "Africa/Lagos",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "NI": {
+   "num": "558",
+   "capital": [
+    12.15,
+    -86.27
+   ],
+   "currencies": [
+    "NIO"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Managua",
+   "utc": [
+    -360,
+    -360
+   ],
+   "drive": "right"
+  },
+  "NL": {
+   "num": "528",
+   "capital": [
+    52.37,
+    4.88
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "nl"
+   ],
+   "tz": "Europe/Brussels",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "NO": {
+   "num": "578",
+   "capital": [
+    59.91,
+    10.74
+   ],
+   "currencies": [
+    "NOK"
+   ],
+   "languages": [
+    "nb",
+    "no",
+    "nn"
+   ],
+   "tz": "Europe/Berlin",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "NP": {
+   "num": "524",
+   "capital": [
+    27.71,
+    85.32
+   ],
+   "currencies": [
+    "NPR"
+   ],
+   "languages": [
+    "ne"
+   ],
+   "tz": "Asia/Kathmandu",
+   "utc": [
+    345,
+    345
+   ],
+   "drive": "left"
+  },
+  "NR": {
+   "num": "520",
+   "capital": [
+    -0.55,
+    166.92
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "en",
+    "na"
+   ],
+   "tz": "Pacific/Nauru",
+   "utc": [
+    720,
+    720
+   ],
+   "drive": "left"
+  },
+  "NU": {
+   "num": "570",
+   "capital": [
+    -19.06,
+    -169.92
+   ],
+   "currencies": [
+    "NZD"
+   ],
+   "languages": [
+    "en",
+    "niu"
+   ],
+   "tz": "Pacific/Niue",
+   "utc": [
+    -660,
+    -660
+   ],
+   "drive": "left"
+  },
+  "NZ": {
+   "num": "554",
+   "capital": [
+    -41.29,
+    174.78
+   ],
+   "hub": [
+    -37.0082,
+    174.785
+   ],
+   "currencies": [
+    "NZD"
+   ],
+   "languages": [
+    "en",
+    "mi"
+   ],
+   "tz": "Pacific/Auckland",
+   "utc": [
+    720,
+    765
+   ],
+   "drive": "left"
+  },
+  "OM": {
+   "num": "512",
+   "capital": [
+    23.61,
+    58.59
+   ],
+   "currencies": [
+    "OMR"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Dubai",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "right"
+  },
+  "PA": {
+   "num": "591",
+   "capital": [
+    8.97,
+    -79.53
+   ],
+   "currencies": [
+    "PAB",
+    "USD"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Panama",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "right"
+  },
+  "PE": {
+   "num": "604",
+   "capital": [
+    -12.06,
+    -77.04
+   ],
+   "currencies": [
+    "PEN"
+   ],
+   "languages": [
+    "es",
+    "qu"
+   ],
+   "tz": "America/Lima",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "right"
+  },
+  "PF": {
+   "num": "258",
+   "capital": [
+    -17.54,
+    -149.57
+   ],
+   "currencies": [
+    "XPF"
+   ],
+   "languages": [
+    "fr",
+    "ty"
+   ],
+   "tz": "Pacific/Gambier",
+   "utc": [
+    -600,
+    -540
+   ],
+   "drive": "right"
+  },
+  "PG": {
+   "num": "598",
+   "capital": [
+    -9.48,
+    147.15
+   ],
+   "currencies": [
+    "PGK"
+   ],
+   "languages": [
+    "tpi",
+    "en",
+    "ho"
+   ],
+   "tz": "Pacific/Bougainville",
+   "utc": [
+    600,
+    660
+   ],
+   "drive": "left"
+  },
+  "PH": {
+   "num": "608",
+   "capital": [
+    14.6,
+    120.98
+   ],
+   "currencies": [
+    "PHP"
+   ],
+   "languages": [
+    "en",
+    "fil"
+   ],
+   "tz": "Asia/Manila",
+   "utc": [
+    480,
+    480
+   ],
+   "drive": "right"
+  },
+  "PK": {
+   "num": "586",
+   "capital": [
+    33.6,
+    73.07
+   ],
+   "hub": [
+    24.9065,
+    67.1608
+   ],
+   "currencies": [
+    "PKR"
+   ],
+   "languages": [
+    "ur",
+    "en"
+   ],
+   "tz": "Asia/Karachi",
+   "utc": [
+    300,
+    300
+   ],
+   "drive": "left"
+  },
+  "PL": {
+   "num": "616",
+   "capital": [
+    52.23,
+    21.01
+   ],
+   "currencies": [
+    "PLN"
+   ],
+   "languages": [
+    "pl"
+   ],
+   "tz": "Europe/Warsaw",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "PM": {
+   "num": "666",
+   "capital": [
+    46.78,
+    -56.18
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "America/Miquelon",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "right"
+  },
+  "PN": {
+   "num": "612",
+   "capital": [
+    -25.07,
+    -130.1
+   ],
+   "currencies": [
+    "NZD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Pacific/Pitcairn",
+   "utc": [
+    -480,
+    -480
+   ],
+   "drive": "left"
+  },
+  "PR": {
+   "num": "630",
+   "capital": [
+    18.47,
+    -66.12
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "es",
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "PS": {
+   "num": "275",
+   "capital": [
+    31.9,
+    35.2
+   ],
+   "currencies": [
+    "ILS",
+    "JOD"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Gaza",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "PT": {
+   "num": "620",
+   "capital": [
+    38.71,
+    -9.14
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "Europe/Lisbon",
+   "utc": [
+    -60,
+    0
+   ],
+   "drive": "right"
+  },
+  "PW": {
+   "num": "585",
+   "capital": [
+    7.5,
+    134.62
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "pau",
+    "en"
+   ],
+   "tz": "Pacific/Palau",
+   "utc": [
+    540,
+    540
+   ],
+   "drive": "right"
+  },
+  "PY": {
+   "num": "600",
+   "capital": [
+    -25.28,
+    -57.63
+   ],
+   "currencies": [
+    "PYG"
+   ],
+   "languages": [
+    "gn",
+    "es"
+   ],
+   "tz": "America/Asuncion",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "right"
+  },
+  "QA": {
+   "num": "634",
+   "capital": [
+    25.29,
+    51.53
+   ],
+   "currencies": [
+    "QAR"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Qatar",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "RE": {
+   "num": "638",
+   "capital": [
+    -20.88,
+    55.45
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Asia/Dubai",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "right"
+  },
+  "RO": {
+   "num": "642",
+   "capital": [
+    44.41,
+    26.1
+   ],
+   "currencies": [
+    "RON"
+   ],
+   "languages": [
+    "ro"
+   ],
+   "tz": "Europe/Bucharest",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "RS": {
+   "num": "688",
+   "capital": [
+    44.82,
+    20.46
+   ],
+   "currencies": [
+    "RSD"
+   ],
+   "languages": [
+    "sr"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "RU": {
+   "num": "643",
+   "capital": [
+    55.75,
+    37.62
+   ],
+   "currencies": [
+    "RUB"
+   ],
+   "languages": [
+    "ru"
+   ],
+   "tz": "Europe/Moscow",
+   "utc": [
+    120,
+    720
+   ],
+   "drive": "right"
+  },
+  "RW": {
+   "num": "646",
+   "capital": [
+    -1.95,
+    30.12
+   ],
+   "currencies": [
+    "RWF"
+   ],
+   "languages": [
+    "rw",
+    "en",
+    "fr"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "SA": {
+   "num": "682",
+   "capital": [
+    24.65,
+    46.71
+   ],
+   "hub": [
+    21.6796,
+    39.1565
+   ],
+   "currencies": [
+    "SAR"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Riyadh",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "SB": {
+   "num": "090",
+   "capital": [
+    -9.43,
+    159.95
+   ],
+   "currencies": [
+    "SBD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Pacific/Guadalcanal",
+   "utc": [
+    660,
+    660
+   ],
+   "drive": "left"
+  },
+  "SC": {
+   "num": "690",
+   "capital": [
+    -4.62,
+    55.45
+   ],
+   "currencies": [
+    "SCR"
+   ],
+   "languages": [
+    "fr",
+    "en"
+   ],
+   "tz": "Asia/Dubai",
+   "utc": [
+    240,
+    240
+   ],
+   "drive": "left"
+  },
+  "SD": {
+   "num": "729",
+   "capital": [
+    15.6,
+    32.53
+   ],
+   "currencies": [
+    "SDG"
+   ],
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "tz": "Africa/Khartoum",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "SE": {
+   "num": "752",
+   "capital": [
+    59.33,
+    18.07
+   ],
+   "currencies": [
+    "SEK"
+   ],
+   "languages": [
+    "sv"
+   ],
+   "tz": "Europe/Berlin",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "SG": {
+   "num": "702",
+   "capital": [
+    1.3,
+    103.8
+   ],
+   "currencies": [
+    "SGD"
+   ],
+   "languages": [
+    "en",
+    "zh",
+    "ms"
+   ],
+   "tz": "Asia/Singapore",
+   "utc": [
+    480,
+    480
+   ],
+   "drive": "left"
+  },
+  "SH": {
+   "num": "654",
+   "capital": [
+    -15.93,
+    -5.72
+   ],
+   "currencies": [
+    "SHP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "left"
+  },
+  "SI": {
+   "num": "705",
+   "capital": [
+    46.05,
+    14.51
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "sl"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "SK": {
+   "num": "703",
+   "capital": [
+    48.15,
+    17.11
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "sk"
+   ],
+   "tz": "Europe/Prague",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "SL": {
+   "num": "694",
+   "capital": [
+    8.49,
+    -13.24
+   ],
+   "currencies": [
+    "SLE"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "SM": {
+   "num": "674",
+   "capital": [
+    43.93,
+    12.45
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "it"
+   ],
+   "tz": "Europe/Rome",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "SN": {
+   "num": "686",
+   "capital": [
+    14.67,
+    -17.43
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "wo",
+    "fr"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "SO": {
+   "num": "706",
+   "capital": [
+    2.04,
+    45.34
+   ],
+   "currencies": [
+    "SOS"
+   ],
+   "languages": [
+    "so",
+    "ar"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "SR": {
+   "num": "740",
+   "capital": [
+    5.87,
+    -55.17
+   ],
+   "currencies": [
+    "SRD"
+   ],
+   "languages": [
+    "nl"
+   ],
+   "tz": "America/Paramaribo",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "left"
+  },
+  "SS": {
+   "num": "728",
+   "capital": [
+    4.85,
+    31.58
+   ],
+   "currencies": [
+    "SSP"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Juba",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "ST": {
+   "num": "678",
+   "capital": [
+    0.34,
+    6.73
+   ],
+   "currencies": [
+    "STN"
+   ],
+   "languages": [
+    "pt"
+   ],
+   "tz": "Africa/Sao_Tome",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "SV": {
+   "num": "222",
+   "capital": [
+    13.7,
+    -89.19
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/El_Salvador",
+   "utc": [
+    -360,
+    -360
+   ],
+   "drive": "right"
+  },
+  "SX": {
+   "num": "534",
+   "capital": [
+    18.02,
+    -63.04
+   ],
+   "currencies": [
+    "XCG"
+   ],
+   "languages": [
+    "en",
+    "nl"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "SY": {
+   "num": "760",
+   "capital": [
+    33.51,
+    36.29
+   ],
+   "currencies": [
+    "SYP"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Damascus",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "SZ": {
+   "num": "748",
+   "capital": [
+    -26.32,
+    31.13
+   ],
+   "currencies": [
+    "SZL"
+   ],
+   "languages": [
+    "en",
+    "ss"
+   ],
+   "tz": "Africa/Johannesburg",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "TA": {
+   "capital": [
+    -37.07,
+    -12.31
+   ],
+   "currencies": [
+    "GBP"
+   ],
+   "languages": [],
+   "drive": "left"
+  },
+  "TC": {
+   "num": "796",
+   "capital": [
+    21.46,
+    -71.14
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Grand_Turk",
+   "utc": [
+    -300,
+    -300
+   ],
+   "drive": "left"
+  },
+  "TD": {
+   "num": "148",
+   "capital": [
+    12.11,
+    15.05
+   ],
+   "currencies": [
+    "XAF"
+   ],
+   "languages": [
+    "ar",
+    "fr"
+   ],
+   "tz": "Africa/Ndjamena",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "TF": {
+   "num": "260",
+   "capital": [
+    -49.35,
+    70.22
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [],
+   "tz": "Asia/Dubai",
+   "utc": [
+    240,
+    300
+   ],
+   "drive": "right"
+  },
+  "TG": {
+   "num": "768",
+   "capital": [
+    6.13,
+    1.22
+   ],
+   "currencies": [
+    "XOF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Abidjan",
+   "utc": [
+    0,
+    0
+   ],
+   "drive": "right"
+  },
+  "TH": {
+   "num": "764",
+   "capital": [
+    13.75,
+    100.52
+   ],
+   "currencies": [
+    "THB"
+   ],
+   "languages": [
+    "th"
+   ],
+   "tz": "Asia/Bangkok",
+   "utc": [
+    420,
+    420
+   ],
+   "drive": "left"
+  },
+  "TJ": {
+   "num": "762",
+   "capital": [
+    38.57,
+    68.79
+   ],
+   "currencies": [
+    "TJS"
+   ],
+   "languages": [
+    "tg"
+   ],
+   "tz": "Asia/Dushanbe",
+   "utc": [
+    300,
+    300
+   ],
+   "drive": "right"
+  },
+  "TL": {
+   "num": "626",
+   "capital": [
+    -8.55,
+    125.58
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "pt",
+    "tet"
+   ],
+   "tz": "Asia/Dili",
+   "utc": [
+    540,
+    540
+   ],
+   "drive": "left"
+  },
+  "TM": {
+   "num": "795",
+   "capital": [
+    37.95,
+    58.38
+   ],
+   "currencies": [
+    "TMT"
+   ],
+   "languages": [
+    "tk"
+   ],
+   "tz": "Asia/Ashgabat",
+   "utc": [
+    300,
+    300
+   ],
+   "drive": "right"
+  },
+  "TN": {
+   "num": "788",
+   "capital": [
+    36.8,
+    10.18
+   ],
+   "currencies": [
+    "TND"
+   ],
+   "languages": [
+    "ar",
+    "fr"
+   ],
+   "tz": "Africa/Tunis",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "TO": {
+   "num": "776",
+   "capital": [
+    -21.13,
+    -175.2
+   ],
+   "currencies": [
+    "TOP"
+   ],
+   "languages": [
+    "to",
+    "en"
+   ],
+   "tz": "Pacific/Tongatapu",
+   "utc": [
+    780,
+    780
+   ],
+   "drive": "left"
+  },
+  "TR": {
+   "num": "792",
+   "capital": [
+    39.94,
+    32.84
+   ],
+   "hub": [
+    41.2753,
+    28.7519
+   ],
+   "currencies": [
+    "TRY"
+   ],
+   "languages": [
+    "tr"
+   ],
+   "tz": "Europe/Istanbul",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "TT": {
+   "num": "780",
+   "capital": [
+    10.67,
+    -61.52
+   ],
+   "currencies": [
+    "TTD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "TV": {
+   "num": "798",
+   "capital": [
+    -8.5,
+    179.12
+   ],
+   "currencies": [
+    "AUD"
+   ],
+   "languages": [
+    "tvl",
+    "en"
+   ],
+   "tz": "Pacific/Tarawa",
+   "utc": [
+    720,
+    720
+   ],
+   "drive": "left"
+  },
+  "TW": {
+   "num": "158",
+   "capital": [
+    25.04,
+    121.56
+   ],
+   "currencies": [
+    "TWD"
+   ],
+   "languages": [
+    "zh",
+    "nan",
+    "hak"
+   ],
+   "tz": "Asia/Taipei",
+   "utc": [
+    480,
+    480
+   ],
+   "drive": "right"
+  },
+  "TZ": {
+   "num": "834",
+   "capital": [
+    -6.18,
+    35.75
+   ],
+   "hub": [
+    -6.8781,
+    39.2026
+   ],
+   "currencies": [
+    "TZS"
+   ],
+   "languages": [
+    "sw",
+    "en"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "left"
+  },
+  "UA": {
+   "num": "804",
+   "capital": [
+    50.45,
+    30.52
+   ],
+   "currencies": [
+    "UAH"
+   ],
+   "languages": [
+    "uk",
+    "ru"
+   ],
+   "tz": "Europe/Kyiv",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "right"
+  },
+  "UG": {
+   "num": "800",
+   "capital": [
+    0.31,
+    32.58
+   ],
+   "currencies": [
+    "UGX"
+   ],
+   "languages": [
+    "sw",
+    "en"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "left"
+  },
+  "US": {
+   "num": "840",
+   "capital": [
+    38.9,
+    -77.04
+   ],
+   "hub": [
+    40.6413,
+    -73.7781
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/New_York",
+   "utc": [
+    -600,
+    -300
+   ],
+   "drive": "right"
+  },
+  "UY": {
+   "num": "858",
+   "capital": [
+    -34.91,
+    -56.19
+   ],
+   "currencies": [
+    "UYU"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Montevideo",
+   "utc": [
+    -180,
+    -180
+   ],
+   "drive": "right"
+  },
+  "UZ": {
+   "num": "860",
+   "capital": [
+    41.31,
+    69.28
+   ],
+   "currencies": [
+    "UZS"
+   ],
+   "languages": [
+    "uz"
+   ],
+   "tz": "Asia/Samarkand",
+   "utc": [
+    300,
+    300
+   ],
+   "drive": "right"
+  },
+  "VA": {
+   "num": "336",
+   "capital": [
+    41.9,
+    12.45
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "it"
+   ],
+   "tz": "Europe/Rome",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "VC": {
+   "num": "670",
+   "capital": [
+    13.16,
+    -61.23
+   ],
+   "currencies": [
+    "XCD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "VE": {
+   "num": "862",
+   "capital": [
+    10.51,
+    -66.91
+   ],
+   "currencies": [
+    "VES"
+   ],
+   "languages": [
+    "es"
+   ],
+   "tz": "America/Caracas",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "right"
+  },
+  "VG": {
+   "num": "092",
+   "capital": [
+    18.43,
+    -64.62
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "VI": {
+   "num": "850",
+   "capital": [
+    18.35,
+    -64.95
+   ],
+   "currencies": [
+    "USD"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "America/Puerto_Rico",
+   "utc": [
+    -240,
+    -240
+   ],
+   "drive": "left"
+  },
+  "VN": {
+   "num": "704",
+   "capital": [
+    21.02,
+    105.84
+   ],
+   "hub": [
+    10.8185,
+    106.652
+   ],
+   "currencies": [
+    "VND"
+   ],
+   "languages": [
+    "vi"
+   ],
+   "tz": "Asia/Ho_Chi_Minh",
+   "utc": [
+    420,
+    420
+   ],
+   "drive": "right"
+  },
+  "VU": {
+   "num": "548",
+   "capital": [
+    -17.73,
+    168.32
+   ],
+   "currencies": [
+    "VUV"
+   ],
+   "languages": [
+    "bi",
+    "en",
+    "fr"
+   ],
+   "tz": "Pacific/Efate",
+   "utc": [
+    660,
+    660
+   ],
+   "drive": "right"
+  },
+  "WF": {
+   "num": "876",
+   "capital": [
+    -13.28,
+    -176.17
+   ],
+   "currencies": [
+    "XPF"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Pacific/Tarawa",
+   "utc": [
+    720,
+    720
+   ],
+   "drive": "right"
+  },
+  "WS": {
+   "num": "882",
+   "capital": [
+    -13.83,
+    -171.83
+   ],
+   "currencies": [
+    "WST"
+   ],
+   "languages": [
+    "sm",
+    "en"
+   ],
+   "tz": "Pacific/Apia",
+   "utc": [
+    780,
+    780
+   ],
+   "drive": "left"
+  },
+  "XK": {
+   "capital": [
+    42.67,
+    21.17
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "sq",
+    "sr"
+   ],
+   "tz": "Europe/Belgrade",
+   "utc": [
+    60,
+    60
+   ],
+   "drive": "right"
+  },
+  "YE": {
+   "num": "887",
+   "capital": [
+    15.35,
+    44.2
+   ],
+   "currencies": [
+    "YER"
+   ],
+   "languages": [
+    "ar"
+   ],
+   "tz": "Asia/Riyadh",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "YT": {
+   "num": "175",
+   "capital": [
+    -12.78,
+    45.23
+   ],
+   "currencies": [
+    "EUR"
+   ],
+   "languages": [
+    "fr"
+   ],
+   "tz": "Africa/Nairobi",
+   "utc": [
+    180,
+    180
+   ],
+   "drive": "right"
+  },
+  "ZA": {
+   "num": "710",
+   "capital": [
+    -25.75,
+    28.19
+   ],
+   "hub": [
+    -26.1367,
+    28.2411
+   ],
+   "currencies": [
+    "ZAR"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Johannesburg",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "ZM": {
+   "num": "894",
+   "capital": [
+    -15.42,
+    28.28
+   ],
+   "currencies": [
+    "ZMW"
+   ],
+   "languages": [
+    "en"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  },
+  "ZW": {
+   "num": "716",
+   "capital": [
+    -17.83,
+    31.05
+   ],
+   "currencies": [
+    "ZWG",
+    "USD"
+   ],
+   "languages": [
+    "sn",
+    "en",
+    "nd"
+   ],
+   "tz": "Africa/Maputo",
+   "utc": [
+    120,
+    120
+   ],
+   "drive": "left"
+  }
+ }
+}

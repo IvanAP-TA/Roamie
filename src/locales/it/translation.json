@@ -269,7 +269,9 @@
     "deleteTitle": "Eliminare l'account?",
     "deleteBody": "Cancelleremo profilo, voti, commenti e i viaggi di cui sei owner (per tutti i loro membri). Le mete proposte nei viaggi altrui restano senza il tuo nome.",
     "deleteConfirm": "Elimina definitivamente",
-    "accountDeleted": "Account eliminato. Buon viaggio!"
+    "accountDeleted": "Account eliminato. Buon viaggio!",
+    "origin": "Parto da",
+    "originHint": "Per stimare il prezzo dei voli verso le mete"
   },
   "moods": {
     "adventure": "Avventura",
@@ -486,15 +488,16 @@
     "totalDays_one": "≈ {{range}} per {{count}} giorno",
     "totalDays_other": "≈ {{range}} per {{count}} giorni",
     "totalWeek": "≈ {{range}} per una settimana",
-    "flight": "Volo A/R dall'Italia",
     "flightNear": "Vicino: treno o auto",
     "flightUnknown": "Serve la posizione della meta",
     "stay": "Alloggio",
     "perNight": "~{{amount}} a notte",
     "daily": "Cibo, trasporti e attività",
     "perDay": "~{{amount}} al giorno",
-    "disclaimer": "Stima indicativa: il volo in base alla distanza da Roma, i costi locali in base ai prezzi del Paese",
-    "source": "Prezzi: Banca Mondiale {{years}} (CC BY 4.0)"
+    "disclaimer": "Stima indicativa: il volo in base alla distanza dal principale aeroporto del paese di partenza, i costi locali in base ai prezzi del Paese",
+    "source": "Prezzi: Banca Mondiale {{years}} (CC BY 4.0)",
+    "flightFrom": "Volo A/R da",
+    "origin": "Paese di partenza"
   },
   "secret": {
     "toggle": "Voto segreto",

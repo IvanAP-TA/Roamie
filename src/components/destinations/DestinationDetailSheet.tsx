@@ -28,6 +28,7 @@ import { ReasonsSection } from './ReasonsSection'
 import { CommentComposer, CommentsThread } from './CommentsThread'
 import { DestinationFormSheet } from './DestinationFormSheet'
 import { votesHidden } from '@/lib/secretVoting'
+import { useOrigin } from '@/lib/origin'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination, DestinationStatus } from '@/lib/types'
 import { timeAgo } from '@/lib/utils'
@@ -66,7 +67,8 @@ export function DestinationDetailSheet() {
   const profileOf = (userId: string) => members.find((m) => m.user_id === userId)?.profile ?? null
   const voters = [...d.votes].sort((a, b) => b.points - a.points)
   const canDelete = isOwner || (canEdit && d.created_by === user?.id)
-  const budget = estimatedBudgetLevel(d)
+  const [origin] = useOrigin()
+  const budget = estimatedBudgetLevel(d, origin)
   const hiddenVotes = votesHidden(trip)
 
   const setStatus = (status: DestinationStatus) =>

@@ -7,6 +7,7 @@ import { UserAvatar } from '@/components/ui/avatar'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl } from './PointsControl'
 import { sortReasons } from '@/lib/reasons'
+import { useOrigin } from '@/lib/origin'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -23,7 +24,8 @@ export const DestinationCard = forwardRef<
 >(function DestinationCard({ destination: d, onOpen, selectable = false, selected = false }, ref) {
   const { t } = useTranslation()
   const comments = d.comments[0]?.count ?? 0
-  const budget = estimatedBudgetLevel(d)
+  const [origin] = useOrigin()
+  const budget = estimatedBudgetLevel(d, origin)
   const reasons = d.reasons?.length ?? 0
   const topReason = reasons > 0 ? sortReasons(d.reasons, false)[0] : null
 
