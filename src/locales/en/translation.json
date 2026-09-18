@@ -511,6 +511,14 @@
     "dueIn": "The wheel spins in {{time}}",
     "dueNow": "The wheel is about to spin…"
   },
+  "trending": {
+    "title": "Trending destinations",
+    "subtitle": "Most proposed by groups on Roamie in the last 3 months, anonymously",
+    "proposed_one": "Proposed in {{count}} trip",
+    "proposed_other": "Proposed in {{count}} trips",
+    "chosen_one": "Picked by {{count}} group",
+    "chosen_other": "Picked by {{count}} groups"
+  },
   "story": {
     "share": "Share",
     "download": "Download image",
@@ -886,7 +894,7 @@
         },
         {
           "title": "Purpose",
-          "body": "We use this data solely to authenticate you, link you to the trip lists you belong to and show your group who proposed, voted or commented. No data is used for advertising or profiling, or sold to third parties."
+          "body": "We use this data solely to authenticate you, link you to the trip lists you belong to and show your group who proposed, voted or commented. No data is used for advertising or profiling, or sold to third parties. We also publish an anonymous ranking of the most proposed places (\"Trending destinations\"): it holds only the place's name and how many times it was proposed or picked, and a place appears only once at least three different groups have proposed it, so it can't be traced back to a trip or a person."
         },
         {
           "title": "Legal basis",

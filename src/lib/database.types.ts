@@ -653,6 +653,42 @@ export type Database = {
         }
         Relationships: []
       }
+      trending_places: {
+        Row: {
+          chosen: number
+          country: string | null
+          country_code: string
+          image_attribution: string | null
+          image_url: string | null
+          name: string
+          rank: number
+          refreshed_at: string
+          trips: number
+        }
+        Insert: {
+          chosen: number
+          country?: string | null
+          country_code: string
+          image_attribution?: string | null
+          image_url?: string | null
+          name: string
+          rank: number
+          refreshed_at?: string
+          trips: number
+        }
+        Update: {
+          chosen?: number
+          country?: string | null
+          country_code?: string
+          image_attribution?: string | null
+          image_url?: string | null
+          name?: string
+          rank?: number
+          refreshed_at?: string
+          trips?: number
+        }
+        Relationships: []
+      }
       trip_links: {
         Row: {
           category: string

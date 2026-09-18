@@ -69,6 +69,20 @@ export interface ReviewSummary {
   rating: number
 }
 
+/** "Le mete del momento": a place many groups proposed, published without saying which. */
+export interface TrendingPlace {
+  rank: number
+  name: string
+  country: string | null
+  country_code: string
+  image_url: string | null
+  image_attribution: string | null
+  /** Trips that proposed it in the last 90 days */
+  trips: number
+  /** Of those, the trips that picked it */
+  chosen: number
+}
+
 /** A member's reason to go somewhere ("Perché andarci"). */
 export interface ReasonSummary {
   id: string

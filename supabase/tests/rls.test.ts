@@ -1011,3 +1011,60 @@ describe('limits against abuse', () => {
     await rejects(as(db, SPAMMER, (q) => q(`truncate public.comments`)), /permission denied/)
   })
 })
+
+describe('trending places', () => {
+  const OWNERS = [
+    '77777777-7777-4777-8777-777777777777',
+    '88888888-8888-4888-8888-888888888888',
+    '99999999-9999-4999-8999-999999999999',
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+  ]
+  const FRIEND = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
+  const LISBON = { country: 'Portogallo', code: 'PT', lat: 38.7223, lng: -9.1393 }
+  const OSLO = { country: 'Norvegia', code: 'NO', lat: 59.9139, lng: 10.7522 }
+  let firstTrip: string
+
+  beforeAll(async () => {
+    await createUser(db, FRIEND, 'Amico')
+    for (const [i, owner] of OWNERS.entries()) {
+      await createUser(db, owner, `Owner ${i}`)
+      const [t] = await as(db, owner, (q) => q<{ id: string }>(`insert into public.trips (name) values ($1) returning id`, [`Gruppo ${i}`]))
+      if (i === 0) firstTrip = t.id
+      // The last trip has nobody else in it, so it doesn't count.
+      if (i < 3) await db.query(`insert into public.trip_members (trip_id, user_id, role) values ($1, $2, 'editor')`, [t.id, FRIEND])
+      const add = (p: typeof LISBON, name: string) =>
+        as(db, owner, (q) =>
+          q(`insert into public.destinations (trip_id, name, country, country_code, lat, lng) values ($1, $2, $3, $4, $5, $6)`, [
+            t.id,
+            name,
+            p.country,
+            p.code,
+            p.lat + i * 0.001,
+            p.lng,
+          ]),
+        )
+      await add(LISBON, i === 1 ? 'Lisbon' : 'Lisbona')
+      // Only 2 groups: not enough to be published.
+      if (i < 2) await add(OSLO, 'Oslo')
+      // Written by hand, without a place from the search: never published.
+      await as(db, owner, (q) => q(`insert into public.destinations (trip_id, name) values ($1, 'Casa di Marco')`, [t.id]))
+    }
+    await db.query(`update public.destinations set status = 'selected' where trip_id = $1 and name = 'Lisbona'`, [firstTrip])
+  })
+
+  it('publishes only places proposed by at least 3 groups, without saying which', async () => {
+    await db.query(`select public.refresh_trending_places()`)
+    const rows = await as(db, null, (q) => q<Record<string, unknown>>(`select * from public.trending_places order by rank`))
+    expect(rows).toEqual([expect.objectContaining({ rank: 1, name: 'Lisbona', country: 'Portogallo', country_code: 'PT', trips: 3, chosen: 1 })])
+    expect(Object.keys(rows[0]).sort()).toEqual(
+      ['chosen', 'country', 'country_code', 'image_attribution', 'image_url', 'name', 'rank', 'refreshed_at', 'trips'].sort(),
+    )
+
+    await rejects(as(db, null, (q) => q(`select public.refresh_trending_places()`)), /permission denied/)
+    await rejects(as(db, OWNERS[0], (q) => q(`select public.refresh_trending_places()`)), /permission denied/)
+    await rejects(
+      as(db, OWNERS[0], (q) => q(`insert into public.trending_places (rank, name, country_code, trips, chosen) values (99, 'Spam', 'IT', 99, 99)`)),
+      /permission denied/,
+    )
+  })
+})

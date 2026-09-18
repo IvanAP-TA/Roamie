@@ -12,6 +12,7 @@ import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
 import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
 import { TicketCard } from '@/components/trips/TicketCard'
+import { TrendingPlaces } from '@/components/trips/TrendingPlaces'
 import { TripFormSheet } from '@/components/trips/TripFormSheet'
 import { JoinCodeForm } from '@/components/trips/JoinCodeForm'
 import { Button } from '@/components/ui/button'
@@ -101,6 +102,7 @@ export default function TripsPage() {
         )}
 
         {trips && trips.length > 0 && <InstallAppCard className="mt-10" />}
+        {trips && <TrendingPlaces className="mt-10" />}
         {trips && <InspirationCard className="mt-6" />}
       </PageTransition>
 

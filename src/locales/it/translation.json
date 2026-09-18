@@ -511,6 +511,14 @@
     "dueIn": "La ruota gira tra {{time}}",
     "dueNow": "La ruota sta per girare…"
   },
+  "trending": {
+    "title": "Le mete del momento",
+    "subtitle": "Le più proposte dai gruppi su Roamie negli ultimi 3 mesi, in forma anonima",
+    "proposed_one": "Proposta in {{count}} viaggio",
+    "proposed_other": "Proposta in {{count}} viaggi",
+    "chosen_one": "Scelta da {{count}} gruppo",
+    "chosen_other": "Scelta da {{count}} gruppi"
+  },
   "story": {
     "share": "Condividi",
     "download": "Scarica immagine",
@@ -886,7 +894,7 @@
         },
         {
           "title": "Finalità",
-          "body": "Usiamo questi dati esclusivamente per autenticarti, associarti alle liste di viaggio di cui fai parte e mostrare al gruppo chi ha proposto, votato o commentato. Nessun dato è usato per pubblicità, profilazione o rivenduto a terzi."
+          "body": "Usiamo questi dati esclusivamente per autenticarti, associarti alle liste di viaggio di cui fai parte e mostrare al gruppo chi ha proposto, votato o commentato. Nessun dato è usato per pubblicità, profilazione o rivenduto a terzi. Pubblichiamo anche una classifica anonima delle mete più proposte (\"Le mete del momento\"): contiene solo il nome del luogo e quante volte è stato proposto o scelto, e compare solo quando almeno tre gruppi diversi lo hanno proposto, così non è possibile risalire a un viaggio o a una persona."
         },
         {
           "title": "Base giuridica",

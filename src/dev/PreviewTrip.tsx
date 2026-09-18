@@ -23,6 +23,7 @@ import GroupTab from '@/pages/trip/GroupTab'
 import PassportPage from '@/pages/PassportPage'
 import PublicTripPage from '@/pages/PublicTripPage'
 import { InspirationCard } from '@/components/guides/GuidesLink'
+import { TrendingPlaces } from '@/components/trips/TrendingPlaces'
 import type { Destination, ItineraryDay, PublicTrip, Trip, TripMember } from '@/lib/types'
 
 const TRIP: Trip = {
@@ -128,6 +129,13 @@ export default function PreviewTrip() {
       destinations: DESTINATIONS.map((d) => ({ ...d, points: d.votes.reduce((sum, v) => sum + v.points, 0) })),
       days: DAYS.map((day) => ({ ...day, items: day.itinerary_items })),
     } satisfies PublicTrip)
+    qc.setQueryDefaults(['trending-places'], { staleTime: Infinity })
+    qc.setQueryData(['trending-places', 12], [
+      { rank: 1, name: 'Lisbona', country: 'Portogallo', country_code: 'PT', image_url: null, image_attribution: null, trips: 14, chosen: 5 },
+      { rank: 2, name: 'Oslo', country: 'Norvegia', country_code: 'NO', image_url: null, image_attribution: null, trips: 9, chosen: 2 },
+      { rank: 3, name: 'Kyoto', country: 'Giappone', country_code: 'JP', image_url: null, image_attribution: null, trips: 7, chosen: 0 },
+      { rank: 4, name: 'Oaxaca', country: 'Messico', country_code: 'MX', image_url: null, image_attribution: null, trips: 4, chosen: 0 },
+    ])
     qc.setQueryData(keys.itinerary(TRIP.id), DAYS)
     const range = (user: string, status: 'yes' | 'maybe', from: number, to: number) =>
       Array.from({ length: to - from + 1 }, (_, i) => ({ user_id: user, day: `2027-07-${String(from + i).padStart(2, '0')}`, status }))
@@ -181,7 +189,8 @@ export default function PreviewTrip() {
             />
           ))}
         </div>
-        <InspirationCard className="mx-auto mt-10 max-w-5xl" />
+        <TrendingPlaces className="mx-auto mt-10 max-w-5xl" />
+        <InspirationCard className="mx-auto mt-6 max-w-5xl" />
       </div>
     )
   }

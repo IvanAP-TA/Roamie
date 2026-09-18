@@ -511,6 +511,14 @@
     "dueIn": "La ruleta gira en {{time}}",
     "dueNow": "La ruleta está a punto de girar…"
   },
+  "trending": {
+    "title": "Destinos del momento",
+    "subtitle": "Los más propuestos por los grupos en Roamie en los últimos 3 meses, de forma anónima",
+    "proposed_one": "Propuesto en {{count}} viaje",
+    "proposed_other": "Propuesto en {{count}} viajes",
+    "chosen_one": "Elegido por {{count}} grupo",
+    "chosen_other": "Elegido por {{count}} grupos"
+  },
   "story": {
     "share": "Compartir",
     "download": "Descargar imagen",
@@ -886,7 +894,7 @@
         },
         {
           "title": "Finalidad",
-          "body": "Usamos estos datos exclusivamente para autenticarte, vincularte a las listas de viaje de las que formas parte y mostrar al grupo quién propuso, votó o comentó. Ningún dato se usa para publicidad o perfilado ni se vende a terceros."
+          "body": "Usamos estos datos exclusivamente para autenticarte, vincularte a las listas de viaje de las que formas parte y mostrar al grupo quién propuso, votó o comentó. Ningún dato se usa para publicidad o perfilado ni se vende a terceros. También publicamos una clasificación anónima de los destinos más propuestos (\"Destinos del momento\"): solo contiene el nombre del lugar y cuántas veces se ha propuesto o elegido, y un lugar aparece solo cuando al menos tres grupos distintos lo han propuesto, de modo que no se puede relacionar con un viaje ni con una persona."
         },
         {
           "title": "Base jurídica",
