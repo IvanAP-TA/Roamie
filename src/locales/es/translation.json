@@ -626,7 +626,13 @@
     "disclaimer": "Información general e indicativa: épocas, precios y condiciones cambian, compruébalo siempre antes de salir.",
     "inspirationTitle": "¿Buscas inspiración?",
     "inspirationBody": "Explora las guías y añade a tus viajes los destinos que te gusten con un toque.",
-    "browse": "Ver las guías"
+    "browse": "Ver las guías",
+    "useTrip_one": "Crea el viaje con este destino",
+    "useTrip_other": "Crea el viaje con estos {{count}} destinos",
+    "useTripHint": "Un viaje nuevo con todos los destinos de la guía ya propuestos: invita a tus amigos y empezad a votar.",
+    "useTripSignIn": "Entra con Google para crear el viaje: los destinos ya estarán dentro, listos para votar.",
+    "tripCreated_one": "Viaje creado con {{count}} destino: ¡ahora invita al grupo!",
+    "tripCreated_other": "Viaje creado con {{count}} destinos: ¡ahora invita al grupo!"
   },
   "publicPage": {
     "sectionTitle": "Página pública",

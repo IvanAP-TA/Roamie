@@ -20,6 +20,8 @@ export interface GuideMeta {
   moods: Mood[]
   title: Localized
   description: Localized
+  /** Name of the trip created from the guide's places ("Crea il viaggio con queste mete") */
+  tripName?: Localized
 }
 
 export const GUIDES: GuideMeta[] = [
@@ -40,6 +42,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'long-weekends',
+    tripName: { it: 'Weekend lungo in Europa', en: 'Long weekend in Europe', es: 'Puente en Europa' },
     slug: { it: 'weekend-lunghi-europa-amici', en: 'long-weekends-europe-friends', es: 'escapadas-europa-amigos' },
     moods: ['culture', 'food_wine', 'nightlife'],
     title: {
@@ -55,6 +58,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'budget',
+    tripName: { it: 'Viaggio low cost', en: 'Budget group trip', es: 'Viaje low cost' },
     slug: { it: 'mete-economiche-viaggio-gruppo', en: 'cheap-group-trip-destinations', es: 'destinos-baratos-viaje-grupo' },
     moods: ['culture', 'food_wine', 'adventure'],
     title: {
@@ -70,6 +74,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'summer-sea',
+    tripName: { it: "Mare d'estate", en: 'Summer by the sea', es: 'Mar en verano' },
     slug: { it: 'mare-estate-gruppo-amici', en: 'summer-beach-trips-groups', es: 'playa-verano-grupo-amigos' },
     moods: ['relax', 'nature', 'nightlife'],
     title: {
@@ -85,6 +90,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'nature',
+    tripName: { it: 'Trekking e natura', en: 'Hiking and nature', es: 'Senderismo y naturaleza' },
     slug: { it: 'trekking-natura-viaggio-gruppo', en: 'hiking-nature-group-trips', es: 'senderismo-naturaleza-viaje-grupo' },
     moods: ['nature', 'adventure'],
     title: {
@@ -100,6 +106,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'food',
+    tripName: { it: 'Viaggio gastronomico', en: 'Food trip', es: 'Viaje gastronómico' },
     slug: { it: 'viaggi-gastronomici-amici', en: 'food-trips-with-friends', es: 'viajes-gastronomicos-amigos' },
     moods: ['food_wine', 'culture'],
     title: {
@@ -115,6 +122,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'nightlife',
+    tripName: { it: 'Viaggio di festa', en: 'Party trip', es: 'Viaje de fiesta' },
     slug: { it: 'citta-vita-notturna-europa', en: 'best-nightlife-cities-europe', es: 'ciudades-vida-nocturna-europa' },
     moods: ['nightlife', 'culture'],
     title: {
@@ -130,6 +138,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     id: 'winter',
+    tripName: { it: "Viaggio d'inverno", en: 'Winter trip', es: 'Viaje de invierno' },
     slug: { it: 'mete-invernali-gruppo-amici', en: 'winter-trips-for-groups', es: 'destinos-invierno-grupo-amigos' },
     moods: ['nature', 'relax', 'adventure'],
     title: {
@@ -141,6 +150,70 @@ export const GUIDES: GuideMeta[] = [
       it: "Aurora boreale, piste, mercatini e isole dove l'inverno è mite: idee per un viaggio insieme nei mesi freddi.",
       en: 'Northern lights, ski slopes, Christmas markets and islands with mild winters: ideas for travelling together in the cold months.',
       es: 'Auroras boreales, pistas, mercadillos e islas con inviernos suaves: ideas para viajar juntos en los meses fríos.',
+    },
+  },
+  {
+    id: 'bachelor',
+    slug: { it: 'addio-al-celibato-nubilato-dove-andare', en: 'bachelor-bachelorette-party-destinations', es: 'despedida-de-soltero-destinos' },
+    tripName: { it: 'Addio al celibato/nubilato', en: 'Bachelor/bachelorette party', es: 'Despedida de soltero/a' },
+    moods: ['nightlife', 'relax', 'adventure'],
+    title: {
+      it: 'Addio al celibato e al nubilato: 6 mete per festeggiare in gruppo',
+      en: 'Bachelor and bachelorette parties: 6 destinations to celebrate as a group',
+      es: 'Despedidas de soltero y soltera: 6 destinos para celebrarlo en grupo',
+    },
+    description: {
+      it: 'Città economiche per fare festa, isole con boat party e ville con piscina: mete per un addio al celibato o al nubilato che piaccia a tutti.',
+      en: 'Cheap party cities, islands with boat parties and villas with pools: destinations for a bachelor or bachelorette party that everyone will enjoy.',
+      es: 'Ciudades baratas para salir de fiesta, islas con fiestas en barco y villas con piscina: destinos para una despedida que guste a todos.',
+    },
+  },
+  {
+    id: 'graduation',
+    slug: { it: 'viaggio-di-maturita-mete', en: 'graduation-trip-destinations', es: 'viaje-fin-de-curso-destinos' },
+    tripName: { it: 'Viaggio di maturità', en: 'Graduation trip', es: 'Viaje de fin de curso' },
+    moods: ['nightlife', 'relax'],
+    title: {
+      it: 'Viaggio di maturità: 6 mete per festeggiare il diploma',
+      en: 'Graduation trips: 6 destinations to celebrate finishing school',
+      es: 'Viaje de fin de curso: 6 destinos para celebrar la graduación',
+    },
+    description: {
+      it: 'Isole greche, Costa Brava, Croazia e Baleari: le mete più amate per il viaggio dopo gli esami, con consigli su budget, periodo e documenti.',
+      en: 'Greek islands, the Costa Brava, Croatia and the Balearics: favourite places for the trip after exams, with tips on budget, timing and documents.',
+      es: 'Islas griegas, Costa Brava, Croacia y Baleares: los destinos favoritos para el viaje tras los exámenes, con consejos de presupuesto, fechas y papeles.',
+    },
+  },
+  {
+    id: 'students',
+    slug: { it: 'weekend-low-cost-studenti-coinquilini', en: 'cheap-weekends-students-flatmates', es: 'escapadas-baratas-estudiantes' },
+    tripName: { it: 'Weekend tra coinquilini', en: 'Flatmates’ weekend', es: 'Escapada entre compañeros' },
+    moods: ['culture', 'food_wine', 'nightlife'],
+    title: {
+      it: 'Weekend low cost tra studenti e coinquilini: 6 città',
+      en: 'Cheap weekends for students and flatmates: 6 cities',
+      es: 'Escapadas baratas para estudiantes y compañeros de piso: 6 ciudades',
+    },
+    description: {
+      it: 'Città universitarie con voli low cost, tapas gratis e birra economica: idee per un weekend tra coinquilini, compagni di corso o amici dell’Erasmus.',
+      en: 'University cities with low-cost flights, free tapas and cheap beer: ideas for a weekend with flatmates, classmates or Erasmus friends.',
+      es: 'Ciudades universitarias con vuelos low cost, tapas gratis y cerveza barata: ideas para una escapada con compañeros de piso, de clase o del Erasmus.',
+    },
+  },
+  {
+    id: 'couples',
+    slug: { it: 'viaggio-tra-coppie-di-amici', en: 'trips-for-couples-with-friends', es: 'viaje-entre-parejas-de-amigos' },
+    tripName: { it: 'Viaggio tra coppie', en: 'Couples’ trip', es: 'Viaje entre parejas' },
+    moods: ['romantic', 'food_wine', 'relax'],
+    title: {
+      it: 'Viaggio tra coppie di amici: 6 mete da vivere insieme',
+      en: 'Trips for couples travelling with friends: 6 destinations',
+      es: 'Viaje entre parejas de amigos: 6 destinos para disfrutar juntos',
+    },
+    description: {
+      it: 'Vigneti, laghi, isole e borghi dove affittare una casa in più coppie: mete con buona tavola, gite in giornata e spazio per tutti.',
+      en: 'Vineyards, lakes, islands and villages where several couples can share a house: places with great food, day trips and room for everyone.',
+      es: 'Viñedos, lagos, islas y pueblos donde alquilar una casa entre varias parejas: destinos con buena mesa, excursiones y espacio para todos.',
     },
   },
 ]

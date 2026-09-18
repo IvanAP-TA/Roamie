@@ -5,11 +5,11 @@
  * First choice: the lead image of the place's English Wikipedia article, taken from Wikimedia Commons. The article
  * must be about the right place: its coordinates have to be within MAX_KM of the guide's (no "Lagos" in Nigeria
  * for the Algarve). Otherwise a Commons photo whose title names the place. Airports, stations and the like never
- * stand in for a destination. Run again when places change:
+ * stand in for a destination. Run again when places change; photos already picked are kept (--all picks them anew):
  *
- *   node scripts/guide-images.mjs
+ *   node scripts/guide-images.mjs [--all]
  */
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { createServer } from 'vite'
 
 const OUT = new URL('../src/content/guides/images.json', import.meta.url)
@@ -82,6 +82,15 @@ async function commonsPhoto(file) {
 
 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
+/** Photos picked by hand where the automatic choice fits the place but not the guide. */
+const CHOSEN = {
+  // The article's lead image is a grave in Bellu Cemetery: not the mood of a bachelor party.
+  bucharest: 'File:Sunset in the Old Town - Bucharest, Romania - Travel photography (35031271856).jpg',
+  // A labelled satellite map, and Aix-en-Provence instead of the Luberon.
+  santorini: 'File:Oia - Santorini 2019.jpg',
+  provence: 'File:Gordes with cirrus.jpg',
+}
+
 /** Lead image of the Wikipedia article about the place. */
 async function articlePhoto(place) {
   const lookups = [
@@ -129,11 +138,14 @@ try {
   const { GUIDE_CONTENT } = await vite.ssrLoadModule('/src/content/guides/content.ts')
   const places = [...new Map(Object.values(GUIDE_CONTENT).flatMap((guide) => guide.places).map((p) => [p.key, p])).values()]
 
-  const images = {}
+  const keep = process.argv.includes('--all') ? {} : JSON.parse(await readFile(OUT, 'utf8').catch(() => '{}'))
+  const images = Object.fromEntries(Object.entries(keep).filter(([key]) => places.some((p) => p.key === key)))
   const missing = []
   for (const place of places) {
+    if (images[place.key]) continue
     try {
-      const found = (await articlePhoto(place)) ?? (await commonsSearchPhoto(place))
+      const chosen = CHOSEN[place.key] ? await commonsPhoto(CHOSEN[place.key]) : null
+      const found = chosen ? { photo: chosen, source: 'chosen by hand' } : ((await articlePhoto(place)) ?? (await commonsSearchPhoto(place)))
       if (found) {
         images[place.key] = found.photo
         console.log(`${place.key.padEnd(16)} ← ${found.source} (${found.photo.attribution.license})`)

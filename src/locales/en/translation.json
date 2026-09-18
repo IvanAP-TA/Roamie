@@ -626,7 +626,13 @@
     "disclaimer": "General, indicative information: seasons, prices and conditions change, so always check before you go.",
     "inspirationTitle": "Looking for inspiration?",
     "inspirationBody": "Browse the guides and add the destinations you like to your trips in one tap.",
-    "browse": "Browse the guides"
+    "browse": "Browse the guides",
+    "useTrip_one": "Create a trip with this place",
+    "useTrip_other": "Create a trip with these {{count}} places",
+    "useTripHint": "A new trip with every place in this guide already proposed: invite your friends and start voting.",
+    "useTripSignIn": "Sign in with Google to create the trip: the places will already be in, ready to vote on.",
+    "tripCreated_one": "Trip created with {{count}} place: now invite your group!",
+    "tripCreated_other": "Trip created with {{count}} places: now invite your group!"
   },
   "publicPage": {
     "sectionTitle": "Public page",

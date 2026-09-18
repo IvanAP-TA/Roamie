@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 describe('guide content', () => {
   it('has a body, localized texts and unique URL slugs for every guide', () => {
-    expect(GUIDES).toHaveLength(8)
+    expect(GUIDES).toHaveLength(12)
     for (const lang of langs) {
       const slugs = GUIDES.map((g) => g.slug[lang])
       expect(new Set(slugs).size).toBe(slugs.length)
@@ -30,6 +30,8 @@ describe('guide content', () => {
         expect(content.intro[lang].length).toBeGreaterThan(40)
       }
       expect(content.places.length > 0 || content.steps.length > 0).toBe(true)
+      // Guides with places can become a ready-made trip, which needs a name that fits the trips table.
+      if (content.places.length > 0) for (const lang of langs) expect(guide.tripName?.[lang].length).toBeGreaterThan(3)
     }
   })
 

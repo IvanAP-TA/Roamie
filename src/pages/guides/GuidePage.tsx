@@ -14,6 +14,7 @@ import { serializeAttribution } from '@/lib/wikimedia'
 import { BudgetIndicator, MoodTag } from '@/components/destinations/moods'
 import { CoverImage } from '@/components/media/CoverImage'
 import { AddToTripSheet } from '@/components/guides/AddToTripSheet'
+import { UseGuideTrip } from '@/components/guides/UseGuideTrip'
 import { guideCardPhoto } from '@/components/guides/GuideCardPhoto'
 import { GuideCards } from '@/components/guides/GuideCards'
 import { GuideCta, GuideShell, useUrlLanguage } from '@/components/guides/GuideLayout'
@@ -68,6 +69,7 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
             <p className="mt-8 text-sm font-semibold tracking-wide text-primary uppercase">{t('guides.eyebrow')}</p>
             <h1 className="mt-2 text-[2.3rem] leading-[1.04] md:text-6xl">{guide.title[lang]}</h1>
             <p className="mt-5 text-lg leading-relaxed text-foreground/80">{content.intro[lang]}</p>
+            {content.places.length > 0 && <UseGuideTrip guide={guide} places={content.places} lang={lang} />}
           </header>
 
           {content.steps.length > 0 && (

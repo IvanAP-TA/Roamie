@@ -626,7 +626,13 @@
     "disclaimer": "Informazioni generali e indicative: periodi, prezzi e condizioni cambiano, verifica sempre prima di partire.",
     "inspirationTitle": "Cerchi ispirazione?",
     "inspirationBody": "Sfoglia le guide e aggiungi le mete che ti piacciono ai tuoi viaggi con un tocco.",
-    "browse": "Sfoglia le guide"
+    "browse": "Sfoglia le guide",
+    "useTrip_one": "Crea il viaggio con questa meta",
+    "useTrip_other": "Crea il viaggio con queste {{count}} mete",
+    "useTripHint": "Un viaggio nuovo con tutte le mete della guida già proposte: invita gli amici e votate subito.",
+    "useTripSignIn": "Accedi con Google per creare il viaggio: le mete saranno già dentro, pronte da votare.",
+    "tripCreated_one": "Viaggio creato con {{count}} meta: ora invita il gruppo!",
+    "tripCreated_other": "Viaggio creato con {{count}} mete: ora invita il gruppo!"
   },
   "publicPage": {
     "sectionTitle": "Pagina pubblica",
