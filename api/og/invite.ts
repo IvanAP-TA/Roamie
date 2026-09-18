@@ -1,4 +1,5 @@
 import { ImageResponse } from '@vercel/og'
+import sharp from 'sharp'
 import { INVITE_CODE, inviteImage, pickLang, SITE_URL, type InviteCard } from '../_invite.js'
 
 /**
@@ -67,11 +68,14 @@ export async function GET(request: Request): Promise<Response> {
       ...card.destinations.slice(0, 3).map((d) => photo(d.image_url, 330)),
     ])
 
-    return new ImageResponse(inviteImage(card, lang, { cover, destinations }) as never, {
-      width: 1200,
-      height: 630,
-      fonts,
-      headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' },
+    const png = await new ImageResponse(inviteImage(card, lang, { cover, destinations }) as never, { width: 1200, height: 630, fonts }).arrayBuffer()
+    // As a PNG, a photo makes the image several hundred KB, and WhatsApp skips previews much above 300 KB.
+    const jpeg = await sharp(Buffer.from(png)).jpeg({ quality: 80, mozjpeg: true }).toBuffer()
+    return new Response(new Uint8Array(jpeg), {
+      headers: {
+        'Content-Type': 'image/jpeg',
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+      },
     })
   } catch (error) {
     console.error(error)
