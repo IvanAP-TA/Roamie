@@ -19,7 +19,8 @@
     "map": "Map",
     "roulette": "Wheel",
     "itinerary": "Plan",
-    "group": "Group"
+    "group": "Group",
+    "explore": "Explore"
   },
   "landing": {
     "guides": {
@@ -541,6 +542,38 @@
     "proposed_other": "Proposed in {{count}} trips",
     "chosen_one": "Picked by {{count}} group",
     "chosen_other": "Picked by {{count}} groups"
+  },
+  "explore": {
+    "title": "Explore the world",
+    "intro": "Spin the globe and tap a country: local time, currency, costs, flights from your country, climate and the places in our guides.",
+    "search": "Search for a country",
+    "globeLabel": "Interactive globe: drag to turn it and tap a country to open its card",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "visited_one": "My country ({{count}})",
+    "visited_other": "My countries ({{count}})",
+    "legendGuides": "Places in our guides",
+    "legendVisited": "Countries you have visited",
+    "hint": "Drag to turn, pinch or scroll to zoom",
+    "sources": "Borders: Natural Earth (world-atlas). Country data: Wikidata, Unicode CLDR. Prices: World Bank. Disputed borders are shown as in Natural Earth's data, without taking sides.",
+    "cta": "Explore the world",
+    "capital": "Capital: {{city}}",
+    "localTime": "Local time",
+    "sameTime": "same time as you",
+    "timeDiff": "{{hours}} h from you",
+    "manyZones": "several time zones",
+    "currency": "Currency",
+    "languages": "Official languages",
+    "driving": "People drive",
+    "left": "on the left",
+    "right": "on the right",
+    "costs": "Rough costs per person",
+    "costsNote": "Flight to the capital; accommodation and spending from the country's price level.",
+    "home": "You're already here",
+    "inGuides": "In our guides",
+    "trending": "Trending here",
+    "wikivoyage": "Travel guide on Wikivoyage: {{country}}",
+    "safety": "Documents, visas and safety change often: always check the official advice before you go."
   },
   "story": {
     "share": "Share",

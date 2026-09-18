@@ -19,7 +19,8 @@
     "map": "Mapa",
     "roulette": "Ruleta",
     "itinerary": "Plan",
-    "group": "Grupo"
+    "group": "Grupo",
+    "explore": "Explorar"
   },
   "landing": {
     "guides": {
@@ -541,6 +542,38 @@
     "proposed_other": "Propuesto en {{count}} viajes",
     "chosen_one": "Elegido por {{count}} grupo",
     "chosen_other": "Elegido por {{count}} grupos"
+  },
+  "explore": {
+    "title": "Explora el mundo",
+    "intro": "Gira el globo y toca un país: hora local, moneda, costes, vuelos desde tu país, clima y los destinos de nuestras guías.",
+    "search": "Busca un país",
+    "globeLabel": "Globo interactivo: arrástralo para girarlo y toca un país para abrir su ficha",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "visited_one": "Mi país ({{count}})",
+    "visited_other": "Mis países ({{count}})",
+    "legendGuides": "Destinos de las guías",
+    "legendVisited": "Países que has visitado",
+    "hint": "Arrastra para girar, pellizca o usa la rueda para el zoom",
+    "sources": "Fronteras: Natural Earth (world-atlas). Datos de los países: Wikidata, Unicode CLDR. Precios: Banco Mundial. Las fronteras en disputa se muestran como en los datos de Natural Earth, sin tomar partido.",
+    "cta": "Explora el mundo",
+    "capital": "Capital: {{city}}",
+    "localTime": "Hora local",
+    "sameTime": "la misma hora que tú",
+    "timeDiff": "{{hours}} h respecto a ti",
+    "manyZones": "varios husos horarios",
+    "currency": "Moneda",
+    "languages": "Lenguas oficiales",
+    "driving": "Se conduce",
+    "left": "por la izquierda",
+    "right": "por la derecha",
+    "costs": "Costes orientativos por persona",
+    "costsNote": "Vuelo hasta la capital; alojamiento y gastos según el nivel de precios del país.",
+    "home": "Ya estás aquí",
+    "inGuides": "En nuestras guías",
+    "trending": "Destinos del momento aquí",
+    "wikivoyage": "Guía de viaje en Wikivoyage: {{country}}",
+    "safety": "Documentos, visados y seguridad cambian a menudo: consulta siempre la información oficial antes de salir."
   },
   "story": {
     "share": "Compartir",

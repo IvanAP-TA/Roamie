@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { Link } from 'react-router-dom'
-import { Compass } from 'lucide-react'
+import { Compass, Earth } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { GUIDE_BASE } from '@/content/guides/meta'
 import type { LanguageCode } from '@/i18n'
@@ -31,7 +31,15 @@ export function InspirationCard({ className }: { className?: string }) {
         <h2 className="text-xl leading-snug">{t('guides.inspirationTitle')}</h2>
         <p className="mt-0.5 text-sm text-muted-foreground">{t('guides.inspirationBody')}</p>
       </div>
-      <GuidesLinkButton />
+      <div className="flex flex-wrap gap-2">
+        <GuidesLinkButton />
+        <Button asChild variant="glass">
+          <Link to="/explore">
+            <Earth />
+            {t('explore.cta')}
+          </Link>
+        </Button>
+      </div>
     </aside>
   )
 }

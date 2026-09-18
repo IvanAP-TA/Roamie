@@ -17,6 +17,7 @@ const PublicTripPage = lazy(() => import('@/pages/PublicTripPage'))
 const GuidesIndexPage = lazy(() => import('@/pages/guides/GuidesIndexPage'))
 const GuidePage = lazy(() => import('@/pages/guides/GuidePage'))
 const LegalPage = lazy(() => import('@/pages/LegalPage'))
+const ExplorePage = lazy(() => import('@/pages/ExplorePage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 const TripLayout = lazy(() => import('@/pages/trip/TripLayout'))
 const DestinationsTab = lazy(() => import('@/pages/trip/DestinationsTab'))
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/join/:code" element={<JoinPage />} />
           <Route path="/p/:slug" element={<PublicTripPage />} />
+          <Route path="/explore" element={<ExplorePage />} />
           <Route path="/privacy" element={<LegalPage doc="privacy" />} />
           <Route path="/terms" element={<LegalPage doc="terms" />} />
 

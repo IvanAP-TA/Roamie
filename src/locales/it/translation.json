@@ -19,7 +19,8 @@
     "map": "Mappa",
     "roulette": "Ruota",
     "itinerary": "Piano",
-    "group": "Gruppo"
+    "group": "Gruppo",
+    "explore": "Esplora"
   },
   "landing": {
     "guides": {
@@ -541,6 +542,38 @@
     "proposed_other": "Proposta in {{count}} viaggi",
     "chosen_one": "Scelta da {{count}} gruppo",
     "chosen_other": "Scelta da {{count}} gruppi"
+  },
+  "explore": {
+    "title": "Esplora il mondo",
+    "intro": "Gira il globo e tocca un paese: ora locale, valuta, costi, voli dal tuo paese, clima e le mete delle nostre guide.",
+    "search": "Cerca un paese",
+    "globeLabel": "Mappamondo interattivo: trascinalo per farlo ruotare e tocca un paese per aprirne la scheda",
+    "zoomIn": "Avvicina",
+    "zoomOut": "Allontana",
+    "visited_one": "Il mio paese ({{count}})",
+    "visited_other": "I miei paesi ({{count}})",
+    "legendGuides": "Mete delle guide",
+    "legendVisited": "Paesi che hai visitato",
+    "hint": "Trascina per ruotare, pizzica o usa la rotella per lo zoom",
+    "sources": "Confini: Natural Earth (world-atlas). Dati dei paesi: Wikidata, Unicode CLDR. Prezzi: Banca Mondiale. I confini contesi sono mostrati come nei dati di Natural Earth, senza prendere posizione.",
+    "cta": "Esplora il mondo",
+    "capital": "Capitale: {{city}}",
+    "localTime": "Ora locale",
+    "sameTime": "stessa ora di te",
+    "timeDiff": "{{hours}} h rispetto a te",
+    "manyZones": "più fusi orari",
+    "currency": "Valuta",
+    "languages": "Lingue ufficiali",
+    "driving": "Si guida",
+    "left": "a sinistra",
+    "right": "a destra",
+    "costs": "Costi indicativi a persona",
+    "costsNote": "Volo fino alla capitale; alloggio e spese in base al livello dei prezzi del paese.",
+    "home": "Sei già qui",
+    "inGuides": "Nelle nostre guide",
+    "trending": "Le mete del momento qui",
+    "wikivoyage": "Guida di viaggio su Wikivoyage: {{country}}",
+    "safety": "Documenti, visti e sicurezza cambiano spesso: controlla sempre le indicazioni ufficiali prima di partire."
   },
   "story": {
     "share": "Condividi",

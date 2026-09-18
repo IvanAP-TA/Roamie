@@ -46,11 +46,16 @@ const HUBS = {
 }
 
 async function wikidata() {
-  const query = `SELECT ?iso2 ?num ?coord ?driveLabel WHERE {
+  const query = `SELECT ?iso2 ?num ?coord ?capIt ?capEn ?capEs ?driveLabel WHERE {
     ?c wdt:P297 ?iso2 .
     FILTER NOT EXISTS { ?c wdt:P576 ?ended }
     OPTIONAL { ?c wdt:P299 ?num }
-    OPTIONAL { ?c wdt:P36 ?capital . ?capital wdt:P625 ?coord }
+    OPTIONAL {
+      ?c wdt:P36 ?capital . ?capital wdt:P625 ?coord .
+      OPTIONAL { ?capital rdfs:label ?capIt FILTER(lang(?capIt) = 'it') }
+      OPTIONAL { ?capital rdfs:label ?capEn FILTER(lang(?capEn) = 'en') }
+      OPTIONAL { ?capital rdfs:label ?capEs FILTER(lang(?capEs) = 'es') }
+    }
     OPTIONAL { ?c wdt:P1622 ?drive }
     SERVICE wikibase:label { bd:serviceParam wikibase:language "en". ?drive rdfs:label ?driveLabel }
   }`
@@ -64,7 +69,10 @@ async function wikidata() {
     const entry = (byCode[code] ??= { num: null, capitals: [], drive: null })
     if (row.num) entry.num = row.num.value
     const point = row.coord && /Point\(([-\d.]+) ([-\d.]+)\)/.exec(row.coord.value)
-    if (point) entry.capitals.push([Number(point[2]), Number(point[1])])
+    if (point) {
+      const names = { it: row.capIt?.value, en: row.capEn?.value, es: row.capEs?.value }
+      entry.capitals.push({ at: [Number(point[2]), Number(point[1])], names })
+    }
     if (row.driveLabel) entry.drive = row.driveLabel.value === 'left' ? 'left' : 'right'
   }
   return byCode
@@ -123,8 +131,11 @@ for (const [code, entry] of Object.entries(wd).sort(([a], [b]) => a.localeCompar
   if (!/^[A-Z]{2}$/.test(code) || entry.capitals.length === 0) continue
   // Several capitals (South Africa, Bolivia…): the one closest to where flights start, else the first.
   const hub = HUBS[code]
-  const capitals = [...entry.capitals].sort((a, b) => (hub ? Math.hypot(a[0] - hub[0], a[1] - hub[1]) - Math.hypot(b[0] - hub[0], b[1] - hub[1]) : 0))
-  const capital = capitals[0].map(round)
+  const near = (c) => (hub ? Math.hypot(c.at[0] - hub[0], c.at[1] - hub[1]) : 0)
+  const [first] = [...entry.capitals].sort((a, b) => near(a) - near(b))
+  const capital = first.at.map(round)
+  const english = first.names.en
+  const capitalName = english && { it: first.names.it ?? english, en: english, es: first.names.es ?? english }
 
   const languages = Object.entries(territories[code]?.languagePopulation ?? {})
     // Official nationwide, not regionally (French in Aosta Valley isn't an Italian language here).
@@ -139,6 +150,7 @@ for (const [code, entry] of Object.entries(wd).sort(([a], [b]) => a.localeCompar
   countries[code] = {
     ...(entry.num && { num: entry.num }),
     capital,
+    ...(capitalName && { capitalName }),
     ...(hub && { hub }),
     currencies: [...new Set(currencies)].slice(0, 2),
     languages: [...new Set(languages)].slice(0, 3),

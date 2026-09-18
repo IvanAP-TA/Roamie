@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Skeleton } from '@/components/ui/misc'
-import { Luggage, Plus, Stamp, UserRound } from 'lucide-react'
+import { Earth, Luggage, Plus, Stamp, UserRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { DockNav } from './DockNav'
@@ -32,6 +32,7 @@ export function AppShell() {
         layoutId="main-dock"
         items={[
           { to: '/trips', label: t('nav.trips'), icon: Luggage, end: true },
+          { to: '/explore', label: t('nav.explore'), icon: Earth },
           { label: t('nav.new'), icon: Plus, primary: true, onClick: () => navigate('/trips?new=1') },
           { to: '/passport', label: t('nav.passport'), icon: Stamp },
           { to: '/profile', label: t('nav.profile'), icon: UserRound },

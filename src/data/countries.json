@@ -6,6 +6,11 @@
     -7.93,
     -14.41
    ],
+   "capitalName": {
+    "it": "Georgetown",
+    "en": "Georgetown",
+    "es": "Georgetown"
+   },
    "currencies": [
     "SHP"
    ],
@@ -18,6 +23,11 @@
     42.51,
     1.52
    ],
+   "capitalName": {
+    "it": "Andorra la Vella",
+    "en": "Andorra la Vella",
+    "es": "Andorra la Vieja"
+   },
    "currencies": [
     "EUR"
    ],
@@ -37,6 +47,11 @@
     24.45,
     54.4
    ],
+   "capitalName": {
+    "it": "Abu Dhabi",
+    "en": "Abu Dhabi",
+    "es": "Abu Dhabi"
+   },
    "hub": [
     25.2532,
     55.3657
@@ -60,6 +75,11 @@
     34.53,
     69.17
    ],
+   "capitalName": {
+    "it": "Kabul",
+    "en": "Kabul",
+    "es": "Kabul"
+   },
    "currencies": [
     "AFN"
    ],
@@ -99,6 +119,11 @@
     18.22,
     -63.05
    ],
+   "capitalName": {
+    "it": "The Valley",
+    "en": "The Valley",
+    "es": "El Valle"
+   },
    "currencies": [
     "XCD"
    ],
@@ -118,6 +143,11 @@
     41.33,
     19.82
    ],
+   "capitalName": {
+    "it": "Tirana",
+    "en": "Tirana",
+    "es": "Tirana"
+   },
    "currencies": [
     "ALL"
    ],
@@ -137,6 +167,11 @@
     40.18,
     44.51
    ],
+   "capitalName": {
+    "it": "Erevan",
+    "en": "Yerevan",
+    "es": "Ereván"
+   },
    "currencies": [
     "AMD"
    ],
@@ -156,6 +191,11 @@
     -8.84,
     13.23
    ],
+   "capitalName": {
+    "it": "Luanda",
+    "en": "Luanda",
+    "es": "Luanda"
+   },
    "currencies": [
     "AOA"
    ],
@@ -175,6 +215,11 @@
     -34.6,
     -58.38
    ],
+   "capitalName": {
+    "it": "Buenos Aires",
+    "en": "Buenos Aires",
+    "es": "Buenos Aires"
+   },
    "currencies": [
     "ARS"
    ],
@@ -194,6 +239,11 @@
     -14.28,
     -170.7
    ],
+   "capitalName": {
+    "it": "Pago Pago",
+    "en": "Pago Pago",
+    "es": "Pago Pago"
+   },
    "currencies": [
     "USD"
    ],
@@ -214,6 +264,11 @@
     48.21,
     16.37
    ],
+   "capitalName": {
+    "it": "Vienna",
+    "en": "Vienna",
+    "es": "Viena"
+   },
    "currencies": [
     "EUR"
    ],
@@ -233,6 +288,11 @@
     -35.29,
     149.13
    ],
+   "capitalName": {
+    "it": "Canberra",
+    "en": "Canberra",
+    "es": "Canberra"
+   },
    "hub": [
     -33.9399,
     151.1753
@@ -256,6 +316,11 @@
     12.52,
     -70.04
    ],
+   "capitalName": {
+    "it": "Oranjestad",
+    "en": "Oranjestad",
+    "es": "Oranjestad"
+   },
    "currencies": [
     "AWG"
    ],
@@ -276,6 +341,11 @@
     60.1,
     19.94
    ],
+   "capitalName": {
+    "it": "Mariehamn",
+    "en": "Mariehamn",
+    "es": "Mariehamn"
+   },
    "currencies": [
     "EUR"
    ],
@@ -295,6 +365,11 @@
     40.37,
     49.84
    ],
+   "capitalName": {
+    "it": "Baku",
+    "en": "Baku",
+    "es": "Bakú"
+   },
    "currencies": [
     "AZN"
    ],
@@ -314,6 +389,11 @@
     43.86,
     18.41
    ],
+   "capitalName": {
+    "it": "Sarajevo",
+    "en": "Sarajevo",
+    "es": "Sarajevo"
+   },
    "currencies": [
     "BAM"
    ],
@@ -335,6 +415,11 @@
     13.1,
     -59.62
    ],
+   "capitalName": {
+    "it": "Bridgetown",
+    "en": "Bridgetown",
+    "es": "Bridgetown"
+   },
    "currencies": [
     "BBD"
    ],
@@ -354,6 +439,11 @@
     23.73,
     90.39
    ],
+   "capitalName": {
+    "it": "Dacca",
+    "en": "Dhaka",
+    "es": "Daca"
+   },
    "currencies": [
     "BDT"
    ],
@@ -373,6 +463,11 @@
     50.85,
     4.35
    ],
+   "capitalName": {
+    "it": "Bruxelles",
+    "en": "Brussels",
+    "es": "Bruselas"
+   },
    "currencies": [
     "EUR"
    ],
@@ -394,6 +489,11 @@
     12.37,
     -1.53
    ],
+   "capitalName": {
+    "it": "Ouagadougou",
+    "en": "Ouagadougou",
+    "es": "Uagadugú"
+   },
    "currencies": [
     "XOF"
    ],
@@ -413,6 +513,11 @@
     42.7,
     23.32
    ],
+   "capitalName": {
+    "it": "Sofia",
+    "en": "Sofia",
+    "es": "Sofía"
+   },
    "currencies": [
     "EUR"
    ],
@@ -432,6 +537,11 @@
     26.22,
     50.58
    ],
+   "capitalName": {
+    "it": "Manama",
+    "en": "Manama",
+    "es": "Manama"
+   },
    "currencies": [
     "BHD"
    ],
@@ -451,6 +561,11 @@
     -3.43,
     29.93
    ],
+   "capitalName": {
+    "it": "Gitega",
+    "en": "Gitega",
+    "es": "Guitega"
+   },
    "currencies": [
     "BIF"
    ],
@@ -472,6 +587,11 @@
     6.48,
     2.62
    ],
+   "capitalName": {
+    "it": "Porto-Novo",
+    "en": "Porto-Novo",
+    "es": "Porto Novo"
+   },
    "currencies": [
     "XOF"
    ],
@@ -491,6 +611,11 @@
     17.9,
     -62.85
    ],
+   "capitalName": {
+    "it": "Gustavia",
+    "en": "Gustavia",
+    "es": "Gustavia"
+   },
    "currencies": [
     "EUR"
    ],
@@ -510,6 +635,11 @@
     32.3,
     -64.78
    ],
+   "capitalName": {
+    "it": "Hamilton",
+    "en": "Hamilton",
+    "es": "Hamilton"
+   },
    "currencies": [
     "BMD"
    ],
@@ -529,6 +659,11 @@
     4.92,
     114.92
    ],
+   "capitalName": {
+    "it": "Bandar Seri Begawan",
+    "en": "Bandar Seri Begawan",
+    "es": "Bandar Seri Begawan"
+   },
    "currencies": [
     "BND"
    ],
@@ -548,6 +683,11 @@
     -19.05,
     -65.26
    ],
+   "capitalName": {
+    "it": "Sucre",
+    "en": "Sucre",
+    "es": "Sucre"
+   },
    "hub": [
     -17.6448,
     -63.1354
@@ -573,6 +713,11 @@
     -15.79,
     -47.88
    ],
+   "capitalName": {
+    "it": "Brasilia",
+    "en": "Brasília",
+    "es": "Brasilia"
+   },
    "hub": [
     -23.4356,
     -46.4731
@@ -596,6 +741,11 @@
     25.08,
     -77.34
    ],
+   "capitalName": {
+    "it": "Nassau",
+    "en": "Nassau",
+    "es": "Nasáu"
+   },
    "currencies": [
     "BSD"
    ],
@@ -615,6 +765,11 @@
     27.47,
     89.63
    ],
+   "capitalName": {
+    "it": "Thimphu",
+    "en": "Thimphu",
+    "es": "Timbu"
+   },
    "currencies": [
     "BTN",
     "INR"
@@ -635,6 +790,11 @@
     -24.66,
     25.91
    ],
+   "capitalName": {
+    "it": "Gaborone",
+    "en": "Gaborone",
+    "es": "Gaborone"
+   },
    "currencies": [
     "BWP"
    ],
@@ -655,6 +815,11 @@
     53.9,
     27.56
    ],
+   "capitalName": {
+    "it": "Minsk",
+    "en": "Minsk",
+    "es": "Minsk"
+   },
    "currencies": [
     "BYN"
    ],
@@ -675,6 +840,11 @@
     17.25,
     -88.77
    ],
+   "capitalName": {
+    "it": "Belmopan",
+    "en": "Belmopan",
+    "es": "Belmopán"
+   },
    "currencies": [
     "BZD"
    ],
@@ -694,6 +864,11 @@
     45.42,
     -75.69
    ],
+   "capitalName": {
+    "it": "Ottawa",
+    "en": "Ottawa",
+    "es": "Ottawa"
+   },
    "hub": [
     43.6777,
     -79.6248
@@ -718,6 +893,11 @@
     -12.19,
     96.83
    ],
+   "capitalName": {
+    "it": "West Island",
+    "en": "West Island",
+    "es": "West Island"
+   },
    "currencies": [
     "AUD"
    ],
@@ -737,6 +917,11 @@
     -4.32,
     15.31
    ],
+   "capitalName": {
+    "it": "Kinshasa",
+    "en": "Kinshasa",
+    "es": "Kinsasa"
+   },
    "currencies": [
     "CDF"
    ],
@@ -756,6 +941,11 @@
     4.37,
     18.56
    ],
+   "capitalName": {
+    "it": "Bangui",
+    "en": "Bangui",
+    "es": "Bangui"
+   },
    "currencies": [
     "XAF"
    ],
@@ -776,6 +966,11 @@
     -4.27,
     15.27
    ],
+   "capitalName": {
+    "it": "Brazzaville",
+    "en": "Brazzaville",
+    "es": "Brazzaville"
+   },
    "currencies": [
     "XAF"
    ],
@@ -795,6 +990,11 @@
     46.95,
     7.45
    ],
+   "capitalName": {
+    "it": "Berna",
+    "en": "Bern",
+    "es": "Berna"
+   },
    "hub": [
     47.4582,
     8.5555
@@ -820,6 +1020,11 @@
     6.82,
     -5.27
    ],
+   "capitalName": {
+    "it": "Yamoussoukro",
+    "en": "Yamoussoukro",
+    "es": "Yamusukro"
+   },
    "hub": [
     5.2539,
     -3.9263
@@ -843,6 +1048,11 @@
     -21.21,
     -159.77
    ],
+   "capitalName": {
+    "it": "Avarua",
+    "en": "Avarua",
+    "es": "Avarua"
+   },
    "currencies": [
     "NZD"
    ],
@@ -862,6 +1072,11 @@
     -33.44,
     -70.65
    ],
+   "capitalName": {
+    "it": "Santiago del Cile",
+    "en": "Santiago",
+    "es": "Santiago de Chile"
+   },
    "currencies": [
     "CLP"
    ],
@@ -881,6 +1096,11 @@
     3.86,
     11.52
    ],
+   "capitalName": {
+    "it": "Yaoundé",
+    "en": "Yaoundé",
+    "es": "Yaundé"
+   },
    "hub": [
     4.0061,
     9.7195
@@ -905,6 +1125,11 @@
     39.9,
     116.41
    ],
+   "capitalName": {
+    "it": "Pechino",
+    "en": "Beijing",
+    "es": "Pekín"
+   },
    "hub": [
     31.1443,
     121.8083
@@ -928,6 +1153,11 @@
     4.61,
     -74.08
    ],
+   "capitalName": {
+    "it": "Bogotà",
+    "en": "Bogotá",
+    "es": "Bogotá"
+   },
    "currencies": [
     "COP"
    ],
@@ -947,6 +1177,11 @@
     9.93,
     -84.08
    ],
+   "capitalName": {
+    "it": "San José",
+    "en": "San José",
+    "es": "San José"
+   },
    "currencies": [
     "CRC"
    ],
@@ -966,6 +1201,11 @@
     23.14,
     -82.36
    ],
+   "capitalName": {
+    "it": "L'Avana",
+    "en": "Havana",
+    "es": "La Habana"
+   },
    "currencies": [
     "CUP"
    ],
@@ -985,6 +1225,11 @@
     14.92,
     -23.51
    ],
+   "capitalName": {
+    "it": "Praia",
+    "en": "Praia",
+    "es": "Praia"
+   },
    "currencies": [
     "CVE"
    ],
@@ -1004,6 +1249,11 @@
     12.11,
     -68.93
    ],
+   "capitalName": {
+    "it": "Willemstad",
+    "en": "Willemstad",
+    "es": "Willemstad"
+   },
    "currencies": [
     "XCG"
    ],
@@ -1024,6 +1274,11 @@
     -10.42,
     105.68
    ],
+   "capitalName": {
+    "it": "Flying Fish Cove",
+    "en": "Flying Fish Cove",
+    "es": "Flying Fish Cove"
+   },
    "currencies": [
     "AUD"
    ],
@@ -1043,6 +1298,11 @@
     35.17,
     33.37
    ],
+   "capitalName": {
+    "it": "Nicosia",
+    "en": "Nicosia",
+    "es": "Nicosia"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1063,6 +1323,11 @@
     50.09,
     14.42
    ],
+   "capitalName": {
+    "it": "Praga",
+    "en": "Prague",
+    "es": "Praga"
+   },
    "currencies": [
     "CZK"
    ],
@@ -1082,6 +1347,11 @@
     52.52,
     13.38
    ],
+   "capitalName": {
+    "it": "Berlino",
+    "en": "Berlin",
+    "es": "Berlín"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1101,6 +1371,11 @@
     11.6,
     43.15
    ],
+   "capitalName": {
+    "it": "Gibuti",
+    "en": "Djibouti",
+    "es": "Ciudad de Yibuti"
+   },
    "currencies": [
     "DJF"
    ],
@@ -1121,6 +1396,11 @@
     55.68,
     12.57
    ],
+   "capitalName": {
+    "it": "Copenaghen",
+    "en": "Copenhagen",
+    "es": "Copenhague"
+   },
    "currencies": [
     "DKK"
    ],
@@ -1140,6 +1420,11 @@
     15.3,
     -61.38
    ],
+   "capitalName": {
+    "it": "Roseau",
+    "en": "Roseau",
+    "es": "Roseau"
+   },
    "currencies": [
     "XCD"
    ],
@@ -1159,6 +1444,11 @@
     18.46,
     -69.94
    ],
+   "capitalName": {
+    "it": "Santo Domingo",
+    "en": "Santo Domingo",
+    "es": "Santo Domingo"
+   },
    "currencies": [
     "DOP"
    ],
@@ -1178,6 +1468,11 @@
     36.78,
     3.06
    ],
+   "capitalName": {
+    "it": "Algeri",
+    "en": "Algiers",
+    "es": "Argel"
+   },
    "currencies": [
     "DZD"
    ],
@@ -1198,6 +1493,11 @@
     -0.22,
     -78.51
    ],
+   "capitalName": {
+    "it": "Quito",
+    "en": "Quito",
+    "es": "Quito"
+   },
    "hub": [
     -2.1575,
     -79.8837
@@ -1222,6 +1522,11 @@
     59.44,
     24.75
    ],
+   "capitalName": {
+    "it": "Tallinn",
+    "en": "Tallinn",
+    "es": "Tallin"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1241,6 +1546,11 @@
     30.04,
     31.24
    ],
+   "capitalName": {
+    "it": "Il Cairo",
+    "en": "Cairo",
+    "es": "El Cairo"
+   },
    "currencies": [
     "EGP"
    ],
@@ -1260,6 +1570,11 @@
     15.33,
     38.92
    ],
+   "capitalName": {
+    "it": "Asmara",
+    "en": "Asmara",
+    "es": "Asmara"
+   },
    "currencies": [
     "ERN"
    ],
@@ -1281,6 +1596,11 @@
     40.42,
     -3.7
    ],
+   "capitalName": {
+    "it": "Madrid",
+    "en": "Madrid",
+    "es": "Madrid"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1300,6 +1620,11 @@
     9.04,
     38.75
    ],
+   "capitalName": {
+    "it": "Addis Abeba",
+    "en": "Addis Ababa",
+    "es": "Adís Abeba"
+   },
    "currencies": [
     "ETB"
    ],
@@ -1319,6 +1644,11 @@
     60.17,
     24.94
    ],
+   "capitalName": {
+    "it": "Helsinki",
+    "en": "Helsinki",
+    "es": "Helsinki"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1339,6 +1669,11 @@
     -18.13,
     178.43
    ],
+   "capitalName": {
+    "it": "Suva",
+    "en": "Suva",
+    "es": "Suva"
+   },
    "currencies": [
     "FJD"
    ],
@@ -1360,6 +1695,11 @@
     -51.69,
     -57.85
    ],
+   "capitalName": {
+    "it": "Stanley",
+    "en": "Stanley",
+    "es": "Puerto Argentino"
+   },
    "currencies": [
     "FKP"
    ],
@@ -1379,6 +1719,11 @@
     6.92,
     158.19
    ],
+   "capitalName": {
+    "it": "Palikir",
+    "en": "Palikir",
+    "es": "Palikir"
+   },
    "currencies": [
     "USD"
    ],
@@ -1398,6 +1743,11 @@
     62.01,
     -6.77
    ],
+   "capitalName": {
+    "it": "Tórshavn",
+    "en": "Tórshavn",
+    "es": "Tórshavn"
+   },
    "currencies": [
     "DKK"
    ],
@@ -1417,6 +1767,11 @@
     48.86,
     2.35
    ],
+   "capitalName": {
+    "it": "Parigi",
+    "en": "Paris",
+    "es": "París"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1436,6 +1791,11 @@
     0.41,
     9.44
    ],
+   "capitalName": {
+    "it": "Libreville",
+    "en": "Libreville",
+    "es": "Libreville"
+   },
    "currencies": [
     "XAF"
    ],
@@ -1455,6 +1815,11 @@
     51.51,
     -0.13
    ],
+   "capitalName": {
+    "it": "Londra",
+    "en": "London",
+    "es": "Londres"
+   },
    "currencies": [
     "GBP"
    ],
@@ -1474,6 +1839,11 @@
     12.05,
     -61.75
    ],
+   "capitalName": {
+    "it": "Saint George's",
+    "en": "St. George's",
+    "es": "Saint George"
+   },
    "currencies": [
     "XCD"
    ],
@@ -1493,6 +1863,11 @@
     41.72,
     44.79
    ],
+   "capitalName": {
+    "it": "Tbilisi",
+    "en": "Tbilisi",
+    "es": "Tiflis"
+   },
    "currencies": [
     "GEL"
    ],
@@ -1512,6 +1887,11 @@
     4.94,
     -52.33
    ],
+   "capitalName": {
+    "it": "Caienna",
+    "en": "Cayenne",
+    "es": "Cayena"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1531,6 +1911,11 @@
     49.46,
     -2.55
    ],
+   "capitalName": {
+    "it": "Saint Peter Port",
+    "en": "Saint Peter Port",
+    "es": "Saint Peter Port"
+   },
    "currencies": [
     "GBP"
    ],
@@ -1550,6 +1935,11 @@
     5.56,
     -0.2
    ],
+   "capitalName": {
+    "it": "Accra",
+    "en": "Accra",
+    "es": "Acra"
+   },
    "currencies": [
     "GHS"
    ],
@@ -1569,6 +1959,11 @@
     36.14,
     -5.35
    ],
+   "capitalName": {
+    "it": "Gibilterra",
+    "en": "Gibraltar",
+    "es": "Gibraltar"
+   },
    "currencies": [
     "GIP"
    ],
@@ -1588,6 +1983,11 @@
     64.18,
     -51.73
    ],
+   "capitalName": {
+    "it": "Nuuk",
+    "en": "Nuuk",
+    "es": "Nuuk"
+   },
    "currencies": [
     "DKK"
    ],
@@ -1607,6 +2007,11 @@
     13.45,
     -16.58
    ],
+   "capitalName": {
+    "it": "Banjul",
+    "en": "Banjul",
+    "es": "Banjul"
+   },
    "currencies": [
     "GMD"
    ],
@@ -1626,6 +2031,11 @@
     9.51,
     -13.71
    ],
+   "capitalName": {
+    "it": "Conakry",
+    "en": "Conakry",
+    "es": "Conakri"
+   },
    "currencies": [
     "GNF"
    ],
@@ -1645,6 +2055,11 @@
     16,
     -61.73
    ],
+   "capitalName": {
+    "it": "Basse-Terre",
+    "en": "Basse-Terre",
+    "es": "Basse-Terre"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1664,6 +2079,11 @@
     1.59,
     10.82
    ],
+   "capitalName": {
+    "it": "Ciudad de la Paz",
+    "en": "Ciudad de la Paz",
+    "es": "Ciudad de la Paz"
+   },
    "currencies": [
     "XAF"
    ],
@@ -1685,6 +2105,11 @@
     37.98,
     23.73
    ],
+   "capitalName": {
+    "it": "Atene",
+    "en": "Athens",
+    "es": "Atenas"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1704,6 +2129,11 @@
     -54.28,
     -36.49
    ],
+   "capitalName": {
+    "it": "King Edward Point",
+    "en": "King Edward Point",
+    "es": "King Edward Point"
+   },
    "currencies": [
     "GBP"
    ],
@@ -1723,6 +2153,11 @@
     14.64,
     -90.51
    ],
+   "capitalName": {
+    "it": "Città del Guatemala",
+    "en": "Guatemala City",
+    "es": "Ciudad de Guatemala"
+   },
    "currencies": [
     "GTQ"
    ],
@@ -1742,6 +2177,11 @@
     13.48,
     144.75
    ],
+   "capitalName": {
+    "it": "Hagåtña",
+    "en": "Hagåtña",
+    "es": "Agaña"
+   },
    "currencies": [
     "USD"
    ],
@@ -1762,6 +2202,11 @@
     11.86,
     -15.58
    ],
+   "capitalName": {
+    "it": "Bissau",
+    "en": "Bissau",
+    "es": "Bisáu"
+   },
    "currencies": [
     "XOF"
    ],
@@ -1781,6 +2226,11 @@
     6.81,
     -58.15
    ],
+   "capitalName": {
+    "it": "Georgetown",
+    "en": "Georgetown",
+    "es": "Georgetown"
+   },
    "currencies": [
     "GYD"
    ],
@@ -1800,6 +2250,11 @@
     14.11,
     -87.2
    ],
+   "capitalName": {
+    "it": "Tegucigalpa",
+    "en": "Tegucigalpa",
+    "es": "Tegucigalpa"
+   },
    "currencies": [
     "HNL"
    ],
@@ -1819,6 +2274,11 @@
     45.81,
     15.98
    ],
+   "capitalName": {
+    "it": "Zagabria",
+    "en": "Zagreb",
+    "es": "Zagreb"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1838,6 +2298,11 @@
     18.55,
     -72.34
    ],
+   "capitalName": {
+    "it": "Port-au-Prince",
+    "en": "Port-au-Prince",
+    "es": "Puerto Príncipe"
+   },
    "currencies": [
     "HTG",
     "USD"
@@ -1859,6 +2324,11 @@
     47.5,
     19.04
    ],
+   "capitalName": {
+    "it": "Budapest",
+    "en": "Budapest",
+    "es": "Budapest"
+   },
    "currencies": [
     "HUF"
    ],
@@ -1878,6 +2348,11 @@
     -6.18,
     106.83
    ],
+   "capitalName": {
+    "it": "Giacarta",
+    "en": "Jakarta",
+    "es": "Yakarta"
+   },
    "currencies": [
     "IDR"
    ],
@@ -1897,6 +2372,11 @@
     53.35,
     -6.26
    ],
+   "capitalName": {
+    "it": "Dublino",
+    "en": "Dublin",
+    "es": "Dublín"
+   },
    "currencies": [
     "EUR"
    ],
@@ -1917,6 +2397,11 @@
     31.78,
     35.23
    ],
+   "capitalName": {
+    "it": "Gerusalemme",
+    "en": "Jerusalem",
+    "es": "Jerusalén"
+   },
    "currencies": [
     "ILS"
    ],
@@ -1937,6 +2422,11 @@
     54.15,
     -4.48
    ],
+   "capitalName": {
+    "it": "Douglas",
+    "en": "Douglas",
+    "es": "Douglas"
+   },
    "currencies": [
     "GBP"
    ],
@@ -1957,6 +2447,11 @@
     28.61,
     77.21
    ],
+   "capitalName": {
+    "it": "Nuova Delhi",
+    "en": "New Delhi",
+    "es": "Nueva Delhi"
+   },
    "hub": [
     28.5562,
     77.1
@@ -1981,6 +2476,11 @@
     -7.31,
     72.41
    ],
+   "capitalName": {
+    "it": "Diego Garcia",
+    "en": "Diego Garcia",
+    "es": "Diego García"
+   },
    "currencies": [
     "USD"
    ],
@@ -2000,6 +2500,11 @@
     33.32,
     44.37
    ],
+   "capitalName": {
+    "it": "Baghdad",
+    "en": "Baghdad",
+    "es": "Bagdad"
+   },
    "currencies": [
     "IQD"
    ],
@@ -2019,6 +2524,11 @@
     35.69,
     51.39
    ],
+   "capitalName": {
+    "it": "Teheran",
+    "en": "Tehran",
+    "es": "Teherán"
+   },
    "currencies": [
     "IRR"
    ],
@@ -2038,6 +2548,11 @@
     64.15,
     -21.93
    ],
+   "capitalName": {
+    "it": "Reykjavík",
+    "en": "Reykjavík",
+    "es": "Reikiavik"
+   },
    "currencies": [
     "ISK"
    ],
@@ -2057,6 +2572,11 @@
     41.89,
     12.48
    ],
+   "capitalName": {
+    "it": "Roma",
+    "en": "Rome",
+    "es": "Roma"
+   },
    "hub": [
     41.8003,
     12.2389
@@ -2080,6 +2600,11 @@
     49.19,
     -2.11
    ],
+   "capitalName": {
+    "it": "Saint Helier",
+    "en": "Saint Helier",
+    "es": "Saint Helier"
+   },
    "currencies": [
     "GBP"
    ],
@@ -2099,6 +2624,11 @@
     17.97,
     -76.79
    ],
+   "capitalName": {
+    "it": "Kingston",
+    "en": "Kingston",
+    "es": "Kingston"
+   },
    "currencies": [
     "JMD"
    ],
@@ -2115,9 +2645,14 @@
   "JO": {
    "num": "400",
    "capital": [
-    31.93,
+    31.95,
     35.93
    ],
+   "capitalName": {
+    "it": "Amman",
+    "en": "Amman",
+    "es": "Amán"
+   },
    "currencies": [
     "JOD"
    ],
@@ -2137,6 +2672,11 @@
     35.69,
     139.69
    ],
+   "capitalName": {
+    "it": "Tokyo",
+    "en": "Tokyo",
+    "es": "Tokio"
+   },
    "currencies": [
     "JPY"
    ],
@@ -2156,6 +2696,11 @@
     -1.29,
     36.82
    ],
+   "capitalName": {
+    "it": "Nairobi",
+    "en": "Nairobi",
+    "es": "Nairobi"
+   },
    "currencies": [
     "KES"
    ],
@@ -2176,6 +2721,11 @@
     42.87,
     74.57
    ],
+   "capitalName": {
+    "it": "Biškek",
+    "en": "Bishkek",
+    "es": "Biskek"
+   },
    "currencies": [
     "KGS"
    ],
@@ -2196,6 +2746,11 @@
     11.57,
     104.92
    ],
+   "capitalName": {
+    "it": "Phnom Penh",
+    "en": "Phnom Penh",
+    "es": "Nom Pen"
+   },
    "currencies": [
     "KHR"
    ],
@@ -2215,6 +2770,11 @@
     1.33,
     172.97
    ],
+   "capitalName": {
+    "it": "Tarawa Sud",
+    "en": "South Tarawa",
+    "es": "Tarawa Sur"
+   },
    "currencies": [
     "AUD"
    ],
@@ -2235,6 +2795,11 @@
     -11.7,
     43.25
    ],
+   "capitalName": {
+    "it": "Moroni",
+    "en": "Moroni",
+    "es": "Moroni"
+   },
    "currencies": [
     "KMF"
    ],
@@ -2256,6 +2821,11 @@
     17.3,
     -62.73
    ],
+   "capitalName": {
+    "it": "Basseterre",
+    "en": "Basseterre",
+    "es": "Basseterre"
+   },
    "currencies": [
     "XCD"
    ],
@@ -2275,6 +2845,11 @@
     39.02,
     125.75
    ],
+   "capitalName": {
+    "it": "Pyongyang",
+    "en": "Pyongyang",
+    "es": "Pionyang"
+   },
    "currencies": [
     "KPW"
    ],
@@ -2294,6 +2869,11 @@
     37.56,
     126.99
    ],
+   "capitalName": {
+    "it": "Seul",
+    "en": "Seoul",
+    "es": "Seúl"
+   },
    "currencies": [
     "KRW"
    ],
@@ -2313,6 +2893,11 @@
     29.38,
     47.98
    ],
+   "capitalName": {
+    "it": "Al Kuwait",
+    "en": "Kuwait City",
+    "es": "Ciudad de Kuwait"
+   },
    "currencies": [
     "KWD"
    ],
@@ -2332,6 +2917,11 @@
     19.3,
     -81.38
    ],
+   "capitalName": {
+    "it": "George Town",
+    "en": "George Town",
+    "es": "George Town"
+   },
    "currencies": [
     "KYD"
    ],
@@ -2351,6 +2941,11 @@
     51.13,
     71.43
    ],
+   "capitalName": {
+    "it": "Astana",
+    "en": "Astana",
+    "es": "Astaná"
+   },
    "hub": [
     43.3521,
     77.0405
@@ -2375,6 +2970,11 @@
     17.98,
     102.63
    ],
+   "capitalName": {
+    "it": "Vientiane",
+    "en": "Vientiane",
+    "es": "Vientián"
+   },
    "currencies": [
     "LAK"
    ],
@@ -2394,6 +2994,11 @@
     33.89,
     35.51
    ],
+   "capitalName": {
+    "it": "Beirut",
+    "en": "Beirut",
+    "es": "Beirut"
+   },
    "currencies": [
     "LBP"
    ],
@@ -2413,6 +3018,11 @@
     14.01,
     -60.99
    ],
+   "capitalName": {
+    "it": "Castries",
+    "en": "Castries",
+    "es": "Castries"
+   },
    "currencies": [
     "XCD"
    ],
@@ -2432,6 +3042,11 @@
     47.14,
     9.52
    ],
+   "capitalName": {
+    "it": "Vaduz",
+    "en": "Vaduz",
+    "es": "Vaduz"
+   },
    "currencies": [
     "CHF"
    ],
@@ -2452,6 +3067,11 @@
     6.93,
     79.86
    ],
+   "capitalName": {
+    "it": "Colombo",
+    "en": "Colombo",
+    "es": "Colombo"
+   },
    "currencies": [
     "LKR"
    ],
@@ -2472,6 +3092,11 @@
     6.31,
     -10.8
    ],
+   "capitalName": {
+    "it": "Monrovia",
+    "en": "Monrovia",
+    "es": "Monrovia"
+   },
    "currencies": [
     "LRD"
    ],
@@ -2491,6 +3116,11 @@
     -29.31,
     27.48
    ],
+   "capitalName": {
+    "it": "Maseru",
+    "en": "Maseru",
+    "es": "Maseru"
+   },
    "currencies": [
     "ZAR",
     "LSL"
@@ -2512,6 +3142,11 @@
     54.69,
     25.28
    ],
+   "capitalName": {
+    "it": "Vilnius",
+    "en": "Vilnius",
+    "es": "Vilna"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2531,6 +3166,11 @@
     49.61,
     6.13
    ],
+   "capitalName": {
+    "it": "Lussemburgo",
+    "en": "Luxembourg",
+    "es": "Luxemburgo"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2552,6 +3192,11 @@
     56.95,
     24.11
    ],
+   "capitalName": {
+    "it": "Riga",
+    "en": "Riga",
+    "es": "Riga"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2571,6 +3216,11 @@
     32.89,
     13.19
    ],
+   "capitalName": {
+    "it": "Tripoli",
+    "en": "Tripoli",
+    "es": "Trípoli"
+   },
    "currencies": [
     "LYD"
    ],
@@ -2590,6 +3240,11 @@
     34.02,
     -6.84
    ],
+   "capitalName": {
+    "it": "Rabat",
+    "en": "Rabat",
+    "es": "Rabat"
+   },
    "hub": [
     33.3675,
     -7.5898
@@ -2615,6 +3270,11 @@
     43.73,
     7.42
    ],
+   "capitalName": {
+    "it": "Principato di Monaco",
+    "en": "Monaco",
+    "es": "Mónaco"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2634,6 +3294,11 @@
     47.02,
     28.84
    ],
+   "capitalName": {
+    "it": "Chișinău",
+    "en": "Chișinău",
+    "es": "Chisináu"
+   },
    "currencies": [
     "MDL"
    ],
@@ -2653,6 +3318,11 @@
     42.44,
     19.26
    ],
+   "capitalName": {
+    "it": "Podgorica",
+    "en": "Podgorica",
+    "es": "Podgorica"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2672,6 +3342,11 @@
     18.07,
     -63.08
    ],
+   "capitalName": {
+    "it": "Marigot",
+    "en": "Marigot",
+    "es": "Marigot"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2691,6 +3366,11 @@
     -18.91,
     47.53
    ],
+   "capitalName": {
+    "it": "Antananarivo",
+    "en": "Antananarivo",
+    "es": "Antananarivo"
+   },
    "currencies": [
     "MGA"
    ],
@@ -2712,6 +3392,11 @@
     7.09,
     171.38
    ],
+   "capitalName": {
+    "it": "Majuro",
+    "en": "Majuro",
+    "es": "Majuro"
+   },
    "currencies": [
     "USD"
    ],
@@ -2732,6 +3417,11 @@
     42,
     21.43
    ],
+   "capitalName": {
+    "it": "Skopje",
+    "en": "Skopje",
+    "es": "Skopie"
+   },
    "currencies": [
     "MKD"
    ],
@@ -2751,6 +3441,11 @@
     12.65,
     -7.99
    ],
+   "capitalName": {
+    "it": "Bamako",
+    "en": "Bamako",
+    "es": "Bamako"
+   },
    "currencies": [
     "XOF"
    ],
@@ -2770,6 +3465,11 @@
     19.75,
     96.12
    ],
+   "capitalName": {
+    "it": "Naypyidaw",
+    "en": "Naypyidaw",
+    "es": "Naipyidó"
+   },
    "currencies": [
     "MMK"
    ],
@@ -2789,6 +3489,11 @@
     47.92,
     106.91
    ],
+   "capitalName": {
+    "it": "Ulan Bator",
+    "en": "Ulaanbaatar",
+    "es": "Ulán Bator"
+   },
    "currencies": [
     "MNT"
    ],
@@ -2808,6 +3513,11 @@
     15.21,
     145.75
    ],
+   "capitalName": {
+    "it": "Saipan",
+    "en": "Saipan",
+    "es": "Saipan"
+   },
    "currencies": [
     "USD"
    ],
@@ -2827,6 +3537,11 @@
     14.6,
     -61.07
    ],
+   "capitalName": {
+    "it": "Fort-de-France",
+    "en": "Fort-de-France",
+    "es": "Fort-de-France"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2846,6 +3561,11 @@
     18.09,
     -15.98
    ],
+   "capitalName": {
+    "it": "Nouakchott",
+    "en": "Nouakchott",
+    "es": "Nuakchot"
+   },
    "currencies": [
     "MRU"
    ],
@@ -2865,6 +3585,11 @@
     16.71,
     -62.22
    ],
+   "capitalName": {
+    "it": "Plymouth",
+    "en": "Plymouth",
+    "es": "Plymouth"
+   },
    "currencies": [
     "XCD"
    ],
@@ -2884,6 +3609,11 @@
     35.9,
     14.51
    ],
+   "capitalName": {
+    "it": "La Valletta",
+    "en": "Valletta",
+    "es": "La Valeta"
+   },
    "currencies": [
     "EUR"
    ],
@@ -2904,6 +3634,11 @@
     -20.16,
     57.5
    ],
+   "capitalName": {
+    "it": "Port Louis",
+    "en": "Port Louis",
+    "es": "Port Louis"
+   },
    "currencies": [
     "MUR"
    ],
@@ -2924,6 +3659,11 @@
     4.18,
     73.51
    ],
+   "capitalName": {
+    "it": "Male",
+    "en": "Malé",
+    "es": "Malé"
+   },
    "currencies": [
     "MVR"
    ],
@@ -2943,6 +3683,11 @@
     -13.99,
     33.77
    ],
+   "capitalName": {
+    "it": "Lilongwe",
+    "en": "Lilongwe",
+    "es": "Lilongüe"
+   },
    "currencies": [
     "MWK"
    ],
@@ -2963,6 +3708,11 @@
     19.35,
     -99.14
    ],
+   "capitalName": {
+    "it": "Città del Messico",
+    "en": "Mexico City",
+    "es": "Ciudad de México"
+   },
    "currencies": [
     "MXN"
    ],
@@ -2982,6 +3732,11 @@
     3.15,
     101.7
    ],
+   "capitalName": {
+    "it": "Kuala Lumpur",
+    "en": "Kuala Lumpur",
+    "es": "Kuala Lumpur"
+   },
    "currencies": [
     "MYR"
    ],
@@ -3001,6 +3756,11 @@
     -25.97,
     32.57
    ],
+   "capitalName": {
+    "it": "Maputo",
+    "en": "Maputo",
+    "es": "Maputo"
+   },
    "currencies": [
     "MZN"
    ],
@@ -3020,6 +3780,11 @@
     -22.57,
     17.08
    ],
+   "capitalName": {
+    "it": "Windhoek",
+    "en": "Windhoek",
+    "es": "Windhoek"
+   },
    "currencies": [
     "NAD",
     "ZAR"
@@ -3040,6 +3805,11 @@
     -22.27,
     166.45
    ],
+   "capitalName": {
+    "it": "Numea",
+    "en": "Nouméa",
+    "es": "Numea"
+   },
    "currencies": [
     "XPF"
    ],
@@ -3059,6 +3829,11 @@
     13.52,
     2.12
    ],
+   "capitalName": {
+    "it": "Niamey",
+    "en": "Niamey",
+    "es": "Niamey"
+   },
    "currencies": [
     "XOF"
    ],
@@ -3078,6 +3853,11 @@
     -29.05,
     167.97
    ],
+   "capitalName": {
+    "it": "Kingston",
+    "en": "Kingston",
+    "es": "Kingston"
+   },
    "currencies": [
     "AUD"
    ],
@@ -3097,6 +3877,11 @@
     9.06,
     7.49
    ],
+   "capitalName": {
+    "it": "Abuja",
+    "en": "Abuja",
+    "es": "Abuya"
+   },
    "hub": [
     6.5774,
     3.3212
@@ -3121,6 +3906,11 @@
     12.15,
     -86.27
    ],
+   "capitalName": {
+    "it": "Managua",
+    "en": "Managua",
+    "es": "Managua"
+   },
    "currencies": [
     "NIO"
    ],
@@ -3140,6 +3930,11 @@
     52.37,
     4.88
    ],
+   "capitalName": {
+    "it": "Amsterdam",
+    "en": "Amsterdam",
+    "es": "Ámsterdam"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3159,6 +3954,11 @@
     59.91,
     10.74
    ],
+   "capitalName": {
+    "it": "Oslo",
+    "en": "Oslo",
+    "es": "Oslo"
+   },
    "currencies": [
     "NOK"
    ],
@@ -3180,6 +3980,11 @@
     27.71,
     85.32
    ],
+   "capitalName": {
+    "it": "Katmandu",
+    "en": "Kathmandu",
+    "es": "Katmandú"
+   },
    "currencies": [
     "NPR"
    ],
@@ -3199,6 +4004,11 @@
     -0.55,
     166.92
    ],
+   "capitalName": {
+    "it": "Yaren",
+    "en": "Yaren District",
+    "es": "Yaren"
+   },
    "currencies": [
     "AUD"
    ],
@@ -3219,6 +4029,11 @@
     -19.06,
     -169.92
    ],
+   "capitalName": {
+    "it": "Alofi",
+    "en": "Alofi",
+    "es": "Alofi"
+   },
    "currencies": [
     "NZD"
    ],
@@ -3239,6 +4054,11 @@
     -41.29,
     174.78
    ],
+   "capitalName": {
+    "it": "Wellington",
+    "en": "Wellington",
+    "es": "Wellington"
+   },
    "hub": [
     -37.0082,
     174.785
@@ -3263,6 +4083,11 @@
     23.61,
     58.59
    ],
+   "capitalName": {
+    "it": "Mascate",
+    "en": "Muscat",
+    "es": "Mascate"
+   },
    "currencies": [
     "OMR"
    ],
@@ -3282,6 +4107,11 @@
     8.97,
     -79.53
    ],
+   "capitalName": {
+    "it": "Panama",
+    "en": "Panama City",
+    "es": "Ciudad de Panamá"
+   },
    "currencies": [
     "PAB",
     "USD"
@@ -3302,6 +4132,11 @@
     -12.06,
     -77.04
    ],
+   "capitalName": {
+    "it": "Lima",
+    "en": "Lima",
+    "es": "Lima"
+   },
    "currencies": [
     "PEN"
    ],
@@ -3322,6 +4157,11 @@
     -17.54,
     -149.57
    ],
+   "capitalName": {
+    "it": "Papeete",
+    "en": "Papeete",
+    "es": "Papeete"
+   },
    "currencies": [
     "XPF"
    ],
@@ -3342,6 +4182,11 @@
     -9.48,
     147.15
    ],
+   "capitalName": {
+    "it": "Port Moresby",
+    "en": "Port Moresby",
+    "es": "Puerto Moresby"
+   },
    "currencies": [
     "PGK"
    ],
@@ -3363,6 +4208,11 @@
     14.6,
     120.98
    ],
+   "capitalName": {
+    "it": "Manila",
+    "en": "Manila",
+    "es": "Manila"
+   },
    "currencies": [
     "PHP"
    ],
@@ -3383,6 +4233,11 @@
     33.6,
     73.07
    ],
+   "capitalName": {
+    "it": "Rawalpindi",
+    "en": "Rawalpindi",
+    "es": "Rawalpindi"
+   },
    "hub": [
     24.9065,
     67.1608
@@ -3407,6 +4262,11 @@
     52.23,
     21.01
    ],
+   "capitalName": {
+    "it": "Varsavia",
+    "en": "Warsaw",
+    "es": "Varsovia"
+   },
    "currencies": [
     "PLN"
    ],
@@ -3426,6 +4286,11 @@
     46.78,
     -56.18
    ],
+   "capitalName": {
+    "it": "Saint-Pierre",
+    "en": "Saint-Pierre",
+    "es": "San Pedro"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3445,6 +4310,11 @@
     -25.07,
     -130.1
    ],
+   "capitalName": {
+    "it": "Adamstown",
+    "en": "Adamstown",
+    "es": "Adamstown"
+   },
    "currencies": [
     "NZD"
    ],
@@ -3464,6 +4334,11 @@
     18.47,
     -66.12
    ],
+   "capitalName": {
+    "it": "San Juan",
+    "en": "San Juan",
+    "es": "San Juan"
+   },
    "currencies": [
     "USD"
    ],
@@ -3481,9 +4356,14 @@
   "PS": {
    "num": "275",
    "capital": [
-    31.9,
-    35.2
+    31.78,
+    35.23
    ],
+   "capitalName": {
+    "it": "Gerusalemme Est",
+    "en": "East Jerusalem",
+    "es": "Jerusalén Este"
+   },
    "currencies": [
     "ILS",
     "JOD"
@@ -3504,6 +4384,11 @@
     38.71,
     -9.14
    ],
+   "capitalName": {
+    "it": "Lisbona",
+    "en": "Lisbon",
+    "es": "Lisboa"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3523,6 +4408,11 @@
     7.5,
     134.62
    ],
+   "capitalName": {
+    "it": "Ngerulmud",
+    "en": "Ngerulmud",
+    "es": "Ngerulmud"
+   },
    "currencies": [
     "USD"
    ],
@@ -3543,6 +4433,11 @@
     -25.28,
     -57.63
    ],
+   "capitalName": {
+    "it": "Asunción",
+    "en": "Asunción",
+    "es": "Asunción"
+   },
    "currencies": [
     "PYG"
    ],
@@ -3563,6 +4458,11 @@
     25.29,
     51.53
    ],
+   "capitalName": {
+    "it": "Doha",
+    "en": "Doha",
+    "es": "Doha"
+   },
    "currencies": [
     "QAR"
    ],
@@ -3582,6 +4482,11 @@
     -20.88,
     55.45
    ],
+   "capitalName": {
+    "it": "Saint-Denis",
+    "en": "Saint-Denis",
+    "es": "Saint-Denis"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3601,6 +4506,11 @@
     44.41,
     26.1
    ],
+   "capitalName": {
+    "it": "Bucarest",
+    "en": "Bucharest",
+    "es": "Bucarest"
+   },
    "currencies": [
     "RON"
    ],
@@ -3620,6 +4530,11 @@
     44.82,
     20.46
    ],
+   "capitalName": {
+    "it": "Belgrado",
+    "en": "Belgrade",
+    "es": "Belgrado"
+   },
    "currencies": [
     "RSD"
    ],
@@ -3639,6 +4554,11 @@
     55.75,
     37.62
    ],
+   "capitalName": {
+    "it": "Mosca",
+    "en": "Moscow",
+    "es": "Moscú"
+   },
    "currencies": [
     "RUB"
    ],
@@ -3658,6 +4578,11 @@
     -1.95,
     30.12
    ],
+   "capitalName": {
+    "it": "Kigali",
+    "en": "Kigali",
+    "es": "Kigali"
+   },
    "currencies": [
     "RWF"
    ],
@@ -3679,6 +4604,11 @@
     24.65,
     46.71
    ],
+   "capitalName": {
+    "it": "Riad",
+    "en": "Riyadh",
+    "es": "Riad"
+   },
    "hub": [
     21.6796,
     39.1565
@@ -3702,6 +4632,11 @@
     -9.43,
     159.95
    ],
+   "capitalName": {
+    "it": "Honiara",
+    "en": "Honiara",
+    "es": "Honiara"
+   },
    "currencies": [
     "SBD"
    ],
@@ -3721,6 +4656,11 @@
     -4.62,
     55.45
    ],
+   "capitalName": {
+    "it": "Victoria",
+    "en": "Victoria",
+    "es": "Victoria"
+   },
    "currencies": [
     "SCR"
    ],
@@ -3741,6 +4681,11 @@
     15.6,
     32.53
    ],
+   "capitalName": {
+    "it": "Khartum",
+    "en": "Khartoum",
+    "es": "Jartum"
+   },
    "currencies": [
     "SDG"
    ],
@@ -3761,6 +4706,11 @@
     59.33,
     18.07
    ],
+   "capitalName": {
+    "it": "Stoccolma",
+    "en": "Stockholm",
+    "es": "Estocolmo"
+   },
    "currencies": [
     "SEK"
    ],
@@ -3780,6 +4730,11 @@
     1.3,
     103.8
    ],
+   "capitalName": {
+    "it": "Singapore",
+    "en": "Singapore",
+    "es": "Singapur"
+   },
    "currencies": [
     "SGD"
    ],
@@ -3801,6 +4756,11 @@
     -15.93,
     -5.72
    ],
+   "capitalName": {
+    "it": "Jamestown",
+    "en": "Jamestown",
+    "es": "Jamestown"
+   },
    "currencies": [
     "SHP"
    ],
@@ -3820,6 +4780,11 @@
     46.05,
     14.51
    ],
+   "capitalName": {
+    "it": "Lubiana",
+    "en": "Ljubljana",
+    "es": "Liubliana"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3839,6 +4804,11 @@
     48.15,
     17.11
    ],
+   "capitalName": {
+    "it": "Bratislava",
+    "en": "Bratislava",
+    "es": "Bratislava"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3858,6 +4828,11 @@
     8.49,
     -13.24
    ],
+   "capitalName": {
+    "it": "Freetown",
+    "en": "Freetown",
+    "es": "Freetown"
+   },
    "currencies": [
     "SLE"
    ],
@@ -3877,6 +4852,11 @@
     43.93,
     12.45
    ],
+   "capitalName": {
+    "it": "Città di San Marino",
+    "en": "San Marino",
+    "es": "San Marino"
+   },
    "currencies": [
     "EUR"
    ],
@@ -3896,6 +4876,11 @@
     14.67,
     -17.43
    ],
+   "capitalName": {
+    "it": "Dakar",
+    "en": "Dakar",
+    "es": "Dakar"
+   },
    "currencies": [
     "XOF"
    ],
@@ -3916,6 +4901,11 @@
     2.04,
     45.34
    ],
+   "capitalName": {
+    "it": "Mogadiscio",
+    "en": "Mogadishu",
+    "es": "Mogadiscio"
+   },
    "currencies": [
     "SOS"
    ],
@@ -3936,6 +4926,11 @@
     5.87,
     -55.17
    ],
+   "capitalName": {
+    "it": "Paramaribo",
+    "en": "Paramaribo",
+    "es": "Paramaribo"
+   },
    "currencies": [
     "SRD"
    ],
@@ -3955,6 +4950,11 @@
     4.85,
     31.58
    ],
+   "capitalName": {
+    "it": "Giuba",
+    "en": "Juba",
+    "es": "Yuba"
+   },
    "currencies": [
     "SSP"
    ],
@@ -3974,6 +4974,11 @@
     0.34,
     6.73
    ],
+   "capitalName": {
+    "it": "São Tomé",
+    "en": "São Tomé",
+    "es": "Santo Tomé"
+   },
    "currencies": [
     "STN"
    ],
@@ -3993,6 +4998,11 @@
     13.7,
     -89.19
    ],
+   "capitalName": {
+    "it": "San Salvador",
+    "en": "San Salvador",
+    "es": "San Salvador"
+   },
    "currencies": [
     "USD"
    ],
@@ -4012,6 +5022,11 @@
     18.02,
     -63.04
    ],
+   "capitalName": {
+    "it": "Philipsburg",
+    "en": "Philipsburg",
+    "es": "Philipsburg"
+   },
    "currencies": [
     "XCG"
    ],
@@ -4032,6 +5047,11 @@
     33.51,
     36.29
    ],
+   "capitalName": {
+    "it": "Damasco",
+    "en": "Damascus",
+    "es": "Damasco"
+   },
    "currencies": [
     "SYP"
    ],
@@ -4051,6 +5071,11 @@
     -26.32,
     31.13
    ],
+   "capitalName": {
+    "it": "Mbabane",
+    "en": "Mbabane",
+    "es": "Mbabane"
+   },
    "currencies": [
     "SZL"
    ],
@@ -4070,6 +5095,11 @@
     -37.07,
     -12.31
    ],
+   "capitalName": {
+    "it": "Edimburgo dei Sette Mari",
+    "en": "Edinburgh of the Seven Seas",
+    "es": "Edimburgo de los Siete Mares"
+   },
    "currencies": [
     "GBP"
    ],
@@ -4082,6 +5112,11 @@
     21.46,
     -71.14
    ],
+   "capitalName": {
+    "it": "Cockburn Town",
+    "en": "Cockburn Town",
+    "es": "Cockburn Town"
+   },
    "currencies": [
     "USD"
    ],
@@ -4101,6 +5136,11 @@
     12.11,
     15.05
    ],
+   "capitalName": {
+    "it": "N’Djamena",
+    "en": "N'Djamena",
+    "es": "Yamena"
+   },
    "currencies": [
     "XAF"
    ],
@@ -4121,6 +5161,11 @@
     -49.35,
     70.22
    ],
+   "capitalName": {
+    "it": "Port-aux-Français",
+    "en": "Port-aux-Français",
+    "es": "Port-aux-Français"
+   },
    "currencies": [
     "EUR"
    ],
@@ -4138,6 +5183,11 @@
     6.13,
     1.22
    ],
+   "capitalName": {
+    "it": "Lomé",
+    "en": "Lomé",
+    "es": "Lomé"
+   },
    "currencies": [
     "XOF"
    ],
@@ -4157,6 +5207,11 @@
     13.75,
     100.52
    ],
+   "capitalName": {
+    "it": "Bangkok",
+    "en": "Bangkok",
+    "es": "Bangkok"
+   },
    "currencies": [
     "THB"
    ],
@@ -4176,6 +5231,11 @@
     38.57,
     68.79
    ],
+   "capitalName": {
+    "it": "Dušanbe",
+    "en": "Dushanbe",
+    "es": "Dusambé"
+   },
    "currencies": [
     "TJS"
    ],
@@ -4195,6 +5255,11 @@
     -8.55,
     125.58
    ],
+   "capitalName": {
+    "it": "Dili",
+    "en": "Dili",
+    "es": "Dili"
+   },
    "currencies": [
     "USD"
    ],
@@ -4215,6 +5280,11 @@
     37.95,
     58.38
    ],
+   "capitalName": {
+    "it": "Aşgabat",
+    "en": "Ashgabat",
+    "es": "Asjabad"
+   },
    "currencies": [
     "TMT"
    ],
@@ -4234,6 +5304,11 @@
     36.8,
     10.18
    ],
+   "capitalName": {
+    "it": "Tunisi",
+    "en": "Tunis",
+    "es": "Túnez"
+   },
    "currencies": [
     "TND"
    ],
@@ -4254,6 +5329,11 @@
     -21.13,
     -175.2
    ],
+   "capitalName": {
+    "it": "Nukuʻalofa",
+    "en": "Nukuʻalofa",
+    "es": "Nukualofa"
+   },
    "currencies": [
     "TOP"
    ],
@@ -4274,6 +5354,11 @@
     39.94,
     32.84
    ],
+   "capitalName": {
+    "it": "Ankara",
+    "en": "Ankara",
+    "es": "Ankara"
+   },
    "hub": [
     41.2753,
     28.7519
@@ -4297,6 +5382,11 @@
     10.67,
     -61.52
    ],
+   "capitalName": {
+    "it": "Port of Spain",
+    "en": "Port of Spain",
+    "es": "Puerto España"
+   },
    "currencies": [
     "TTD"
    ],
@@ -4316,6 +5406,11 @@
     -8.5,
     179.12
    ],
+   "capitalName": {
+    "it": "Funafuti",
+    "en": "Funafuti",
+    "es": "Funafuti"
+   },
    "currencies": [
     "AUD"
    ],
@@ -4336,6 +5431,11 @@
     25.04,
     121.56
    ],
+   "capitalName": {
+    "it": "Taipei",
+    "en": "Taipei",
+    "es": "Taipéi"
+   },
    "currencies": [
     "TWD"
    ],
@@ -4357,6 +5457,11 @@
     -6.18,
     35.75
    ],
+   "capitalName": {
+    "it": "Dodoma",
+    "en": "Dodoma",
+    "es": "Dodoma"
+   },
    "hub": [
     -6.8781,
     39.2026
@@ -4381,6 +5486,11 @@
     50.45,
     30.52
    ],
+   "capitalName": {
+    "it": "Kiev",
+    "en": "Kyiv",
+    "es": "Kiev"
+   },
    "currencies": [
     "UAH"
    ],
@@ -4401,6 +5511,11 @@
     0.31,
     32.58
    ],
+   "capitalName": {
+    "it": "Kampala",
+    "en": "Kampala",
+    "es": "Kampala"
+   },
    "currencies": [
     "UGX"
    ],
@@ -4421,6 +5536,11 @@
     38.9,
     -77.04
    ],
+   "capitalName": {
+    "it": "Washington",
+    "en": "Washington, D.C.",
+    "es": "Washington D. C."
+   },
    "hub": [
     40.6413,
     -73.7781
@@ -4444,6 +5564,11 @@
     -34.91,
     -56.19
    ],
+   "capitalName": {
+    "it": "Montevideo",
+    "en": "Montevideo",
+    "es": "Montevideo"
+   },
    "currencies": [
     "UYU"
    ],
@@ -4463,6 +5588,11 @@
     41.31,
     69.28
    ],
+   "capitalName": {
+    "it": "Tashkent",
+    "en": "Tashkent",
+    "es": "Taskent"
+   },
    "currencies": [
     "UZS"
    ],
@@ -4482,6 +5612,11 @@
     41.9,
     12.45
    ],
+   "capitalName": {
+    "it": "Città del Vaticano",
+    "en": "Vatican City",
+    "es": "Ciudad del Vaticano"
+   },
    "currencies": [
     "EUR"
    ],
@@ -4501,6 +5636,11 @@
     13.16,
     -61.23
    ],
+   "capitalName": {
+    "it": "Kingstown",
+    "en": "Kingstown",
+    "es": "Kingstown"
+   },
    "currencies": [
     "XCD"
    ],
@@ -4520,6 +5660,11 @@
     10.51,
     -66.91
    ],
+   "capitalName": {
+    "it": "Caracas",
+    "en": "Caracas",
+    "es": "Caracas"
+   },
    "currencies": [
     "VES"
    ],
@@ -4539,6 +5684,11 @@
     18.43,
     -64.62
    ],
+   "capitalName": {
+    "it": "Road Town",
+    "en": "Road Town",
+    "es": "Road Town"
+   },
    "currencies": [
     "USD"
    ],
@@ -4558,6 +5708,11 @@
     18.35,
     -64.95
    ],
+   "capitalName": {
+    "it": "Charlotte Amalie",
+    "en": "Charlotte Amalie",
+    "es": "Charlotte Amalie"
+   },
    "currencies": [
     "USD"
    ],
@@ -4577,6 +5732,11 @@
     21.02,
     105.84
    ],
+   "capitalName": {
+    "it": "Hanoi",
+    "en": "Hanoi",
+    "es": "Hanói"
+   },
    "hub": [
     10.8185,
     106.652
@@ -4600,6 +5760,11 @@
     -17.73,
     168.32
    ],
+   "capitalName": {
+    "it": "Port Vila",
+    "en": "Port Vila",
+    "es": "Port Vila"
+   },
    "currencies": [
     "VUV"
    ],
@@ -4621,6 +5786,11 @@
     -13.28,
     -176.17
    ],
+   "capitalName": {
+    "it": "Mata Utu",
+    "en": "Mata-Utu",
+    "es": "Mata-Utu"
+   },
    "currencies": [
     "XPF"
    ],
@@ -4640,6 +5810,11 @@
     -13.83,
     -171.83
    ],
+   "capitalName": {
+    "it": "Apia",
+    "en": "Apia",
+    "es": "Apia"
+   },
    "currencies": [
     "WST"
    ],
@@ -4659,6 +5834,11 @@
     42.67,
     21.17
    ],
+   "capitalName": {
+    "it": "Priština",
+    "en": "Pristina",
+    "es": "Pristina"
+   },
    "currencies": [
     "EUR"
    ],
@@ -4679,6 +5859,11 @@
     15.35,
     44.2
    ],
+   "capitalName": {
+    "it": "Sana'a",
+    "en": "Sanaa",
+    "es": "Saná"
+   },
    "currencies": [
     "YER"
    ],
@@ -4695,9 +5880,14 @@
   "YT": {
    "num": "175",
    "capital": [
-    -12.78,
-    45.23
+    -12.79,
+    45.27
    ],
+   "capitalName": {
+    "it": "Dzaoudzi",
+    "en": "Dzaoudzi",
+    "es": "Dzaoudzi"
+   },
    "currencies": [
     "EUR"
    ],
@@ -4717,6 +5907,11 @@
     -25.75,
     28.19
    ],
+   "capitalName": {
+    "it": "Pretoria",
+    "en": "Pretoria",
+    "es": "Pretoria"
+   },
    "hub": [
     -26.1367,
     28.2411
@@ -4740,6 +5935,11 @@
     -15.42,
     28.28
    ],
+   "capitalName": {
+    "it": "Lusaka",
+    "en": "Lusaka",
+    "es": "Lusaka"
+   },
    "currencies": [
     "ZMW"
    ],
@@ -4759,6 +5959,11 @@
     -17.83,
     31.05
    ],
+   "capitalName": {
+    "it": "Harare",
+    "en": "Harare",
+    "es": "Harare"
+   },
    "currencies": [
     "ZWG",
     "USD"
