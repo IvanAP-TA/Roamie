@@ -1109,3 +1109,30 @@ describe('guests', () => {
     await rejects(as(db, HOST, (q) => q(`select public.delete_stale_guests()`)), /permission denied/)
   })
 })
+
+describe('invite cards', () => {
+  it('shows anyone with the code the trip, how many are in and a few places, nothing about the people', async () => {
+    const HOST = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee'
+    await createUser(db, HOST, 'Ospitante')
+    const [t] = await as(db, HOST, (q) => q<{ id: string; invite_code: string }>(`insert into public.trips (name) values ('Nord') returning id, invite_code`))
+    for (const name of ['Oslo', 'Bergen', 'Tromsø', 'Stavanger']) {
+      await as(db, HOST, (q) => q(`insert into public.destinations (trip_id, name) values ($1, $2)`, [t.id, name]))
+    }
+    const [{ get_invite_card: card }] = await as(db, null, (q) =>
+      q<{ get_invite_card: Record<string, unknown> }>(`select public.get_invite_card($1)`, [t.invite_code.toLowerCase()]),
+    )
+    expect(card).toEqual({
+      name: 'Nord',
+      cover_image_url: null,
+      member_count: 1,
+      destination_count: 4,
+      destinations: [
+        { name: 'Oslo', image_url: null },
+        { name: 'Bergen', image_url: null },
+        { name: 'Tromsø', image_url: null },
+      ],
+    })
+    const [{ get_invite_card: none }] = await as(db, null, (q) => q<{ get_invite_card: unknown }>(`select public.get_invite_card('NOPE0000')`))
+    expect(none).toBeNull()
+  })
+})
