@@ -30,7 +30,7 @@ export function Sheet({ open, onOpenChange, title, description, children, footer
           <Dialog.Overlay className="fixed inset-0 z-50 bg-[#2b1d17]/30 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
           <Dialog.Content
             className={cn(
-              'glass-strong fixed top-1/2 left-1/2 z-50 flex max-h-[88dvh] w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col rounded-[2rem]',
+              'glass-strong fixed top-1/2 left-1/2 z-50 flex max-h-[88dvh] w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem]',
               'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-4',
               'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
               className,
@@ -47,7 +47,8 @@ export function Sheet({ open, onOpenChange, title, description, children, footer
               </Dialog.Close>
             </header>
             {!description && <Dialog.Description className="sr-only">{typeof title === 'string' ? title : ''}</Dialog.Description>}
-            <div className="min-h-0 flex-1 overflow-y-auto px-7 pt-2 pb-6">{children}</div>
+            {/* Kept clear of the rounded corners, so the scrollbar stays inside the card. */}
+            <div className="scrollbar-thin my-2 mr-1.5 min-h-0 flex-1 overflow-y-auto pt-2 pr-5.5 pb-4 pl-7">{children}</div>
             {footer && <div className="border-t border-border/60 px-7 py-4">{footer}</div>}
           </Dialog.Content>
         </Dialog.Portal>

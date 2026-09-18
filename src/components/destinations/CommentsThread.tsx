@@ -124,7 +124,9 @@ export function CommentComposer({ destinationId, tripId, onSent }: { destination
     const el = ref.current
     if (!el) return
     el.style.height = 'auto'
-    el.style.height = `${Math.min(el.scrollHeight, 128)}px`
+    // scrollHeight leaves out the borders: without them one line would overflow and show a scrollbar.
+    const borders = el.offsetHeight - el.clientHeight
+    el.style.height = `${Math.min(el.scrollHeight + borders, 128)}px`
   }, [value])
 
   const suggestions = useMemo<Suggestion[]>(() => {
@@ -252,7 +254,7 @@ export function CommentComposer({ destinationId, tripId, onSent }: { destination
           }
         }}
         placeholder={t('comments.placeholder')}
-        className="max-h-32 min-h-11 flex-1 resize-none rounded-[1.4rem] border border-input bg-[var(--paper)] px-4 py-2.5 text-base outline-none focus:border-ring"
+        className="scrollbar-thin max-h-32 min-h-11 flex-1 resize-none rounded-[1.4rem] border border-input bg-[var(--paper)] px-4 py-2.5 text-base outline-none focus:border-ring"
       />
       <motion.button
         type="submit"
