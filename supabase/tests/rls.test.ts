@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-import { as, createDb, createUser, type Db } from './harness'
+import { as, createDb, createGuest, createUser, type Db } from './harness'
 
 const OWNER = '11111111-1111-4111-8111-111111111111'
 const EDITOR = '22222222-2222-4222-8222-222222222222'
@@ -1066,5 +1066,46 @@ describe('trending places', () => {
       as(db, OWNERS[0], (q) => q(`insert into public.trending_places (rank, name, country_code, trips, chosen) values (99, 'Spam', 'IT', 99, 99)`)),
       /permission denied/,
     )
+  })
+})
+
+describe('guests', () => {
+  const GUEST = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc'
+  const HOST = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd'
+  let trip: string
+  let code: string
+
+  beforeAll(async () => {
+    await createUser(db, HOST, 'Host')
+    await createGuest(db, GUEST, 'Giulia')
+    const [t] = await as(db, HOST, (q) => q<{ id: string; invite_code: string }>(`insert into public.trips (name) values ('Con ospiti') returning id, invite_code`))
+    trip = t.id
+    code = t.invite_code
+  })
+
+  it('lets a guest join with an invite and take part, but not create trips', async () => {
+    const [{ join_trip }] = await as(db, GUEST, (q) => q<{ join_trip: string }>(`select public.join_trip($1)`, [code]))
+    expect(join_trip).toBe(trip)
+    const [profile] = await as(db, GUEST, (q) => q(`select display_name, avatar_url from public.profiles where id = $1`, [GUEST]))
+    expect(profile).toEqual({ display_name: 'Giulia', avatar_url: null })
+
+    const [d] = await as(db, GUEST, (q) => q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Atene') returning id`, [trip]))
+    await as(db, GUEST, (q) => q(`select public.set_points($1, 3)`, [d.id]))
+    await as(db, GUEST, (q) => q(`insert into public.comments (destination_id, content) values ($1, 'Io ci sto')`, [d.id]))
+    await rejects(as(db, GUEST, (q) => q(`insert into public.trips (name) values ('Mio')`)), /row-level security/)
+  })
+
+  it('keeps everything once the guest links a Google account', async () => {
+    // What Supabase does when linkIdentity succeeds: same user id, no longer anonymous.
+    await db.query(`update auth.users set is_anonymous = false where id = $1`, [GUEST])
+    const [mine] = await as(db, GUEST, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Ora è mio') returning id`))
+    expect(mine.id).toBeTruthy()
+    expect(await as(db, GUEST, (q) => q(`select id from public.trips where id = $1`, [trip]))).toHaveLength(1)
+    expect(await as(db, GUEST, (q) => q(`select id from public.votes where user_id = $1`, [GUEST]))).toHaveLength(1)
+  })
+
+  it('keeps the guest helpers away from the API', async () => {
+    await rejects(as(db, null, (q) => q(`select public.is_guest()`)), /permission denied/)
+    await rejects(as(db, HOST, (q) => q(`select public.delete_stale_guests()`)), /permission denied/)
   })
 })

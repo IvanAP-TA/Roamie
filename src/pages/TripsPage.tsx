@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Plane, Plus, Ticket } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
+import { GuestBanner, GuestUpgradeSheet } from '@/components/auth/GuestUpgrade'
 import { useMyTrips } from '@/hooks/useTrips'
 import { Logo } from '@/components/brand/Logo'
 import { InspirationCard } from '@/components/guides/GuidesLink'
@@ -21,7 +22,7 @@ import { EmptyState, Skeleton } from '@/components/ui/misc'
 
 export default function TripsPage() {
   const { t } = useTranslation()
-  const { profile, user } = useAuth()
+  const { profile, user, isGuest } = useAuth()
   const { data: trips, isLoading, isError, refetch } = useMyTrips()
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
@@ -58,6 +59,8 @@ export default function TripsPage() {
             </Button>
           </div>
         </section>
+
+        <GuestBanner className="mb-7" />
 
         {isLoading && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -109,10 +112,13 @@ export default function TripsPage() {
       <Footer className="mt-8" />
 
       <TripFormSheet
-        open={creating}
+        open={creating && !isGuest}
         onOpenChange={(open) => !open && closeCreate()}
         onSaved={(trip) => navigate(`/trips/${trip.id}/group`, { replace: true })}
       />
+
+      {/* Guests can join trips but not create them: back here after linking Google, the form opens. */}
+      <GuestUpgradeSheet open={creating && isGuest} onOpenChange={(open) => !open && closeCreate()} next="/trips?new=1" />
 
       <Sheet open={joinOpen} onOpenChange={setJoinOpen} title={t('join.enterCodeTitle')} description={t('join.enterCodeBody')}>
         <JoinCodeForm onDone={() => setJoinOpen(false)} />

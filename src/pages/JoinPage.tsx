@@ -12,6 +12,7 @@ import { formatInviteCode } from '@/lib/share'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { Logo } from '@/components/brand/Logo'
 import { GoogleButton } from '@/components/auth/GoogleButton'
+import { GuestJoinForm } from '@/components/auth/GuestJoinForm'
 import { CoverImage } from '@/components/media/CoverImage'
 import { JoinCodeForm } from '@/components/trips/JoinCodeForm'
 import { Footer } from '@/components/layout/Footer'
@@ -129,7 +130,11 @@ export default function JoinPage() {
 
                 <div className="space-y-3 px-6 pt-5 pb-6">
                   {!session && (
-                    <GoogleButton next={`/join/${code}?auto=1`} label={t('join.joinWithGoogle')} className="bg-background" />
+                    <>
+                      <GoogleButton next={`/join/${code}?auto=1`} label={t('join.joinWithGoogle')} className="bg-background" />
+                      {/* Signing in here keeps this page: the ?auto=1 effect then joins the trip. */}
+                      <GuestJoinForm onJoined={() => navigate(`/join/${code}?auto=1`, { replace: true })} />
+                    </>
                   )}
                   {session && trip.is_member && (
                     <Button asChild size="lg" className="w-full">

@@ -23,7 +23,8 @@ const SUPABASE_STUB = /* sql */ `
   create table auth.users (
     id uuid primary key,
     email text,
-    raw_user_meta_data jsonb default '{}'::jsonb
+    raw_user_meta_data jsonb default '{}'::jsonb,
+    is_anonymous boolean not null default false
   );
   create function auth.uid() returns uuid language sql stable as $$
     -- Like Supabase's: after a transaction the setting is left as '' rather than unset.
@@ -55,6 +56,11 @@ export async function createUser(db: Db, id: string, name: string) {
     `${name.toLowerCase()}@example.com`,
     JSON.stringify({ full_name: name, avatar_url: `https://lh3.googleusercontent.com/a/${name}` }),
   ])
+}
+
+/** A guest: Supabase's anonymous sign-in, with only the name they typed. */
+export async function createGuest(db: Db, id: string, name: string) {
+  await db.query(`insert into auth.users (id, raw_user_meta_data, is_anonymous) values ($1, $2, true)`, [id, JSON.stringify({ full_name: name })])
 }
 
 /** Run queries as a given user (or anon when userId is null), like PostgREST does. */

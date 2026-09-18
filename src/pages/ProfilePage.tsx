@@ -13,6 +13,7 @@ import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
 import { InstallAppButton } from '@/components/install/InstallApp'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
+import { GuestBanner } from '@/components/auth/GuestUpgrade'
 import { NotificationSettings } from '@/components/notifications/NotificationSettings'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { UserAvatar } from '@/components/ui/avatar'
@@ -92,12 +93,13 @@ function Row({ icon, children, onClick, to, destructive }: {
 
 export default function ProfilePage() {
   const { t } = useTranslation()
-  const { user, profile, signOut } = useAuth()
+  const { user, profile, signOut, isGuest } = useAuth()
   const qc = useQueryClient()
   const navigate = useNavigate()
   const [soundOn, setSoundOn] = useSoundEnabled()
   const [name, setName] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [confirmGuestSignOut, setConfirmGuestSignOut] = useState(false)
   const [exporting, setExporting] = useState(false)
 
   useEffect(() => setName(profile?.display_name ?? ''), [profile?.display_name])
@@ -141,9 +143,9 @@ export default function ProfilePage() {
               <p className="truncate font-display text-2xl">{profile?.display_name}</p>
               <p className="mt-0.5 inline-flex max-w-full items-center gap-1.5 text-sm text-muted-foreground">
                 <Lock className="size-3.5 shrink-0" />
-                <span className="truncate">{user?.email}</span>
+                <span className="truncate">{isGuest ? t('guest.badge') : user?.email}</span>
               </p>
-              <p className="text-xs text-muted-foreground">{t('profile.emailPrivate')}</p>
+              {!isGuest && <p className="text-xs text-muted-foreground">{t('profile.emailPrivate')}</p>}
             </div>
           </div>
           <form
@@ -159,6 +161,8 @@ export default function ProfilePage() {
             </Button>
           </form>
         </section>
+
+        <GuestBanner />
 
         <section className="space-y-3">
           <h2 className="text-2xl">{t('profile.preferences')}</h2>
@@ -208,7 +212,10 @@ export default function ProfilePage() {
 
         <section className="space-y-3">
           <div className="glass divide-y divide-border rounded-[1.75rem]">
-            <Row icon={<LogOut />} onClick={() => void signOut().then(() => navigate('/', { replace: true }))}>
+            <Row
+              icon={<LogOut />}
+              onClick={() => (isGuest ? setConfirmGuestSignOut(true) : void signOut().then(() => navigate('/', { replace: true })))}
+            >
               {t('profile.signOut')}
             </Row>
             <Row icon={<Trash2 />} destructive onClick={() => setConfirmDelete(true)}>
@@ -219,6 +226,21 @@ export default function ProfilePage() {
       </PageTransition>
 
       <Footer className="mt-6" />
+
+      <ConfirmDialog
+        open={confirmGuestSignOut}
+        onOpenChange={setConfirmGuestSignOut}
+        title={t('guest.signOutTitle')}
+        description={t('guest.signOutBody')}
+        confirmLabel={t('guest.signOutConfirm')}
+        cancelLabel={t('common.cancel')}
+        destructive
+        icon={<LogOut />}
+        onConfirm={async () => {
+          await signOut()
+          navigate('/', { replace: true })
+        }}
+      />
 
       <ConfirmDialog
         open={confirmDelete}

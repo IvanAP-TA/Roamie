@@ -202,6 +202,26 @@
     "invalidTitle": "Invitación no válida",
     "invalidBody": "El código es incorrecto o el owner lo ha regenerado. Pide un enlace actualizado."
   },
+  "guest": {
+    "or": "o",
+    "namePlaceholder": "Tu nombre",
+    "join": "Entrar sin cuenta",
+    "hint": "Solo un nombre. Podrás vincular Google más adelante sin perder nada.",
+    "error": "No hemos podido dejarte entrar como invitado. Inténtalo de nuevo o usa Google.",
+    "badge": "Invitado, sin cuenta",
+    "bannerTitle": "Hola {{name}}, has entrado como invitado",
+    "bannerBody": "Vincula tu cuenta de Google para crear tus propios viajes, verlos en cualquier dispositivo y no perder nada de lo que has hecho.",
+    "link": "Vincular Google",
+    "createTitle": "Para crear un viaje hace falta una cuenta",
+    "createBody": "Vincula Google: todo lo que hiciste como invitado sigue siendo tuyo.",
+    "alreadyLinkedTitle": "Esta cuenta de Google ya está en Roamie",
+    "alreadyLinkedBody": "Puedes salir de la cuenta de invitado y entrar con la de Google (lo que hiciste como invitado se queda en el grupo), o seguir como invitado.",
+    "switchAccount": "Entrar con la cuenta de Google",
+    "stayGuest": "Seguir como invitado",
+    "signOutTitle": "¿Salir de la cuenta de invitado?",
+    "signOutBody": "Sin una cuenta de Google no podrás volver a entrar: necesitarás una nueva invitación para volver a tus viajes. Vincula Google para conservarlo todo.",
+    "signOutConfirm": "Salir igualmente"
+  },
   "trip": {
     "backToTrips": "Volver a los viajes",
     "notFoundTitle": "Viaje no encontrado",
@@ -889,7 +909,8 @@
             "Nombre del perfil de Google: visible para los miembros de tus viajes",
             "Foto del perfil de Google: visible para los miembros de tus viajes",
             "El contenido que creas: viajes, destinos, puntos, comentarios, disponibilidad de fechas, etapas del itinerario, enlaces útiles, elementos de la checklist, valoraciones de los destinos visitados y lugares añadidos a tu pasaporte (solo visibles para ti)",
-            "Si activas las notificaciones: la dirección de entrega que el navegador asigna al dispositivo, las claves para cifrar los mensajes, el idioma y las categorías que elijas; los eliminamos cuando desactivas las notificaciones, cierras sesión o eliminas la cuenta"
+            "Si activas las notificaciones: la dirección de entrega que el navegador asigna al dispositivo, las claves para cifrar los mensajes, el idioma y las categorías que elijas; los eliminamos cuando desactivas las notificaciones, cierras sesión o eliminas la cuenta",
+            "Si entras en un viaje como invitado, sin cuenta: solo el nombre que elijas, visible para los miembros de tus viajes. Si después vinculas Google, se aplican los puntos anteriores"
           ]
         },
         {
@@ -930,7 +951,7 @@
         },
         {
           "title": "Conservación",
-          "body": "Los datos se conservan mientras mantengas tu cuenta. Si la eliminas, borramos tu perfil, los viajes de los que eres propietario, tus votos y comentarios; los destinos que propusiste en viajes de otros se quedan en el grupo sin tu nombre."
+          "body": "Los datos se conservan mientras mantengas tu cuenta. Si la eliminas, borramos tu perfil, los viajes de los que eres propietario, tus votos y comentarios; los destinos que propusiste en viajes de otros se quedan en el grupo sin tu nombre. Las cuentas de invitado que no se usan durante 60 días se eliminan automáticamente, junto con sus votos y comentarios."
         },
         {
           "title": "Tus derechos",

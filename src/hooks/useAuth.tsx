@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import i18n from '@/i18n'
@@ -12,7 +12,12 @@ interface AuthContextValue {
   user: User | null
   profile: Profile | null
   loading: boolean
+  /** Joined an invite with just a name (anonymous sign-in); can link Google later without losing anything */
+  isGuest: boolean
   signInWithGoogle: (next?: string) => Promise<void>
+  signInAsGuest: (name: string) => Promise<void>
+  /** Turns a guest into a Google account, keeping the same user */
+  linkGoogle: (next?: string) => Promise<void>
   signOut: () => Promise<void>
 }
 
@@ -20,6 +25,7 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 /** supabase-js is loaded on demand: public pages don't download it for signed-out visitors. */
 const loadSupabase = () => import('@/lib/supabase').then((module) => module.supabase)
+type SupabaseClient = Awaited<ReturnType<typeof loadSupabase>>
 
 const CACHE_OWNER_KEY = 'roamie.cacheOwner'
 
@@ -35,11 +41,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   // No stored session and not coming back from Google: signed out, nothing to wait for.
   const [loading, setLoading] = useState(() => isSupabaseConfigured && needsAuthCheck())
+  const stopListening = useRef<(() => void) | null>(null)
+
+  // Started at load for a stored session, or later by a guest signing in on this page.
+  const listen = useCallback((supabase: SupabaseClient) => {
+    if (stopListening.current) return
+    const { data } = supabase.auth.onAuthStateChange((event, next) => {
+      setSession(event === 'SIGNED_OUT' ? null : withOfflineFallback(next))
+      setLoading(false)
+    })
+    stopListening.current = () => data.subscription.unsubscribe()
+  }, [])
+
+  useEffect(() => () => {
+    stopListening.current?.()
+    stopListening.current = null
+  }, [])
 
   useEffect(() => {
     if (!isSupabaseConfigured || !needsAuthCheck()) return
     let cancelled = false
-    let unsubscribe: (() => void) | undefined
 
     loadSupabase().then(
       (supabase) => {
@@ -50,20 +71,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setSession(withOfflineFallback(data.session))
           setLoading(false)
         })
-        const { data } = supabase.auth.onAuthStateChange((event, next) => {
-          setSession(event === 'SIGNED_OUT' ? null : withOfflineFallback(next))
-          setLoading(false)
-        })
-        unsubscribe = () => data.subscription.unsubscribe()
+        listen(supabase)
       },
       () => !cancelled && setLoading(false),
     )
 
     return () => {
       cancelled = true
-      unsubscribe?.()
     }
-  }, [])
+  }, [listen])
 
   const userId = session?.user.id
 
@@ -115,6 +131,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error
   }, [])
 
+  const signInAsGuest = useCallback(
+    async (name: string) => {
+      const supabase = await loadSupabase()
+      listen(supabase)
+      // The name becomes the profile's display name (see handle_new_user in SQL).
+      const { data, error } = await supabase.auth.signInAnonymously({ options: { data: { full_name: name.trim().slice(0, 60) } } })
+      if (error) throw error
+      setSession(data.session)
+      setLoading(false)
+    },
+    [listen],
+  )
+
+  const linkGoogle = useCallback(async (next?: string) => {
+    const supabase = await loadSupabase()
+    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNextPath(next))}`
+    const { error } = await supabase.auth.linkIdentity({
+      provider: 'google',
+      options: { redirectTo, queryParams: { prompt: 'select_account' } },
+    })
+    if (error) throw error
+  }, [])
+
   const signOut = useCallback(async () => {
     const supabase = await loadSupabase()
     // The next person signing in on this device must not get this account's notifications.
@@ -130,8 +169,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [queryClient])
 
   const value = useMemo<AuthContextValue>(
-    () => ({ session, user: session?.user ?? null, profile, loading, signInWithGoogle, signOut }),
-    [session, profile, loading, signInWithGoogle, signOut],
+    () => ({
+      session,
+      user: session?.user ?? null,
+      profile,
+      loading,
+      isGuest: Boolean(session?.user.is_anonymous),
+      signInWithGoogle,
+      signInAsGuest,
+      linkGoogle,
+      signOut,
+    }),
+    [session, profile, loading, signInWithGoogle, signInAsGuest, linkGoogle, signOut],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

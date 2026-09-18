@@ -202,6 +202,26 @@
     "invalidTitle": "Invito non valido",
     "invalidBody": "Il codice è sbagliato oppure l'owner lo ha rigenerato. Chiedi un link aggiornato."
   },
+  "guest": {
+    "or": "oppure",
+    "namePlaceholder": "Il tuo nome",
+    "join": "Entra senza account",
+    "hint": "Basta un nome. Potrai collegare Google in seguito senza perdere nulla.",
+    "error": "Non siamo riusciti a farti entrare come ospite. Riprova o usa Google.",
+    "badge": "Ospite, senza account",
+    "bannerTitle": "Ciao {{name}}, sei entrato come ospite",
+    "bannerBody": "Collega il tuo account Google per creare viaggi tuoi, ritrovarli su ogni dispositivo e non perdere nulla di quello che hai fatto.",
+    "link": "Collega Google",
+    "createTitle": "Per creare un viaggio serve un account",
+    "createBody": "Collega Google: tutto quello che hai fatto da ospite resta tuo.",
+    "alreadyLinkedTitle": "Questo account Google è già su Roamie",
+    "alreadyLinkedBody": "Puoi uscire dall’account ospite e accedere con quello Google (quello che hai fatto da ospite resta al gruppo), oppure continuare come ospite.",
+    "switchAccount": "Accedi con l’account Google",
+    "stayGuest": "Continua come ospite",
+    "signOutTitle": "Uscire dall’account ospite?",
+    "signOutBody": "Senza un account Google non potrai rientrare: per tornare nei viaggi ti servirà un nuovo invito. Collega Google per tenere tutto.",
+    "signOutConfirm": "Esci comunque"
+  },
   "trip": {
     "backToTrips": "Torna ai viaggi",
     "notFoundTitle": "Viaggio non trovato",
@@ -889,7 +909,8 @@
             "Nome del profilo Google: visibile ai membri dei viaggi di cui fai parte",
             "Immagine del profilo Google: visibile ai membri dei viaggi di cui fai parte",
             "I contenuti che crei: viaggi, mete, punti, commenti, disponibilità per le date, tappe dell'itinerario, link utili, voci della checklist, valutazioni delle mete visitate e luoghi aggiunti al tuo passaporto (visibili solo a te)",
-            "Se attivi le notifiche: l'indirizzo di recapito che il browser assegna al dispositivo, le chiavi per cifrare i messaggi, la lingua e le categorie che scegli; li eliminiamo quando disattivi le notifiche, esci dall'account o lo elimini"
+            "Se attivi le notifiche: l'indirizzo di recapito che il browser assegna al dispositivo, le chiavi per cifrare i messaggi, la lingua e le categorie che scegli; li eliminiamo quando disattivi le notifiche, esci dall'account o lo elimini",
+            "Se entri in un viaggio come ospite, senza account: solo il nome che scegli, visibile ai membri dei viaggi di cui fai parte. Se poi colleghi Google valgono le voci precedenti"
           ]
         },
         {
@@ -930,7 +951,7 @@
         },
         {
           "title": "Conservazione",
-          "body": "I dati restano finché mantieni l'account. Se lo elimini cancelliamo profilo, viaggi di cui sei proprietario, voti e commenti; le mete che hai proposto nei viaggi di altri restano al gruppo senza il tuo nome."
+          "body": "I dati restano finché mantieni l'account. Se lo elimini cancelliamo profilo, viaggi di cui sei proprietario, voti e commenti; le mete che hai proposto nei viaggi di altri restano al gruppo senza il tuo nome. Gli account ospite che non vengono usati per 60 giorni vengono cancellati automaticamente, con i loro voti e commenti."
         },
         {
           "title": "I tuoi diritti",

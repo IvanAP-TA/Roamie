@@ -22,14 +22,17 @@ export function GoogleButton({
   label,
   className,
   onBeforeRedirect,
+  link = false,
 }: {
+  /** Link Google to the current guest instead of signing in */
+  link?: boolean
   next?: string
   label?: string
   className?: string
   onBeforeRedirect?: () => void
 }) {
   const { t } = useTranslation()
-  const { signInWithGoogle } = useAuth()
+  const { signInWithGoogle, linkGoogle } = useAuth()
   const [busy, setBusy] = useState(false)
 
   return (
@@ -44,7 +47,7 @@ export function GoogleButton({
         setBusy(true)
         try {
           onBeforeRedirect?.()
-          await signInWithGoogle(next)
+          await (link ? linkGoogle : signInWithGoogle)(next)
         } catch {
           toast.error(t('auth.error'))
           setBusy(false)

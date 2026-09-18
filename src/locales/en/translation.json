@@ -202,6 +202,26 @@
     "invalidTitle": "Invalid invite",
     "invalidBody": "The code is wrong or the owner regenerated it. Ask for an updated link."
   },
+  "guest": {
+    "or": "or",
+    "namePlaceholder": "Your name",
+    "join": "Join without an account",
+    "hint": "Just a name. You can link Google later without losing anything.",
+    "error": "We couldn't let you in as a guest. Try again or use Google.",
+    "badge": "Guest, no account",
+    "bannerTitle": "Hi {{name}}, you're here as a guest",
+    "bannerBody": "Link your Google account to create trips of your own, find them on any device and keep everything you did.",
+    "link": "Link Google",
+    "createTitle": "Creating a trip needs an account",
+    "createBody": "Link Google: everything you did as a guest stays yours.",
+    "alreadyLinkedTitle": "This Google account is already on Roamie",
+    "alreadyLinkedBody": "You can leave the guest account and sign in with Google (what you did as a guest stays with the group), or carry on as a guest.",
+    "switchAccount": "Sign in with the Google account",
+    "stayGuest": "Carry on as a guest",
+    "signOutTitle": "Sign out of the guest account?",
+    "signOutBody": "Without a Google account you can't sign back in: you'll need a new invite to get back to your trips. Link Google to keep everything.",
+    "signOutConfirm": "Sign out anyway"
+  },
   "trip": {
     "backToTrips": "Back to trips",
     "notFoundTitle": "Trip not found",
@@ -889,7 +909,8 @@
             "Google profile name: visible to members of the trips you belong to",
             "Google profile picture: visible to members of the trips you belong to",
             "Content you create: trips, destinations, points, comments, date availability, itinerary stops, useful links, checklist items, ratings of visited places and places added to your passport (visible only to you)",
-            "If you turn on notifications: the delivery address your browser assigns to the device, the keys to encrypt messages, the language and the categories you choose; we delete them when you turn notifications off, sign out or delete your account"
+            "If you turn on notifications: the delivery address your browser assigns to the device, the keys to encrypt messages, the language and the categories you choose; we delete them when you turn notifications off, sign out or delete your account",
+            "If you join a trip as a guest, without an account: only the name you choose, visible to the members of your trips. If you later link Google, the items above apply"
           ]
         },
         {
@@ -930,7 +951,7 @@
         },
         {
           "title": "Retention",
-          "body": "Data is kept for as long as you keep your account. If you delete it, we erase your profile, the trips you own, your votes and comments; destinations you proposed in other people's trips stay with the group without your name."
+          "body": "Data is kept for as long as you keep your account. If you delete it, we erase your profile, the trips you own, your votes and comments; destinations you proposed in other people's trips stay with the group without your name. Guest accounts unused for 60 days are deleted automatically, together with their votes and comments."
         },
         {
           "title": "Your rights",
