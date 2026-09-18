@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { RequireAuth } from '@/components/auth/RequireAuth'
+import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { Splash } from '@/components/layout/Splash'
 import LandingPage from '@/pages/LandingPage'
 import AuthCallbackPage from '@/pages/AuthCallbackPage'
@@ -30,6 +31,7 @@ const DevPreview = import.meta.env.DEV ? lazy(() => import('@/dev/PreviewTrip'))
 
 export default function App() {
   return (
+    <ErrorBoundary>
     <Suspense fallback={<Splash />}>
       <Routes>
         <Route path="/" element={<LandingPage lang="it" />} />
@@ -73,5 +75,6 @@ export default function App() {
         </Route>
       </Routes>
     </Suspense>
+    </ErrorBoundary>
   )
 }

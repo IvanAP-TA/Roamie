@@ -133,7 +133,10 @@
     "loadTrips": "We can't load your trips",
     "loadDestinations": "We can't load the destinations",
     "checkConnection": "Check your connection and try again.",
-    "voteFailed": "Vote not saved, try again"
+    "voteFailed": "Vote not saved, try again",
+    "crashTitle": "Something got stuck",
+    "crashBody": "This screen ran into a problem. Reload the page: your data is safe.",
+    "reload": "Reload"
   },
   "roles": {
     "owner": "Owner",

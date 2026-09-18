@@ -133,7 +133,10 @@
     "loadTrips": "Non riusciamo a caricare i tuoi viaggi",
     "loadDestinations": "Non riusciamo a caricare le mete",
     "checkConnection": "Controlla la connessione e riprova.",
-    "voteFailed": "Voto non salvato, riprova"
+    "voteFailed": "Voto non salvato, riprova",
+    "crashTitle": "Qualcosa si è inceppato",
+    "crashBody": "Questa schermata ha avuto un problema. Ricarica la pagina: i tuoi dati sono al sicuro.",
+    "reload": "Ricarica"
   },
   "roles": {
     "owner": "Owner",

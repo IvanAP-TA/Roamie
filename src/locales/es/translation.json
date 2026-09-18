@@ -133,7 +133,10 @@
     "loadTrips": "No podemos cargar tus viajes",
     "loadDestinations": "No podemos cargar los destinos",
     "checkConnection": "Revisa la conexión e inténtalo de nuevo.",
-    "voteFailed": "Voto no guardado, inténtalo de nuevo"
+    "voteFailed": "Voto no guardado, inténtalo de nuevo",
+    "crashTitle": "Algo se ha atascado",
+    "crashBody": "Esta pantalla ha tenido un problema. Recarga la página: tus datos están a salvo.",
+    "reload": "Recargar"
   },
   "roles": {
     "owner": "Owner",

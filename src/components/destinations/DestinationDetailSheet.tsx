@@ -62,12 +62,13 @@ export function DestinationDetailSheet() {
       { replace: true },
     )
 
+  const [origin] = useOrigin()
+
   if (!d) return null
 
   const profileOf = (userId: string) => members.find((m) => m.user_id === userId)?.profile ?? null
   const voters = [...d.votes].sort((a, b) => b.points - a.points)
   const canDelete = isOwner || (canEdit && d.created_by === user?.id)
-  const [origin] = useOrigin()
   const budget = estimatedBudgetLevel(d, origin)
   const hiddenVotes = votesHidden(trip)
 

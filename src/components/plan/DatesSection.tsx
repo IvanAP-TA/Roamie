@@ -330,14 +330,15 @@ function WindowForm({
         if (valid) onSave({ start, end, length: days })
       }}
     >
-      <div className="grid grid-cols-2 gap-3">
-        <label className="space-y-1.5 text-sm font-semibold">
+      {/* Side by side only where there's room: on phones the browser's date field needs the full width. */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <label className="block min-w-0 space-y-1.5 text-sm font-semibold">
           <span>{t('dates.from')}</span>
-          <Input type="date" value={start} onChange={(e) => setStart(e.target.value)} required />
+          <Input type="date" value={start} onChange={(e) => setStart(e.target.value)} required className="w-full min-w-0" />
         </label>
-        <label className="space-y-1.5 text-sm font-semibold">
+        <label className="block min-w-0 space-y-1.5 text-sm font-semibold">
           <span>{t('dates.to')}</span>
-          <Input type="date" value={end} min={start || undefined} onChange={(e) => setEnd(e.target.value)} required />
+          <Input type="date" value={end} min={start || undefined} onChange={(e) => setEnd(e.target.value)} required className="w-full min-w-0" />
         </label>
       </div>
       <label className="block space-y-1.5 text-sm font-semibold">

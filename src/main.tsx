@@ -61,6 +61,19 @@ const afterLoad = () => {
 if (document.readyState === 'complete') afterLoad()
 else window.addEventListener('load', afterLoad, { once: true })
 
+// A tab still running the previous version can ask for files a new deployment removed: load the new version, once.
+window.addEventListener('vite:preloadError', (event) => {
+  const key = 'roamie.reloadedForUpdate'
+  try {
+    if (sessionStorage.getItem(key)) return
+    sessionStorage.setItem(key, '1')
+  } catch {
+    return
+  }
+  event.preventDefault()
+  window.location.reload()
+})
+
 // Landing and guide URLs have a fixed language: render in it from the first frame, like the prerendered HTML.
 const urlLanguage = pathLanguage(window.location.pathname)
 const languageReady = urlLanguage && !hasStoredSession() ? i18n.changeLanguage(urlLanguage) : i18nReady
