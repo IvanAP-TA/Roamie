@@ -327,7 +327,8 @@
     "hiddenLikes": "Secret vote: 👍 show up at the reveal",
     "delete": "Delete reason",
     "more_one": "+{{count}} more",
-    "more_other": "+{{count}} more"
+    "more_other": "+{{count}} more",
+    "cardEmpty": "Why go? Write the first reason"
   },
   "status": {
     "proposed": "Proposed",

@@ -327,7 +327,8 @@
     "hiddenLikes": "Voto segreto: i 👍 si vedono alla rivelazione",
     "delete": "Elimina motivo",
     "more_one": "+{{count}} altro",
-    "more_other": "+{{count}} altri"
+    "more_other": "+{{count}} altri",
+    "cardEmpty": "Perché andarci? Scrivi il primo motivo"
   },
   "status": {
     "proposed": "Proposta",

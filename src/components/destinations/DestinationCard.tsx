@@ -93,13 +93,21 @@ export const DestinationCard = forwardRef<
         </CoverImage>
       </button>
 
-      {topReason && (
+      {/* Always one line, so cards in a row keep the same height whether or not they have reasons. */}
+      {topReason ? (
         // Your own likes are the only ones counted during a secret vote, so this order gives nothing away.
         <button type="button" onClick={onOpen} className="flex w-full items-center gap-2 px-4 pt-3 text-left text-sm">
           <ThumbsUp className="size-3.5 shrink-0 text-primary" />
           <span className="min-w-0 flex-1 truncate">{topReason.text}</span>
           {reasons > 1 && <span className="shrink-0 text-xs text-muted-foreground">{t('reasons.more', { count: reasons - 1 })}</span>}
         </button>
+      ) : d.status === 'proposed' ? (
+        <button type="button" onClick={onOpen} className="flex w-full items-center gap-2 px-4 pt-3 text-left text-sm text-muted-foreground transition hover:text-foreground">
+          <ThumbsUp className="size-3.5 shrink-0" />
+          <span className="min-w-0 flex-1 truncate">{t('reasons.cardEmpty')}</span>
+        </button>
+      ) : (
+        <div aria-hidden className="h-8" />
       )}
 
       <div className="flex items-center gap-2 px-3.5 py-3">
