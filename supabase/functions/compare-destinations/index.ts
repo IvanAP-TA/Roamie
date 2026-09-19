@@ -9,9 +9,10 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { buildMessages, cacheKey, parseComparison, readInput, responseSchema } from './compare.ts'
 
-// Pinned versions: aliases like mistral-small-latest can point to a version the free plan gives no quota for.
-// The second model is tried when the first is rate limited (limits are per model).
-const MODELS = ['mistral-large-2512', 'ministral-14b-2512']
+// Pinned versions, tried in order: a model the plan doesn't include (403), doesn't know (404) or that is rate limited
+// (429, limits are per model) hands over to the next. Aliases like mistral-small-latest can point to a version the
+// free plan gives no quota for, and Mistral Large isn't in the free plan at all.
+const MODELS = ['ministral-14b-2512', 'ministral-8b-2512', 'mistral-small-2603']
 const PER_USER_PER_DAY = 15
 const GLOBAL_PER_DAY = 400
 const CORS = {
@@ -87,8 +88,9 @@ Deno.serve(async (req) => {
   try {
     let model = MODELS[0]
     let answer = await askMistral(apiKey, model, messages, true)
-    if (answer.status === 429) {
-      model = MODELS[1]
+    for (const next of MODELS.slice(1)) {
+      if (![403, 404, 429].includes(answer.status)) break
+      model = next
       await pause(1200)
       answer = await askMistral(apiKey, model, messages, true)
     }
