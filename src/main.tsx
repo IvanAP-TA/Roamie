@@ -8,6 +8,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { AuthProvider } from '@/hooks/useAuth'
 import { startAnalytics } from '@/lib/analytics'
@@ -32,13 +33,45 @@ const queryClient = new QueryClient({
   },
 })
 
+/** Typing something or looking at a sheet: a reload now would throw that away. */
+function isBusy() {
+  const el = document.activeElement
+  return (
+    el instanceof HTMLTextAreaElement ||
+    (el instanceof HTMLInputElement && el.value !== '') ||
+    (el instanceof HTMLElement && el.isContentEditable) ||
+    document.querySelector('[role="dialog"]') !== null
+  )
+}
+
+/**
+ * A new version is running in the service worker: load it. Right away when nobody would notice (app in the
+ * background, or idle); otherwise as soon as the app goes to the background, or when the user taps "Update".
+ */
+function applyUpdate() {
+  if (document.visibilityState === 'hidden' || !isBusy()) {
+    window.location.reload()
+    return
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') window.location.reload()
+  })
+  toast(i18n.t('update.ready'), {
+    id: 'app-update',
+    duration: Infinity,
+    action: { label: i18n.t('update.reload'), onClick: () => window.location.reload() },
+  })
+}
+
 /** The service worker (offline copy and updates), loaded on demand so its library isn't part of the first download. */
 function startServiceWorker() {
   void import('virtual:pwa-register').then(({ registerSW }) =>
     registerSW({
       immediate: true,
+      onNeedReload: applyUpdate,
       // An installed app is mostly resumed from the background rather than loaded, so the browser rarely looks for a
-      // new version by itself: check when the app comes back into view, and hourly while it stays open.
+      // new version by itself: check when the app comes back into view or online, and every few minutes while open
+      // (a small request for sw.js, which is never cached).
       onRegisteredSW(_url, registration) {
         if (!registration) return
         const check = () => {
@@ -47,7 +80,8 @@ function startServiceWorker() {
         document.addEventListener('visibilitychange', () => {
           if (document.visibilityState === 'visible') check()
         })
-        setInterval(check, 60 * 60 * 1000)
+        window.addEventListener('online', check)
+        setInterval(check, 5 * 60 * 1000)
       },
     }),
   )

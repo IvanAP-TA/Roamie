@@ -628,6 +628,10 @@
     "tripUnavailableTitle": "Viaggio non ancora salvato offline",
     "tripUnavailableBody": "Aprilo una volta con la connessione: da quel momento resta consultabile anche senza rete."
   },
+  "update": {
+    "ready": "È pronta una nuova versione di Roamie.",
+    "reload": "Aggiorna"
+  },
   "install": {
     "button": "Installa l'app",
     "rowHint": "Icona sulla schermata Home, a schermo intero senza barra del browser",

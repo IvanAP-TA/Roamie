@@ -628,6 +628,10 @@
     "tripUnavailableTitle": "Trip not saved for offline yet",
     "tripUnavailableBody": "Open it once while connected: from then on it stays available without a network."
   },
+  "update": {
+    "ready": "A new version of Roamie is ready.",
+    "reload": "Update"
+  },
   "install": {
     "button": "Install the app",
     "rowHint": "An icon on your home screen, full screen with no browser bar",

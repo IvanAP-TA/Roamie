@@ -628,6 +628,10 @@
     "tripUnavailableTitle": "Viaje aún no guardado sin conexión",
     "tripUnavailableBody": "Ábrelo una vez con conexión: desde entonces seguirá disponible sin red."
   },
+  "update": {
+    "ready": "Hay una nueva versión de Roamie lista.",
+    "reload": "Actualizar"
+  },
   "install": {
     "button": "Instalar la app",
     "rowHint": "Un icono en tu pantalla de inicio, a pantalla completa sin barra del navegador",
