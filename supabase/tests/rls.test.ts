@@ -1137,32 +1137,40 @@ describe('invite cards', () => {
   })
 })
 
-describe('AI comparisons', () => {
-  it('only the service role reaches the cache and the limits, which hold per user and overall', async () => {
+describe('AI answers', () => {
+  it('only the service role reaches the cache and the limits, which hold per user and per kind', async () => {
     const A = 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1'
     const B = 'f2f2f2f2-f2f2-4f2f-8f2f-f2f2f2f2f2f2'
     await createUser(db, A, 'Ada')
     await createUser(db, B, 'Bea')
-    await rejects(as(db, A, (q) => q(`select * from public.ai_comparisons`)), /permission denied/)
-    await rejects(as(db, A, (q) => q(`select public.claim_ai_request($1, 10, 10)`, [A])), /permission denied/)
+    await rejects(as(db, A, (q) => q(`select * from public.ai_cache`)), /permission denied/)
+    await rejects(as(db, A, (q) => q(`select public.claim_ai_request($1, 'compare', 10, 10)`, [A])), /permission denied/)
 
-    const claim = (user: string, perUser: number, global: number) =>
+    const service = <T,>(sql: string, params: unknown[]) =>
       db.transaction(async (tx) => {
         await tx.exec('set local role service_role')
-        const { rows } = await tx.query<{ claim_ai_request: string }>(`select public.claim_ai_request($1, $2, $3)`, [user, perUser, global])
-        return rows[0].claim_ai_request
+        return (await tx.query<T>(sql, params)).rows
       })
-    expect(await claim(A, 2, 3)).toBe('ok')
-    expect(await claim(A, 2, 3)).toBe('ok')
-    expect(await claim(A, 2, 3)).toBe('user_limit')
-    expect(await claim(B, 2, 3)).toBe('ok')
-    expect(await claim(B, 2, 3)).toBe('global_limit')
+    const claim = async (user: string, kind: string, perUser: number, global: number) =>
+      (await service<{ c: string }>(`select public.claim_ai_request($1, $2, $3, $4) as c`, [user, kind, perUser, global]))[0].c
 
-    await db.transaction(async (tx) => {
-      await tx.exec('set local role service_role')
-      await tx.query(`select public.release_ai_request($1)`, [A])
-    })
-    const { rows } = await db.query<{ n: number }>(`select count(*)::int as n from public.ai_requests where user_id = $1`, [A])
-    expect(rows[0].n).toBe(1)
+    expect(await claim(A, 'compare', 2, 3)).toBe('ok')
+    expect(await claim(A, 'compare', 2, 3)).toBe('ok')
+    expect(await claim(A, 'compare', 2, 3)).toBe('user_limit')
+    // Another kind has its own count.
+    expect(await claim(A, 'suggest', 2, 3)).toBe('ok')
+    expect(await claim(B, 'compare', 2, 3)).toBe('ok')
+    expect(await claim(B, 'compare', 2, 3)).toBe('global_limit')
+    await rejects(claim(A, 'poem', 2, 3), /check constraint/)
+
+    await service(`select public.release_ai_request($1, 'compare')`, [A])
+    const { rows } = await db.query<{ kind: string; n: number }>(
+      `select kind, count(*)::int as n from public.ai_requests where user_id = $1 group by kind order by kind`,
+      [A],
+    )
+    expect(rows).toEqual([
+      { kind: 'compare', n: 1 },
+      { kind: 'suggest', n: 1 },
+    ])
   })
 })

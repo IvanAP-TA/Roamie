@@ -2,8 +2,9 @@ import { useState, type ReactNode } from 'react'
 import { ArrowRight, RotateCcw, Sparkles, ThumbsUp, Trophy } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
-import { AiCompareError, ASPECTS, useAiComparison, type Comparison } from '@/hooks/useAiComparison'
+import { ASPECTS, useAiComparison, type Comparison } from '@/hooks/useAiComparison'
 import { useClimate } from '@/hooks/useClimate'
+import { aiErrorCode } from '@/lib/ai'
 import { CoverImage } from '@/components/media/CoverImage'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/misc'
@@ -93,8 +94,7 @@ function AiPanel({
   }
 
   if (query.isError) {
-    const code = query.error instanceof AiCompareError ? query.error.message : 'failed'
-    const known = ['user_limit', 'global_limit', 'busy', 'not_configured', 'unauthorized'].includes(code) ? code : 'failed'
+    const known = aiErrorCode(query.error)
     return (
       <div className={cn(panel, 'flex flex-col gap-3 bg-foreground/[0.04] sm:flex-row sm:items-center')} role="alert">
         <p className="min-w-0 flex-1 text-sm">{t(`aiCompare.errors.${known}`)}</p>
