@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus } from 'lucide-react'
+import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useDestinations } from '@/hooks/useDestinations'
@@ -115,17 +115,18 @@ export default function DestinationsTab() {
 
   const viewTools = (
     <>
-      <Button
-        variant={selecting ? 'default' : 'glass'}
-        size="icon"
-        onClick={() => (selecting ? stopSelecting() : setSelecting(true))}
-        aria-pressed={selecting}
-        aria-label={t('compare.toggle')}
-        title={t('compare.toggle')}
-        disabled={(destinations?.length ?? 0) < 2}
-      >
-        <Columns3 />
-      </Button>
+      {/* Spelled out, not an icon: comparing is one of the main things to do here. */}
+      {(destinations?.length ?? 0) >= 2 && (
+        <Button
+          variant={selecting ? 'secondary' : 'default'}
+          onClick={() => (selecting ? stopSelecting() : setSelecting(true))}
+          aria-pressed={selecting}
+          title={t('compare.toggle')}
+        >
+          {selecting ? <X /> : <Columns3 />}
+          {selecting ? t('common.cancel') : t('compare.cta')}
+        </Button>
+      )}
       <Button
         variant="glass"
         size="icon"
