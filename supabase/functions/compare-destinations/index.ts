@@ -9,7 +9,9 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { buildMessages, cacheKey, parseComparison, readInput, responseSchema } from './compare.ts'
 
-const MODEL = 'mistral-small-latest'
+// Pinned versions: aliases like mistral-small-latest can point to a version the free plan gives no quota for.
+// The second model is tried when the first is rate limited (limits are per model).
+const MODELS = ['mistral-large-2512', 'ministral-14b-2512']
 const PER_USER_PER_DAY = 15
 const GLOBAL_PER_DAY = 400
 const CORS = {
@@ -24,12 +26,12 @@ const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE
 const reply = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...CORS, 'Content-Type': 'application/json' } })
 
-async function askMistral(key: string, messages: ReturnType<typeof buildMessages>, strict: boolean) {
+async function askMistral(key: string, model: string, messages: ReturnType<typeof buildMessages>, strict: boolean) {
   const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({
-      model: MODEL,
+      model,
       messages,
       temperature: 0.3,
       max_tokens: 2000,
@@ -41,7 +43,7 @@ async function askMistral(key: string, messages: ReturnType<typeof buildMessages
   })
   if (!response.ok) {
     // Mistral's reason (rate limit, capacity, schema refused…), never the key.
-    console.error('mistral', strict ? 'strict' : 'json', response.status, (await response.text()).slice(0, 300))
+    console.error('mistral', model, strict ? 'strict' : 'json', response.status, (await response.text()).slice(0, 300))
     return { status: response.status, content: null }
   }
   const data = await response.json()
@@ -83,10 +85,12 @@ Deno.serve(async (req) => {
 
   const messages = buildMessages(input)
   try {
-    let answer = await askMistral(apiKey, messages, true)
+    let model = MODELS[0]
+    let answer = await askMistral(apiKey, model, messages, true)
     if (answer.status === 429) {
-      await pause(2000)
-      answer = await askMistral(apiKey, messages, true)
+      model = MODELS[1]
+      await pause(1200)
+      answer = await askMistral(apiKey, model, messages, true)
     }
     // Structured output refused for this model or plan: ask for plain JSON, with the shape spelled out.
     if (answer.status === 400 || answer.status === 422) {
@@ -95,7 +99,7 @@ Deno.serve(async (req) => {
         messages[1],
       ]
       await pause(1500)
-      answer = await askMistral(apiKey, shaped, false)
+      answer = await askMistral(apiKey, model, shaped, false)
     }
     if (answer.status === 429) {
       await admin.rpc('release_ai_request', { p_user: user.id })
