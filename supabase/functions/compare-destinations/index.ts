@@ -39,10 +39,17 @@ async function askMistral(key: string, messages: ReturnType<typeof buildMessages
     }),
     signal: AbortSignal.timeout(45_000),
   })
-  if (!response.ok) return { status: response.status, content: null }
+  if (!response.ok) {
+    // Mistral's reason (rate limit, capacity, schema refused…), never the key.
+    console.error('mistral', strict ? 'strict' : 'json', response.status, (await response.text()).slice(0, 300))
+    return { status: response.status, content: null }
+  }
   const data = await response.json()
   return { status: 200, content: (data?.choices?.[0]?.message?.content as string | undefined) ?? null }
 }
+
+// The free plan allows about one request per second: wait before asking again.
+const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
@@ -77,12 +84,17 @@ Deno.serve(async (req) => {
   const messages = buildMessages(input)
   try {
     let answer = await askMistral(apiKey, messages, true)
+    if (answer.status === 429) {
+      await pause(2000)
+      answer = await askMistral(apiKey, messages, true)
+    }
     // Structured output refused for this model or plan: ask for plain JSON, with the shape spelled out.
     if (answer.status === 400 || answer.status === 422) {
       const shaped = [
         { ...messages[0], content: `${messages[0].content}\nThe JSON must follow this JSON Schema:\n${JSON.stringify(responseSchema)}` },
         messages[1],
       ]
+      await pause(1500)
       answer = await askMistral(apiKey, shaped, false)
     }
     if (answer.status === 429) {
