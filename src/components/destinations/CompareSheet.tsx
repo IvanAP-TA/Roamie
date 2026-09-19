@@ -257,12 +257,16 @@ export function CompareSheet({
     <Sheet open={open} onOpenChange={onOpenChange} title={t('compare.title')} className="md:max-w-3xl">
       <AiPanel destinations={destinations} requested={aiRequested} onRequest={() => setRequestedFor(selection)} query={ai} />
       <div className="-mx-3 overflow-x-auto px-1 pb-2">
-        <table className="w-full border-separate border-spacing-x-1.5 text-sm">
+        {/* Fixed layout: every place gets the same column width (and so the same photo size), whatever its text. */}
+        <table
+          className="w-full table-fixed border-separate border-spacing-x-1.5 text-sm"
+          style={{ minWidth: `${4.75 + destinations.length * 6.75}rem` }}
+        >
           <thead>
             <tr>
               <th className="w-[4.25rem]" />
               {destinations.map((d) => (
-                <th key={d.id} scope="col" className="min-w-[6.25rem] pb-2 text-left align-top font-normal">
+                <th key={d.id} scope="col" className="pb-2 text-left align-top font-normal">
                   <button type="button" onClick={() => onOpenDestination(d.id)} className="group w-full text-left" aria-label={t('compare.open', { name: d.name })}>
                     <CoverImage url={d.image_url} seed={d.name} pin showAttribution={false} sizes="200px" className="aspect-[4/3] w-full rounded-2xl shadow-soft" />
                     <span className="mt-2 line-clamp-2 block font-display text-lg leading-tight group-hover:underline">{d.name}</span>
