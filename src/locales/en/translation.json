@@ -824,6 +824,87 @@
       "failed": "The comparison didn’t work. Try again."
     }
   },
+  "tripFinder": {
+    "title": "Find your destination",
+    "intro": "Pick what you’re after and the AI suggests 3 places. It can then plan the trip day by day.",
+    "cta": "Find a destination with AI",
+    "ctaBody": "Pick a mood, dates and budget: get 3 places and an itinerary.",
+    "signIn": "Sign in with Google to get AI suggestions and turn them into a trip.",
+    "any": "Any",
+    "anywhere": "Anywhere",
+    "notSure": "Not sure",
+    "maxMoods_one": "You can pick up to {{count}} mood.",
+    "maxMoods_other": "You can pick up to {{count}} moods.",
+    "sections": {
+      "mood": "What kind of trip (up to 3)",
+      "continent": "Where",
+      "distance": "How far",
+      "budget": "Budget",
+      "month": "When",
+      "length": "How long",
+      "fame": "What kind of places",
+      "pace": "Pace"
+    },
+    "continents": {
+      "europe": "Europe",
+      "asia": "Asia",
+      "africa": "Africa",
+      "northAmerica": "North & Central America",
+      "southAmerica": "South America",
+      "oceania": "Oceania"
+    },
+    "distances": {
+      "near": "Nearby",
+      "medium": "Medium-haul",
+      "far": "Far away"
+    },
+    "lengths": {
+      "weekend": "Long weekend",
+      "week": "A week",
+      "long": "Longer"
+    },
+    "fame": {
+      "famous": "Big classics",
+      "balanced": "A bit of both",
+      "niche": "Off the beaten track"
+    },
+    "paces": {
+      "relaxed": "Relaxed",
+      "balanced": "Balanced",
+      "intense": "Packed"
+    },
+    "privacy": "We send Mistral AI only these choices and the country you travel from, never names or other personal data.",
+    "find": "Find 3 places",
+    "finding": "Finding places…",
+    "change": "Change choices",
+    "more": "More ideas",
+    "plan": "Itinerary",
+    "addToTrip": "Add to a trip",
+    "showOnGlobe": "On the globe",
+    "backToIdeas": "Back to the ideas",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "fewerDays": "One day fewer",
+    "moreDays": "One more day",
+    "makePlan": "Plan the itinerary",
+    "planning": "Planning the itinerary…",
+    "createWithoutPlan": "Create the trip without an itinerary",
+    "createTrip": "Create the trip",
+    "saving": "Setting up the trip…",
+    "planNote": "Itinerary written by AI: times and places are a guide, check them before you go. Stops found on the map get their location.",
+    "day": "Day {{n}}",
+    "pickWithPlan": "Pick the trip: the place joins the proposals and the itinerary goes after the days already there.",
+    "created": "Trip to {{place}} created. Now invite the group!",
+    "addedWithPlan": "{{place}} and its itinerary added to “{{trip}}”",
+    "errors": {
+      "user_limit": "You’ve used all of today’s AI requests. Try again tomorrow.",
+      "global_limit": "AI requests have run out for everyone today. Try again tomorrow.",
+      "busy": "The AI is busy right now. Try again in a minute.",
+      "not_configured": "The AI isn’t switched on yet.",
+      "unauthorized": "Sign in again to use the AI.",
+      "failed": "That didn’t work. Try again."
+    }
+  },
   "climate": {
     "title": "Average climate",
     "best": "Best time to go: {{months}}",
@@ -1020,6 +1101,7 @@
             "OpenStreetMap: maps and place search (Nominatim, plus Photon by komoot for suggestions while you type); their servers receive your IP address and search text when you load the map or search for a place",
             "Wikimedia Commons: destination photos; their servers receive your IP address when images load",
             "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address",
+            "Mistral AI (France): writes the destination comparisons, trip ideas and itineraries; it receives only place names and the choices made with buttons (dates, budget, tastes, country you travel from, group size), never names, comments or other personal data. On the free plan we use, Mistral may use these texts to improve its models",
             "Browser push services (Google Firebase Cloud Messaging for Chrome and Android, Apple Push Notification service, Mozilla Push Service): they deliver the notifications you turn on; they receive encrypted messages, which they can't read, and the device's delivery address",
             "Cloudflare Web Analytics: anonymous, aggregate statistics on visits and site speed, without cookies; its servers receive the page address, the browser type and your IP address, which is not stored or used to identify you"
           ]

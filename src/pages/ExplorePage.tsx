@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Search, Stamp } from 'lucide-react'
+import { ArrowRight, Search, Sparkles, Stamp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { usePassport } from '@/hooks/usePassport'
@@ -9,6 +9,7 @@ import { countryName, loadCountries, type CountryTable } from '@/lib/countries'
 import { cn } from '@/lib/utils'
 import { CountrySheet, guidePlacePoints } from '@/components/explore/CountrySheet'
 import { Globe } from '@/components/explore/Globe'
+import { TripFinder } from '@/components/explore/TripFinder'
 import { GuideShell } from '@/components/guides/GuideLayout'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { Input } from '@/components/ui/input'
@@ -26,6 +27,19 @@ export default function ExplorePage() {
   const { session } = useAuth()
   const passport = usePassport()
   const [showVisited, setShowVisited] = useState(true)
+  // Back from signing in to use it (?ai=1): open it right away.
+  const [finding, setFinding] = useState(() => params.get('ai') === '1')
+
+  useEffect(() => {
+    if (params.get('ai') !== '1') return
+    setParams(
+      (p) => {
+        p.delete('ai')
+        return p
+      },
+      { replace: true },
+    )
+  }, [params, setParams])
 
   useEffect(() => {
     void loadCountries().then(setCountries)
@@ -71,6 +85,21 @@ export default function ExplorePage() {
       <PageTransition className="mx-auto w-full max-w-5xl px-5 md:px-8">
         <h1 className="text-[2.4rem] leading-none md:text-6xl">{t('explore.title')}</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">{t('explore.intro')}</p>
+
+        <button
+          type="button"
+          onClick={() => setFinding(true)}
+          className="group mt-6 flex w-full items-center gap-4 rounded-[1.75rem] bg-[linear-gradient(135deg,var(--coral),var(--primary)_70%)] p-4 text-left text-primary-foreground shadow-glow transition hover:shadow-lift md:p-5"
+        >
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white/20">
+            <Sparkles className="size-6" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-lg leading-tight font-semibold">{t('tripFinder.cta')}</span>
+            <span className="block text-sm text-primary-foreground/85">{t('tripFinder.ctaBody')}</span>
+          </span>
+          <ArrowRight className="size-5 shrink-0 transition-transform group-hover:translate-x-1" />
+        </button>
 
         <div className="mt-6 flex flex-wrap items-center gap-2">
           <label className="relative min-w-0 flex-1 basis-60">
@@ -138,6 +167,7 @@ export default function ExplorePage() {
         <p className="mt-3 text-[0.65rem] leading-relaxed text-muted-foreground">{t('explore.sources')}</p>
       </PageTransition>
 
+      <TripFinder open={finding} onOpenChange={setFinding} onShowCountry={select} />
       <CountrySheet code={selected} facts={selected && countries ? (countries[selected] ?? null) : null} onClose={() => select(null)} />
     </GuideShell>
   )

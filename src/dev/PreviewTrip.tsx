@@ -24,6 +24,8 @@ import PassportPage from '@/pages/PassportPage'
 import PublicTripPage from '@/pages/PublicTripPage'
 import { InspirationCard } from '@/components/guides/GuidesLink'
 import { TrendingPlaces } from '@/components/trips/TrendingPlaces'
+import { CriteriaForm, IdeaCard, PlanView } from '@/components/explore/TripFinder'
+import type { Criteria, Idea } from '@/hooks/useTripIdeas'
 import type { Destination, ItineraryDay, PublicTrip, Trip, TripMember } from '@/lib/types'
 
 const TRIP: Trip = {
@@ -167,6 +169,8 @@ export default function PreviewTrip() {
 
   if (tab === 'public') return <PublicTripPage />
 
+  if (tab === 'finder') return <FinderPreview />
+
   if (tab === 'passport') {
     return (
       <div className="relative min-h-dvh pb-32">
@@ -230,5 +234,62 @@ export default function PreviewTrip() {
       </div>
       </LiveTripProvider>
     </TripContext.Provider>
+  )
+}
+
+const IDEAS: Idea[] = [
+  {
+    name: 'Porto',
+    country: 'Portogallo',
+    countryCode: 'PT',
+    why: 'Cantine di vino Porto, azulejos e tramonti sul Douro: vivace la sera ma economica, perfetta per un gruppo che vuole mangiare bene.',
+    highlights: ['Cantine di Vila Nova de Gaia', 'Libreria Lello', 'Tramonto al Jardim do Morro'],
+    moods: ['food_wine', 'culture'],
+    budget: 1,
+  },
+  {
+    name: 'Kotor',
+    country: 'Montenegro',
+    countryCode: 'ME',
+    why: 'Una baia tra le montagne con mura veneziane da scalare e spiagge a pochi minuti: meno affollata della Croazia.',
+    highlights: ['Salita alla fortezza', 'Giro in barca a Perast', 'Spiaggia di Jaz'],
+    moods: ['nature', 'relax'],
+    budget: 2,
+  },
+]
+
+/** DEV ONLY: the AI trip finder's pieces with mock answers (the real sheet needs a session). */
+function FinderPreview() {
+  const [criteria, setCriteria] = useState<Criteria>({ moods: ['food_wine'], continent: 'europe', budget: 1, month: 6, length: null, fame: 'niche', distance: null, pace: null })
+  return (
+    <div className="relative min-h-dvh p-5">
+      <AuroraBackground />
+      <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="glass-strong rounded-[2rem] p-5">
+          <CriteriaForm criteria={criteria} onChange={setCriteria} />
+        </div>
+        <ul className="glass-strong space-y-3 rounded-[2rem] p-5">
+          {IDEAS.map((idea) => (
+            <IdeaCard key={idea.name} idea={idea} onPlan={() => undefined} onAdd={() => undefined} onShow={() => undefined} />
+          ))}
+        </ul>
+        <div className="glass-strong rounded-[2rem] p-5">
+          <PlanView
+            plan={{
+              days: [
+                {
+                  title: 'Ribeira e cantine',
+                  items: [
+                    { time: '10:00', title: 'Passeggiata a Ribeira', description: 'Arrivate presto per le foto sul fiume.', place: 'Ribeira' },
+                    { time: '13:00', title: 'Pranzo con francesinha', description: 'Porzioni enormi: dividetele.', place: null },
+                    { time: null, title: 'Degustazione a Gaia', description: 'Prenotate online, costa meno.', place: 'Vila Nova de Gaia' },
+                  ],
+                },
+              ],
+            }}
+          />
+        </div>
+      </div>
+    </div>
   )
 }

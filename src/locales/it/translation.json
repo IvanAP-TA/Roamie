@@ -824,6 +824,87 @@
       "failed": "Il confronto non è riuscito. Riprova."
     }
   },
+  "tripFinder": {
+    "title": "Trova la meta",
+    "intro": "Scegli cosa cercate e l’AI propone 3 mete. Poi può preparare l’itinerario giorno per giorno.",
+    "cta": "Trova la meta con l’AI",
+    "ctaBody": "Scegli mood, periodo e budget: ti propone 3 mete e l’itinerario.",
+    "signIn": "Accedi con Google per farti suggerire le mete dall’AI e trasformarle in un viaggio.",
+    "any": "Qualsiasi",
+    "anywhere": "Ovunque",
+    "notSure": "Non so",
+    "maxMoods_one": "Puoi scegliere al massimo {{count}} mood.",
+    "maxMoods_other": "Puoi scegliere al massimo {{count}} mood.",
+    "sections": {
+      "mood": "Che viaggio cercate (fino a 3)",
+      "continent": "Dove",
+      "distance": "Quanto lontano",
+      "budget": "Budget",
+      "month": "Quando",
+      "length": "Quanto dura",
+      "fame": "Che tipo di posti",
+      "pace": "Ritmo"
+    },
+    "continents": {
+      "europe": "Europa",
+      "asia": "Asia",
+      "africa": "Africa",
+      "northAmerica": "Nord e Centro America",
+      "southAmerica": "Sud America",
+      "oceania": "Oceania"
+    },
+    "distances": {
+      "near": "Vicino",
+      "medium": "Medio raggio",
+      "far": "Lontano"
+    },
+    "lengths": {
+      "weekend": "Weekend lungo",
+      "week": "Una settimana",
+      "long": "Più a lungo"
+    },
+    "fame": {
+      "famous": "Grandi classici",
+      "balanced": "Un po’ e un po’",
+      "niche": "Di nicchia"
+    },
+    "paces": {
+      "relaxed": "Rilassato",
+      "balanced": "Equilibrato",
+      "intense": "Intenso"
+    },
+    "privacy": "A Mistral AI inviamo solo queste scelte e il tuo paese di partenza, mai nomi o altri dati personali.",
+    "find": "Trova 3 mete",
+    "finding": "Cerco le mete…",
+    "change": "Cambia scelte",
+    "more": "Altre idee",
+    "plan": "Itinerario",
+    "addToTrip": "Aggiungi a un viaggio",
+    "showOnGlobe": "Sul globo",
+    "backToIdeas": "Torna alle idee",
+    "days_one": "{{count}} giorno",
+    "days_other": "{{count}} giorni",
+    "fewerDays": "Un giorno in meno",
+    "moreDays": "Un giorno in più",
+    "makePlan": "Crea l’itinerario",
+    "planning": "Preparo l’itinerario…",
+    "createWithoutPlan": "Crea il viaggio senza itinerario",
+    "createTrip": "Crea il viaggio",
+    "saving": "Preparo il viaggio…",
+    "planNote": "Itinerario scritto dall’AI: orari e luoghi sono indicativi, verificali prima di partire. Le tappe trovate sulla mappa avranno la loro posizione.",
+    "day": "Giorno {{n}}",
+    "pickWithPlan": "Scegli il viaggio: la meta arriva tra le proposte e l’itinerario si aggiunge dopo i giorni che ci sono già.",
+    "created": "Viaggio per {{place}} creato. Ora invita il gruppo!",
+    "addedWithPlan": "{{place}} e il suo itinerario aggiunti a «{{trip}}»",
+    "errors": {
+      "user_limit": "Hai usato tutte le richieste all’AI di oggi. Riprova domani.",
+      "global_limit": "Oggi le richieste all’AI sono esaurite per tutti. Riprova domani.",
+      "busy": "L’AI è occupata in questo momento. Riprova tra un minuto.",
+      "not_configured": "L’AI non è ancora attiva.",
+      "unauthorized": "Accedi di nuovo per usare l’AI.",
+      "failed": "Non è andata. Riprova."
+    }
+  },
   "climate": {
     "title": "Clima medio",
     "best": "Periodo migliore: {{months}}",
@@ -1020,6 +1101,7 @@
             "OpenStreetMap: mappe e ricerca dei luoghi (Nominatim, e Photon di komoot per i suggerimenti mentre scrivi); i loro server ricevono il tuo indirizzo IP e il testo della ricerca quando carichi la mappa o cerchi un luogo",
             "Wikimedia Commons: foto delle mete; i loro server ricevono il tuo indirizzo IP quando le immagini vengono caricate",
             "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP",
+            "Mistral AI (Francia): genera i confronti tra mete, le idee di viaggio e gli itinerari; riceve solo i nomi dei luoghi e le scelte fatte con i pulsanti (periodo, budget, gusti, paese di partenza, numero di persone), mai nomi, commenti o altri dati personali. Con il piano gratuito che usiamo, Mistral può usare questi testi per migliorare i propri modelli",
             "Servizi push dei browser (Google Firebase Cloud Messaging per Chrome e Android, Apple Push Notification service, Mozilla Push Service): recapitano le notifiche che attivi; ricevono i messaggi cifrati, che non possono leggere, e l'indirizzo di recapito del dispositivo",
             "Cloudflare Web Analytics: statistiche anonime e aggregate su visite e velocità del sito, senza cookie; i suoi server ricevono l'indirizzo della pagina, il tipo di browser e il tuo indirizzo IP, che non viene conservato né usato per identificarti"
           ]

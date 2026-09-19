@@ -71,3 +71,47 @@ export async function suggestPlaces(query: string, signal?: AbortSignal): Promis
   cache.set(key, places)
   return places
 }
+
+export interface Spot {
+  name: string
+  lat: number
+  lng: number
+}
+
+const spots = createLocalCache<Spot | null>('photon-spots', { max: 300, ttlMs: 30 * 24 * 60 * 60 * 1000 })
+
+const km = (a: { lat: number; lng: number }, b: { lat: number; lng: number }) => {
+  const rad = Math.PI / 180
+  const h =
+    Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+    Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lng - a.lng) * rad) / 2) ** 2
+  return 12742 * Math.asin(Math.sqrt(h))
+}
+
+/**
+ * A named spot (monument, museum, beach…) near a place, for the stops of an AI itinerary: null when OpenStreetMap
+ * doesn't know it within `radiusKm`, so an invented or misplaced stop stays plain text instead of a wrong pin.
+ */
+export async function findSpotNear(query: string, near: { lat: number; lng: number }, radiusKm = 60): Promise<Spot | null> {
+  const q = query.trim().replace(/\s+/g, ' ')
+  if (q.length < 3) return null
+  const key = `${q.toLowerCase()}@${near.lat.toFixed(1)},${near.lng.toFixed(1)}`
+  const hit = spots.get(key)
+  if (hit !== undefined) return hit
+
+  const url = new URL('https://photon.komoot.io/api/')
+  url.searchParams.set('q', q)
+  url.searchParams.set('limit', '3')
+  url.searchParams.set('lat', String(near.lat))
+  url.searchParams.set('lon', String(near.lng))
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Photon ${res.status}`)
+  const { features } = (await res.json()) as { features: PhotonFeature[] }
+  const found =
+    features
+      .filter((f) => f.properties.name)
+      .map((f) => ({ name: f.properties.name!, lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0] }))
+      .find((spot) => km(spot, near) <= radiusKm) ?? null
+  spots.set(key, found)
+  return found
+}

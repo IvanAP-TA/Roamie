@@ -824,6 +824,87 @@
       "failed": "La comparación no ha funcionado. Inténtalo de nuevo."
     }
   },
+  "tripFinder": {
+    "title": "Encuentra el destino",
+    "intro": "Elige lo que buscáis y la IA propone 3 destinos. Después puede preparar el itinerario día a día.",
+    "cta": "Encuentra el destino con IA",
+    "ctaBody": "Elige ambiente, fechas y presupuesto: te propone 3 destinos y el itinerario.",
+    "signIn": "Inicia sesión con Google para que la IA te sugiera destinos y convertirlos en un viaje.",
+    "any": "Cualquiera",
+    "anywhere": "Cualquier sitio",
+    "notSure": "No lo sé",
+    "maxMoods_one": "Puedes elegir como máximo {{count}} ambiente.",
+    "maxMoods_other": "Puedes elegir como máximo {{count}} ambientes.",
+    "sections": {
+      "mood": "Qué viaje buscáis (hasta 3)",
+      "continent": "Dónde",
+      "distance": "A qué distancia",
+      "budget": "Presupuesto",
+      "month": "Cuándo",
+      "length": "Cuánto dura",
+      "fame": "Qué tipo de sitios",
+      "pace": "Ritmo"
+    },
+    "continents": {
+      "europe": "Europa",
+      "asia": "Asia",
+      "africa": "África",
+      "northAmerica": "Norte y Centroamérica",
+      "southAmerica": "Sudamérica",
+      "oceania": "Oceanía"
+    },
+    "distances": {
+      "near": "Cerca",
+      "medium": "Media distancia",
+      "far": "Lejos"
+    },
+    "lengths": {
+      "weekend": "Puente",
+      "week": "Una semana",
+      "long": "Más tiempo"
+    },
+    "fame": {
+      "famous": "Grandes clásicos",
+      "balanced": "Un poco de todo",
+      "niche": "Poco conocidos"
+    },
+    "paces": {
+      "relaxed": "Tranquilo",
+      "balanced": "Equilibrado",
+      "intense": "Intenso"
+    },
+    "privacy": "A Mistral AI solo enviamos estas opciones y tu país de salida, nunca nombres ni otros datos personales.",
+    "find": "Encontrar 3 destinos",
+    "finding": "Buscando destinos…",
+    "change": "Cambiar opciones",
+    "more": "Más ideas",
+    "plan": "Itinerario",
+    "addToTrip": "Añadir a un viaje",
+    "showOnGlobe": "En el globo",
+    "backToIdeas": "Volver a las ideas",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días",
+    "fewerDays": "Un día menos",
+    "moreDays": "Un día más",
+    "makePlan": "Crear el itinerario",
+    "planning": "Preparando el itinerario…",
+    "createWithoutPlan": "Crear el viaje sin itinerario",
+    "createTrip": "Crear el viaje",
+    "saving": "Preparando el viaje…",
+    "planNote": "Itinerario escrito por IA: horarios y lugares son orientativos, compruébalos antes de salir. Las paradas encontradas en el mapa tendrán su ubicación.",
+    "day": "Día {{n}}",
+    "pickWithPlan": "Elige el viaje: el destino se une a las propuestas y el itinerario va después de los días que ya hay.",
+    "created": "Viaje a {{place}} creado. ¡Ahora invita al grupo!",
+    "addedWithPlan": "{{place}} y su itinerario añadidos a «{{trip}}»",
+    "errors": {
+      "user_limit": "Ya has usado todas las peticiones a la IA de hoy. Vuelve a intentarlo mañana.",
+      "global_limit": "Hoy se han agotado las peticiones a la IA para todos. Vuelve a intentarlo mañana.",
+      "busy": "La IA está ocupada ahora mismo. Inténtalo de nuevo en un minuto.",
+      "not_configured": "La IA aún no está activa.",
+      "unauthorized": "Vuelve a iniciar sesión para usar la IA.",
+      "failed": "No ha funcionado. Inténtalo de nuevo."
+    }
+  },
   "climate": {
     "title": "Clima medio",
     "best": "Mejor época: {{months}}",
@@ -1020,6 +1101,7 @@
             "OpenStreetMap: mapas y búsqueda de lugares (Nominatim, y Photon de komoot para las sugerencias mientras escribes); sus servidores reciben tu dirección IP y el texto de la búsqueda al cargar el mapa o buscar un lugar",
             "Wikimedia Commons: fotos de los destinos; sus servidores reciben tu dirección IP al cargar las imágenes",
             "Open-Meteo: clima medio de los destinos; sus servidores reciben las coordenadas aproximadas del destino y tu dirección IP",
+            "Mistral AI (Francia): genera las comparaciones entre destinos, las ideas de viaje y los itinerarios; solo recibe los nombres de los lugares y las opciones elegidas con botones (fechas, presupuesto, gustos, país de salida, tamaño del grupo), nunca nombres, comentarios ni otros datos personales. Con el plan gratuito que usamos, Mistral puede usar estos textos para mejorar sus modelos",
             "Servicios push de los navegadores (Google Firebase Cloud Messaging para Chrome y Android, Apple Push Notification service, Mozilla Push Service): entregan las notificaciones que activas; reciben los mensajes cifrados, que no pueden leer, y la dirección de entrega del dispositivo",
             "Cloudflare Web Analytics: estadísticas anónimas y agregadas sobre las visitas y la velocidad del sitio, sin cookies; sus servidores reciben la dirección de la página, el tipo de navegador y tu dirección IP, que no se conserva ni se usa para identificarte"
           ]
