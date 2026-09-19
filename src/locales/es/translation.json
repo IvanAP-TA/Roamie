@@ -791,6 +791,35 @@
     "leader": "En cabeza",
     "open": "Abrir {{name}}"
   },
+  "aiCompare": {
+    "title": "Comparación con IA",
+    "intro": "Coste, clima, comida, vida nocturna y más: los puntos fuertes y débiles de cada destino, para vuestras fechas.",
+    "cta": "Comparar",
+    "loading": "Comparando los destinos…",
+    "retry": "Reintentar",
+    "headline": "En breve",
+    "bestFor": "Ideal para",
+    "watchOut": "Ojo con",
+    "disclaimer": "Comparación generada por IA (Mistral): puede contener errores, comprueba lo importante.",
+    "aspects": {
+      "cost": "Coste",
+      "weather": "Clima",
+      "food": "Comida",
+      "nightlife": "Vida nocturna",
+      "culture": "Cultura",
+      "nature": "Naturaleza",
+      "relax": "Relax",
+      "gettingThere": "Llegar"
+    },
+    "errors": {
+      "user_limit": "Ya has usado todas las comparaciones con IA de hoy. Vuelve a intentarlo mañana.",
+      "global_limit": "Hoy se han agotado las comparaciones con IA para todos. Vuelve a intentarlo mañana.",
+      "busy": "La IA está ocupada ahora mismo. Inténtalo de nuevo en un minuto.",
+      "not_configured": "La comparación con IA aún no está activa.",
+      "unauthorized": "Vuelve a iniciar sesión para usar la comparación con IA.",
+      "failed": "La comparación no ha funcionado. Inténtalo de nuevo."
+    }
+  },
   "climate": {
     "title": "Clima medio",
     "best": "Mejor época: {{months}}",

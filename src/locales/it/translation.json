@@ -791,6 +791,35 @@
     "leader": "In testa",
     "open": "Apri {{name}}"
   },
+  "aiCompare": {
+    "title": "Confronto con l’AI",
+    "intro": "Costi, clima, cibo, vita notturna e altro: punti forti e punti deboli di ogni meta, per il vostro periodo.",
+    "cta": "Confronta",
+    "loading": "Sto confrontando le mete…",
+    "retry": "Riprova",
+    "headline": "In breve",
+    "bestFor": "Ideale per",
+    "watchOut": "Attenzione a",
+    "disclaimer": "Confronto generato dall’AI (Mistral): può contenere errori, controlla le informazioni importanti.",
+    "aspects": {
+      "cost": "Costo",
+      "weather": "Clima",
+      "food": "Cibo",
+      "nightlife": "Vita notturna",
+      "culture": "Cultura",
+      "nature": "Natura",
+      "relax": "Relax",
+      "gettingThere": "Arrivarci"
+    },
+    "errors": {
+      "user_limit": "Hai usato tutti i confronti con l’AI di oggi. Riprova domani.",
+      "global_limit": "Oggi i confronti con l’AI sono esauriti per tutti. Riprova domani.",
+      "busy": "L’AI è occupata in questo momento. Riprova tra un minuto.",
+      "not_configured": "Il confronto con l’AI non è ancora attivo.",
+      "unauthorized": "Accedi di nuovo per usare il confronto con l’AI.",
+      "failed": "Il confronto non è riuscito. Riprova."
+    }
+  },
   "climate": {
     "title": "Clima medio",
     "best": "Periodo migliore: {{months}}",

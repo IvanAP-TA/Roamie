@@ -1136,3 +1136,33 @@ describe('invite cards', () => {
     expect(none).toBeNull()
   })
 })
+
+describe('AI comparisons', () => {
+  it('only the service role reaches the cache and the limits, which hold per user and overall', async () => {
+    const A = 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1'
+    const B = 'f2f2f2f2-f2f2-4f2f-8f2f-f2f2f2f2f2f2'
+    await createUser(db, A, 'Ada')
+    await createUser(db, B, 'Bea')
+    await rejects(as(db, A, (q) => q(`select * from public.ai_comparisons`)), /permission denied/)
+    await rejects(as(db, A, (q) => q(`select public.claim_ai_request($1, 10, 10)`, [A])), /permission denied/)
+
+    const claim = (user: string, perUser: number, global: number) =>
+      db.transaction(async (tx) => {
+        await tx.exec('set local role service_role')
+        const { rows } = await tx.query<{ claim_ai_request: string }>(`select public.claim_ai_request($1, $2, $3)`, [user, perUser, global])
+        return rows[0].claim_ai_request
+      })
+    expect(await claim(A, 2, 3)).toBe('ok')
+    expect(await claim(A, 2, 3)).toBe('ok')
+    expect(await claim(A, 2, 3)).toBe('user_limit')
+    expect(await claim(B, 2, 3)).toBe('ok')
+    expect(await claim(B, 2, 3)).toBe('global_limit')
+
+    await db.transaction(async (tx) => {
+      await tx.exec('set local role service_role')
+      await tx.query(`select public.release_ai_request($1)`, [A])
+    })
+    const { rows } = await db.query<{ n: number }>(`select count(*)::int as n from public.ai_requests where user_id = $1`, [A])
+    expect(rows[0].n).toBe(1)
+  })
+})

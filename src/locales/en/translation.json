@@ -791,6 +791,35 @@
     "leader": "Leading",
     "open": "Open {{name}}"
   },
+  "aiCompare": {
+    "title": "AI comparison",
+    "intro": "Cost, weather, food, nightlife and more: the strengths and weak spots of each place, for your dates.",
+    "cta": "Compare",
+    "loading": "Comparing the places…",
+    "retry": "Try again",
+    "headline": "In short",
+    "bestFor": "Best for",
+    "watchOut": "Watch out for",
+    "disclaimer": "Comparison written by AI (Mistral): it can be wrong, so double-check what matters.",
+    "aspects": {
+      "cost": "Cost",
+      "weather": "Weather",
+      "food": "Food",
+      "nightlife": "Nightlife",
+      "culture": "Culture",
+      "nature": "Nature",
+      "relax": "Relaxing",
+      "gettingThere": "Getting there"
+    },
+    "errors": {
+      "user_limit": "You’ve used all of today’s AI comparisons. Try again tomorrow.",
+      "global_limit": "AI comparisons have run out for everyone today. Try again tomorrow.",
+      "busy": "The AI is busy right now. Try again in a minute.",
+      "not_configured": "AI comparison isn’t switched on yet.",
+      "unauthorized": "Sign in again to use AI comparison.",
+      "failed": "The comparison didn’t work. Try again."
+    }
+  },
   "climate": {
     "title": "Average climate",
     "best": "Best time to go: {{months}}",
