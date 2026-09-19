@@ -77,7 +77,8 @@ async function ask(key: string, model: string, messages: Messages, schema: objec
         ? { type: 'json_schema', json_schema: { name: 'answer', schema, strict: true } }
         : { type: 'json_object' },
     }),
-    signal: AbortSignal.timeout(50_000),
+    // A three-week itinerary is a long answer; Edge Functions may run for 150 s.
+    signal: AbortSignal.timeout(110_000),
   })
   if (!response.ok) {
     // Mistral's reason (rate limit, plan, schema refused…), never the key.

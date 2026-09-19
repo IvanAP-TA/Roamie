@@ -10,7 +10,7 @@ import { findPlaceImages, serializeAttribution } from '@/lib/wikimedia'
 import { keys, unwrap } from './useTrips'
 
 export type { Criteria, Idea, Itinerary }
-export { CONTINENTS, DISTANCES, FAME, LENGTHS, PACES } from '../../supabase/functions/trip-ideas/ideas.ts'
+export { CONTINENTS, DISTANCES, FAME, LENGTHS, MAX_DAYS, PACES } from '../../supabase/functions/trip-ideas/ideas.ts'
 
 const useLang = (): Lang => {
   const { i18n } = useTranslation()
@@ -92,24 +92,29 @@ async function addItinerary(tripId: string, itinerary: Itinerary, near: { lat: n
       .select('id, day_number'),
   )
 
-  const items = []
-  for (const [i, day] of itinerary.days.entries()) {
+  const stops = itinerary.days.flatMap((day, i) => {
     const dayId = days.find((d) => d.day_number === first + i)?.id
-    if (!dayId) continue
-    for (const [index, stop] of day.items.entries()) {
-      // One at a time: Photon is a free service, and results are cached for next time.
-      const spot = stop.place && near ? await findSpotNear(stop.place, near).catch(() => null) : null
-      items.push({
-        itinerary_day_id: dayId,
-        order_index: index,
-        time: stop.time,
-        title: stop.title,
-        description: stop.description || null,
-        place_name: spot ? stop.place : null,
-        lat: spot?.lat ?? null,
-        lng: spot?.lng ?? null,
-      })
-    }
+    return dayId ? day.items.map((stop, index) => ({ dayId, index, stop })) : []
+  })
+  const items = []
+  // A few at a time: Photon is a free service (and results are cached), but a three-week plan has ~80 stops.
+  for (let start = 0; start < stops.length; start += 4) {
+    const batch = await Promise.all(
+      stops.slice(start, start + 4).map(async ({ dayId, index, stop }) => {
+        const spot = stop.place && near ? await findSpotNear(stop.place, near).catch(() => null) : null
+        return {
+          itinerary_day_id: dayId,
+          order_index: index,
+          time: stop.time,
+          title: stop.title,
+          description: stop.description || null,
+          place_name: spot ? stop.place : null,
+          lat: spot?.lat ?? null,
+          lng: spot?.lng ?? null,
+        }
+      }),
+    )
+    items.push(...batch)
   }
   unwrap(await supabase.from('itinerary_items').insert(items))
 }

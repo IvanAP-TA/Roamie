@@ -53,8 +53,12 @@ describe('trip ideas input', () => {
     expect(suggestKey(a)).not.toBe(suggestKey({ ...a, lang: 'es' }))
   })
 
-  it('needs a place and 1–10 days for an itinerary', () => {
+  it('needs a place and 1–21 days for an itinerary', () => {
     expect(readItinerary({ place: { name: 'Porto' }, days: 0 })).toBeNull()
+    expect(readItinerary({ place: { name: 'Porto' }, days: 22 })).toBeNull()
+    const long = itineraryMessages(readItinerary({ place: { name: 'Giappone' }, days: 21 })!)[0].content
+    expect(long).toContain('exactly 21 days, each with 3 to 4 stops')
+    expect(long).toContain('day trips')
     expect(readItinerary({ place: { name: ' ' }, days: 3 })).toBeNull()
     const input = readItinerary({ place: { name: 'Porto', country: 'Portogallo' }, days: 3, criteria: { pace: 'relaxed', fame: 'niche' }, lang: 'it' })!
     expect(input.criteria).toEqual({ moods: [], budget: null, month: null, pace: 'relaxed' })

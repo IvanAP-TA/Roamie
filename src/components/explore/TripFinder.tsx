@@ -9,6 +9,7 @@ import {
   DISTANCES,
   FAME,
   LENGTHS,
+  MAX_DAYS,
   PACES,
   useAddIdeaToTrip,
   useCreateTripFromIdea,
@@ -31,7 +32,7 @@ import { Chip, Skeleton } from '@/components/ui/misc'
 import { Sheet } from '@/components/ui/sheet'
 
 const EMPTY: Criteria = { moods: [], continent: null, budget: null, month: null, length: null, fame: null, distance: null, pace: null }
-const DEFAULT_DAYS = { weekend: 3, week: 6, long: 8 } as const
+const DEFAULT_DAYS = { weekend: 3, week: 6, long: 12 } as const
 const MAX_MOODS = 3
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 
@@ -212,7 +213,7 @@ export function TripFinder({
               <Button variant="glass" size="icon-sm" aria-label={t('tripFinder.fewerDays')} disabled={days <= 1 || itinerary.isPending} onClick={() => setDays(days - 1)}>
                 <Minus />
               </Button>
-              <Button variant="glass" size="icon-sm" aria-label={t('tripFinder.moreDays')} disabled={days >= 10 || itinerary.isPending} onClick={() => setDays(days + 1)}>
+              <Button variant="glass" size="icon-sm" aria-label={t('tripFinder.moreDays')} disabled={days >= MAX_DAYS || itinerary.isPending} onClick={() => setDays(days + 1)}>
                 <Plus />
               </Button>
             </span>

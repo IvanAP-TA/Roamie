@@ -17,6 +17,9 @@ export const FAME = ['famous', 'balanced', 'niche'] as const
 export const DISTANCES = ['near', 'medium', 'far'] as const
 export const PACES = ['relaxed', 'balanced', 'intense'] as const
 
+/** The longest itinerary the AI writes in one go: three weeks. */
+export const MAX_DAYS = 21
+
 export interface Criteria {
   moods: Mood[]
   continent: (typeof CONTINENTS)[number] | null
@@ -105,7 +108,7 @@ export function readSuggest(body: Record<string, unknown>): SuggestInput {
 export function readItinerary(body: Record<string, unknown>): ItineraryInput | null {
   const place = (body.place && typeof body.place === 'object' ? body.place : {}) as Record<string, unknown>
   const name = typeof place.name === 'string' ? clean(place.name, 80) : ''
-  const days = typeof body.days === 'number' && Number.isInteger(body.days) && body.days >= 1 && body.days <= 10 ? body.days : null
+  const days = typeof body.days === 'number' && Number.isInteger(body.days) && body.days >= 1 && body.days <= MAX_DAYS ? body.days : null
   if (!name || !days) return null
   const { moods, budget, month, pace } = readCriteria(body.criteria)
   return {
@@ -213,12 +216,16 @@ export function itineraryMessages(input: ItineraryInput) {
   const system = [
     'You plan day-by-day itineraries for groups of friends.',
     `Write every text in ${LANGUAGE_NAME[input.lang]}.`,
-    `Plan exactly ${input.days} day${input.days === 1 ? '' : 's'}, each with 3 to 5 stops in a sensible order (nearby places together, meals included).`,
+    // Long trips get fewer stops a day, so the whole plan fits in one answer.
+    `Plan exactly ${input.days} day${input.days === 1 ? '' : 's'}, each with 3 to ${input.days > 10 ? 4 : 5} stops in a sensible order (nearby places together, meals included).`,
+    input.days > 7 ? 'On a trip this long, include a few day trips to nearby places and some slower days.' : null,
     'Day title: at most 6 words, the theme of the day. Stop title: at most 8 words. description: one sentence, at most 20 words, with a practical tip.',
     'time: a 24-hour start time like "09:30", or an empty string when it does not matter.',
     'place: the exact name of the specific spot to find on a map (a monument, museum, beach, square, market, viewpoint), or an empty string for generic stops like "dinner in the old town".',
     'Only use real places you are sure exist. Reply with JSON only.',
-  ].join('\n')
+  ]
+    .filter(Boolean)
+    .join('\n')
   const where = `${input.place.name}${input.place.country ? ` (${input.place.country})` : ''}`
   const user = [`Destination: ${where}.`, ...describe(input.criteria)].join('\n')
   return [

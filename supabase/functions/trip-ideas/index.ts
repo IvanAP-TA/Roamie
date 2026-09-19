@@ -56,7 +56,8 @@ Deno.serve(async (req) => {
       global: 400,
       messages: itineraryMessages(input),
       schema: itinerarySchema,
-      maxTokens: 4000,
+      // About 350 tokens a day, with room to spare.
+      maxTokens: Math.min(9000, 600 + input.days * 380),
       parse: (raw) => parseItinerary(parseJson(raw), input.days),
     })
   }
