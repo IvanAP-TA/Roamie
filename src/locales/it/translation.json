@@ -474,7 +474,13 @@
     "emptyBody": "Aggiungete il primo giorno e riempitelo di tappe.",
     "dragHint": "Trascina ⠿ per riordinare le tappe",
     "reorderFailed": "Nuovo ordine non salvato",
-    "saved": "Salvato"
+    "saved": "Salvato",
+    "clear": "Svuota",
+    "clearTitle": "Svuotare l’itinerario?",
+    "clearBody_one": "Il giorno e tutte le sue tappe verranno eliminati per tutto il gruppo. Non si può annullare.",
+    "clearBody_other": "Tutti i {{count}} giorni e le loro tappe verranno eliminati per tutto il gruppo. Non si può annullare.",
+    "clearConfirm": "Svuota tutto",
+    "cleared": "Itinerario svuotato"
   },
   "reset": {
     "button": "Azzera punti",

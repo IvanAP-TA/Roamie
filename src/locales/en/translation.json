@@ -474,7 +474,13 @@
     "emptyBody": "Add the first day and fill it with stops.",
     "dragHint": "Drag ⠿ to reorder stops",
     "reorderFailed": "New order not saved",
-    "saved": "Saved"
+    "saved": "Saved",
+    "clear": "Clear",
+    "clearTitle": "Clear the itinerary?",
+    "clearBody_one": "The day and all its stops will be deleted for the whole group. This can’t be undone.",
+    "clearBody_other": "All {{count}} days and their stops will be deleted for the whole group. This can’t be undone.",
+    "clearConfirm": "Clear everything",
+    "cleared": "Itinerary cleared"
   },
   "reset": {
     "button": "Reset points",

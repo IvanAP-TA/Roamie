@@ -474,7 +474,13 @@
     "emptyBody": "Añadid el primer día y llenadlo de etapas.",
     "dragHint": "Arrastra ⠿ para reordenar las etapas",
     "reorderFailed": "Nuevo orden no guardado",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "clear": "Vaciar",
+    "clearTitle": "¿Vaciar el itinerario?",
+    "clearBody_one": "El día y todas sus paradas se eliminarán para todo el grupo. No se puede deshacer.",
+    "clearBody_other": "Los {{count}} días y sus paradas se eliminarán para todo el grupo. No se puede deshacer.",
+    "clearConfirm": "Vaciar todo",
+    "cleared": "Itinerario vaciado"
   },
   "reset": {
     "button": "Reiniciar puntos",

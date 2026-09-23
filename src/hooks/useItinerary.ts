@@ -59,6 +59,15 @@ export function useItineraryMutations(tripId: string) {
     onSettled: refresh,
   })
 
+  /** Empties the whole itinerary: every day, and their stops with them (on delete cascade). */
+  const clearAll = useMutation({
+    mutationFn: async () => {
+      unwrap(await supabase.from('itinerary_days').delete().eq('trip_id', tripId))
+    },
+    onMutate: () => setDays(() => []),
+    onSettled: refresh,
+  })
+
   /** Deletes a day and renumbers the following ones so the sequence stays 1..n. */
   const deleteDay = useMutation({
     mutationFn: async (id: string) => {
@@ -138,5 +147,5 @@ export function useItineraryMutations(tripId: string) {
     onSettled: refresh,
   })
 
-  return { addDay, updateDay, deleteDay, addItem, updateItem, deleteItem, reorderItems }
+  return { addDay, clearAll, updateDay, deleteDay, addItem, updateItem, deleteItem, reorderItems }
 }

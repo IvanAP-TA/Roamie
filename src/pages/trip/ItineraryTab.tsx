@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarDays, CalendarPlus, CalendarRange, Download, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
+import { CalendarDays, CalendarPlus, CalendarRange, Download, Eraser, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
 import { buildItineraryIcs, fileSlug } from '@/lib/ics'
 import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
@@ -44,6 +44,7 @@ function ItineraryView() {
   const [dayForm, setDayForm] = useState<{ day?: ItineraryDay } | null>(null)
   const [itemForm, setItemForm] = useState<{ dayId: string; item?: ItineraryItem } | null>(null)
   const [deletingDay, setDeletingDay] = useState<ItineraryDay | null>(null)
+  const [clearing, setClearing] = useState(false)
 
   const onError = () => toast.error(t('errors.generic'))
   const lastDay = days?.at(-1)
@@ -98,6 +99,12 @@ function ItineraryView() {
               <Download />
               <span className="hidden sm:inline">{t('stops.exportIcs')}</span>
             </Button>
+            {canEdit && (
+              <Button variant="glass" size="sm" onClick={() => setClearing(true)} aria-label={t('itinerary.clear')}>
+                <Eraser />
+                <span className="hidden sm:inline">{t('itinerary.clear')}</span>
+              </Button>
+            )}
             {canEdit && (
               <Button size="sm" onClick={() => setDayForm({})} aria-label={t('itinerary.addDay')}>
                 <CalendarPlus />
@@ -184,6 +191,25 @@ function ItineraryView() {
           const done = { onSuccess: () => setItemForm(null), onError }
           if (itemForm.item) m.updateItem.mutate({ id: itemForm.item.id, input }, done)
           else m.addItem.mutate({ dayId: itemForm.dayId, input }, done)
+        }}
+      />
+
+      <ConfirmDialog
+        open={clearing}
+        onOpenChange={setClearing}
+        title={t('itinerary.clearTitle')}
+        description={t('itinerary.clearBody', { count: days?.length ?? 0 })}
+        confirmLabel={t('itinerary.clearConfirm')}
+        cancelLabel={t('common.cancel')}
+        destructive
+        icon={<Eraser />}
+        onConfirm={async () => {
+          try {
+            await m.clearAll.mutateAsync()
+            toast.success(t('itinerary.cleared'))
+          } catch {
+            onError()
+          }
         }}
       />
 
