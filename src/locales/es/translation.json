@@ -225,7 +225,9 @@
     "signOutBody": "Sin una cuenta de Google no podrás volver a entrar: necesitarás una nueva invitación para volver a tus viajes. Vincula Google para conservarlo todo.",
     "signOutConfirm": "Salir igualmente",
     "inviteTitle": "Para invitar a tus amigos, vincula Google",
-    "inviteBody": "Las cuentas de invitado pueden borrarse tras 60 días: con Google vinculado, el viaje sigue siendo tuyo y el grupo no lo pierde."
+    "inviteBody": "Las cuentas de invitado pueden borrarse tras 60 días: con Google vinculado, el viaje sigue siendo tuyo y el grupo no lo pierde.",
+    "createTitle": "Para crear tus viajes hace falta Google",
+    "createBody": "Como invitado puedes probar el viaje de ejemplo y entrar en los viajes de tus amigos. Vincula Google para crear los tuyos: todo lo que hiciste se queda."
   },
   "trip": {
     "backToTrips": "Volver a los viajes",

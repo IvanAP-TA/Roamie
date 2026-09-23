@@ -225,7 +225,9 @@
     "signOutBody": "Senza un account Google non potrai rientrare: per tornare nei viaggi ti servirà un nuovo invito. Collega Google per tenere tutto.",
     "signOutConfirm": "Esci comunque",
     "inviteTitle": "Per invitare gli amici collega Google",
-    "inviteBody": "Gli account ospite possono essere cancellati dopo 60 giorni: collegando Google il viaggio resta tuo e il gruppo non rischia di perderlo."
+    "inviteBody": "Gli account ospite possono essere cancellati dopo 60 giorni: collegando Google il viaggio resta tuo e il gruppo non rischia di perderlo.",
+    "createTitle": "Per creare i tuoi viaggi serve Google",
+    "createBody": "Da ospite puoi provare il viaggio di esempio ed entrare nei viaggi degli amici. Collega Google per crearne di tuoi: tutto quello che hai fatto resta."
   },
   "trip": {
     "backToTrips": "Torna ai viaggi",

@@ -225,7 +225,9 @@
     "signOutBody": "Without a Google account you can't sign back in: you'll need a new invite to get back to your trips. Link Google to keep everything.",
     "signOutConfirm": "Sign out anyway",
     "inviteTitle": "Link Google to invite friends",
-    "inviteBody": "Guest accounts can be deleted after 60 days: with Google linked, the trip stays yours and the group can’t lose it."
+    "inviteBody": "Guest accounts can be deleted after 60 days: with Google linked, the trip stays yours and the group can’t lose it.",
+    "createTitle": "Your own trips need Google",
+    "createBody": "As a guest you can try the sample trip and join friends’ trips. Link Google to create your own: everything you did stays."
   },
   "trip": {
     "backToTrips": "Back to trips",

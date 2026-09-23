@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import type { LanguageCode } from '@/i18n'
 import { useCreateSampleTrip } from '@/hooks/useAddGuidePlace'
 import { useAuth } from '@/hooks/useAuth'
-import { GuestBanner } from '@/components/auth/GuestUpgrade'
+import { GuestBanner, GuestUpgradeSheet } from '@/components/auth/GuestUpgrade'
 import { useMyTrips } from '@/hooks/useTrips'
 import { Logo } from '@/components/brand/Logo'
 import { InspirationCard } from '@/components/guides/GuidesLink'
@@ -138,11 +138,13 @@ export default function TripsPage() {
       <Footer className="mt-8" />
 
       <TripFormSheet
-        open={creating}
+        open={creating && !isGuest}
         onOpenChange={(open) => !open && closeCreate()}
-        // Straight to the invite; a guest can't invite before linking Google, so they start from the places.
-        onSaved={(trip) => navigate(isGuest ? `/trips/${trip.id}` : `/trips/${trip.id}/group`, { replace: true })}
+        onSaved={(trip) => navigate(`/trips/${trip.id}/group`, { replace: true })}
       />
+
+      {/* Guests get the sample trip only: their own trips wait for Google. Back here after linking, the form opens. */}
+      <GuestUpgradeSheet open={creating && isGuest} onOpenChange={(open) => !open && closeCreate()} next="/trips?new=1" />
 
       <Sheet open={joinOpen} onOpenChange={setJoinOpen} title={t('join.enterCodeTitle')} description={t('join.enterCodeBody')}>
         <JoinCodeForm onDone={() => setJoinOpen(false)} />

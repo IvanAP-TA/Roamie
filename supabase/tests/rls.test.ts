@@ -1098,6 +1098,8 @@ describe('guests', () => {
     const OTHER_GUEST = 'cdcdcdcd-cdcd-4cdc-8cdc-cdcdcdcdcdcd'
     await createGuest(db, OTHER_GUEST, 'Prova')
     const [own] = await as(db, OTHER_GUEST, (q) => q<{ id: string; invite_code: string }>(`insert into public.trips (name) values ('Mio') returning id, invite_code`))
+    // One trip (the sample) is all a guest gets.
+    await rejects(as(db, OTHER_GUEST, (q) => q(`insert into public.trips (name) values ('Un altro')`)), /row-level security/)
     await rejects(as(db, HOST, (q) => q(`select public.join_trip($1)`, [own.invite_code])), /owner_is_guest/)
     // Its owner is a member already: joining again changes nothing and doesn't fail.
     await as(db, OTHER_GUEST, (q) => q(`select public.join_trip($1)`, [own.invite_code]))
