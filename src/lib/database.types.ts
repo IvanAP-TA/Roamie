@@ -689,6 +689,58 @@ export type Database = {
         }
         Relationships: []
       }
+      trip_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          data: Json
+          destination_id: string | null
+          id: number
+          kind: string
+          trip_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          data?: Json
+          destination_id?: string | null
+          id?: never
+          kind: string
+          trip_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          data?: Json
+          destination_id?: string | null
+          id?: never
+          kind?: string
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_events_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_events_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_events_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trip_links: {
         Row: {
           category: string

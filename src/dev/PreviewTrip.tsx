@@ -160,6 +160,17 @@ export default function PreviewTrip() {
       { id: 'c2', trip_id: TRIP.id, kind: 'book', title: 'Biglietti per il Mosteiro dos Jerónimos', assignee_id: null, done: true, done_at: '2026-09-12T10:00:00Z', created_by: 'u1', created_at: '2026-09-10T11:00:00Z' },
       { id: 'c3', trip_id: TRIP.id, kind: 'pack', title: 'Scarpe comode per le salite', assignee_id: 'u3', done: false, done_at: null, created_by: 'u3', created_at: '2026-09-11T10:00:00Z' },
     ])
+    const ago = (minutes: number) => new Date(Date.now() - minutes * 60_000).toISOString()
+    const person = (i: number) => MEMBERS[i].profile
+    qc.setQueryDefaults(['trip', TRIP.id, 'events'], { staleTime: Infinity })
+    qc.setQueryData(keys.events(TRIP.id), [
+      { id: 6, trip_id: TRIP.id, actor_id: 'u3', kind: 'commented', destination_id: 'd1', data: { name: 'Lisbona', count: 3 }, created_at: ago(20), actor: person(2) },
+      { id: 5, trip_id: TRIP.id, actor_id: 'u2', kind: 'proposed', destination_id: 'd2', data: { name: 'Oaxaca' }, created_at: ago(95), actor: person(1) },
+      { id: 4, trip_id: TRIP.id, actor_id: 'u2', kind: 'voted', destination_id: null, data: {}, created_at: ago(100), actor: person(1) },
+      { id: 3, trip_id: TRIP.id, actor_id: 'u3', kind: 'reason', destination_id: 'd1', data: { name: 'Lisbona', text: 'Si mangia benissimo e costa poco' }, created_at: ago(1500), actor: person(2) },
+      { id: 2, trip_id: TRIP.id, actor_id: null, kind: 'chosen', destination_id: 'd4', data: { name: 'Kyoto' }, created_at: ago(3000), actor: null },
+      { id: 1, trip_id: TRIP.id, actor_id: 'u3', kind: 'joined', destination_id: null, data: {}, created_at: ago(5000), actor: person(2) },
+    ])
     qc.setQueryData(keys.comments('d1'), [
       { id: 'c1', destination_id: 'd1', user_id: 'u3', content: 'Io ci starei una settimana intera!', created_at: '2026-09-09T10:00:00Z', author: MEMBERS[2].profile },
       { id: 'c2', destination_id: 'd1', user_id: 'u1', content: 'Voli ad agosto ancora bassi 👀', created_at: '2026-09-12T10:00:00Z', author: MEMBERS[0].profile },

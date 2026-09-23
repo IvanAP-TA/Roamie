@@ -1169,5 +1169,43 @@
         }
       ]
     }
+  },
+  "feed": {
+    "title": "Cosa è successo",
+    "you": "Tu",
+    "aPlace": "una meta",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "newCount_one": "{{count}} novità",
+    "newCount_other": "{{count}} novità",
+    "seeAll": "Vedi tutto",
+    "seeNew_one": "Vedi l’altra novità",
+    "seeNew_other": "Vedi le altre {{count}} novità",
+    "joined": "ora fa parte del gruppo",
+    "joined_you": "ora fai parte del gruppo",
+    "proposed": "ha proposto {{place}}",
+    "proposed_you": "hai proposto {{place}}",
+    "commented_one": "ha commentato {{place}}",
+    "commented_other": "ha lasciato {{count}} commenti su {{place}}",
+    "commented_you_one": "hai commentato {{place}}",
+    "commented_you_other": "hai lasciato {{count}} commenti su {{place}}",
+    "reason": "ha aggiunto un motivo per {{place}}: «{{text}}»",
+    "reason_you": "hai aggiunto un motivo per {{place}}: «{{text}}»",
+    "voted": "ha distribuito i suoi punti",
+    "voted_you": "hai distribuito i tuoi punti",
+    "itinerary_one": "ha modificato l’itinerario",
+    "itinerary_other": "ha fatto {{count}} modifiche all’itinerario",
+    "itinerary_you_one": "hai modificato l’itinerario",
+    "itinerary_you_other": "hai fatto {{count}} modifiche all’itinerario",
+    "availability": "ha indicato quando può partire",
+    "availability_you": "hai indicato quando puoi partire",
+    "dates_set": "ha fissato le date: {{dates}}",
+    "dates_set_you": "hai fissato le date: {{dates}}",
+    "visited": "ha segnato {{place}} come visitata",
+    "visited_you": "hai segnato {{place}} come visitata",
+    "chosen": "{{place}} è la prossima meta! 🎉",
+    "chosen_you": "{{place}} è la prossima meta! 🎉",
+    "revealed": "I punti segreti sono stati svelati",
+    "revealed_you": "I punti segreti sono stati svelati"
   }
 }

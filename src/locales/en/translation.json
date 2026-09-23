@@ -1169,5 +1169,43 @@
         }
       ]
     }
+  },
+  "feed": {
+    "title": "What’s been happening",
+    "you": "You",
+    "aPlace": "a place",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "newCount_one": "{{count}} new",
+    "newCount_other": "{{count}} new",
+    "seeAll": "See everything",
+    "seeNew_one": "See the other new update",
+    "seeNew_other": "See the other {{count}} new updates",
+    "joined": "joined the group",
+    "joined_you": "joined the group",
+    "proposed": "proposed {{place}}",
+    "proposed_you": "proposed {{place}}",
+    "commented_one": "commented on {{place}}",
+    "commented_other": "left {{count}} comments on {{place}}",
+    "commented_you_one": "commented on {{place}}",
+    "commented_you_other": "left {{count}} comments on {{place}}",
+    "reason": "added a reason for {{place}}: “{{text}}”",
+    "reason_you": "added a reason for {{place}}: “{{text}}”",
+    "voted": "handed out their points",
+    "voted_you": "handed out your points",
+    "itinerary_one": "edited the itinerary",
+    "itinerary_other": "made {{count}} changes to the itinerary",
+    "itinerary_you_one": "edited the itinerary",
+    "itinerary_you_other": "made {{count}} changes to the itinerary",
+    "availability": "shared when they can go",
+    "availability_you": "shared when you can go",
+    "dates_set": "set the dates: {{dates}}",
+    "dates_set_you": "set the dates: {{dates}}",
+    "visited": "marked {{place}} as visited",
+    "visited_you": "marked {{place}} as visited",
+    "chosen": "{{place}} is the next destination! 🎉",
+    "chosen_you": "{{place}} is the next destination! 🎉",
+    "revealed": "The secret points were revealed",
+    "revealed_you": "The secret points were revealed"
   }
 }

@@ -19,6 +19,7 @@ import { PointsLeftBadge } from '@/components/destinations/PointsControl'
 import { ResetPointsButton } from '@/components/destinations/ResetPoints'
 import { SecretVotingControl } from '@/components/destinations/SecretVotingControl'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
+import { ActivityFeed } from '@/components/trips/ActivityFeed'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -165,6 +166,7 @@ export default function DestinationsTab() {
       <div className="space-y-6 px-5 pt-6 md:px-6">
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
+        <ActivityFeed tripId={trip.id} onOpenDestination={open} />
 
         {/* ── Toolbar ── */}
         <div className="space-y-3">

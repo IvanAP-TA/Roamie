@@ -9,6 +9,7 @@ export const keys = {
   members: (id: string) => ['trip', id, 'members'] as const,
   destinations: (id: string) => ['trip', id, 'destinations'] as const,
   itinerary: (id: string) => ['trip', id, 'itinerary'] as const,
+  events: (id: string) => ['trip', id, 'events'] as const,
   links: (id: string) => ['trip', id, 'links'] as const,
   checklist: (id: string) => ['trip', id, 'checklist'] as const,
   availability: (id: string) => ['trip', id, 'availability'] as const,

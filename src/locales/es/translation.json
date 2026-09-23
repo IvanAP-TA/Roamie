@@ -1169,5 +1169,43 @@
         }
       ]
     }
+  },
+  "feed": {
+    "title": "Qué ha pasado",
+    "you": "Tú",
+    "aPlace": "un destino",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "newCount_one": "{{count}} novedad",
+    "newCount_other": "{{count}} novedades",
+    "seeAll": "Ver todo",
+    "seeNew_one": "Ver la otra novedad",
+    "seeNew_other": "Ver las otras {{count}} novedades",
+    "joined": "ya forma parte del grupo",
+    "joined_you": "ya formas parte del grupo",
+    "proposed": "ha propuesto {{place}}",
+    "proposed_you": "has propuesto {{place}}",
+    "commented_one": "ha comentado {{place}}",
+    "commented_other": "ha dejado {{count}} comentarios en {{place}}",
+    "commented_you_one": "has comentado {{place}}",
+    "commented_you_other": "has dejado {{count}} comentarios en {{place}}",
+    "reason": "ha añadido un motivo para {{place}}: «{{text}}»",
+    "reason_you": "has añadido un motivo para {{place}}: «{{text}}»",
+    "voted": "ha repartido sus puntos",
+    "voted_you": "has repartido tus puntos",
+    "itinerary_one": "ha editado el itinerario",
+    "itinerary_other": "ha hecho {{count}} cambios en el itinerario",
+    "itinerary_you_one": "has editado el itinerario",
+    "itinerary_you_other": "has hecho {{count}} cambios en el itinerario",
+    "availability": "ha indicado cuándo puede ir",
+    "availability_you": "has indicado cuándo puedes ir",
+    "dates_set": "ha fijado las fechas: {{dates}}",
+    "dates_set_you": "has fijado las fechas: {{dates}}",
+    "visited": "ha marcado {{place}} como visitado",
+    "visited_you": "has marcado {{place}} como visitado",
+    "chosen": "¡{{place}} es el próximo destino! 🎉",
+    "chosen_you": "¡{{place}} es el próximo destino! 🎉",
+    "revealed": "Se han desvelado los puntos secretos",
+    "revealed_you": "Se han desvelado los puntos secretos"
   }
 }

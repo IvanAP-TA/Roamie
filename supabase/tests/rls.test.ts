@@ -1174,3 +1174,56 @@ describe('AI answers', () => {
     ])
   })
 })
+
+describe('trip activity feed', () => {
+  it('records what members do, folds repeats, keeps secret votes secret and shows events only to members', async () => {
+    const HOST = 'e1e1e1e1-e1e1-4e1e-8e1e-e1e1e1e1e1e1'
+    const FRIEND = 'e2e2e2e2-e2e2-4e2e-8e2e-e2e2e2e2e2e2'
+    const OUTSIDER = 'e3e3e3e3-e3e3-4e3e-8e3e-e3e3e3e3e3e3'
+    await createUser(db, HOST, 'Host')
+    await createUser(db, FRIEND, 'Friend')
+    await createUser(db, OUTSIDER, 'Outsider')
+    const [t] = await as(db, HOST, (q) => q<{ id: string; invite_code: string }>(`insert into public.trips (name) values ('Feed') returning id, invite_code`))
+    await as(db, FRIEND, (q) => q(`select public.join_trip($1)`, [t.invite_code]))
+    const [d] = await as(db, FRIEND, (q) => q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Lisbona') returning id`, [t.id]))
+    for (const text of ['Bella', 'Ci sto', 'Andiamo']) {
+      await as(db, HOST, (q) => q(`insert into public.comments (destination_id, content) values ($1, $2)`, [d.id, text]))
+    }
+    await as(db, FRIEND, (q) => q(`select public.set_points($1, 3)`, [d.id]))
+
+    const events = () =>
+      as(db, HOST, (q) =>
+        q<{ kind: string; actor_id: string; data: Record<string, unknown> }>(
+          `select kind, actor_id, data from public.trip_events where trip_id = $1 order by id`,
+          [t.id],
+        ),
+      )
+    expect((await events()).map((e) => [e.kind, e.actor_id === FRIEND ? 'friend' : 'host', e.data.count ?? 1])).toEqual([
+      ['joined', 'friend', 1],
+      ['proposed', 'friend', 1],
+      ['commented', 'host', 3],
+      ['voted', 'friend', 1],
+    ])
+
+    // Secret round: points leave no trace.
+    await as(db, HOST, (q) => q(`select public.set_secret_voting($1, true)`, [t.id]))
+    await as(db, HOST, (q) => q(`select public.set_points($1, 2)`, [d.id]))
+    expect((await events()).filter((e) => e.kind === 'voted')).toHaveLength(1)
+
+    expect(await as(db, OUTSIDER, (q) => q(`select id from public.trip_events where trip_id = $1`, [t.id]))).toHaveLength(0)
+    await rejects(
+      as(db, HOST, (q) => q(`insert into public.trip_events (trip_id, kind) values ($1, 'joined')`, [t.id])),
+      /permission denied/,
+    )
+    await rejects(
+      as(db, HOST, (q) => q(`select public.log_trip_event($1, $2, 'joined')`, [t.id, HOST])),
+      /permission denied/,
+    )
+
+    // Deleting the trip takes its history with it, cascades and all.
+    await as(db, HOST, (q) => q(`insert into public.itinerary_days (trip_id, day_number) values ($1, 1)`, [t.id]))
+    await as(db, HOST, (q) => q(`delete from public.trips where id = $1`, [t.id]))
+    const { rows } = await db.query(`select id from public.trip_events where trip_id = $1`, [t.id])
+    expect(rows).toHaveLength(0)
+  })
+})

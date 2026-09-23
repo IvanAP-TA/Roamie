@@ -43,6 +43,9 @@ export function useTripRealtime(tripId: string | undefined) {
 
     const channel = supabase
       .channel(`trip:${tripId}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'trip_events', filter: `trip_id=eq.${tripId}` }, () =>
+        invalidate(keys.events(tripId)),
+      )
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trips', filter: `id=eq.${tripId}` }, () => {
         invalidate(keys.trip(tripId))
         // A secret round started or was revealed: which votes this member may read has changed.
