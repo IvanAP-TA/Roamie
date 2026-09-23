@@ -711,7 +711,8 @@
     "cta": "Scopri Roamie",
     "ctaMember": "Vai ai tuoi viaggi",
     "notFoundTitle": "Pagina non disponibile",
-    "notFoundBody": "Il link non è corretto oppure il viaggio non è più pubblico."
+    "notFoundBody": "Il link non è corretto oppure il viaggio non è più pubblico.",
+    "guest": "Per pubblicare la pagina del viaggio collega il tuo account Google."
   },
   "passport": {
     "eyebrow": "I viaggi fatti",
@@ -828,8 +829,10 @@
       "busy": "L’AI è occupata in questo momento. Riprova tra un minuto.",
       "not_configured": "Il confronto con l’AI non è ancora attivo.",
       "unauthorized": "Accedi di nuovo per usare il confronto con l’AI.",
-      "failed": "Il confronto non è riuscito. Riprova."
-    }
+      "failed": "Il confronto non è riuscito. Riprova.",
+      "guest": "Collega il tuo account Google per usare l’AI."
+    },
+    "guest": "Il confronto con l’AI è per chi ha un account: collega Google e resta tutto quello che hai fatto da ospite."
   },
   "tripFinder": {
     "title": "Trova la meta",
@@ -909,8 +912,10 @@
       "busy": "L’AI è occupata in questo momento. Riprova tra un minuto.",
       "not_configured": "L’AI non è ancora attiva.",
       "unauthorized": "Accedi di nuovo per usare l’AI.",
-      "failed": "Non è andata. Riprova."
-    }
+      "failed": "Non è andata. Riprova.",
+      "guest": "Collega il tuo account Google per usare l’AI."
+    },
+    "guest": "I suggerimenti dell’AI sono per chi ha un account: collega Google, tutto quello che hai fatto da ospite resta tuo."
   },
   "climate": {
     "title": "Clima medio",

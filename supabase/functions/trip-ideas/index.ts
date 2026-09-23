@@ -3,10 +3,10 @@
  *   { action: 'suggest', criteria, lang, origin, exclude }  → 3 destinations that fit the choices
  *   { action: 'itinerary', place, days, criteria, lang }     → a day-by-day plan for one of them
  *
- * Signed-in users only (guests included); answers cached for everyone, daily limits per user and overall.
+ * Google accounts only (not guests); answers cached for everyone, daily limits per user and overall.
  * Replies { result, cached } or { error } (see ../_shared/ai.ts).
  */
-import { answer, callerId, CORS, parseJson, reply } from '../_shared/ai.ts'
+import { answer, caller, CORS, parseJson, reply } from '../_shared/ai.ts'
 import {
   itineraryKey,
   itineraryMessages,
@@ -24,8 +24,9 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
   if (req.method !== 'POST') return reply({ error: 'bad_request' }, 405)
 
-  const user = await callerId(req)
-  if (!user) return reply({ error: 'unauthorized' }, 401)
+  const who = await caller(req)
+  if ('error' in who) return who.error
+  const user = who.id
 
   const body = await req.json().catch(() => null)
   if (!body || typeof body !== 'object') return reply({ error: 'bad_request' }, 400)

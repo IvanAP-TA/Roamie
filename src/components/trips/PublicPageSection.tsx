@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { Check, Copy, ExternalLink, Globe2, Loader2, Share2 } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/useAuth'
 import { useSetTripPublic } from '@/hooks/usePublicTrip'
+import { GoogleButton } from '@/components/auth/GoogleButton'
 import { copyText, publicTripLink, shareOrCopy } from '@/lib/share'
 import type { Trip } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -11,6 +14,8 @@ import { Switch } from '@/components/ui/misc'
 /** Owner: publish or hide the read-only trip page. Other members: its link, once it's public. */
 export function PublicPageSection({ trip, isOwner }: { trip: Trip; isOwner: boolean }) {
   const { t } = useTranslation()
+  const { isGuest } = useAuth()
+  const location = useLocation()
   const setPublic = useSetTripPublic(trip.id)
   const [copied, setCopied] = useState(false)
 
@@ -49,7 +54,14 @@ export function PublicPageSection({ trip, isOwner }: { trip: Trip; isOwner: bool
         <p className="text-sm text-muted-foreground">{t('publicPage.sectionBody')}</p>
       </div>
       <div className="glass divide-y divide-border rounded-[1.75rem]">
-        {isOwner && (
+        {/* Publishing, like inviting, waits for a Google account (set_trip_public refuses guests). */}
+        {isOwner && isGuest && !link && (
+          <div className="space-y-3 px-5 py-4">
+            <p className="text-sm text-muted-foreground">{t('publicPage.guest')}</p>
+            <GoogleButton link next={`${location.pathname}${location.search}`} label={t('guest.link')} className="bg-background" />
+          </div>
+        )}
+        {isOwner && !(isGuest && !link) && (
           <div className="flex items-center gap-3 px-5 py-4">
             <Globe2 className="size-5 shrink-0 text-primary" />
             <div className="min-w-0 flex-1">

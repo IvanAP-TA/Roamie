@@ -711,7 +711,8 @@
     "cta": "Discover Roamie",
     "ctaMember": "Go to your trips",
     "notFoundTitle": "Page not available",
-    "notFoundBody": "The link is wrong, or the trip is no longer public."
+    "notFoundBody": "The link is wrong, or the trip is no longer public.",
+    "guest": "Link your Google account to publish the trip page."
   },
   "passport": {
     "eyebrow": "Trips you've taken",
@@ -828,8 +829,10 @@
       "busy": "The AI is busy right now. Try again in a minute.",
       "not_configured": "AI comparison isn’t switched on yet.",
       "unauthorized": "Sign in again to use AI comparison.",
-      "failed": "The comparison didn’t work. Try again."
-    }
+      "failed": "The comparison didn’t work. Try again.",
+      "guest": "Link your Google account to use the AI."
+    },
+    "guest": "AI comparison is for accounts: link Google and keep everything you did as a guest."
   },
   "tripFinder": {
     "title": "Find your destination",
@@ -909,8 +912,10 @@
       "busy": "The AI is busy right now. Try again in a minute.",
       "not_configured": "The AI isn’t switched on yet.",
       "unauthorized": "Sign in again to use the AI.",
-      "failed": "That didn’t work. Try again."
-    }
+      "failed": "That didn’t work. Try again.",
+      "guest": "Link your Google account to use the AI."
+    },
+    "guest": "AI suggestions are for accounts: link Google and keep everything you did as a guest."
   },
   "climate": {
     "title": "Average climate",

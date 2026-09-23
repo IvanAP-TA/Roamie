@@ -18,12 +18,17 @@ export const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('S
   auth: { persistSession: false, autoRefreshToken: false },
 })
 
-/** The signed-in user (guests included) calling the function, or null. */
-export async function callerId(req: Request): Promise<string | null> {
+/**
+ * The signed-in user calling the function, as an id, or the error reply: signed out (401), or a guest (403). The AI
+ * features need a Google account, so guest accounts made in bulk can't spend the shared daily quota.
+ */
+export async function caller(req: Request): Promise<{ id: string } | { error: Response }> {
   const token = req.headers.get('Authorization')?.replace(/^Bearer\s+/i, '')
-  if (!token) return null
-  const { data } = await admin.auth.getUser(token)
-  return data?.user?.id ?? null
+  const { data } = token ? await admin.auth.getUser(token) : { data: { user: null } }
+  const user = data?.user
+  if (!user) return { error: reply({ error: 'unauthorized' }, 401) }
+  if (user.is_anonymous) return { error: reply({ error: 'guest' }, 403) }
+  return { id: user.id }
 }
 
 export async function cached(key: string): Promise<unknown | null> {

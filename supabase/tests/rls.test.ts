@@ -1106,6 +1106,17 @@ describe('guests', () => {
     expect(join_trip).toBe(own.id)
   })
 
+  it("keeps a guest's trip private and new trips to the columns the forms write", async () => {
+    const SHY = 'cfcfcfcf-cfcf-4cfc-8cfc-cfcfcfcfcfcf'
+    await createGuest(db, SHY, 'Timido')
+    const [own] = await as(db, SHY, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Solo mio') returning id`))
+    await rejects(as(db, SHY, (q) => q(`select public.set_trip_public($1, true)`, [own.id])), /guest_account_required/)
+    for (const column of ['public_slug', 'invite_code', 'secret_voting', 'roulette_spin_at']) {
+      const value = column === 'secret_voting' ? 'true' : column === 'roulette_spin_at' ? `'2020-01-01'` : `'SHORTCUT'`
+      await rejects(as(db, SHY, (q) => q(`insert into public.trips (name, ${column}) values ('x', ${value})`)), /permission denied/)
+    }
+  })
+
   it('lets a guest build the whole sample trip (what useCreateSampleTrip writes)', async () => {
     const TRIER = 'cececece-cece-4cec-8cec-cececececece'
     await createGuest(db, TRIER, 'Curioso')

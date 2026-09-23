@@ -2,6 +2,8 @@ import { useState, type ReactNode } from 'react'
 import { ArrowRight, RotateCcw, Sparkles, ThumbsUp, Trophy } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
+import { GoogleButton } from '@/components/auth/GoogleButton'
+import { useLocation } from 'react-router-dom'
 import { ASPECTS, useAiComparison, type Comparison } from '@/hooks/useAiComparison'
 import { useClimate } from '@/hooks/useClimate'
 import { aiErrorCode } from '@/lib/ai'
@@ -61,6 +63,22 @@ function AiPanel({
   query: ReturnType<typeof useAiComparison>
 }) {
   const { t } = useTranslation()
+  const { isGuest } = useAuth()
+  const location = useLocation()
+
+  // The AI needs a Google account (the Edge Function refuses guests): offer to link it instead.
+  if (isGuest) {
+    return (
+      <div className={cn(panel, warm, 'space-y-3')}>
+        <p className="flex items-center gap-1.5 font-semibold">
+          <Sparkles className="size-4 text-primary" />
+          {t('aiCompare.title')}
+        </p>
+        <p className="text-sm text-muted-foreground">{t('aiCompare.guest')}</p>
+        <GoogleButton link next={`${location.pathname}${location.search}`} label={t('guest.link')} className="bg-background" />
+      </div>
+    )
+  }
 
   if (!requested) {
     return (

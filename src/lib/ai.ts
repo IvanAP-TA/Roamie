@@ -1,10 +1,10 @@
 import { FunctionsHttpError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 
-/** Why an AI function gave no answer: user_limit, global_limit, busy, not_configured, unauthorized or failed. */
+/** Why an AI function gave no answer: user_limit, global_limit, busy, not_configured, unauthorized, guest or failed. */
 export class AiError extends Error {}
 
-export const AI_ERRORS = ['user_limit', 'global_limit', 'busy', 'not_configured', 'unauthorized'] as const
+export const AI_ERRORS = ['user_limit', 'global_limit', 'busy', 'not_configured', 'unauthorized', 'guest'] as const
 
 /** Calls one of the AI Edge Functions (supabase/functions/_shared/ai.ts) and returns its answer. */
 export async function invokeAi<T>(fn: string, body: object): Promise<T> {

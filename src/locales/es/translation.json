@@ -711,7 +711,8 @@
     "cta": "Descubre Roamie",
     "ctaMember": "Ir a tus viajes",
     "notFoundTitle": "Página no disponible",
-    "notFoundBody": "El enlace no es correcto o el viaje ya no es público."
+    "notFoundBody": "El enlace no es correcto o el viaje ya no es público.",
+    "guest": "Vincula tu cuenta de Google para publicar la página del viaje."
   },
   "passport": {
     "eyebrow": "Los viajes hechos",
@@ -828,8 +829,10 @@
       "busy": "La IA está ocupada ahora mismo. Inténtalo de nuevo en un minuto.",
       "not_configured": "La comparación con IA aún no está activa.",
       "unauthorized": "Vuelve a iniciar sesión para usar la comparación con IA.",
-      "failed": "La comparación no ha funcionado. Inténtalo de nuevo."
-    }
+      "failed": "La comparación no ha funcionado. Inténtalo de nuevo.",
+      "guest": "Vincula tu cuenta de Google para usar la IA."
+    },
+    "guest": "La comparación con IA es para cuentas: vincula Google y conserva todo lo que hiciste como invitado."
   },
   "tripFinder": {
     "title": "Encuentra el destino",
@@ -909,8 +912,10 @@
       "busy": "La IA está ocupada ahora mismo. Inténtalo de nuevo en un minuto.",
       "not_configured": "La IA aún no está activa.",
       "unauthorized": "Vuelve a iniciar sesión para usar la IA.",
-      "failed": "No ha funcionado. Inténtalo de nuevo."
-    }
+      "failed": "No ha funcionado. Inténtalo de nuevo.",
+      "guest": "Vincula tu cuenta de Google para usar la IA."
+    },
+    "guest": "Las sugerencias de la IA son para cuentas: vincula Google y conserva todo lo que hiciste como invitado."
   },
   "climate": {
     "title": "Clima medio",

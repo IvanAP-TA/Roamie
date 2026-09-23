@@ -52,7 +52,7 @@ export function TripFinder({
   onShowCountry: (code: string) => void
 }) {
   const { t } = useTranslation()
-  const { session } = useAuth()
+  const { session, isGuest } = useAuth()
   const navigate = useNavigate()
   const [step, setStep] = useState<Step>('criteria')
   const [criteria, setCriteria] = useState<Criteria>(EMPTY)
@@ -128,12 +128,13 @@ export function TripFinder({
 
   const title = step === 'plan' || step === 'pick' ? (chosen?.name ?? '') : t('tripFinder.title')
 
-  if (!session) {
+  // The AI needs a Google account: sign in, or link it to the guest account (the Edge Function refuses guests).
+  if (!session || isGuest) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange} title={t('tripFinder.title')}>
         <div className="space-y-4 pb-2">
-          <p className="text-sm text-muted-foreground">{t('tripFinder.signIn')}</p>
-          <GoogleButton next="/explore?ai=1" />
+          <p className="text-sm text-muted-foreground">{t(isGuest ? 'tripFinder.guest' : 'tripFinder.signIn')}</p>
+          <GoogleButton link={isGuest} next="/explore?ai=1" label={isGuest ? t('guest.link') : undefined} />
         </div>
       </Sheet>
     )
