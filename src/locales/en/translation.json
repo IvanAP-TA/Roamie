@@ -1207,5 +1207,36 @@
     "chosen_you": "{{place}} is the next destination! 🎉",
     "revealed": "The secret points were revealed",
     "revealed_you": "The secret points were revealed"
+  },
+  "wrapped": {
+    "cta": "Your trip, as a story",
+    "ctaBody_one": "The recap to post: places, votes, the wheel and the itinerary.",
+    "ctaBody_other": "The recap of all {{count}} of you to post: places, votes, the wheel and the itinerary.",
+    "title": "Your trip",
+    "eyebrow": "Our next trip",
+    "eyebrowVisited": "We went",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "stats": {
+      "people_one": "traveller",
+      "people_other": "travellers",
+      "places_one": "place in the running",
+      "places_other": "places in the running",
+      "points_one": "point given",
+      "points_other": "points given",
+      "comments_one": "comment",
+      "comments_other": "comments",
+      "spins_one": "spin of the wheel",
+      "spins_other": "spins of the wheel",
+      "stops_one": "stop",
+      "stops_other": "stops"
+    },
+    "quote_one": "The best-loved reason for {{place}} · {{count}} like",
+    "quote_other": "The best-loved reason for {{place}} · {{count}} likes",
+    "peopleMore_one": "{{names}} and one more",
+    "peopleMore_other": "{{names}} and {{count}} more",
+    "footer": "Plan your next trip together on roamie.org",
+    "hint": "Share it in your stories or send it to the group.",
+    "alt": "The recap of the trip to {{name}}"
   }
 }

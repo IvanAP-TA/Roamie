@@ -1207,5 +1207,36 @@
     "chosen_you": "¡{{place}} es el próximo destino! 🎉",
     "revealed": "Se han desvelado los puntos secretos",
     "revealed_you": "Se han desvelado los puntos secretos"
+  },
+  "wrapped": {
+    "cta": "Vuestro viaje, en una historia",
+    "ctaBody_one": "El resumen para publicar: destinos, votos, ruleta e itinerario.",
+    "ctaBody_other": "El resumen de los {{count}} para publicar: destinos, votos, ruleta e itinerario.",
+    "title": "Vuestro viaje",
+    "eyebrow": "Nuestro próximo viaje",
+    "eyebrowVisited": "Estuvimos allí",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días",
+    "stats": {
+      "people_one": "viajero",
+      "people_other": "viajeros",
+      "places_one": "destino en juego",
+      "places_other": "destinos en juego",
+      "points_one": "punto dado",
+      "points_other": "puntos dados",
+      "comments_one": "comentario",
+      "comments_other": "comentarios",
+      "spins_one": "giro de ruleta",
+      "spins_other": "giros de ruleta",
+      "stops_one": "parada",
+      "stops_other": "paradas"
+    },
+    "quote_one": "El motivo favorito para {{place}} · {{count}} me gusta",
+    "quote_other": "El motivo favorito para {{place}} · {{count}} me gusta",
+    "peopleMore_one": "{{names}} y uno más",
+    "peopleMore_other": "{{names}} y {{count}} más",
+    "footer": "Decidid vuestro próximo viaje en roamie.org",
+    "hint": "Compártela en tus historias o envíala al grupo.",
+    "alt": "El resumen del viaje a {{name}}"
   }
 }

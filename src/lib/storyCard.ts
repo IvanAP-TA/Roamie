@@ -43,7 +43,7 @@ export function storyPhotoUrl(url: string | null | undefined): string | null {
 }
 
 /** Resolves null when the photo can't be loaded for a canvas (no CORS, offline, slow): the card falls back to the wheel. */
-function loadImage(url: string): Promise<HTMLImageElement | null> {
+export function loadImage(url: string): Promise<HTMLImageElement | null> {
   return new Promise((resolve) => {
     const img = new Image()
     const timer = setTimeout(() => resolve(null), 8000)
@@ -62,7 +62,7 @@ function loadImage(url: string): Promise<HTMLImageElement | null> {
 }
 
 /** Sets the largest font size (down to `min`) at which the text fits; below that the text is cut with "…". */
-function fitSize(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, font: (size: number) => string, max: number, min: number) {
+export function fitSize(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, font: (size: number) => string, max: number, min: number) {
   for (let size = max; size >= min; size -= 4) {
     ctx.font = font(size)
     if (ctx.measureText(text).width <= maxWidth) return text
@@ -70,7 +70,7 @@ function fitSize(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, 
   return fit(ctx, text, maxWidth)
 }
 
-function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxLines: number): string[] {
+export function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxLines: number): string[] {
   const lines: string[] = []
   let line = ''
   for (const word of text.split(/\s+/)) {
@@ -87,7 +87,7 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, max
   return [...lines.slice(0, maxLines - 1), fit(ctx, lines.slice(maxLines - 1).join(' '), maxWidth)]
 }
 
-function drawPhoto(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number) {
+export function drawPhoto(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number) {
   ctx.save()
   roundedRect(ctx, x, y, w, h, 56)
   ctx.clip()
