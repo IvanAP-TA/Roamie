@@ -204,7 +204,8 @@
     "roleHint": "Entrerai come editor: potrai proporre mete, votare e commentare.",
     "welcome": "Benvenuto a bordo di “{{trip}}”!",
     "invalidTitle": "Invito non valido",
-    "invalidBody": "Il codice è sbagliato oppure l'owner lo ha rigenerato. Chiedi un link aggiornato."
+    "invalidBody": "Il codice è sbagliato oppure l'owner lo ha rigenerato. Chiedi un link aggiornato.",
+    "ownerIsGuest": "Chi ti ha invitato deve prima collegare il suo account Google. Chiedigli di farlo e riprova."
   },
   "guest": {
     "or": "oppure",
@@ -214,17 +215,17 @@
     "error": "Non siamo riusciti a farti entrare come ospite. Riprova o usa Google.",
     "badge": "Ospite, senza account",
     "bannerTitle": "Ciao {{name}}, sei entrato come ospite",
-    "bannerBody": "Collega il tuo account Google per creare viaggi tuoi, ritrovarli su ogni dispositivo e non perdere nulla di quello che hai fatto.",
+    "bannerBody": "Collega il tuo account Google per invitare gli amici, ritrovare i viaggi su ogni dispositivo e non perdere nulla.",
     "link": "Collega Google",
-    "createTitle": "Per creare un viaggio serve un account",
-    "createBody": "Collega Google: tutto quello che hai fatto da ospite resta tuo.",
     "alreadyLinkedTitle": "Questo account Google è già su Roamie",
     "alreadyLinkedBody": "Puoi uscire dall’account ospite e accedere con quello Google (quello che hai fatto da ospite resta al gruppo), oppure continuare come ospite.",
     "switchAccount": "Accedi con l’account Google",
     "stayGuest": "Continua come ospite",
     "signOutTitle": "Uscire dall’account ospite?",
     "signOutBody": "Senza un account Google non potrai rientrare: per tornare nei viaggi ti servirà un nuovo invito. Collega Google per tenere tutto.",
-    "signOutConfirm": "Esci comunque"
+    "signOutConfirm": "Esci comunque",
+    "inviteTitle": "Per invitare gli amici collega Google",
+    "inviteBody": "Gli account ospite possono essere cancellati dopo 60 giorni: collegando Google il viaggio resta tuo e il gruppo non rischia di perderlo."
   },
   "trip": {
     "backToTrips": "Torna ai viaggi",
@@ -1118,7 +1119,7 @@
         },
         {
           "title": "Conservazione",
-          "body": "I dati restano finché mantieni l'account. Se lo elimini cancelliamo profilo, viaggi di cui sei proprietario, voti e commenti; le mete che hai proposto nei viaggi di altri restano al gruppo senza il tuo nome. Gli account ospite che non vengono usati per 60 giorni vengono cancellati automaticamente, con i loro voti e commenti."
+          "body": "I dati restano finché mantieni l'account. Se lo elimini cancelliamo profilo, viaggi di cui sei proprietario, voti e commenti; le mete che hai proposto nei viaggi di altri restano al gruppo senza il tuo nome. Gli account ospite che non vengono usati per 60 giorni vengono cancellati automaticamente, con i loro voti, commenti e i viaggi che hanno creato."
         },
         {
           "title": "I tuoi diritti",
@@ -1238,5 +1239,17 @@
     "footer": "Decidete il vostro prossimo viaggio su roamie.org",
     "hint": "Condividila nelle storie o mandala al gruppo.",
     "alt": "Il riepilogo del viaggio a {{name}}"
+  },
+  "sample": {
+    "try": "Prova con un viaggio di esempio",
+    "tryNoAccount": "Prova senza account",
+    "tryBody": "Basta un nome: entri in un viaggio di esempio già pronto, con mete, ruota e itinerario.",
+    "start": "Inizia",
+    "bannerTitle": "Questo è un viaggio di esempio",
+    "bannerBody": "Dai i tuoi 10 punti alle mete, gira la ruota, confronta le mete con l’AI, sfoglia l’itinerario. Quando vuoi, crea il tuo viaggio e invita gli amici.",
+    "createOwn": "Crea il tuo viaggio",
+    "delete": "Elimina l’esempio",
+    "deleteTitle": "Eliminare il viaggio di esempio?",
+    "deleteBody": "Mete, punti e itinerario di prova verranno cancellati."
   }
 }

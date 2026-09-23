@@ -24,7 +24,6 @@ import { flagEmoji } from '@/lib/flags'
 import { MOODS, type BudgetLevel, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { GoogleButton } from '@/components/auth/GoogleButton'
-import { GuestUpgradeSheet } from '@/components/auth/GuestUpgrade'
 import { BudgetIndicator, MOOD_META, MoodTag } from '@/components/destinations/moods'
 import { TripChoiceList } from '@/components/trips/TripChoiceList'
 import { Button } from '@/components/ui/button'
@@ -53,7 +52,7 @@ export function TripFinder({
   onShowCountry: (code: string) => void
 }) {
   const { t } = useTranslation()
-  const { session, isGuest } = useAuth()
+  const { session } = useAuth()
   const navigate = useNavigate()
   const [step, setStep] = useState<Step>('criteria')
   const [criteria, setCriteria] = useState<Criteria>(EMPTY)
@@ -62,7 +61,6 @@ export function TripFinder({
   const [chosen, setChosen] = useState<Idea | null>(null)
   const [days, setDays] = useState(4)
   const [plan, setPlan] = useState<Itinerary | null>(null)
-  const [upgrading, setUpgrading] = useState(false)
 
   const suggest = useSuggestIdeas()
   const itinerary = useIdeaItinerary()
@@ -104,10 +102,6 @@ export function TripFinder({
 
   const create = () => {
     if (!chosen) return
-    if (isGuest) {
-      setUpgrading(true)
-      return
-    }
     createTrip.mutate(
       { idea: chosen, itinerary: plan },
       {
@@ -276,7 +270,6 @@ export function TripFinder({
       >
         {body}
       </Sheet>
-      <GuestUpgradeSheet open={upgrading} onOpenChange={setUpgrading} next="/explore?ai=1" />
     </>
   )
 }

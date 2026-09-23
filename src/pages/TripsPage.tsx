@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Plane, Plus, Ticket } from 'lucide-react'
+import { Loader2, Plane, Plus, Sparkles, Ticket } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import type { LanguageCode } from '@/i18n'
+import { useCreateSampleTrip } from '@/hooks/useAddGuidePlace'
 import { useAuth } from '@/hooks/useAuth'
-import { GuestBanner, GuestUpgradeSheet } from '@/components/auth/GuestUpgrade'
+import { GuestBanner } from '@/components/auth/GuestUpgrade'
 import { useMyTrips } from '@/hooks/useTrips'
 import { Logo } from '@/components/brand/Logo'
 import { InspirationCard } from '@/components/guides/GuidesLink'
@@ -21,8 +24,9 @@ import { Sheet } from '@/components/ui/sheet'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
 
 export default function TripsPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { profile, user, isGuest } = useAuth()
+  const sample = useCreateSampleTrip((i18n.resolvedLanguage ?? 'it') as LanguageCode)
   const { data: trips, isLoading, isError, refetch } = useMyTrips()
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
@@ -32,6 +36,24 @@ export default function TripsPage() {
   const openCreate = () => setParams({ new: '1' })
   const closeCreate = () => setParams({}, { replace: true })
   const firstName = profile?.display_name?.split(' ')[0] ?? ''
+
+  const trySample = () => {
+    if (sample.isPending) return
+    sample.mutate(undefined, {
+      onSuccess: (tripId) => navigate(`/trips/${tripId}`),
+      onError: () => toast.error(t('errors.generic')),
+    })
+  }
+
+  // From "Prova senza account" on the landing (?sample=1): straight into the sample trip, once, if there's nothing yet.
+  const sampleRequested = useRef(false)
+  useEffect(() => {
+    if (params.get('sample') !== '1' || !trips || sampleRequested.current) return
+    sampleRequested.current = true
+    setParams({}, { replace: true })
+    if (trips.length === 0) trySample()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params, trips])
 
   return (
     <>
@@ -86,6 +108,10 @@ export default function TripsPage() {
               <Ticket />
               {t('trips.joinWithCode')}
             </Button>
+            <Button size="lg" variant="ghost" onClick={trySample} disabled={sample.isPending}>
+              {sample.isPending ? <Loader2 className="animate-spin" /> : <Sparkles />}
+              {t('sample.try')}
+            </Button>
           </EmptyState>
         )}
 
@@ -112,13 +138,11 @@ export default function TripsPage() {
       <Footer className="mt-8" />
 
       <TripFormSheet
-        open={creating && !isGuest}
+        open={creating}
         onOpenChange={(open) => !open && closeCreate()}
-        onSaved={(trip) => navigate(`/trips/${trip.id}/group`, { replace: true })}
+        // Straight to the invite; a guest can't invite before linking Google, so they start from the places.
+        onSaved={(trip) => navigate(isGuest ? `/trips/${trip.id}` : `/trips/${trip.id}/group`, { replace: true })}
       />
-
-      {/* Guests can join trips but not create them: back here after linking Google, the form opens. */}
-      <GuestUpgradeSheet open={creating && isGuest} onOpenChange={(open) => !open && closeCreate()} next="/trips?new=1" />
 
       <Sheet open={joinOpen} onOpenChange={setJoinOpen} title={t('join.enterCodeTitle')} description={t('join.enterCodeBody')}>
         <JoinCodeForm onDone={() => setJoinOpen(false)} />

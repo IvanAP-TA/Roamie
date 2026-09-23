@@ -21,6 +21,7 @@ import { SecretVotingControl } from '@/components/destinations/SecretVotingContr
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
 import { TripWrapped } from '@/components/trips/TripWrapped'
+import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -165,6 +166,7 @@ export default function DestinationsTab() {
       </section>
 
       <div className="space-y-6 px-5 pt-6 md:px-6">
+        <SampleTripBanner />
         {destinations && <TripWrapped destinations={destinations} />}
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />

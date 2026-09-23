@@ -204,7 +204,8 @@
     "roleHint": "You'll join as an editor: you can propose places, vote and comment.",
     "welcome": "Welcome aboard “{{trip}}”!",
     "invalidTitle": "Invalid invite",
-    "invalidBody": "The code is wrong or the owner regenerated it. Ask for an updated link."
+    "invalidBody": "The code is wrong or the owner regenerated it. Ask for an updated link.",
+    "ownerIsGuest": "Whoever invited you needs to link their Google account first. Ask them to, then try again."
   },
   "guest": {
     "or": "or",
@@ -214,17 +215,17 @@
     "error": "We couldn't let you in as a guest. Try again or use Google.",
     "badge": "Guest, no account",
     "bannerTitle": "Hi {{name}}, you're here as a guest",
-    "bannerBody": "Link your Google account to create trips of your own, find them on any device and keep everything you did.",
+    "bannerBody": "Link your Google account to invite friends, find your trips on any device and keep everything.",
     "link": "Link Google",
-    "createTitle": "Creating a trip needs an account",
-    "createBody": "Link Google: everything you did as a guest stays yours.",
     "alreadyLinkedTitle": "This Google account is already on Roamie",
     "alreadyLinkedBody": "You can leave the guest account and sign in with Google (what you did as a guest stays with the group), or carry on as a guest.",
     "switchAccount": "Sign in with the Google account",
     "stayGuest": "Carry on as a guest",
     "signOutTitle": "Sign out of the guest account?",
     "signOutBody": "Without a Google account you can't sign back in: you'll need a new invite to get back to your trips. Link Google to keep everything.",
-    "signOutConfirm": "Sign out anyway"
+    "signOutConfirm": "Sign out anyway",
+    "inviteTitle": "Link Google to invite friends",
+    "inviteBody": "Guest accounts can be deleted after 60 days: with Google linked, the trip stays yours and the group can’t lose it."
   },
   "trip": {
     "backToTrips": "Back to trips",
@@ -1118,7 +1119,7 @@
         },
         {
           "title": "Retention",
-          "body": "Data is kept for as long as you keep your account. If you delete it, we erase your profile, the trips you own, your votes and comments; destinations you proposed in other people's trips stay with the group without your name. Guest accounts unused for 60 days are deleted automatically, together with their votes and comments."
+          "body": "Data is kept for as long as you keep your account. If you delete it, we erase your profile, the trips you own, your votes and comments; destinations you proposed in other people's trips stay with the group without your name. Guest accounts unused for 60 days are deleted automatically, together with their votes, comments and the trips they created."
         },
         {
           "title": "Your rights",
@@ -1238,5 +1239,17 @@
     "footer": "Plan your next trip together on roamie.org",
     "hint": "Share it in your stories or send it to the group.",
     "alt": "The recap of the trip to {{name}}"
+  },
+  "sample": {
+    "try": "Try a sample trip",
+    "tryNoAccount": "Try it without an account",
+    "tryBody": "Just a name: you get a ready-made sample trip with places, the wheel and an itinerary.",
+    "start": "Start",
+    "bannerTitle": "This is a sample trip",
+    "bannerBody": "Hand out your 10 points, spin the wheel, compare places with AI, browse the itinerary. Whenever you like, create your own trip and invite your friends.",
+    "createOwn": "Create your trip",
+    "delete": "Delete the sample",
+    "deleteTitle": "Delete the sample trip?",
+    "deleteBody": "Its places, points and itinerary will be deleted."
   }
 }

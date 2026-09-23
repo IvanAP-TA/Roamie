@@ -43,7 +43,8 @@ export default function JoinPage() {
       toast.success(t('join.welcome', { trip: trip.name }))
       navigate(`/trips/${tripId}`, { replace: true })
     } catch (err) {
-      toast.error(rpcErrorCode(err as Error) === 'invalid_invite_code' ? t('join.invalidTitle') : t('errors.generic'))
+      const code = rpcErrorCode(err as Error)
+      toast.error(code === 'invalid_invite_code' ? t('join.invalidTitle') : code === 'owner_is_guest' ? t('join.ownerIsGuest') : t('errors.generic'))
     }
   }, [code, trip, join, navigate, t])
 

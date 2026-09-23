@@ -9,7 +9,6 @@ import type { LanguageCode } from '@/i18n'
 import { useCreateTripFromGuide } from '@/hooks/useAddGuidePlace'
 import { useAuth } from '@/hooks/useAuth'
 import { GoogleButton } from '@/components/auth/GoogleButton'
-import { GuestUpgradeSheet } from '@/components/auth/GuestUpgrade'
 import { Button } from '@/components/ui/button'
 import { Sheet } from '@/components/ui/sheet'
 
@@ -19,7 +18,7 @@ import { Sheet } from '@/components/ui/sheet'
  */
 export function UseGuideTrip({ guide, places, lang }: { guide: GuideMeta; places: GuidePlace[]; lang: LanguageCode }) {
   const { t } = useTranslation(undefined, { lng: lang })
-  const { session, isGuest } = useAuth()
+  const { session } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
@@ -45,7 +44,7 @@ export function UseGuideTrip({ guide, places, lang }: { guide: GuideMeta; places
 
   // Back from signing in (?use=1): finish what was started, once.
   useEffect(() => {
-    if (params.get('use') !== '1' || !session || isGuest || resumed.current) return
+    if (params.get('use') !== '1' || !session || resumed.current) return
     resumed.current = true
     setParams(
       (p) => {
@@ -55,13 +54,13 @@ export function UseGuideTrip({ guide, places, lang }: { guide: GuideMeta; places
       { replace: true },
     )
     run()
-  }, [params, session, isGuest, setParams, run])
+  }, [params, session, setParams, run])
 
   return (
     <>
       <div className="glass-strong mt-8 flex flex-col gap-4 rounded-[1.75rem] p-5 sm:flex-row sm:items-center md:p-6">
         <p className="flex-1 text-sm leading-relaxed text-muted-foreground">{t('guides.useTripHint')}</p>
-        <Button size="lg" className="shrink-0" disabled={create.isPending} onClick={() => (session && !isGuest ? run() : setSigningIn(true))}>
+        <Button size="lg" className="shrink-0" disabled={create.isPending} onClick={() => (session ? run() : setSigningIn(true))}>
           {create.isPending ? <Loader2 className="animate-spin" /> : <Sparkles />}
           {t('guides.useTrip', { count: places.length })}
         </Button>
@@ -73,7 +72,6 @@ export function UseGuideTrip({ guide, places, lang }: { guide: GuideMeta; places
           <GoogleButton next={back} />
         </div>
       </Sheet>
-      <GuestUpgradeSheet open={signingIn && isGuest} onOpenChange={setSigningIn} next={back} />
     </>
   )
 }

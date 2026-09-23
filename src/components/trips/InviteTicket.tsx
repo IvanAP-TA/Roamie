@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, Copy, Share2 } from 'lucide-react'
+import { Check, Copy, Lock, Share2 } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { GoogleButton } from '@/components/auth/GoogleButton'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/useAuth'
 import { canNativeShare, copyText, formatInviteCode, inviteLink, shareOrCopy, whatsappShareUrl } from '@/lib/share'
 import type { Trip } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -16,7 +19,32 @@ function WhatsAppIcon({ className }: { className?: string }) {
   )
 }
 
+/**
+ * A guest's own trip can't take members until they link Google (join_trip refuses): guests who never come back are
+ * deleted with their trips, which mustn't take a group's work with them. Linking keeps the same user and the trip.
+ */
+function LinkToInvite({ className }: { className?: string }) {
+  const { t } = useTranslation()
+  const location = useLocation()
+  return (
+    <div className={cn('glass-strong space-y-3 rounded-[1.75rem] p-5', className)}>
+      <p className="flex items-center gap-2 font-semibold">
+        <Lock className="size-4 text-primary" />
+        {t('guest.inviteTitle')}
+      </p>
+      <p className="text-sm text-muted-foreground">{t('guest.inviteBody')}</p>
+      <GoogleButton link next={`${location.pathname}${location.search}`} label={t('guest.link')} className="bg-background" />
+    </div>
+  )
+}
+
 export function InviteTicket({ trip, className }: { trip: Trip; className?: string }) {
+  const { isGuest, user } = useAuth()
+  if (isGuest && trip.owner_id === user?.id) return <LinkToInvite className={className} />
+  return <InviteCode trip={trip} className={className} />
+}
+
+function InviteCode({ trip, className }: { trip: Trip; className?: string }) {
   const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
   const url = inviteLink(trip.invite_code)

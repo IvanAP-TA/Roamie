@@ -12,6 +12,7 @@ import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { Logo } from '@/components/brand/Logo'
 import { Scene } from '@/components/brand/Scene'
 import { GoogleButton } from '@/components/auth/GoogleButton'
+import { TryWithoutAccount } from '@/components/auth/TryWithoutAccount'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Footer } from '@/components/layout/Footer'
 import { Splash } from '@/components/layout/Splash'
@@ -200,6 +201,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
               className="intro-rise w-full max-w-md space-y-3"
             >
               <GoogleButton next={next} />
+              <TryWithoutAccount lang={lang} />
               <p className="px-4 text-center text-xs leading-relaxed text-muted-foreground">{t('landing.privacyNote')}</p>
               <div className="flex justify-center">
                 <InstallAppButton appearance="link" />

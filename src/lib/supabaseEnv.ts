@@ -55,6 +55,7 @@ export type RpcErrorCode =
   | 'invalid_spin_time'
   | 'mention_all_limited'
   | 'reasons_limit'
+  | 'owner_is_guest'
 
 export function rpcErrorCode(error: { message?: string } | null | undefined): RpcErrorCode | null {
   const known: RpcErrorCode[] = [
@@ -68,6 +69,7 @@ export function rpcErrorCode(error: { message?: string } | null | undefined): Rp
     'invalid_spin_time',
     'mention_all_limited',
     'reasons_limit',
+    'owner_is_guest',
   ]
   return known.find((code) => error?.message?.includes(code)) ?? null
 }

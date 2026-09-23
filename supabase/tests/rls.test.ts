@@ -1083,7 +1083,7 @@ describe('guests', () => {
     code = t.invite_code
   })
 
-  it('lets a guest join with an invite and take part, but not create trips', async () => {
+  it('lets a guest join with an invite and take part', async () => {
     const [{ join_trip }] = await as(db, GUEST, (q) => q<{ join_trip: string }>(`select public.join_trip($1)`, [code]))
     expect(join_trip).toBe(trip)
     const [profile] = await as(db, GUEST, (q) => q(`select display_name, avatar_url from public.profiles where id = $1`, [GUEST]))
@@ -1092,7 +1092,44 @@ describe('guests', () => {
     const [d] = await as(db, GUEST, (q) => q<{ id: string }>(`insert into public.destinations (trip_id, name) values ($1, 'Atene') returning id`, [trip]))
     await as(db, GUEST, (q) => q(`select public.set_points($1, 3)`, [d.id]))
     await as(db, GUEST, (q) => q(`insert into public.comments (destination_id, content) values ($1, 'Io ci sto')`, [d.id]))
-    await rejects(as(db, GUEST, (q) => q(`insert into public.trips (name) values ('Mio')`)), /row-level security/)
+  })
+
+  it('lets a guest create a trip that nobody can join until they link Google', async () => {
+    const OTHER_GUEST = 'cdcdcdcd-cdcd-4cdc-8cdc-cdcdcdcdcdcd'
+    await createGuest(db, OTHER_GUEST, 'Prova')
+    const [own] = await as(db, OTHER_GUEST, (q) => q<{ id: string; invite_code: string }>(`insert into public.trips (name) values ('Mio') returning id, invite_code`))
+    await rejects(as(db, HOST, (q) => q(`select public.join_trip($1)`, [own.invite_code])), /owner_is_guest/)
+    // Its owner is a member already: joining again changes nothing and doesn't fail.
+    await as(db, OTHER_GUEST, (q) => q(`select public.join_trip($1)`, [own.invite_code]))
+    await db.query(`update auth.users set is_anonymous = false where id = $1`, [OTHER_GUEST])
+    const [{ join_trip }] = await as(db, HOST, (q) => q<{ join_trip: string }>(`select public.join_trip($1)`, [own.invite_code]))
+    expect(join_trip).toBe(own.id)
+  })
+
+  it('lets a guest build the whole sample trip (what useCreateSampleTrip writes)', async () => {
+    const TRIER = 'cececece-cece-4cec-8cec-cececececece'
+    await createGuest(db, TRIER, 'Curioso')
+    await as(db, TRIER, async (q) => {
+      const [t] = await q<{ id: string }>(
+        `insert into public.trips (name, description, date_window_start, date_window_end, trip_length)
+         values ('Esempio', 'Prova', '2026-10-01', '2026-10-31', 3) returning id`,
+      )
+      const ds = await q<{ id: string }>(
+        `insert into public.destinations (trip_id, name, country_code, lat, lng, mood) values
+           ($1, 'Lisbona', 'PT', 38.72, -9.14, '{culture}'), ($1, 'Valencia', 'ES', 39.47, -0.38, '{relax}') returning id`,
+        [t.id],
+      )
+      await q(`select public.set_points($1, 4)`, [ds[0].id])
+      await q(`select public.set_points($1, 2)`, [ds[1].id])
+      await q(`insert into public.destination_reasons (destination_id, text) values ($1, 'Tramonti')`, [ds[0].id])
+      const [day] = await q<{ id: string }>(`insert into public.itinerary_days (trip_id, day_number, title) values ($1, 1, 'Alfama') returning id`, [t.id])
+      await q(
+        `insert into public.itinerary_items (itinerary_day_id, order_index, time, title, place_name, lat, lng) values ($1, 0, '10:00', 'Castello', 'Castelo', 38.71, -9.13)`,
+        [day.id],
+      )
+      await q(`insert into public.checklist_items (trip_id, kind, title) values ($1, 'book', 'Voli')`, [t.id])
+      await q(`delete from public.trips where id = $1`, [t.id])
+    })
   })
 
   it('keeps everything once the guest links a Google account', async () => {

@@ -204,7 +204,8 @@
     "roleHint": "Entrarás como editor: podrás proponer destinos, votar y comentar.",
     "welcome": "¡Bienvenido a bordo de «{{trip}}»!",
     "invalidTitle": "Invitación no válida",
-    "invalidBody": "El código es incorrecto o el owner lo ha regenerado. Pide un enlace actualizado."
+    "invalidBody": "El código es incorrecto o el owner lo ha regenerado. Pide un enlace actualizado.",
+    "ownerIsGuest": "Quien te invitó tiene que vincular antes su cuenta de Google. Pídeselo y vuelve a intentarlo."
   },
   "guest": {
     "or": "o",
@@ -214,17 +215,17 @@
     "error": "No hemos podido dejarte entrar como invitado. Inténtalo de nuevo o usa Google.",
     "badge": "Invitado, sin cuenta",
     "bannerTitle": "Hola {{name}}, has entrado como invitado",
-    "bannerBody": "Vincula tu cuenta de Google para crear tus propios viajes, verlos en cualquier dispositivo y no perder nada de lo que has hecho.",
+    "bannerBody": "Vincula tu cuenta de Google para invitar a tus amigos, encontrar tus viajes en cualquier dispositivo y no perder nada.",
     "link": "Vincular Google",
-    "createTitle": "Para crear un viaje hace falta una cuenta",
-    "createBody": "Vincula Google: todo lo que hiciste como invitado sigue siendo tuyo.",
     "alreadyLinkedTitle": "Esta cuenta de Google ya está en Roamie",
     "alreadyLinkedBody": "Puedes salir de la cuenta de invitado y entrar con la de Google (lo que hiciste como invitado se queda en el grupo), o seguir como invitado.",
     "switchAccount": "Entrar con la cuenta de Google",
     "stayGuest": "Seguir como invitado",
     "signOutTitle": "¿Salir de la cuenta de invitado?",
     "signOutBody": "Sin una cuenta de Google no podrás volver a entrar: necesitarás una nueva invitación para volver a tus viajes. Vincula Google para conservarlo todo.",
-    "signOutConfirm": "Salir igualmente"
+    "signOutConfirm": "Salir igualmente",
+    "inviteTitle": "Para invitar a tus amigos, vincula Google",
+    "inviteBody": "Las cuentas de invitado pueden borrarse tras 60 días: con Google vinculado, el viaje sigue siendo tuyo y el grupo no lo pierde."
   },
   "trip": {
     "backToTrips": "Volver a los viajes",
@@ -1118,7 +1119,7 @@
         },
         {
           "title": "Conservación",
-          "body": "Los datos se conservan mientras mantengas tu cuenta. Si la eliminas, borramos tu perfil, los viajes de los que eres propietario, tus votos y comentarios; los destinos que propusiste en viajes de otros se quedan en el grupo sin tu nombre. Las cuentas de invitado que no se usan durante 60 días se eliminan automáticamente, junto con sus votos y comentarios."
+          "body": "Los datos se conservan mientras mantengas tu cuenta. Si la eliminas, borramos tu perfil, los viajes de los que eres propietario, tus votos y comentarios; los destinos que propusiste en viajes de otros se quedan en el grupo sin tu nombre. Las cuentas de invitado que no se usan durante 60 días se eliminan automáticamente, junto con sus votos, comentarios y los viajes que crearon."
         },
         {
           "title": "Tus derechos",
@@ -1238,5 +1239,17 @@
     "footer": "Decidid vuestro próximo viaje en roamie.org",
     "hint": "Compártela en tus historias o envíala al grupo.",
     "alt": "El resumen del viaje a {{name}}"
+  },
+  "sample": {
+    "try": "Prueba con un viaje de ejemplo",
+    "tryNoAccount": "Prueba sin cuenta",
+    "tryBody": "Solo un nombre: entras en un viaje de ejemplo ya listo, con destinos, ruleta e itinerario.",
+    "start": "Empezar",
+    "bannerTitle": "Este es un viaje de ejemplo",
+    "bannerBody": "Reparte tus 10 puntos, gira la ruleta, compara destinos con IA, mira el itinerario. Cuando quieras, crea tu viaje e invita a tus amigos.",
+    "createOwn": "Crea tu viaje",
+    "delete": "Eliminar el ejemplo",
+    "deleteTitle": "¿Eliminar el viaje de ejemplo?",
+    "deleteBody": "Se borrarán sus destinos, puntos e itinerario."
   }
 }
