@@ -71,6 +71,8 @@ export interface Itinerary {
   days: { title: string; items: Stop[] }[]
 }
 
+// Control characters are exactly what this strips, from text that ends up in a prompt.
+// oxlint-disable-next-line no-control-regex
 export const clean = (text: string, max: number) => text.replace(/[\u0000-\u001f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max)
 
 const oneOf = <T extends string | number>(list: readonly T[], value: unknown): T | null => (list.includes(value as T) ? (value as T) : null)

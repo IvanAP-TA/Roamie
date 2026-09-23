@@ -21,6 +21,8 @@ function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
 
 function Label({ className, ...props }: React.ComponentProps<'label'>) {
   return (
+    // The control is linked by the caller, through htmlFor in props.
+    // oxlint-disable-next-line jsx-a11y/label-has-associated-control
     <label
       data-slot="label"
       className={cn('mb-1.5 block px-1 text-[0.8rem] font-semibold tracking-wide text-muted-foreground uppercase', className)}

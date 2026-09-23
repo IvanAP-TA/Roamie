@@ -44,6 +44,8 @@ export interface Comparison {
   picks: { if: string; place: number }[]
 }
 
+// Control characters are exactly what this strips, from text that ends up in a prompt.
+// oxlint-disable-next-line no-control-regex
 const clean = (text: string, max: number) => text.replace(/[\u0000-\u001f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max)
 
 /** Validates and trims the request body; null when it isn't a usable comparison. */

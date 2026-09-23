@@ -221,6 +221,7 @@ export function CommentComposer({ destinationId, tripId, onSent }: { destination
         rows={1}
         value={value}
         maxLength={2000}
+        role="combobox"
         aria-autocomplete="list"
         aria-controls={open ? listId : undefined}
         aria-expanded={open}

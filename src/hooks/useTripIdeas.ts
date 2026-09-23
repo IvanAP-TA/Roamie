@@ -74,7 +74,10 @@ async function destinationFor(idea: Idea, lang: Lang) {
   }
 }
 
-/** Itinerary rows after the trip's last day. Stops are pinned only when the map finds them near the place. */
+/**
+ * Itinerary rows after the trip's last day. Stops are pinned only when the map finds them near the place.
+ * All or nothing: if the stops can't be saved (a limit, the network), the days just added go too.
+ */
 async function addItinerary(tripId: string, itinerary: Itinerary, near: { lat: number; lng: number } | null) {
   const { data: last } = await supabase
     .from('itinerary_days')
@@ -116,7 +119,11 @@ async function addItinerary(tripId: string, itinerary: Itinerary, near: { lat: n
     )
     items.push(...batch)
   }
-  unwrap(await supabase.from('itinerary_items').insert(items))
+  const { error } = await supabase.from('itinerary_items').insert(items)
+  if (error) {
+    await supabase.from('itinerary_days').delete().in('id', days.map((d) => d.id))
+    throw error
+  }
 }
 
 /** A new trip built around the suggested place, with the itinerary when there is one. Returns the trip id. */
@@ -160,7 +167,15 @@ export function useAddIdeaToTrip() {
     mutationFn: async ({ tripId, idea, itinerary }: { tripId: string; idea: Idea; itinerary: Itinerary | null }) => {
       const { row } = await destinationFor(idea, lang)
       const created = unwrap<{ id: string }>(await supabase.from('destinations').insert({ trip_id: tripId, ...row }).select('id').single())
-      if (itinerary) await addItinerary(tripId, itinerary, row.lat != null && row.lng != null ? { lat: row.lat, lng: row.lng } : null)
+      if (itinerary) {
+        try {
+          await addItinerary(tripId, itinerary, row.lat != null && row.lng != null ? { lat: row.lat, lng: row.lng } : null)
+        } catch (error) {
+          // The place without its plan would look like it worked: take it away again, so a retry starts clean.
+          await supabase.from('destinations').delete().eq('id', created.id)
+          throw error
+        }
+      }
       return created.id
     },
     onSuccess: (_id, { tripId }) => {

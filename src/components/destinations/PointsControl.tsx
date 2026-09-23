@@ -96,6 +96,8 @@ export function PointsControl({ destination, size = 'default', className }: { de
     <div
       className={cn('inline-flex items-center rounded-full border border-border bg-[var(--glass-strong)] p-0.5', lg && 'p-1', className)}
       onClick={(e) => e.stopPropagation()}
+      // Keys pressed on the buttons inside must not reach the card around it either.
+      onKeyDown={(e) => e.stopPropagation()}
     >
       <motion.button
         type="button"
