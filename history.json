@@ -1,0 +1,18 @@
+[
+  {
+    "date": "2026-10-10T17:01:45.383Z",
+    "format": "wheel",
+    "lang": "en",
+    "places": [
+      "marrakech",
+      "hanoi",
+      "istanbul",
+      "vilnius"
+    ],
+    "hook": "Sunset in Marrakech or street food in Hanoi?",
+    "caption": "The wheel’s about to pick your next adventure—where would you *really* rather be? 🌍",
+    "copySource": "ai",
+    "published": false,
+    "results": {}
+  }
+]
