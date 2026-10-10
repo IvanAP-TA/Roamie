@@ -1,0 +1,87 @@
+# Three times a week: plan a video from the guides, write its words, render it, check it and publish it.
+# Nothing is published until the repository variable SOCIAL_PUBLISH is "on": until then every run is a dry run whose
+# video you can download from the run's page (Artifacts). See video/automation/README.md for the keys.
+# The history of posts (what keeps them from repeating) lives on the "social-history" branch, not on main.
+name: Social videos
+
+on:
+  schedule:
+    # Monday, Wednesday and Friday at 16:00 UTC (18:00 in Italy in summer, 17:00 in winter).
+    - cron: '0 16 * * 1,3,5'
+  workflow_dispatch:
+    inputs:
+      lang:
+        description: Language of the video (it or en)
+        default: it
+
+permissions:
+  contents: write
+
+concurrency:
+  group: social-videos
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+        working-directory: video
+
+      - name: Previous posts
+        run: git show origin/social-history:history.json > video/automation/history.json 2>/dev/null || echo '[]' > video/automation/history.json
+
+      - name: Plan, write, render, check, publish
+        working-directory: video
+        env:
+          VIDEO_LANG: ${{ inputs.lang || vars.VIDEO_LANG || 'it' }}
+          PUBLISH: ${{ vars.SOCIAL_PUBLISH }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_PRIVACY: ${{ vars.YOUTUBE_PRIVACY }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          META_GRAPH_VERSION: ${{ vars.META_GRAPH_VERSION }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_PRIVACY: ${{ vars.TIKTOK_PRIVACY }}
+        run: node --experimental-strip-types --no-warnings automation/run.mjs
+
+      - name: Keep the video for two weeks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ github.run_number }}
+          path: |
+            video/out/post.mp4
+            video/out/props.json
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Save the history
+        if: success()
+        run: |
+          cp video/automation/history.json "$RUNNER_TEMP/history.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          if git show-ref --verify --quiet refs/remotes/origin/social-history; then
+            git switch -c social-history origin/social-history
+          else
+            git switch --orphan social-history
+          fi
+          cp "$RUNNER_TEMP/history.json" history.json
+          git add history.json
+          git commit -m "Post of $(date -u +%F)"
+          git push origin social-history

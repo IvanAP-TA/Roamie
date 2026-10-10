@@ -636,14 +636,14 @@
     }
   },
   "tenerife": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Tenerife%2C_Canary_Islands_ESA23970088.jpeg/960px-Tenerife%2C_Canary_Islands_ESA23970088.jpeg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Teide_y_roques_de_Garc%C3%ADa%2C_parque_nacional_del_Teide%2C_Tenerife%2C_Espa%C3%B1a%2C_2022-01-07%2C_DD_18.jpg/960px-Teide_y_roques_de_Garc%C3%ADa%2C_parque_nacional_del_Teide%2C_Tenerife%2C_Espa%C3%B1a%2C_2022-01-07%2C_DD_18.jpg",
     "width": 960,
-    "height": 960,
+    "height": 640,
     "attribution": {
-      "author": "European Space Agency",
-      "license": "CC BY-SA 3.0 igo",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tenerife,_Canary_Islands_ESA23970088.jpeg"
+      "author": "Diego Delso",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Teide_y_roques_de_Garc%C3%ADa,_parque_nacional_del_Teide,_Tenerife,_Espa%C3%B1a,_2022-01-07,_DD_18.jpg"
     }
   },
   "thessaloniki": {

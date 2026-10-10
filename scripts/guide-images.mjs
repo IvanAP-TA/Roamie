@@ -89,6 +89,8 @@ const CHOSEN = {
   // A labelled satellite map, and Aix-en-Provence instead of the Luberon.
   santorini: 'File:Oia - Santorini 2019.jpg',
   provence: 'File:Gordes with cirrus.jpg',
+  // The article's lead image is an ESA satellite shot.
+  tenerife: 'File:Teide y roques de García, parque nacional del Teide, Tenerife, España, 2022-01-07, DD 18.jpg',
 }
 
 /** Lead image of the Wikipedia article about the place. */

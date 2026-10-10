@@ -6,6 +6,7 @@
   "regions": ["fra1"],
   "cleanUrls": true,
   "trailingSlash": false,
+  "git": { "deploymentEnabled": { "social-history": false } },
   "redirects": [{ "source": "/it", "destination": "/", "permanent": true }],
   "rewrites": [
     { "source": "/trips", "destination": "/shell" },

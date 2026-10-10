@@ -1,0 +1,15 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Ignore the output video from Git but not videos you import into src/.
+out
+
+# Kept on the social-history branch by the Social videos workflow
+automation/history.json
+
+# Remotion agent skills installed by create-video (local tooling)
+.agents
+.claude
+skills-lock.json
