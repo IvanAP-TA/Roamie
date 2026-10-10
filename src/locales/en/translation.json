@@ -121,7 +121,8 @@
     "guides": "Guides",
     "noTrackers": "Zero profiling cookies, zero trackers",
     "privacy": "Privacy",
-    "terms": "Terms"
+    "terms": "Terms",
+    "youtube": "YouTube"
   },
   "notFound": {
     "title": "Wrong turn",
@@ -1121,6 +1122,10 @@
           ]
         },
         {
+          "title": "Our YouTube channel",
+          "body": "Roamie publishes short videos with travel ideas on its YouTube channel. To upload them to our own channel we use YouTube API Services; they don't access, collect or store any data about you or about the people who watch the videos, and the Roamie app doesn't use them. Since we keep no data obtained through YouTube API Services, there is nothing of yours to delete. When you watch our videos on YouTube, the YouTube Terms of Service (https://www.youtube.com/t/terms) and the Google Privacy Policy (https://policies.google.com/privacy) apply. Roamie never asks for access to your Google or YouTube account through these services; you can review and revoke the access you have given to any app at https://myaccount.google.com/permissions."
+        },
+        {
           "title": "Transfers outside the European Union",
           "body": "The service data is stored in the European Union. Some providers (Google, Apple, Mozilla, Cloudflare, Vercel and the delivery networks of the map and image services) may process technical data such as your IP address outside the EU, in particular in the United States: such transfers rely on the EU-US Data Privacy Framework or on the standard contractual clauses approved by the European Commission."
         },
@@ -1162,6 +1167,10 @@
         {
           "title": "Reporting content",
           "body": "If you find content on Roamie that is illegal or infringes your rights, for example on a public trip page, write to {{contact}} with the link and the reason. We review every report, promptly remove illegal content and, where possible, let the person who posted it know."
+        },
+        {
+          "title": "Our videos on YouTube",
+          "body": "The videos on Roamie's YouTube channel are published on YouTube: by watching or using them you also agree to the YouTube Terms of Service (https://www.youtube.com/t/terms)."
         },
         {
           "title": "Limited liability",

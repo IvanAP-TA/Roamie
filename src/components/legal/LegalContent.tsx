@@ -15,7 +15,7 @@ export function LegalContent({ doc }: { doc: LegalDoc }) {
 
   return (
     <article className="space-y-6 text-[0.95rem] leading-relaxed">
-      <p className="text-xs tracking-wide text-muted-foreground uppercase">{t('legal.updated', { date: '23/09/2026' })}</p>
+      <p className="text-xs tracking-wide text-muted-foreground uppercase">{t('legal.updated', { date: '10/10/2026' })}</p>
       <p className="font-display text-lg leading-snug">{t(`legal.${doc}.intro`)}</p>
       {Array.isArray(sections) &&
         sections.map((section) => (

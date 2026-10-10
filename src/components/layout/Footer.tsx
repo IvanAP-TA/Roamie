@@ -10,6 +10,8 @@ import type { LegalDoc } from '@/components/legal/LegalContent'
 const LegalSheet = lazy(() => import('@/components/legal/LegalSheet'))
 import { cn } from '@/lib/utils'
 
+const YOUTUBE_CHANNEL = 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA'
+
 export function Footer({ className }: { className?: string }) {
   const { t, i18n } = useTranslation()
   const guidesPath = GUIDE_BASE[i18n.resolvedLanguage as LanguageCode] ?? GUIDE_BASE.en
@@ -52,6 +54,15 @@ export function Footer({ className }: { className?: string }) {
           className="inline-flex min-h-10 items-center px-1 underline-offset-4 transition hover:text-foreground hover:underline"
         >
           {t('footer.terms')}
+        </a>
+        <span aria-hidden className="size-1 rounded-full bg-muted-foreground/40" />
+        <a
+          href={YOUTUBE_CHANNEL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-10 items-center px-1 underline-offset-4 transition hover:text-foreground hover:underline"
+        >
+          {t('footer.youtube')}
         </a>
         <span aria-hidden className="size-1 rounded-full bg-muted-foreground/40" />
         <span>© {new Date().getFullYear()} Roamie</span>

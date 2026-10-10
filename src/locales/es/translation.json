@@ -121,7 +121,8 @@
     "guides": "Guías",
     "noTrackers": "Cero cookies de perfilado, cero rastreadores",
     "privacy": "Privacidad",
-    "terms": "Términos"
+    "terms": "Términos",
+    "youtube": "YouTube"
   },
   "notFound": {
     "title": "Ruta equivocada",
@@ -1121,6 +1122,10 @@
           ]
         },
         {
+          "title": "Nuestro canal de YouTube",
+          "body": "Roamie publica vídeos cortos con ideas de viaje en su canal de YouTube. Para subirlos a nuestro canal usamos los servicios de API de YouTube (YouTube API Services): no acceden, no recopilan ni guardan ningún dato sobre ti ni sobre quien ve los vídeos, y la app de Roamie no los usa. Como no guardamos datos obtenidos a través de los servicios de API de YouTube, no hay nada tuyo que borrar. Cuando ves nuestros vídeos en YouTube se aplican los Términos de servicio de YouTube (https://www.youtube.com/t/terms) y la Política de privacidad de Google (https://policies.google.com/privacy). Roamie nunca pide acceso a tu cuenta de Google o YouTube a través de estos servicios; puedes revisar y revocar el acceso que has dado a cualquier app en https://myaccount.google.com/permissions."
+        },
+        {
           "title": "Transferencias fuera de la Unión Europea",
           "body": "Los datos del servicio se almacenan en la Unión Europea. Algunos proveedores (Google, Apple, Mozilla, Cloudflare, Vercel y las redes de distribución de los servicios de mapas e imágenes) pueden tratar datos técnicos como tu dirección IP fuera de la UE, en particular en Estados Unidos: esas transferencias se basan en el Marco de Privacidad de Datos UE-EE. UU. o en las cláusulas contractuales tipo aprobadas por la Comisión Europea."
         },
@@ -1162,6 +1167,10 @@
         {
           "title": "Denunciar un contenido",
           "body": "Si encuentras en Roamie un contenido ilegal o que vulnera tus derechos, por ejemplo en una página pública de un viaje, escribe a {{contact}} indicando el enlace y el motivo. Revisamos cada aviso, retiramos con rapidez los contenidos ilegales y, cuando es posible, informamos a quien los publicó."
+        },
+        {
+          "title": "Nuestros vídeos en YouTube",
+          "body": "Los vídeos del canal de YouTube de Roamie se publican en YouTube: al verlos o usarlos aceptas también los Términos de servicio de YouTube (https://www.youtube.com/t/terms)."
         },
         {
           "title": "Responsabilidad limitada",
