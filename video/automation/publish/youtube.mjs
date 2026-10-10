@@ -1,6 +1,6 @@
 /**
  * YouTube Shorts: a vertical video under three minutes uploaded through the YouTube Data API becomes a Short.
- * Needs YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET and YOUTUBE_REFRESH_TOKEN (an OAuth client of type "Desktop" and a
+ * Needs YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET and YOUTUBE_REFRESH_TOKEN (an OAuth client of type "Web application" and a
  * refresh token with the youtube.upload scope; see automation/README.md). Until Google verifies the app, YouTube
  * keeps API uploads private.
  */
