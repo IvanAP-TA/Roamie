@@ -86,6 +86,14 @@ describe('copy checks', () => {
     expect(checkLine('DOVE ANDIAMO CON IL GRUPPO STAVOLTA?', base)).toBe('shouting')
     expect(checkLine('Where are we going with the group this time?', base)).toBe('language')
     expect(checkLine('Il posto imperdibile per la vostra estate', base)).toMatch(/banned/)
+    expect(checkLine('Dove vorresti *davvero* andare con il gruppo?', base)).toBe('formatting')
+  })
+
+  it('rejects a wheel hook that names only some of its places', () => {
+    const allOrNone = ['Marrakech', 'Hanoi', 'Istanbul', 'Vilnius']
+    const en = { ...base, lang: 'en', allOrNone }
+    expect(checkLine('Sunset in Marrakech or street food in Hanoi?', en)).toBe('names only some of the places')
+    expect(checkLine('Four places, one group, and one wheel', en)).toBeNull()
   })
 
   it('rejects a line too close to an earlier one', () => {

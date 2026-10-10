@@ -133,18 +133,23 @@ export function looksLike(text, lang) {
 /**
  * Every check an AI line must pass. Returns the reason it fails, or null.
  * `allowedNumbers`: digits it may contain (the counts on screen); anything else could be an invented fact.
+ * `allOrNone`: names it may mention only all together, so a four-place wheel isn't sold as "A or B?".
  */
-export function checkLine(text, { min, max, lang, past, maxSimilarity, mustMention = [], allowedNumbers = [] }) {
+export function checkLine(text, { min, max, lang, past, maxSimilarity, mustMention = [], allOrNone = [], allowedNumbers = [] }) {
   if (typeof text !== 'string') return 'missing'
   const t = text.trim()
   if (t.length < min || t.length > max) return `length ${t.length}`
   if (BANNED.test(t)) return 'banned wording'
   if (/[€$£%#@]/.test(t)) return 'prices, hashtags or handles'
+  // Social captions show markdown as it is: *really* stays with its asterisks.
+  if (/[*_~`]/.test(t)) return 'formatting'
   for (const n of t.match(/\d+/g) ?? []) if (!allowedNumbers.includes(n)) return `number ${n}`
   if ((t.match(/\p{Extended_Pictographic}/gu) ?? []).length > 1) return 'emoji'
   if (t === t.toUpperCase() && /[A-Z]/.test(t)) return 'shouting'
   if (!looksLike(t, lang)) return 'language'
   for (const name of mustMention) if (!normalize(t).includes(normalize(name))) return `doesn't mention ${name}`
+  const named = allOrNone.filter((name) => normalize(t).includes(normalize(name))).length
+  if (named && named < allOrNone.length) return 'names only some of the places'
   for (const old of past) if (similarity(t, old) > maxSimilarity) return 'too close to an earlier post'
   return null
 }
@@ -205,6 +210,7 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
   const pool = POOLS[lang]
   const allowedNumbers = [String(plan.places.length)]
   const mustMention = plan.format === 'versus' ? names : []
+  const allOrNone = plan.format === 'versus' ? [] : names
   const rejected = []
 
   const facts = plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
@@ -213,8 +219,8 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
     `Write in ${lang === 'it' ? 'Italian, natural and informal (tu/voi), like a friend' : 'English, natural and informal, like a friend'}.`,
     `The video: ${fill(FORMAT_BRIEF[plan.format], vars)}.`,
     `Return JSON {"hook": string, "caption": string}.`,
-    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; a question or a playful tension works. No emoji, no hashtags.`,
-    `caption: two short sentences (80–220 characters), concrete, using only the facts given; end with a question to the viewer. No prices, no numbers, no links, no hashtags, at most one emoji.`,
+    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; a question or a playful tension works. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : ' Name all the destinations or none of them, never just some.'}`,
+    `caption: two short sentences (80–220 characters), concrete, using only the facts given; end with a question to the viewer. No prices, no numbers, no links, no hashtags, no markdown (no asterisks or underscores), at most one emoji.`,
     `Never invent facts. Different every time: here are lines already used, do not repeat their wording or structure:`,
     ...past.slice(-12).map((l) => `  · ${l}`),
     `Style examples (do not copy): ${pool[plan.format].slice(0, 3).map((l) => `"${fill(l, vars)}"`).join(', ')}.`,
@@ -227,7 +233,7 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
       { role: 'user', content: rejected.length ? `${user}\n\nYour previous answer was rejected (${rejected.at(-1)}). Try again.` : user },
     ])
     if (!answer) break
-    const hookProblem = checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allowedNumbers })
+    const hookProblem = checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers })
     const captionProblem = checkLine(answer.caption, { min: 60, max: 260, lang, past, maxSimilarity: 0.5, allowedNumbers })
     if (!hookProblem && !captionProblem) return { hook: answer.hook.trim(), caption: answer.caption.trim(), source: 'ai', rejected }
     rejected.push(hookProblem ? `hook: ${hookProblem}` : `caption: ${captionProblem}`)
