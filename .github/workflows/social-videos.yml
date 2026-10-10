@@ -82,6 +82,8 @@ jobs:
             git switch --orphan social-history
           fi
           cp "$RUNNER_TEMP/history.json" history.json
-          git add history.json
+          # Vercel reads its settings from the pushed commit: without this, every post would start a failing deploy.
+          echo '{ "git": { "deploymentEnabled": false } }' > vercel.json
+          git add history.json vercel.json
           git commit -m "Post of $(date -u +%F)"
           git push origin social-history
