@@ -36,7 +36,7 @@ In GitHub → Settings → Secrets and variables → Actions.
 
 1. Su [Google Cloud Console](https://console.cloud.google.com/) crea un progetto e abilita **YouTube Data API v3**.
 2. In **OAuth consent screen** scegli "External", aggiungi lo scope `youtube.upload` e poi **pubblica l'app ("In production")**. In modalità "Testing" il token scade dopo 7 giorni.
-3. In **Credentials** crea un "OAuth client ID" di tipo **Desktop app**.
+3. In **Client** crea un client di tipo **Applicazione web**, con URI di reindirizzamento autorizzato `https://developers.google.com/oauthplayground`.
 4. Ottieni un refresh token per il tuo canale, ad esempio con l'[OAuth Playground](https://developers.google.com/oauthplayground): ingranaggio → "Use your own OAuth credentials", scope `https://www.googleapis.com/auth/youtube.upload`.
 5. **Secrets:** `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET`, `YOUTUBE_REFRESH_TOKEN`.
 
