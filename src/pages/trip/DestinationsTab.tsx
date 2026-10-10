@@ -20,7 +20,6 @@ import { ResetPointsButton } from '@/components/destinations/ResetPoints'
 import { SecretVotingControl } from '@/components/destinations/SecretVotingControl'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
-import { TripWrapped } from '@/components/trips/TripWrapped'
 import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
@@ -167,7 +166,6 @@ export default function DestinationsTab() {
 
       <div className="space-y-6 px-5 pt-6 md:px-6">
         <SampleTripBanner />
-        {destinations && <TripWrapped destinations={destinations} />}
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
         <ActivityFeed tripId={trip.id} onOpenDestination={open} />

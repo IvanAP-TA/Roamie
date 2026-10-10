@@ -1216,37 +1216,6 @@
     "revealed": "I punti segreti sono stati svelati",
     "revealed_you": "I punti segreti sono stati svelati"
   },
-  "wrapped": {
-    "cta": "Il vostro viaggio, in una storia",
-    "ctaBody_one": "Il riepilogo da postare: mete, voti, ruota e itinerario.",
-    "ctaBody_other": "Il riepilogo di voi {{count}} da postare: mete, voti, ruota e itinerario.",
-    "title": "Il vostro viaggio",
-    "eyebrow": "Il nostro prossimo viaggio",
-    "eyebrowVisited": "Ci siamo stati",
-    "days_one": "{{count}} giorno",
-    "days_other": "{{count}} giorni",
-    "stats": {
-      "people_one": "viaggiatore",
-      "people_other": "viaggiatori",
-      "places_one": "meta in gara",
-      "places_other": "mete in gara",
-      "points_one": "punto dato",
-      "points_other": "punti dati",
-      "comments_one": "commento",
-      "comments_other": "commenti",
-      "spins_one": "giro di ruota",
-      "spins_other": "giri di ruota",
-      "stops_one": "tappa",
-      "stops_other": "tappe"
-    },
-    "quote_one": "Il motivo più amato per {{place}} · {{count}} mi piace",
-    "quote_other": "Il motivo più amato per {{place}} · {{count}} mi piace",
-    "peopleMore_one": "{{names}} e un altro",
-    "peopleMore_other": "{{names}} e altri {{count}}",
-    "footer": "Decidete il vostro prossimo viaggio su roamie.org",
-    "hint": "Condividila nelle storie o mandala al gruppo.",
-    "alt": "Il riepilogo del viaggio a {{name}}"
-  },
   "sample": {
     "try": "Prova con un viaggio di esempio",
     "tryNoAccount": "Prova senza account",
