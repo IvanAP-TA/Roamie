@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
-/** Roamie's social accounts, where the automatic posts go (video/automation). Add TikTok here once it exists. */
+/** Roamie's social accounts, where the automatic posts go (video/automation). */
 const NETWORKS = [
   { name: 'Instagram', href: 'https://www.instagram.com/getroamie/', icon: InstagramIcon },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@getroamie', icon: TikTokIcon },
   { name: 'YouTube', href: 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA', icon: YouTubeIcon },
 ] as const
 
@@ -14,6 +15,15 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function TikTokIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
+      <path d="M13.5 3.5v11.25a3.75 3.75 0 1 1-3.75-3.75" />
+      <path d="M13.5 3.5c.35 2.6 2.1 4.35 4.75 4.6" />
     </svg>
   )
 }
