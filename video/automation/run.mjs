@@ -27,7 +27,7 @@ import { youtube } from './publish/youtube.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const lang = process.env.VIDEO_LANG === 'en' ? 'en' : 'it'
-const publishing = process.env.PUBLISH === 'on'
+const publishing = ['on', 'true', 'yes', '1'].includes((process.env.PUBLISH ?? '').trim().toLowerCase())
 const historyPath = process.env.HISTORY_PATH ?? fileURLToPath(new URL('./history.json', import.meta.url))
 const FPS = 30
 const DURATIONS = { wheel: 390, month: 395, versus: 370 }
