@@ -84,13 +84,17 @@ Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v26.0`). Aggiornala
 
 ### 6. TikTok
 
-Su TikTok il video arriva **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi.
+Su TikTok video e caroselli arrivano **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi.
 
-1. Su [developers.tiktok.com](https://developers.tiktok.com/) crea un'app con il prodotto **Content Posting API** e lo scope `video.upload`.
-2. Autorizza il tuo account e salva il **refresh token** (vale un anno).
-3. **Secrets:** `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET`, `TIKTOK_REFRESH_TOKEN`.
+L'account deve essere **personale o Creator**, non Business: gli account Business non possono usare i brani di tendenza.
 
-Se un giorno vuoi la pubblicazione diretta, senza bozza: scope `video.publish` e variabile `TIKTOK_MODE` = `direct`. Finché TikTok non approva l'app, quei post sono solo **privati**; dopo l'approvazione imposta `TIKTOK_PRIVACY` = `PUBLIC_TO_EVERYONE`.
+1. Su [developers.tiktok.com](https://developers.tiktok.com/) crea un'app di tipo **Other** con **Login Kit** e **Content Posting API**.
+2. Verifica il dominio **roamie.org** (record TXT su Cloudflare, dove sta il DNS): serve ai caroselli, perché TikTok scarica le slide da `roamie.org/social`.
+3. Usa il **Sandbox** (la revisione dell'app non serve per caricare sul proprio account): scope `user.info.basic` e `video.upload`, Redirect URI `https://roamie.org/terms`, e il tuo account tra i **Target users**.
+4. Autorizza l'account aprendo `https://www.tiktok.com/v2/auth/authorize/?client_key=CLIENT_KEY&response_type=code&scope=user.info.basic,video.upload&redirect_uri=https%3A%2F%2Froamie.org%2Fterms&state=roamie` e scambia il `code` che compare nell'indirizzo con un refresh token (POST a `https://open.tiktokapis.com/v2/oauth/token/` con `grant_type=authorization_code`). Il refresh token vale un anno.
+5. **Secrets:** `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET` (quelli del sandbox), `TIKTOK_REFRESH_TOKEN`.
+
+Se un giorno vuoi la pubblicazione diretta dei video, senza bozza: scope `video.publish` e variabile `TIKTOK_MODE` = `direct` (finché TikTok non approva l'app, quei post sono solo **privati**; dopo, `TIKTOK_PRIVACY` = `PUBLIC_TO_EVERYONE`). I caroselli restano sempre in bozza.
 
 ### 7. Accendere
 
