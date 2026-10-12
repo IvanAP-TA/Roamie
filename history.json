@@ -34,5 +34,32 @@
         "id": "3"
       }
     }
+  },
+  {
+    "date": "2026-10-12T12:46:22.961Z",
+    "kind": "carousel",
+    "format": "guide",
+    "lang": "it",
+    "places": [
+      "skye",
+      "picos",
+      "bled",
+      "dolomites",
+      "madeira"
+    ],
+    "guide": "nature",
+    "hook": "Trekking e natura? Ecco 5 idee per il gruppo",
+    "caption": "Isola di Skye, Picos de Europa, Bled, Dolomiti e Madeira: quale proporreste al vostro gruppo?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "7"
+      },
+      "instagram": {
+        "id": "18105526661346335",
+        "url": "https://www.instagram.com/p/DeZRJm0DLki/"
+      }
+    }
   }
 ]
