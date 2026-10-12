@@ -7,8 +7,9 @@ name: Social videos
 
 on:
   schedule:
-    # Monday to Friday at 16:00 UTC (18:00 in Italy in summer, 17:00 in winter).
-    - cron: '0 16 * * 1-5'
+    # Monday to Friday at 15:40 UTC: GitHub starts scheduled runs late (often 10–30 minutes, more on the hour), so
+    # posts land around 18:00 in Italy in summer, 17:00 in winter.
+    - cron: '40 15 * * 1-5'
   workflow_dispatch:
     inputs:
       lang:

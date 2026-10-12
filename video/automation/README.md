@@ -1,6 +1,6 @@
 # Post automatici per i social
 
-Ogni giorno feriale alle 16:00 UTC GitHub Actions prepara un post dalle guide di Roamie:
+Ogni giorno feriale verso le 16:00 UTC (le 18 in Italia d’estate) GitHub Actions prepara un post dalle guide di Roamie:
 
 - **lunedì, mercoledì e venerdì un video** (Reel, Short, TikTok) con musica ed effetti sonori;
 - **martedì e giovedì un carosello** di immagini (Instagram, TikTok): copertina, una slide per meta, slide finale.
