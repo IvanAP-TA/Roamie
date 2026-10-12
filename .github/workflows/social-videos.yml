@@ -59,6 +59,7 @@ jobs:
           TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
           TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
           TIKTOK_PRIVACY: ${{ vars.TIKTOK_PRIVACY }}
+          TIKTOK_MODE: ${{ vars.TIKTOK_MODE }}
         run: node --experimental-strip-types --no-warnings automation/run.mjs
 
       - name: Keep the video for two weeks

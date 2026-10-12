@@ -1,7 +1,11 @@
 /**
- * TikTok through the Content Posting API (direct post). Needs TIKTOK_CLIENT_KEY, TIKTOK_CLIENT_SECRET and
- * TIKTOK_REFRESH_TOKEN (scope video.publish; see automation/README.md). Until TikTok audits the app, posts can only be
- * private (SELF_ONLY): set TIKTOK_PRIVACY=PUBLIC_TO_EVERYONE once it's approved.
+ * TikTok through the Content Posting API. Needs TIKTOK_CLIENT_KEY, TIKTOK_CLIENT_SECRET and TIKTOK_REFRESH_TOKEN
+ * (see automation/README.md).
+ *
+ * By default the video goes to the account's TikTok inbox as a draft (scope video.upload): the owner gets a
+ * notification, picks a trending sound in the app and posts it, which the API can't do. TIKTOK_MODE=direct posts it
+ * straight away instead (scope video.publish); until TikTok audits the app such posts can only be private (SELF_ONLY),
+ * so set TIKTOK_PRIVACY=PUBLIC_TO_EVERYONE once it's approved.
  */
 import { readFileSync, statSync } from 'node:fs'
 
@@ -26,13 +30,19 @@ export const tiktok = {
     if (!token.access_token) throw new Error(`TikTok token: ${token.error_description ?? token.error ?? 'no access token'}`)
 
     const size = statSync(file).size
-    const init = await fetch(`${API}/post/publish/video/init/`, {
+    const draft = process.env.TIKTOK_MODE !== 'direct'
+    const source_info = { source: 'FILE_UPLOAD', video_size: size, chunk_size: size, total_chunk_count: 1 }
+    const init = await fetch(`${API}/post/publish/${draft ? 'inbox/' : ''}video/init/`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token.access_token}`, 'Content-Type': 'application/json; charset=UTF-8' },
-      body: JSON.stringify({
-        post_info: { title: caption.slice(0, 2200), privacy_level: process.env.TIKTOK_PRIVACY ?? 'SELF_ONLY', disable_comment: false, disable_duet: false, disable_stitch: false },
-        source_info: { source: 'FILE_UPLOAD', video_size: size, chunk_size: size, total_chunk_count: 1 },
-      }),
+      body: JSON.stringify(
+        draft
+          ? { source_info }
+          : {
+              post_info: { title: caption.slice(0, 2200), privacy_level: process.env.TIKTOK_PRIVACY ?? 'SELF_ONLY', disable_comment: false, disable_duet: false, disable_stitch: false },
+              source_info,
+            },
+      ),
     }).then((r) => r.json())
     if (!init.data?.upload_url) throw new Error(`TikTok init: ${JSON.stringify(init.error ?? init).slice(0, 300)}`)
 
@@ -49,7 +59,8 @@ export const tiktok = {
         headers: { Authorization: `Bearer ${token.access_token}`, 'Content-Type': 'application/json; charset=UTF-8' },
         body: JSON.stringify({ publish_id: init.data.publish_id }),
       }).then((r) => r.json())
-      if (status.data?.status === 'PUBLISH_COMPLETE') return { id: init.data.publish_id, url: null }
+      // A draft ends in the inbox: its caption is the one in the Telegram kit.
+      if (status.data?.status === 'PUBLISH_COMPLETE' || status.data?.status === 'SEND_TO_USER_INBOX') return { id: init.data.publish_id, url: null, draft }
       if (status.data?.status === 'FAILED') throw new Error(`TikTok processing: ${status.data.fail_reason}`)
       await wait(10_000)
     }

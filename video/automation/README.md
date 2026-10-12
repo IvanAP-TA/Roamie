@@ -68,11 +68,13 @@ Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v24.0`). Aggiornala
 
 ### 5. TikTok
 
-1. Su [developers.tiktok.com](https://developers.tiktok.com/) crea un'app con il prodotto **Content Posting API** e lo scope `video.publish`.
+Su TikTok il video arriva **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi.
+
+1. Su [developers.tiktok.com](https://developers.tiktok.com/) crea un'app con il prodotto **Content Posting API** e lo scope `video.upload`.
 2. Autorizza il tuo account e salva il **refresh token** (vale un anno).
 3. **Secrets:** `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET`, `TIKTOK_REFRESH_TOKEN`.
 
-Finché TikTok non approva l'app, i post possono essere solo **privati** (`SELF_ONLY`). Dopo l'approvazione imposta la variabile `TIKTOK_PRIVACY` = `PUBLIC_TO_EVERYONE`.
+Se un giorno vuoi la pubblicazione diretta, senza bozza: scope `video.publish` e variabile `TIKTOK_MODE` = `direct`. Finché TikTok non approva l'app, quei post sono solo **privati**; dopo l'approvazione imposta `TIKTOK_PRIVACY` = `PUBLIC_TO_EVERYONE`.
 
 ### 6. Accendere
 
