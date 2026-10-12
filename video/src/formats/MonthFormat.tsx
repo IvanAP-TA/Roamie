@@ -4,13 +4,15 @@ import { slide } from "@remotion/transitions/slide";
 import { AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CtaScene } from "../scenes/CtaScene";
 import { C, DISPLAY, ramp, SANS } from "../theme";
-import { budgetLabel, Chip, Credits, Hook, moodLabel, PhotoBackground, useFit, type Lang, type VideoPlace } from "./shared";
+import { budgetLabel, Chip, Credits, Hook, moodLabel, PhotoBackground, Sfx, Soundtrack, useFit, type Lang, type VideoPlace } from "./shared";
 
 export type MonthProps = {
   readonly lang: Lang;
   readonly hook: string;
   readonly places: readonly VideoPlace[];
   readonly credits: readonly string[];
+  /** Background track in public/music; none = silent */
+  readonly music?: string;
 };
 
 /** Intro, three places, end card. 60 + 3 × 90 + 105 − 4 × 10 = 395 frames (13 s). */
@@ -40,6 +42,7 @@ const PlaceCard: React.FC<{ readonly place: VideoPlace; readonly index: number; 
   const nameSize = useFit(place.name, 920, 130);
   return (
     <AbsoluteFill style={{ fontFamily: SANS }}>
+      <Sfx sound="whoosh" volume={0.45} />
       <PhotoBackground src={place.photo} />
       <div style={{ position: "absolute", left: 80, right: 80, bottom: 220 }}>
         <div style={{ fontFamily: DISPLAY, fontStyle: "italic", fontWeight: 600, fontSize: 90, color: C.sun, opacity: ramp(frame, 0, 10) }}>{index + 1}</div>
@@ -64,7 +67,9 @@ const PlaceCard: React.FC<{ readonly place: VideoPlace; readonly index: number; 
 export const MonthFormat: React.FC<MonthProps> = (props) => {
   const { fps } = useVideoConfig();
   return (
-    <TransitionSeries>
+    <>
+      <Soundtrack music={props.music} durationInFrames={MONTH_DURATION} />
+      <TransitionSeries>
       <TransitionSeries.Sequence name="Intro" durationInFrames={60} premountFor={fps}>
         <Intro {...props} />
       </TransitionSeries.Sequence>
@@ -85,6 +90,7 @@ export const MonthFormat: React.FC<MonthProps> = (props) => {
         <CtaScene lang={props.lang} />
         <Credits credits={props.credits} lang={props.lang} />
       </TransitionSeries.Sequence>
-    </TransitionSeries>
+      </TransitionSeries>
+    </>
   );
 };

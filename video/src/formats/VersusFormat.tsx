@@ -3,7 +3,7 @@ import { fade } from "@remotion/transitions/fade";
 import { AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CtaScene } from "../scenes/CtaScene";
 import { C, DISPLAY, ramp, SANS } from "../theme";
-import { budgetLabel, Credits, Hook, monthsLabel, moodLabel, useFit, type Lang, type VideoPlace } from "./shared";
+import { budgetLabel, Credits, Hook, monthsLabel, moodLabel, Sfx, Soundtrack, useFit, type Lang, type VideoPlace } from "./shared";
 
 export type VersusProps = {
   readonly lang: Lang;
@@ -14,6 +14,8 @@ export type VersusProps = {
   readonly rows: readonly [string, string, string];
   readonly question: string;
   readonly credits: readonly string[];
+  /** Background track in public/music; none = silent */
+  readonly music?: string;
 };
 
 /** Split + rows, question, end card. 210 + 75 + 105 − 2 × 10 = 370 frames (12 s). */
@@ -102,6 +104,7 @@ const Question: React.FC<VersusProps> = ({ question, a, b }) => {
   const size = useFit(question, 920, 110);
   return (
     <AbsoluteFill style={{ background: `linear-gradient(180deg, ${C.night}, #5a2a45 60%, #b8475a)`, alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+      <Sfx sound="whoosh" volume={0.45} />
       <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: size, color: C.ink, opacity: ramp(frame, 0, 12), padding: "0 80px" }}>{question}</div>
       <div style={{ display: "flex", gap: 30, marginTop: 50, fontFamily: SANS, fontSize: 52, fontWeight: 700, opacity: ramp(frame, 10, 22) }}>
         <span style={{ background: C.coral, borderRadius: 999, padding: "16px 40px", color: C.ink }}>{a.name}</span>
@@ -114,7 +117,9 @@ const Question: React.FC<VersusProps> = ({ question, a, b }) => {
 export const VersusFormat: React.FC<VersusProps> = (props) => {
   const { fps } = useVideoConfig();
   return (
-    <TransitionSeries>
+    <>
+      <Soundtrack music={props.music} durationInFrames={VERSUS_DURATION} />
+      <TransitionSeries>
       <TransitionSeries.Sequence name="Compare" durationInFrames={210} premountFor={fps}>
         <Compare {...props} />
       </TransitionSeries.Sequence>
@@ -127,6 +132,7 @@ export const VersusFormat: React.FC<VersusProps> = (props) => {
         <CtaScene lang={props.lang} />
         <Credits credits={props.credits} lang={props.lang} />
       </TransitionSeries.Sequence>
-    </TransitionSeries>
+      </TransitionSeries>
+    </>
   );
 };

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { checkLine, hashtags, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
 import { guideUrl, loadPlaces } from './places.mjs'
-import { makePlan, RECENT_DAYS, seeded } from './plan.mjs'
+import { makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
 import { kitMessages } from './publish/telegram.mjs'
 
 const places = loadPlaces()
@@ -166,5 +166,16 @@ describe('credits and hashtags', () => {
     const tromso = places.find((p) => p.key === 'tromso')
     expect(tromso).toBeDefined()
     expect(hashtags({ places: [tromso] }, 'it', seeded('t'))).toContain('#tromso')
+  })
+})
+
+describe('music', () => {
+  const tracks = ['wheel-1-a.mp3', 'wheel-2-b.mp3', 'wheel-3-c.mp3', 'month-1-d.mp3', 'versus-1-e.mp3']
+
+  it("picks one of the format's tracks, never the one its last post used", () => {
+    expect(pickMusic('month', tracks, [], seeded('m'))).toBe('music/month-1-d.mp3')
+    const history = [{ format: 'wheel', music: 'music/wheel-2-b.mp3' }, { format: 'wheel', music: 'music/wheel-1-a.mp3' }]
+    expect(pickMusic('wheel', tracks, history, seeded('w'))).toBe('music/wheel-3-c.mp3')
+    expect(pickMusic('quiz', tracks, [], seeded('q'))).toBeUndefined()
   })
 })

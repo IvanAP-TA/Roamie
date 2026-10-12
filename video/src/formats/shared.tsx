@@ -1,7 +1,8 @@
 import { fitText } from "@remotion/layout-utils";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { AbsoluteFill, continueRender, delayRender, Img, interpolate, useCurrentFrame } from "remotion";
+import { Audio } from "@remotion/media";
+import { AbsoluteFill, continueRender, delayRender, Img, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { C, DISPLAY, fontsReady, ramp, SANS } from "../theme";
 
 export type Lang = "it" | "en";
@@ -117,4 +118,23 @@ export const Credits: React.FC<{ readonly credits: readonly string[]; readonly l
   <div style={{ position: "absolute", bottom: 70, left: 80, right: 80, textAlign: "center", fontFamily: SANS, fontSize: 24, lineHeight: 1.35, color: "rgba(255,248,241,0.6)" }}>
     {lang === "it" ? "Foto" : "Photos"}: {credits.join(" · ")} · Wikimedia Commons
   </div>
+);
+
+/**
+ * Background music (a track in public/music, picked by the automation): it fades in, sits under the sound effects
+ * and fades out with the end card. Without a track the video is silent.
+ */
+export const Soundtrack: React.FC<{ readonly music?: string; readonly durationInFrames: number }> = ({ music, durationInFrames }) => {
+  if (!music) return null;
+  const volume = (f: number) => 0.55 * interpolate(f, [0, 12, durationInFrames - 36, durationInFrames - 4], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return <Audio src={staticFile(music)} volume={volume} />;
+};
+
+export type Sound = "tick" | "ding" | "whoosh";
+
+/** A sound effect from public/sfx (made by scripts/make-sfx.mjs) at a frame of the current sequence. */
+export const Sfx: React.FC<{ readonly sound: Sound; readonly at?: number; readonly volume?: number }> = ({ sound, at = 0, volume = 0.7 }) => (
+  <Sequence from={at} durationInFrames={sound === "ding" ? 45 : 18} layout="none" name={`sfx ${sound}`}>
+    <Audio src={staticFile(`sfx/${sound}.wav`)} volume={volume} />
+  </Sequence>
 );

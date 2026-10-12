@@ -29,6 +29,7 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           defaultProps={{
             lang: "it" as const,
+            music: "music/wheel-1-vlog-v2.mp3",
             hook: "4 mete, una ruota: dove andiamo?",
             spinTitle: "Decide la ruota.",
             places: [
@@ -52,6 +53,7 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           defaultProps={{
             lang: "it" as const,
+            music: "music/month-1-deep-house-sunset.mp3",
             hook: "3 mete per scappare dal freddo a dicembre",
             places: [
               { name: "Tenerife", country: "Spagna", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Tenerife%2C_Canary_Islands_ESA23970088.jpeg/1920px-Tenerife%2C_Canary_Islands_ESA23970088.jpeg", line: "Temperature primaverili anche in inverno, il vulcano Teide da salire e cieli perfetti per osservare le stelle.", moods: ["relax", "nature"], budget: 2 as const, months: [1, 2, 3, 11, 12] },
@@ -70,6 +72,7 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           defaultProps={{
             lang: "it" as const,
+            music: "music/versus-1-lofi-vlog-beats.mp3",
             hook: "Weekend con gli amici: quale scegliete?",
             a: { name: "Lisbona", country: "Portogallo", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Lisboa_-_Portugal_%2852597836992%29.jpg/1920px-Lisboa_-_Portugal_%2852597836992%29.jpg", line: "", moods: ["culture", "food_wine"], budget: 2 as const, months: [4, 5, 6, 9, 10] },
             b: { name: "Madeira", country: "Portogallo", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Funchal%2C_Jardins_da_Quinta_Vigia_%28lookout%29.jpg/1920px-Funchal%2C_Jardins_da_Quinta_Vigia_%28lookout%29.jpg", line: "", moods: ["nature", "adventure"], budget: 2 as const, months: [4, 5, 6, 9, 10] },

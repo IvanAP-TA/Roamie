@@ -20,6 +20,7 @@ Tre volte a settimana (lunedì, mercoledì e venerdì alle 16:00 UTC) GitHub Act
   
   L'AI ha tre tentativi; se fallisce, si usa una frase scritta a mano non ancora usata di recente.
 - **Hashtag, link, crediti delle foto e invito finale:** scelti dal codice, mai dall'AI.
+- **Musica:** ogni formato ha i suoi brani (in `public/music`, provenienza in `SOURCES.md`). Un formato non riusa il brano della volta precedente. Sopra ci sono effetti sonori generati dal codice: il tic della ruota, il "ding" della meta e il "whoosh" ai cambi di scena.
 - **Foto:** quelle satellitari, mappe, bandiere e loghi sono escluse. Per ogni foto c'è il credito della licenza, nel video e nella didascalia.
 - **Video:** viene controllato prima di pubblicare (dimensione e durata esatta). Se un controllo fallisce, non si pubblica nulla.
 - **Interruttore generale:** finché la variabile `SOCIAL_PUBLISH` non vale `on`, ogni esecuzione è una prova. Il video si scarica dalla pagina dell'esecuzione (Artifacts).

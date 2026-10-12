@@ -130,3 +130,15 @@ const PLANNERS = {
     return null
   },
 }
+
+/**
+ * The background track: one of the format's tracks in public/music (named "<format>-…"), never the one its last post
+ * of the same format used, and otherwise the least recently used. Seeded like the plan.
+ */
+export function pickMusic(format, tracks, history, rand) {
+  const mine = tracks.filter((t) => t.startsWith(`${format}-`))
+  if (!mine.length) return undefined
+  const lastUse = (t) => history.findLastIndex((h) => h.music === `music/${t}`)
+  const order = shuffle(mine, rand).sort((a, b) => lastUse(a) - lastUse(b))
+  return `music/${order[0]}`
+}

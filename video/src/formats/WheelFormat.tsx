@@ -4,7 +4,7 @@ import { slide } from "@remotion/transitions/slide";
 import { AbsoluteFill, Easing, Img, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CtaScene } from "../scenes/CtaScene";
 import { C, DISPLAY, ramp, SANS, SLICES, Sky } from "../theme";
-import { budgetLabel, Chip, Credits, Hook, monthsLabel, PhotoBackground, useFit, type Lang, type VideoPlace } from "./shared";
+import { budgetLabel, Chip, Credits, Hook, monthsLabel, PhotoBackground, Sfx, Soundtrack, useFit, type Lang, type VideoPlace } from "./shared";
 
 export type WheelProps = {
   readonly lang: Lang;
@@ -16,12 +16,27 @@ export type WheelProps = {
   readonly winner: number;
   readonly bestTime: string;
   readonly credits: readonly string[];
+  /** Background track in public/music; none = silent */
+  readonly music?: string;
 };
 
 /** Intro, spin, reveal, end card. 60 + 150 + 105 + 105 − 3 × 10 = 390 frames (13 s). */
 export const WHEEL_DURATION = 390;
 
 const R = 380;
+/** Pegs around the rim: each one that passes the pointer makes a tick. */
+const PEGS = 16;
+const spinAngle = (frame: number, end: number) => interpolate(frame, [10, 120], [0, end], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.bezier(0.12, 0.7, 0.18, 1) });
+
+/** The frames where a peg passes the pointer, at most one tick every two frames (the fast start would be a buzz). */
+const tickFrames = (end: number) => {
+  const frames: number[] = [];
+  for (let f = 11; f <= 120; f++) {
+    const passed = Math.floor(spinAngle(f, end) / (360 / PEGS)) > Math.floor(spinAngle(f - 1, end) / (360 / PEGS));
+    if (passed && (frames.length === 0 || f - frames[frames.length - 1] >= 2)) frames.push(f);
+  }
+  return frames;
+};
 const CX = 540;
 const CY = 1060;
 
@@ -75,11 +90,15 @@ const Spin: React.FC<WheelProps> = ({ spinTitle, places, points, winner }) => {
   }, []);
   const winnerCenter = (slices[winner].from + slices[winner].to) / 2;
   const end = 5 * 360 - winnerCenter;
-  const rotation = interpolate(frame, [10, 120], [0, end], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.bezier(0.12, 0.7, 0.18, 1) });
+  const rotation = spinAngle(frame, end);
   const landed = ramp(frame, 120, 134);
 
   return (
     <Sky>
+      <Sfx sound="whoosh" volume={0.5} />
+      {tickFrames(end).map((f) => (
+        <Sfx key={f} sound="tick" at={f} volume={0.45} />
+      ))}
       <Hook text={spinTitle} top={170} />
       <svg viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
         <circle cx={CX} cy={CY} r={R + 22} fill="rgba(255,248,241,0.92)" />
@@ -110,6 +129,7 @@ const Reveal: React.FC<WheelProps> = ({ places, winner, bestTime, lang }) => {
   const nameSize = useFit(`${place.name}!`, 920, 150);
   return (
     <AbsoluteFill style={{ fontFamily: SANS }}>
+      <Sfx sound="ding" volume={0.6} />
       <PhotoBackground src={place.photo} />
       <div style={{ position: "absolute", left: 80, right: 80, bottom: 230 }}>
         <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: nameSize, lineHeight: 1, color: C.ink, opacity: ramp(frame, 0, 10), scale: interpolate(ramp(frame, 0, 16), [0, 1], [0.8, 1]) }}>{place.name}!</div>
@@ -129,7 +149,9 @@ const Reveal: React.FC<WheelProps> = ({ places, winner, bestTime, lang }) => {
 export const WheelFormat: React.FC<WheelProps> = (props) => {
   const { fps } = useVideoConfig();
   return (
-    <TransitionSeries>
+    <>
+      <Soundtrack music={props.music} durationInFrames={WHEEL_DURATION} />
+      <TransitionSeries>
       <TransitionSeries.Sequence name="Intro" durationInFrames={60} premountFor={fps}>
         <Intro {...props} />
       </TransitionSeries.Sequence>
@@ -146,6 +168,7 @@ export const WheelFormat: React.FC<WheelProps> = (props) => {
         <CtaScene lang={props.lang} />
         <Credits credits={props.credits} lang={props.lang} />
       </TransitionSeries.Sequence>
-    </TransitionSeries>
+      </TransitionSeries>
+    </>
   );
 };

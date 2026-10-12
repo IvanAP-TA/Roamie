@@ -15,11 +15,11 @@
  * A failure on one platform doesn't stop the others; the run fails only if nothing at all went out.
  */
 import { spawnSync } from 'node:child_process'
-import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { hashtags, monthName, photoCredit, pickFromPool, POOLS, writeCopy } from './copy.mjs'
 import { guideUrl, loadPlaces } from './places.mjs'
-import { makePlan, seeded } from './plan.mjs'
+import { makePlan, pickMusic, seeded } from './plan.mjs'
 import { instagram } from './publish/instagram.mjs'
 import { telegram } from './publish/telegram.mjs'
 import { tiktok } from './publish/tiktok.mjs'
@@ -54,13 +54,14 @@ async function videoPlace(p) {
 }
 
 /** The composition's props, from the plan and the copy. */
-async function propsFor(plan, copy, rand) {
+async function propsFor(plan, copy, rand, music) {
   const places = await Promise.all(plan.places.map(videoPlace))
   const credits = plan.places.map(credit)
   const pool = POOLS[lang]
   if (plan.format === 'wheel') {
     return {
       lang,
+      music,
       hook: copy.hook,
       spinTitle: pool.spin[Math.floor(rand() * pool.spin.length)],
       places,
@@ -70,9 +71,10 @@ async function propsFor(plan, copy, rand) {
       credits,
     }
   }
-  if (plan.format === 'month') return { lang, hook: copy.hook, places, credits }
+  if (plan.format === 'month') return { lang, music, hook: copy.hook, places, credits }
   return {
     lang,
+    music,
     hook: copy.hook,
     a: places[0],
     b: places[1],
@@ -105,7 +107,10 @@ async function main() {
   const copy = await writeCopy(plan, lang, past, rand)
   log(`copy (${copy.source}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
 
-  const props = await propsFor(plan, copy, rand)
+  const tracks = readdirSync(`${ROOT}/public/music`).filter((f) => f.endsWith('.mp3'))
+  const music = pickMusic(plan.format, tracks, history.filter((h) => h.lang === lang), rand)
+  log(`music: ${music ?? 'none'}`)
+  const props = await propsFor(plan, copy, rand, music)
   mkdirSync(`${ROOT}/out`, { recursive: true })
   writeFileSync(`${ROOT}/out/props.json`, JSON.stringify(props))
   const file = `${ROOT}/out/post.mp4`
@@ -164,6 +169,7 @@ async function main() {
     hook: copy.hook,
     caption: copy.caption,
     copySource: copy.source,
+    ...(music && { music }),
     published: publishing,
     results,
   })
