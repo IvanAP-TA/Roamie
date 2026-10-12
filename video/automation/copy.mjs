@@ -96,9 +96,13 @@ export const monthName = (month, lang) => new Intl.DateTimeFormat(lang, { month:
 
 const fill = (line, vars) => line.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '')
 
+// Letters that NFD doesn't split into a base letter and an accent.
+const LETTERS = { ø: 'o', æ: 'ae', œ: 'oe', ß: 'ss', ł: 'l', đ: 'd', ð: 'd', þ: 'th', ı: 'i' }
+
 const normalize = (text) =>
   text
     .toLowerCase()
+    .replace(/[øæœßłđðþı]/g, (ch) => LETTERS[ch])
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9 ]+/g, ' ')
@@ -160,6 +164,13 @@ export function pickFromPool(pool, vars, past, rand) {
   const fresh = lines.filter((l) => past.every((old) => similarity(l, old) <= 0.45))
   const choices = fresh.length ? fresh : lines
   return choices[Math.floor(rand() * choices.length)]
+}
+
+/** The photo's credit: author (cut at a word, never mid-name) and licence. */
+export function photoCredit(photo) {
+  const author = photo.author.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+  const short = author.length <= 40 ? author : author.slice(0, 40).replace(/[\s,;:–-]+\S*$/, '')
+  return `${short || author.slice(0, 40)} (${photo.license})`
 }
 
 /** Hashtags chosen by code: two general ones (rotating), the places' moods, and one per place name. */

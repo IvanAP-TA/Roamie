@@ -17,7 +17,7 @@
 import { spawnSync } from 'node:child_process'
 import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { hashtags, monthName, pickFromPool, POOLS, writeCopy } from './copy.mjs'
+import { hashtags, monthName, photoCredit, pickFromPool, POOLS, writeCopy } from './copy.mjs'
 import { guideUrl, loadPlaces } from './places.mjs'
 import { makePlan, seeded } from './plan.mjs'
 import { instagram } from './publish/instagram.mjs'
@@ -47,7 +47,7 @@ async function bestPhoto(url) {
   return url
 }
 
-const credit = (p) => `${p.photo.author.replace(/<[^>]+>/g, '').slice(0, 40)} (${p.photo.license})`
+const credit = (p) => photoCredit(p.photo)
 
 async function videoPlace(p) {
   return { name: p.name[lang], country: p.country[lang], photo: await bestPhoto(p.photo.url), line: p.line[lang], moods: p.moods.slice(0, 3), budget: p.budget, months: p.months }

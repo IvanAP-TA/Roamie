@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { checkLine, hashtags, looksLike, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
+import { checkLine, hashtags, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
 import { guideUrl, loadPlaces } from './places.mjs'
 import { makePlan, RECENT_DAYS, seeded } from './plan.mjs'
 import { kitMessages } from './publish/telegram.mjs'
@@ -153,5 +153,18 @@ describe('telegram kit', () => {
     expect(messages[0]).toContain('<code>Lisbon &lt;3 &amp; Porto\n\n#grouptrip</code>')
     expect(messages[1]).toContain('<code>Lisbon or Porto? #shorts</code>')
     expect(messages[2]).toContain('https://roamie.org/guide/x</code>')
+  })
+})
+
+describe('credits and hashtags', () => {
+  it('cuts a long author at a word and keeps the licence', () => {
+    expect(photoCredit({ author: 'The Municipality of Tromsø from Tromsø, Norway', license: 'CC BY 2.0' })).toBe('The Municipality of Tromsø from Tromsø (CC BY 2.0)')
+    expect(photoCredit({ author: '<a href="x">Diego Delso</a>', license: 'CC BY-SA 4.0' })).toBe('Diego Delso (CC BY-SA 4.0)')
+  })
+
+  it('spells Nordic letters out in hashtags', () => {
+    const tromso = places.find((p) => p.key === 'tromso')
+    expect(tromso).toBeDefined()
+    expect(hashtags({ places: [tromso] }, 'it', seeded('t'))).toContain('#tromso')
   })
 })
