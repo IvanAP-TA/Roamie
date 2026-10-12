@@ -14,5 +14,25 @@
     "copySource": "ai",
     "published": false,
     "results": {}
+  },
+  {
+    "date": "2026-10-12T10:12:58.108Z",
+    "format": "month",
+    "lang": "it",
+    "places": [
+      "hanoi",
+      "istanbul",
+      "tromso"
+    ],
+    "month": 11,
+    "hook": "Tre posti dove novembre è magico... e non costa una fortuna",
+    "caption": "Hanoi con i suoi mercati fumanti, Istanbul tra moschee e traghetti sul Bosforo, Tromsø per le aurore tra fiordi e balene. Quale vi fa sognare di più?",
+    "copySource": "ai",
+    "published": false,
+    "results": {
+      "telegram": {
+        "id": "3"
+      }
+    }
   }
 ]
