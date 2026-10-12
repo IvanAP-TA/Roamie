@@ -1,4 +1,5 @@
-# Three times a week: plan a video from the guides, write its words, render it, check it and publish it.
+# Every weekday: plan a post from the guides, write its words, render it, check it and publish it. Monday, Wednesday
+# and Friday a video (Reels, Shorts, TikTok); Tuesday and Thursday a carousel (Instagram, TikTok).
 # Nothing is published until the repository variable SOCIAL_PUBLISH is "on": until then every run is a dry run whose
 # video you can download from the run's page (Artifacts). See video/automation/README.md for the keys.
 # The history of posts (what keeps them from repeating) lives on the "social-history" branch, not on main.
@@ -6,13 +7,16 @@ name: Social videos
 
 on:
   schedule:
-    # Monday, Wednesday and Friday at 16:00 UTC (18:00 in Italy in summer, 17:00 in winter).
-    - cron: '0 16 * * 1,3,5'
+    # Monday to Friday at 16:00 UTC (18:00 in Italy in summer, 17:00 in winter).
+    - cron: '0 16 * * 1-5'
   workflow_dispatch:
     inputs:
       lang:
-        description: Language of the video (it or en)
+        description: Language of the post (it or en)
         default: it
+      kind:
+        description: What to make (empty = the day's choice, video or carousel)
+        default: ''
 
 permissions:
   contents: write
@@ -44,6 +48,8 @@ jobs:
         working-directory: video
         env:
           VIDEO_LANG: ${{ inputs.lang || vars.VIDEO_LANG || 'it' }}
+          POST_KIND: ${{ inputs.kind }}
+          SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}
           PUBLISH: ${{ vars.SOCIAL_PUBLISH }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -69,6 +75,7 @@ jobs:
           name: video-${{ github.run_number }}
           path: |
             video/out/post.mp4
+            video/out/carousel/
             video/out/props.json
           retention-days: 14
           if-no-files-found: ignore

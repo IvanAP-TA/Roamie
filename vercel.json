@@ -18,7 +18,8 @@
     { "source": "/join", "destination": "/shell" },
     { "source": "/join/:code", "destination": "/api/join?code=:code" },
     { "source": "/join/:path*", "destination": "/shell" },
-    { "source": "/auth/:path*", "destination": "/shell" }
+    { "source": "/auth/:path*", "destination": "/shell" },
+    { "source": "/social/:path*", "destination": "https://tvcumfzhnuljngdzuuue.supabase.co/storage/v1/object/public/social/:path*" }
   ],
   "headers": [
     {

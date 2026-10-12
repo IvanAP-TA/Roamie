@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { checkLine, hashtags, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
-import { guideUrl, loadPlaces } from './places.mjs'
-import { makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
+import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
+import { CROSS_DAYS, makeCarouselPlan, makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
 import { kitMessages } from './publish/telegram.mjs'
 
 const places = loadPlaces()
@@ -129,10 +129,11 @@ describe('copy checks', () => {
 
   it('every hand-written line passes the same checks the AI must pass', () => {
     for (const lang of ['it', 'en']) {
-      for (const format of ['wheel', 'month', 'versus']) {
+      for (const format of ['wheel', 'month', 'versus', 'carousel_guide', 'carousel_month']) {
         for (const line of POOLS[lang][format]) {
-          const filled = line.replace('{month}', lang === 'it' ? 'novembre' : 'November').replace('{a}', 'Lisbona').replace('{b}', 'Porto')
-          expect(checkLine(filled, { min: 15, max: 60, lang, past: [], maxSimilarity: 1 }), `${lang}/${format}: ${filled}`).toBeNull()
+          const theme = guideTheme('long-weekends', lang)
+          const filled = line.replace('{month}', lang === 'it' ? 'novembre' : 'November').replace('{a}', 'Lisbona').replace('{b}', 'Porto').replace('{theme}', theme).replace('{n}', '5')
+          expect(checkLine(filled, { min: 15, max: 60, lang, past: [], maxSimilarity: 1, allowedNumbers: ['5'] }), `${lang}/${format}: ${filled}`).toBeNull()
         }
       }
     }
@@ -177,5 +178,48 @@ describe('music', () => {
     const history = [{ format: 'wheel', music: 'music/wheel-2-b.mp3' }, { format: 'wheel', music: 'music/wheel-1-a.mp3' }]
     expect(pickMusic('wheel', tracks, history, seeded('w'))).toBe('music/wheel-3-c.mp3')
     expect(pickMusic('quiz', tracks, [], seeded('q'))).toBeUndefined()
+  })
+})
+
+describe('carousels', () => {
+  /** Mon, Wed, Fri videos and Tue, Thu carousels, like the weekly job, for `weeks` weeks. */
+  function week(weeks) {
+    const history = []
+    const start = new Date('2026-10-12T16:00:00Z')
+    for (let i = 0; i < weeks * 7; i++) {
+      const day = new Date(start.getTime() + i * DAY)
+      const weekday = day.getUTCDay()
+      if (weekday === 0 || weekday === 6) continue
+      const kind = weekday === 2 || weekday === 4 ? 'carousel' : 'video'
+      const plan = kind === 'carousel' ? makeCarouselPlan(places, history, day, 'it') : makePlan(places, history, day, 'it')
+      history.push({ date: day.toISOString(), kind, format: plan.format, lang: 'it', places: plan.places.map((p) => p.key), month: plan.month, guide: plan.guide, pair: plan.pair, plan })
+    }
+    return history
+  }
+  const history = week(20)
+  const carousels = history.filter((h) => h.kind === 'carousel')
+
+  it('plans every day of a mixed schedule, with 4 or 5 places from different countries', () => {
+    expect(carousels.length).toBe(40)
+    for (const { plan } of carousels) {
+      expect(plan.places.length).toBeGreaterThanOrEqual(4)
+      expect(new Set(plan.places.map((p) => p.countryCode)).size).toBe(plan.places.length)
+    }
+  })
+
+  it('keeps carousels apart from each other and from the last week of videos', () => {
+    for (const [i, post] of history.entries()) {
+      for (const earlier of history.slice(0, i)) {
+        const days = (new Date(post.date) - new Date(earlier.date)) / DAY
+        const shared = post.places.some((k) => earlier.places.includes(k))
+        if (!shared) continue
+        if (post.kind === earlier.kind && post.kind === 'carousel') expect(days, `${post.date} after ${earlier.date}`).toBeGreaterThanOrEqual(14)
+        if (post.kind !== earlier.kind) expect(days, `${post.date} after ${earlier.date}`).toBeGreaterThanOrEqual(CROSS_DAYS)
+      }
+    }
+  })
+
+  it('gives every guide carousel a theme for its cover', () => {
+    for (const { plan } of carousels.filter((h) => h.format === 'guide')) expect(guideTheme(plan.guide, 'it')).toBeTruthy()
   })
 })

@@ -11,8 +11,11 @@
  */
 
 export const FORMATS = ['wheel', 'month', 'versus']
+export const CAROUSEL_FORMATS = ['guide', 'month']
 export const RECENT_DAYS = 30
 export const MONTH_GAP_DAYS = 200
+/** Videos and carousels keep their own freshness window; across the two, a place only waits this long. */
+export const CROSS_DAYS = 7
 
 const DAY = 86_400_000
 const BAD_PHOTO = /satellite|_ESA\d|ESA\d{5}|locator|map[_ (.]|_map|flag|logo|diagram|coat_of_arms/i
@@ -59,9 +62,10 @@ const pairKey = (a, b) => [a, b].sort().join('+')
 export function makePlan(places, history, today, lang) {
   const rand = seeded(`${today.toISOString().slice(0, 10)}|${lang}|${history.length}`)
   const usable = places.filter((p) => !BAD_PHOTO.test(p.photo.url))
-  const mine = history.filter((h) => h.lang === lang)
+  const mine = history.filter((h) => h.lang === lang && h.kind !== 'carousel')
+  const carousels = history.filter((h) => h.lang === lang && h.kind === 'carousel')
   const recentKeys = (days) =>
-    new Set(mine.filter((h) => today - new Date(h.date) < days * DAY).flatMap((h) => h.places))
+    new Set([...mine.filter((h) => today - new Date(h.date) < days * DAY), ...carousels.filter((h) => today - new Date(h.date) < CROSS_DAYS * DAY)].flatMap((h) => h.places))
 
   // Formats: the least used lately first (ties broken at random). Strictly: not the last one and at most twice in the
   // last four; if no format can be planned that way, only "not the last one" still holds.
@@ -141,4 +145,46 @@ export function pickMusic(format, tracks, history, rand) {
   const lastUse = (t) => history.findLastIndex((h) => h.music === `music/${t}`)
   const order = shuffle(mine, rand).sort((a, b) => lastUse(a) - lastUse(b))
   return `music/${order[0]}`
+}
+
+/**
+ * A carousel: five places (four if the rules leave fewer) from one guide, or at their best in a month a few weeks
+ * ahead. Never the same format as the previous carousel; a place waits RECENT_DAYS before another carousel and
+ * CROSS_DAYS after a video; a guide waits GUIDE_GAP_DAYS, a month MONTH_GAP_DAYS.
+ */
+export const GUIDE_GAP_DAYS = 35
+
+export function makeCarouselPlan(places, history, today, lang) {
+  const rand = seeded(`${today.toISOString().slice(0, 10)}|${lang}|carousel|${history.length}`)
+  const usable = places.filter((p) => !BAD_PHOTO.test(p.photo.url))
+  const mine = history.filter((h) => h.lang === lang && h.kind === 'carousel')
+  const videos = history.filter((h) => h.lang === lang && h.kind !== 'carousel')
+  const within = (h, days) => today - new Date(h.date) < days * DAY
+  const last = mine[mine.length - 1]?.format
+  const formats = [...shuffle(CAROUSEL_FORMATS, rand).filter((f) => f !== last), ...(last ? [last] : [])]
+
+  for (const days of [RECENT_DAYS, 21, 14]) {
+    const recent = new Set([...mine.filter((h) => within(h, days)), ...videos.filter((h) => within(h, CROSS_DAYS))].flatMap((h) => h.places))
+    const fresh = usable.filter((p) => !recent.has(p.key))
+    for (const count of [5, 4]) {
+      for (const format of formats) {
+        if (format === 'guide') {
+          const usedGuides = new Set(mine.filter((h) => h.guide && within(h, Math.min(days, GUIDE_GAP_DAYS))).map((h) => h.guide))
+          const guides = shuffle([...new Set(fresh.flatMap((p) => p.guides))], rand).filter((g) => !usedGuides.has(g))
+          for (const guide of guides) {
+            const picked = pickDistinct(fresh.filter((p) => p.guides.includes(guide)), count, rand)
+            if (picked) return { kind: 'carousel', format, lang, guide, places: picked }
+          }
+        } else {
+          for (const ahead of [30, 60]) {
+            const month = new Date(today.getTime() + ahead * DAY).getMonth() + 1
+            if (mine.some((h) => h.format === 'month' && h.month === month && within(h, MONTH_GAP_DAYS))) continue
+            const picked = pickDistinct(fresh.filter((p) => p.months.includes(month)), count, rand)
+            if (picked) return { kind: 'carousel', format, lang, month, places: picked }
+          }
+        }
+      }
+    }
+  }
+  throw new Error('No carousel fits the rules: add places to the guides or wait for the windows to pass.')
 }

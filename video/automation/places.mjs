@@ -49,3 +49,17 @@ export function guideUrl(place, lang) {
   if (!slug) return 'https://roamie.org'
   return lang === 'it' ? `https://roamie.org/guide/${slug.it}` : `https://roamie.org/en/guides/${slug.en}`
 }
+
+// The guides' short themes ("Viaggio low cost"), read from meta.ts the same way: the carousels' covers use them.
+// Each guide's block runs from its id to the next one; the theme's strings may use either kind of quote.
+const quoted = (lang, text) => text.match(new RegExp(`\\b${lang}: (['"])((?:(?!\\1).)*)\\1`))?.[2]
+const THEMES = Object.fromEntries(
+  META.split(/\n\s*id: '/)
+    .slice(1)
+    .map((block) => [block.slice(0, block.indexOf("'")), block.match(/tripName: \{[^}]*\}/)?.[0]])
+    .filter(([, trip]) => trip)
+    .map(([id, trip]) => [id, { it: quoted('it', trip), en: quoted('en', trip) }]),
+)
+
+/** A guide's theme in the post's language, or undefined for a guide without one. */
+export const guideTheme = (guideId, lang) => THEMES[guideId]?.[lang]

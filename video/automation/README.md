@@ -1,16 +1,22 @@
-# Video automatici per i social
+# Post automatici per i social
 
-Tre volte a settimana (lunedì, mercoledì e venerdì alle 16:00 UTC) GitHub Actions:
+Ogni giorno feriale alle 16:00 UTC GitHub Actions prepara un post dalle guide di Roamie:
 
-1. **sceglie** formato e mete dalle guide di Roamie (`plan.mjs`);
+- **lunedì, mercoledì e venerdì un video** (Reel, Short, TikTok) con musica ed effetti sonori;
+- **martedì e giovedì un carosello** di immagini (Instagram, TikTok): copertina, una slide per meta, slide finale.
+
+Per ogni post il bot:
+
+1. **sceglie** formato e mete (`plan.mjs`);
 2. **scrive** titolo e didascalia con l'AI di Mistral (`copy.mjs`);
-3. **genera** il video con Remotion e lo **controlla** (`run.mjs`);
-4. te lo **manda su Telegram** con i testi pronti, da pubblicare a mano con la musica, e/o lo **pubblica** da solo sui social collegati (`publish/`);
+3. **genera** il video o le slide con Remotion e li **controlla** (`run.mjs`);
+4. te li **manda su Telegram** con i testi pronti e li **pubblica** da solo sui social collegati (`publish/`);
 5. **salva lo storico** sul branch `social-history`, che serve a non ripetersi.
 
 ## Le barriere
 
 - **Formati:** tre (la ruota decide, dove andare a [mese], A o B?). Mai lo stesso due volte di fila, e nessuno più di due volte negli ultimi quattro post.
+- **Caroselli:** 5 mete (4 se le regole ne lasciano meno) da una guida o al meglio in un mese. Una meta non torna in un carosello prima di 30 giorni, né il giorno dopo un video che l'ha mostrata (7 giorni); una guida aspetta 35 giorni.
 - **Mete:** nessuna riproposta prima di 30 giorni (21 solo se proprio non c’è alternativa: con le 66 mete attuali e 3 post a settimana non succede). I confronti A/B non si ripetono mai. Un mese non torna prima di 200 giorni.
 - **Fatti:** nomi, paesi, mesi migliori, budget, frasi e foto vengono solo dalle guide. L'AI scrive solo il titolo d'apertura e due frasi di didascalia.
 - **Testi dell'AI:** vengono scartati se:
@@ -44,7 +50,17 @@ I suoni di tendenza di TikTok e Instagram si possono aggiungere solo dentro le a
 
 Il kit arriva a ogni esecuzione, anche quando `SOCIAL_PUBLISH` è spento: è il modo consigliato se vuoi mettere tu la musica. Se il kit non arriva, l'esecuzione risulta fallita su GitHub, così te ne accorgi.
 
-### 3. YouTube Shorts
+### 3. Le immagini dei caroselli
+
+Instagram e TikTok non accettano immagini caricate: le scaricano da un indirizzo pubblico. Il bot le mette su Supabase (funzione `social-media`), che le serve come `roamie.org/social/...` e le cancella dopo 21 giorni.
+
+1. Genera una password lunga e casuale (ad esempio con il generatore del tuo gestore di password, almeno 32 caratteri).
+2. Su Supabase → Edge Functions → **Secrets** aggiungi `SOCIAL_UPLOAD_SECRET` con quel valore.
+3. Su GitHub aggiungi il **secret** `SOCIAL_UPLOAD_SECRET` con lo **stesso** valore.
+
+Senza, i caroselli arrivano solo su Telegram.
+
+### 4. YouTube Shorts
 
 1. Su [Google Cloud Console](https://console.cloud.google.com/) crea un progetto e abilita **YouTube Data API v3**.
 2. In **OAuth consent screen** scegli "External", aggiungi lo scope `youtube.upload` e poi **pubblica l'app ("In production")**. In modalità "Testing" il token scade dopo 7 giorni.
@@ -54,7 +70,7 @@ Il kit arriva a ogni esecuzione, anche quando `SOCIAL_PUBLISH` è spento: è il 
 
 Finché Google non verifica l'app, i video caricati via API restano **privati**. La verifica si chiede dalla stessa console ("API audit"). Nel frattempo puoi impostare la variabile `YOUTUBE_PRIVACY` = `private` per rendere esplicito questo stato.
 
-### 4. Instagram Reels
+### 5. Instagram (Reel e caroselli)
 
 1. L'account Instagram deve essere **Business o Creator** e collegato a una **Pagina Facebook**.
 2. Su [developers.facebook.com](https://developers.facebook.com/) crea un'app di tipo "Business" con i permessi `instagram_basic`, `instagram_content_publish`, `pages_show_list` e `pages_read_engagement`. Per pubblicare sul **tuo** account basta l'app in modalità sviluppo, con te come amministratore.
@@ -66,7 +82,7 @@ Finché Google non verifica l'app, i video caricati via API restano **privati**.
 
 Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v26.0`). Aggiornala quando Meta ritira la versione.
 
-### 5. TikTok
+### 6. TikTok
 
 Su TikTok il video arriva **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi.
 
@@ -76,7 +92,7 @@ Su TikTok il video arriva **in bozza**: ti arriva una notifica nell'app, scegli 
 
 Se un giorno vuoi la pubblicazione diretta, senza bozza: scope `video.publish` e variabile `TIKTOK_MODE` = `direct`. Finché TikTok non approva l'app, quei post sono solo **privati**; dopo l'approvazione imposta `TIKTOK_PRIVACY` = `PUBLIC_TO_EVERYONE`.
 
-### 6. Accendere
+### 7. Accendere
 
 - **Variabile** `SOCIAL_PUBLISH` = `on`.
 - **Variabile** `VIDEO_LANG` = `it` (oppure `en`).
@@ -85,7 +101,7 @@ Ogni social senza chiavi viene saltato, gli altri pubblicano lo stesso.
 
 ## Provare a mano
 
-- **Da GitHub:** Actions → Social videos → Run workflow.
+- **Da GitHub:** Actions → Social videos → Run workflow. Nel campo "kind" puoi scrivere `video` o `carousel` per forzare il tipo di post.
 - **In locale (senza pubblicare):**
 
   ```bash

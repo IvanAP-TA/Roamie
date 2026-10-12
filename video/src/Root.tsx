@@ -1,4 +1,5 @@
 import { Composition, Folder } from "remotion";
+import { CAROUSEL_HEIGHT, CAROUSEL_WIDTH, CarouselFormat, carouselMetadata } from "./formats/CarouselFormat";
 import { MONTH_DURATION, MonthFormat } from "./formats/MonthFormat";
 import { VERSUS_DURATION, VersusFormat } from "./formats/VersusFormat";
 import { WHEEL_DURATION, WheelFormat } from "./formats/WheelFormat";
@@ -56,11 +57,11 @@ export const RemotionRoot: React.FC = () => {
             music: "music/month-1-deep-house-sunset.mp3",
             hook: "3 mete per scappare dal freddo a dicembre",
             places: [
-              { name: "Tenerife", country: "Spagna", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Tenerife%2C_Canary_Islands_ESA23970088.jpeg/1920px-Tenerife%2C_Canary_Islands_ESA23970088.jpeg", line: "Temperature primaverili anche in inverno, il vulcano Teide da salire e cieli perfetti per osservare le stelle.", moods: ["relax", "nature"], budget: 2 as const, months: [1, 2, 3, 11, 12] },
+              { name: "Tenerife", country: "Spagna", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Teide_y_roques_de_Garc%C3%ADa%2C_parque_nacional_del_Teide%2C_Tenerife%2C_Espa%C3%B1a%2C_2022-01-07%2C_DD_18.jpg/1920px-Teide_y_roques_de_Garc%C3%ADa%2C_parque_nacional_del_Teide%2C_Tenerife%2C_Espa%C3%B1a%2C_2022-01-07%2C_DD_18.jpg", line: "Temperature primaverili anche in inverno, il vulcano Teide da salire e cieli perfetti per osservare le stelle.", moods: ["relax", "nature"], budget: 2 as const, months: [1, 2, 3, 11, 12] },
               { name: "Budapest", country: "Ungheria", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg/1920px-View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg", line: "Terme storiche da condividere, i ruin bar del quartiere ebraico e il Parlamento illuminato sul Danubio.", moods: ["nightlife", "relax"], budget: 1 as const, months: [4, 5, 6, 9, 10, 12] },
               { name: "Cracovia", country: "Polonia", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG/1920px-Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG", line: "Una delle piazze medievali più grandi d’Europa, il quartiere di Kazimierz pieno di locali e cucina polacca a prezzi onesti.", moods: ["culture", "food_wine"], budget: 1 as const, months: [5, 6, 7, 8, 9, 12] },
             ],
-            credits: ["Tenerife (CC BY-SA 3.0 IGO)", "Budapest (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
+            credits: ["Diego Delso (CC BY-SA 4.0)", "Budapest (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
           }}
         />
         <Composition
@@ -79,6 +80,28 @@ export const RemotionRoot: React.FC = () => {
             rows: ["Budget", "Quando", "Vibe"] as [string, string, string],
             question: "Voi quale scegliete?",
             credits: ["Lisboa (CC BY 2.0)", "Funchal (CC BY-SA 4.0)"],
+          }}
+        />
+        <Composition
+          id="Carousel"
+          component={CarouselFormat}
+          calculateMetadata={carouselMetadata}
+          durationInFrames={5}
+          fps={30}
+          width={CAROUSEL_WIDTH}
+          height={CAROUSEL_HEIGHT}
+          defaultProps={{
+            lang: "it" as const,
+            hook: "Dove scappare a dicembre con gli amici",
+            kicker: "Dicembre · 3 mete",
+            places: [
+              { name: "Tenerife", country: "Spagna", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Teide_y_roques_de_Garc%C3%ADa%2C_parque_nacional_del_Teide%2C_Tenerife%2C_Espa%C3%B1a%2C_2022-01-07%2C_DD_18.jpg/1920px-Teide_y_roques_de_Garc%C3%ADa%2C_parque_nacional_del_Teide%2C_Tenerife%2C_Espa%C3%B1a%2C_2022-01-07%2C_DD_18.jpg", line: "Temperature primaverili anche in inverno, il vulcano Teide da salire e cieli perfetti per osservare le stelle.", moods: ["relax", "nature"], budget: 2 as const, months: [1, 2, 3, 11, 12] },
+              { name: "Budapest", country: "Ungheria", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg/1920px-View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg", line: "Terme storiche da condividere, i ruin bar del quartiere ebraico e il Parlamento illuminato sul Danubio.", moods: ["nightlife", "relax"], budget: 1 as const, months: [4, 5, 6, 9, 10, 12] },
+              { name: "Cracovia", country: "Polonia", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG/1920px-Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG", line: "Una delle piazze medievali più grandi d’Europa, il quartiere di Kazimierz pieno di locali e cucina polacca a prezzi onesti.", moods: ["culture", "food_wine"], budget: 1 as const, months: [5, 6, 7, 8, 9, 12] },
+            ],
+            question: "Quale proponete al vostro gruppo?",
+            bestTime: "Periodo migliore",
+            credits: ["Diego Delso (CC BY-SA 4.0)", "Budapest (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
           }}
         />
       </Folder>

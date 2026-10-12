@@ -7,7 +7,7 @@
  */
 
 // ── Hand-written lines: the fallback, and a style reference for the AI ──
-// {month}, {a}, {b} and {n} are filled in from the plan.
+// {month}, {a}, {b}, {n} and {theme} are filled in from the plan. Carousels use the carousel_* pools.
 export const POOLS = {
   it: {
     wheel: [
@@ -35,6 +35,18 @@ export const POOLS = {
       'Il gruppo è diviso: {a} o {b}?',
       'Una sola tra {a} e {b}. Quale?',
       '{a} o {b}? Nei commenti',
+    ],
+    carousel_guide: [
+      '{theme}: {n} mete da salvare',
+      '{theme}: dove andare con il gruppo',
+      '{theme}? Ecco {n} idee per il gruppo',
+      '{n} mete per il gruppo · {theme}',
+    ],
+    carousel_month: [
+      'Dove andare a {month} con gli amici: {n} mete',
+      '{n} mete che a {month} danno il meglio',
+      'A {month} si parte: {n} idee per il gruppo',
+      'Salva queste {n} mete per {month}',
     ],
     spin: ['Decide la ruota.', 'Si gira.', 'Ruota, pensaci tu.', 'Tre, due, uno…'],
     question: ['Voi quale scegliete?', 'Da che parte state?', 'Il vostro gruppo dove va?', 'Votate nei commenti'],
@@ -66,6 +78,18 @@ export const POOLS = {
       'The group is split: {a} or {b}?',
       'Only one of {a} and {b}. Which?',
       '{a} or {b}? Tell us below',
+    ],
+    carousel_guide: [
+      '{theme}: {n} places to save',
+      '{theme}: where should the group go?',
+      '{theme}? Here are {n} ideas for your group',
+      '{n} places for your group · {theme}',
+    ],
+    carousel_month: [
+      'Where to go in {month} with friends: {n} ideas',
+      '{n} places at their best in {month}',
+      '{month} trip? {n} ideas for your group',
+      'Save these {n} places for {month}',
     ],
     spin: ['The wheel decides.', 'Spin it.', 'Over to you, wheel.', 'Three, two, one…'],
     question: ['Which one would you pick?', 'Whose side are you on?', 'Where is your group going?', 'Vote in the comments'],
@@ -209,6 +233,8 @@ const FORMAT_BRIEF = {
   wheel: 'a wheel of fortune spins between four destinations and picks one, like friends deciding their next trip',
   month: 'three destinations at their best in {month}, for a group of friends',
   versus: 'two destinations side by side, asking the viewer which one their group would choose',
+  carousel_guide: 'a swipeable carousel: a cover, then {n} destinations for a "{theme}" group trip, one per slide, that people save for later',
+  carousel_month: 'a swipeable carousel: {n} destinations at their best in {month}, one per slide, for a group of friends, that people save for later',
 }
 
 /**
@@ -217,7 +243,8 @@ const FORMAT_BRIEF = {
  */
 export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
   const names = plan.places.map((p) => p.name[lang])
-  const vars = { month: plan.month ? monthName(plan.month, lang) : '', a: names[0], b: names[1], n: String(names.length) }
+  const vars = { month: plan.month ? monthName(plan.month, lang) : '', a: names[0], b: names[1], n: String(names.length), theme: plan.theme ?? '' }
+  const key = plan.kind === 'carousel' ? `carousel_${plan.format}` : plan.format
   const pool = POOLS[lang]
   const allowedNumbers = [String(plan.places.length)]
   const mustMention = plan.format === 'versus' ? names : []
@@ -226,15 +253,15 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
 
   const facts = plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
   const system = [
-    `You write short-form video copy for Roamie, a free web app where groups of friends propose destinations, vote with points and spin a wheel to decide their trip.`,
+    `You write short-form social media copy for Roamie, a free web app where groups of friends propose destinations, vote with points and spin a wheel to decide their trip.`,
     `Write in ${lang === 'it' ? 'Italian, natural and informal (tu/voi), like a friend' : 'English, natural and informal, like a friend'}.`,
-    `The video: ${fill(FORMAT_BRIEF[plan.format], vars)}.`,
+    `The ${plan.kind === 'carousel' ? 'post' : 'video'}: ${fill(FORMAT_BRIEF[key], vars)}.`,
     `Return JSON {"hook": string, "caption": string}.`,
     `hook: the first words on screen, 25–55 characters, makes people stop scrolling; a question or a playful tension works. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : ' Name all the destinations or none of them, never just some.'}`,
     `caption: two short sentences (80–220 characters), concrete, using only the facts given; end with a question to the viewer. No prices, no numbers, no links, no hashtags, no markdown (no asterisks or underscores), at most one emoji.`,
     `Never invent facts. Different every time: here are lines already used, do not repeat their wording or structure:`,
     ...past.slice(-12).map((l) => `  · ${l}`),
-    `Style examples (do not copy): ${pool[plan.format].slice(0, 3).map((l) => `"${fill(l, vars)}"`).join(', ')}.`,
+    `Style examples (do not copy): ${pool[key].slice(0, 3).map((l) => `"${fill(l, vars)}"`).join(', ')}.`,
   ].join('\n')
   const user = `Destinations:\n${facts}${plan.month ? `\nMonth: ${vars.month}` : ''}`
 
@@ -250,7 +277,7 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
     rejected.push(hookProblem ? `hook: ${hookProblem}` : `caption: ${captionProblem}`)
   }
 
-  const hook = pickFromPool(pool[plan.format], vars, past, rand)
+  const hook = pickFromPool(pool[key], vars, past, rand)
   const caption =
     lang === 'it'
       ? `${names.join(', ').replace(/, ([^,]*)$/, ' e $1')}: ${plan.format === 'versus' ? 'voi quale scegliete?' : 'quale proporreste al vostro gruppo?'}`
