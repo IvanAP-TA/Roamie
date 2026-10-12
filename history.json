@@ -61,5 +61,39 @@
         "url": "https://www.instagram.com/p/DeZRJm0DLki/"
       }
     }
+  },
+  {
+    "date": "2026-10-12T16:56:54.152Z",
+    "kind": "video",
+    "format": "wheel",
+    "lang": "it",
+    "places": [
+      "krakow",
+      "naples",
+      "copenhagen",
+      "budapest"
+    ],
+    "hook": "Pizza o terme? Ruota la fortuna e decidi!",
+    "caption": "Cracovia con le sue strade medievali, Napoli tra pizze e Vesuvio, Copenaghen in bici e Budapest con le sue terme. Quale vi fa venire voglia di partire subito?",
+    "copySource": "ai",
+    "music": "music/wheel-1-vlog-v2.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "15"
+      },
+      "youtube": {
+        "error": "YouTube token: invalid_grant"
+      },
+      "instagram": {
+        "id": "17907228255578222",
+        "url": "https://www.instagram.com/reel/DeZt1l6FsPf/"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7695826440494991382",
+        "url": null,
+        "draft": true
+      }
+    }
   }
 ]
