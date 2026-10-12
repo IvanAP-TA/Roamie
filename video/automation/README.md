@@ -64,7 +64,7 @@ Finché Google non verifica l'app, i video caricati via API restano **privati**.
    - chiama `GET /{page-id}?fields=instagram_business_account`, che dà l'id Instagram.
 4. **Secrets:** `INSTAGRAM_USER_ID` (l'id Instagram) e `INSTAGRAM_ACCESS_TOKEN` (il token della Pagina).
 
-Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v24.0`). Aggiornala quando Meta ritira la versione.
+Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v26.0`). Aggiornala quando Meta ritira la versione.
 
 ### 5. TikTok
 

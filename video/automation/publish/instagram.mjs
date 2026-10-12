@@ -6,7 +6,7 @@
  */
 import { readFileSync, statSync } from 'node:fs'
 
-const GRAPH = () => `https://graph.facebook.com/${process.env.META_GRAPH_VERSION ?? 'v24.0'}`
+const GRAPH = () => `https://graph.facebook.com/${process.env.META_GRAPH_VERSION ?? 'v26.0'}`
 const wait = (ms) => new Promise((r) => setTimeout(r, ms))
 
 export const instagram = {
