@@ -5,7 +5,7 @@ Tre volte a settimana (lunedì, mercoledì e venerdì alle 16:00 UTC) GitHub Act
 1. **sceglie** formato e mete dalle guide di Roamie (`plan.mjs`);
 2. **scrive** titolo e didascalia con l'AI di Mistral (`copy.mjs`);
 3. **genera** il video con Remotion e lo **controlla** (`run.mjs`);
-4. lo **pubblica** sui social collegati (`publish/`);
+4. te lo **manda su Telegram** con i testi pronti, da pubblicare a mano con la musica, e/o lo **pubblica** da solo sui social collegati (`publish/`);
 5. **salva lo storico** sul branch `social-history`, che serve a non ripetersi.
 
 ## Le barriere
@@ -32,7 +32,18 @@ In GitHub → Settings → Secrets and variables → Actions.
 
 **Secret** `MISTRAL_API_KEY`: la stessa chiave che hai messo su Supabase. Senza, si usano solo le frasi scritte a mano: funziona, ma è meno vario.
 
-### 2. YouTube Shorts
+### 2. Il kit su Telegram (per pubblicare a mano, con la musica)
+
+I suoni di tendenza di TikTok e Instagram si possono aggiungere solo dentro le app, non via API. Per questo il bot può fermarsi prima della pubblicazione e mandarti su Telegram il video e i testi già pronti, ognuno copiabile con un tocco. Tu salvi il video, lo carichi dall'app, scegli il suono e incolli i testi.
+
+1. Su Telegram apri [@BotFather](https://t.me/BotFather), scrivi `/newbot` e scegli un nome. Ti dà un **token**.
+2. Apri la chat con il tuo nuovo bot e scrivigli un messaggio qualsiasi.
+3. Apri `https://api.telegram.org/bot<TOKEN>/getUpdates` (con il tuo token al posto di `<TOKEN>`) e copia il numero in `"chat":{"id": ...}`.
+4. **Secrets:** `TELEGRAM_BOT_TOKEN` (il token) e `TELEGRAM_CHAT_ID` (il numero).
+
+Il kit arriva a ogni esecuzione, anche quando `SOCIAL_PUBLISH` è spento: è il modo consigliato se vuoi mettere tu la musica. Se il kit non arriva, l'esecuzione risulta fallita su GitHub, così te ne accorgi.
+
+### 3. YouTube Shorts
 
 1. Su [Google Cloud Console](https://console.cloud.google.com/) crea un progetto e abilita **YouTube Data API v3**.
 2. In **OAuth consent screen** scegli "External", aggiungi lo scope `youtube.upload` e poi **pubblica l'app ("In production")**. In modalità "Testing" il token scade dopo 7 giorni.
@@ -42,7 +53,7 @@ In GitHub → Settings → Secrets and variables → Actions.
 
 Finché Google non verifica l'app, i video caricati via API restano **privati**. La verifica si chiede dalla stessa console ("API audit"). Nel frattempo puoi impostare la variabile `YOUTUBE_PRIVACY` = `private` per rendere esplicito questo stato.
 
-### 3. Instagram Reels
+### 4. Instagram Reels
 
 1. L'account Instagram deve essere **Business o Creator** e collegato a una **Pagina Facebook**.
 2. Su [developers.facebook.com](https://developers.facebook.com/) crea un'app di tipo "Business" con i permessi `instagram_basic`, `instagram_content_publish`, `pages_show_list` e `pages_read_engagement`. Per pubblicare sul **tuo** account basta l'app in modalità sviluppo, con te come amministratore.
@@ -54,7 +65,7 @@ Finché Google non verifica l'app, i video caricati via API restano **privati**.
 
 Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v24.0`). Aggiornala quando Meta ritira la versione.
 
-### 4. TikTok
+### 5. TikTok
 
 1. Su [developers.tiktok.com](https://developers.tiktok.com/) crea un'app con il prodotto **Content Posting API** e lo scope `video.publish`.
 2. Autorizza il tuo account e salva il **refresh token** (vale un anno).
@@ -62,7 +73,7 @@ Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v24.0`). Aggiornala
 
 Finché TikTok non approva l'app, i post possono essere solo **privati** (`SELF_ONLY`). Dopo l'approvazione imposta la variabile `TIKTOK_PRIVACY` = `PUBLIC_TO_EVERYONE`.
 
-### 5. Accendere
+### 6. Accendere
 
 - **Variabile** `SOCIAL_PUBLISH` = `on`.
 - **Variabile** `VIDEO_LANG` = `it` (oppure `en`).

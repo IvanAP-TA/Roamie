@@ -6,6 +6,7 @@
  * Environment:
  *   VIDEO_LANG       it (default) or en
  *   PUBLISH          "on" to publish; anything else renders and checks only (dry run)
+ *   TELEGRAM_*       if set, the video and its texts are also sent to Telegram, to post by hand with a sound
  *   HISTORY_PATH     where past posts are kept (default automation/history.json)
  *   MISTRAL_API_KEY  for the AI copy; without it, hand-written lines are used
  *   + each platform's keys (see publish/*.mjs); a platform without keys is skipped
@@ -20,6 +21,7 @@ import { hashtags, monthName, pickFromPool, POOLS, writeCopy } from './copy.mjs'
 import { guideUrl, loadPlaces } from './places.mjs'
 import { makePlan, seeded } from './plan.mjs'
 import { instagram } from './publish/instagram.mjs'
+import { telegram } from './publish/telegram.mjs'
 import { tiktok } from './publish/tiktok.mjs'
 import { youtube } from './publish/youtube.mjs'
 
@@ -118,9 +120,20 @@ async function main() {
   const photos = `${lang === 'it' ? 'Foto' : 'Photos'}: ${plan.places.map(credit).join(', ')} · Wikimedia Commons`
   const caption = `${copy.caption}\n\n${cta}\n\n${tags.join(' ')}`
   const description = `${copy.caption}\n\n${cta}\n${link}\n\n${photos}\n\n${tags.join(' ')}`
-  const post = { file, title: `${copy.hook} #shorts`, caption: `${caption}\n\n${photos}`, description, tags }
+  const post = { file, title: `${copy.hook} #shorts`, caption: `${caption}\n\n${photos}`, description, tags, summary: plan.places.map((p) => p.name[lang]).join(', ') }
 
   const results = {}
+  // The kit to post by hand comes first: when nothing is published automatically, it is the run's only output.
+  if (telegram.ready()) {
+    try {
+      results.telegram = await telegram.publish(post)
+      log('telegram: kit sent')
+    } catch (error) {
+      log(`telegram: FAILED ${error.message}`)
+      results.telegram = { error: error.message.slice(0, 300) }
+      if (!publishing) throw new Error(`the kit didn't reach Telegram: ${error.message}`)
+    }
+  }
   if (publishing) {
     for (const platform of PLATFORMS) {
       if (!platform.ready()) {
@@ -135,10 +148,10 @@ async function main() {
         results[platform.name] = { error: error.message.slice(0, 300) }
       }
     }
-    const ok = Object.values(results).some((r) => !r.error)
-    if (!ok && Object.keys(results).length) throw new Error('every platform failed')
+    const tried = PLATFORMS.map((p) => results[p.name]).filter(Boolean)
+    if (tried.length && tried.every((r) => r.error)) throw new Error('every platform failed')
   } else {
-    log('dry run: nothing published (set PUBLISH=on)')
+    log('nothing published automatically (set PUBLISH=on to publish)')
   }
 
   history.push({
@@ -156,7 +169,7 @@ async function main() {
   })
   writeFileSync(historyPath, `${JSON.stringify(history, null, 2)}\n`)
 
-  summary(`## ${publishing ? 'Published' : 'Dry run'}: ${plan.format}\n`)
+  summary(`## ${publishing ? 'Published' : results.telegram && !results.telegram.error ? 'Kit sent to Telegram' : 'Dry run'}: ${plan.format}\n`)
   summary(`**${copy.hook}** (${copy.source})\n\n${copy.caption}\n`)
   summary(`Places: ${plan.places.map((p) => p.name[lang]).join(', ')}\n`)
   for (const [name, r] of Object.entries(results)) summary(`- ${name}: ${r.error ? `❌ ${r.error}` : `✅ ${r.url ?? r.id}`}`)

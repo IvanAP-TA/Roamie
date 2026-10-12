@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { checkLine, hashtags, looksLike, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
 import { guideUrl, loadPlaces } from './places.mjs'
 import { makePlan, RECENT_DAYS, seeded } from './plan.mjs'
+import { kitMessages } from './publish/telegram.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -142,5 +143,15 @@ describe('copy checks', () => {
     const tags = hashtags({ places: places.slice(0, 3) }, 'it', seeded('h'))
     expect(tags.length).toBeGreaterThanOrEqual(4)
     for (const t of tags) expect(t).toMatch(/^#[a-z]+$/)
+  })
+})
+
+describe('telegram kit', () => {
+  it('puts each text in its own copyable block, escaped for HTML', () => {
+    const messages = kitMessages({ caption: 'Lisbon <3 & Porto\n\n#grouptrip', title: 'Lisbon or Porto? #shorts', description: 'Two cities.\nhttps://roamie.org/guide/x' })
+    expect(messages).toHaveLength(3)
+    expect(messages[0]).toContain('<code>Lisbon &lt;3 &amp; Porto\n\n#grouptrip</code>')
+    expect(messages[1]).toContain('<code>Lisbon or Porto? #shorts</code>')
+    expect(messages[2]).toContain('https://roamie.org/guide/x</code>')
   })
 })
