@@ -9,8 +9,7 @@ import type { LegalDoc } from '@/components/legal/LegalContent'
 // The sheet (and the legal texts' layout) is only downloaded when someone opens it.
 const LegalSheet = lazy(() => import('@/components/legal/LegalSheet'))
 import { cn } from '@/lib/utils'
-
-const YOUTUBE_CHANNEL = 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA'
+import { SocialLinks } from './SocialLinks'
 
 export function Footer({ className }: { className?: string }) {
   const { t, i18n } = useTranslation()
@@ -25,6 +24,7 @@ export function Footer({ className }: { className?: string }) {
 
   return (
     <footer className={cn('flex flex-col items-center gap-2 py-8 text-xs text-muted-foreground', className)}>
+      <SocialLinks />
       <p className="inline-flex items-center gap-1.5">
         <ShieldCheck className="size-3.5 text-sage" />
         {t('footer.noTrackers')}
@@ -54,15 +54,6 @@ export function Footer({ className }: { className?: string }) {
           className="inline-flex min-h-10 items-center px-1 underline-offset-4 transition hover:text-foreground hover:underline"
         >
           {t('footer.terms')}
-        </a>
-        <span aria-hidden className="size-1 rounded-full bg-muted-foreground/40" />
-        <a
-          href={YOUTUBE_CHANNEL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-10 items-center px-1 underline-offset-4 transition hover:text-foreground hover:underline"
-        >
-          {t('footer.youtube')}
         </a>
         <span aria-hidden className="size-1 rounded-full bg-muted-foreground/40" />
         <span>© {new Date().getFullYear()} Roamie</span>

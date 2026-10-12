@@ -122,7 +122,7 @@
     "noTrackers": "Cero cookies de perfilado, cero rastreadores",
     "privacy": "Privacidad",
     "terms": "Términos",
-    "youtube": "YouTube"
+    "follow": "Roamie en {{network}}"
   },
   "notFound": {
     "title": "Ruta equivocada",
