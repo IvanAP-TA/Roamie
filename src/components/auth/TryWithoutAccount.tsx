@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { Loader2, Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -17,7 +17,7 @@ export function TryWithoutAccount({ lang }: { lang: string }) {
   const { t } = useTranslation(undefined, { lng: lang })
   const { signInAsGuest } = useAuth()
   const { data: available } = useGuestAccess()
-  const navigate = useNavigate()
+  const [, setParams] = useSearchParams()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
@@ -29,9 +29,12 @@ export function TryWithoutAccount({ lang }: { lang: string }) {
     if (!name.trim() || busy) return
     setBusy(true)
     try {
+      // The landing redirects to its ?next= as soon as there's a session, before any navigate() here could run:
+      // that's where the sample trip has to be asked for, or the guest lands on an empty list.
+      setParams({ next: '/trips?sample=1' }, { replace: true })
       await signInAsGuest(name)
-      navigate('/trips?sample=1')
     } catch {
+      setParams({}, { replace: true })
       toast.error(t('guest.error'))
       setBusy(false)
     }
