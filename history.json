@@ -95,5 +95,37 @@
         "draft": true
       }
     }
+  },
+  {
+    "date": "2026-10-13T16:26:17.225Z",
+    "kind": "carousel",
+    "format": "month",
+    "lang": "it",
+    "places": [
+      "oaxaca",
+      "cappadocia",
+      "vienna",
+      "osaka",
+      "tenerife"
+    ],
+    "month": 11,
+    "hook": "A novembre si parte: 5 idee per il gruppo",
+    "caption": "Oaxaca, Cappadocia, Vienna, Osaka e Tenerife: quale proporreste al vostro gruppo?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "19"
+      },
+      "instagram": {
+        "id": "18017134520956710",
+        "url": "https://www.instagram.com/p/DecPJeMF5yT/"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7696189694421485590",
+        "url": null,
+        "draft": true
+      }
+    }
   }
 ]
