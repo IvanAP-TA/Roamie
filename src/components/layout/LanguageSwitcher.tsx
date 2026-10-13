@@ -1,7 +1,7 @@
 import { Check, Languages } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { localizedPath } from '@/content/guides/meta'
+import { localizedPath, pathLanguage } from '@/content/guides/meta'
 import { LANGUAGES, type LanguageCode } from '@/i18n'
 import {
   DropdownMenu,
@@ -20,8 +20,10 @@ export function LanguageSwitcher({ className }: { className?: string }) {
 
   const change = (lng: string) => {
     void i18n.changeLanguage(lng)
-    // The landings and the guides have one URL per language.
-    const target = localizedPath(location.pathname, lng as LanguageCode)
+    // The landings and the guides have one URL per language. The page's own hreflang links know its translations
+    // (month and comparison pages included); the path rules are the fallback.
+    const alternate = pathLanguage(location.pathname) ? document.head.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${lng}"]`)?.href : undefined
+    const target = (alternate && new URL(alternate).pathname) || localizedPath(location.pathname, lng as LanguageCode)
     if (target) navigate({ pathname: target, search: location.search })
   }
 

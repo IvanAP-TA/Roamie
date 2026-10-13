@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next'
 import { GUIDE_CONTENT } from '@/content/guides/content'
+import { EXPLORE_COPY, monthName, monthPath, pairPath, placesForMonth, type ExplorePlace, type Pair } from '@/content/guides/explore'
 import { GUIDE_BASE, GUIDES, GUIDES_PUBLISHED, guidePath, type GuideMeta } from '@/content/guides/meta'
 import { LANGUAGES, type LanguageCode } from '@/i18n'
 import { LANDING_PATHS, OG_LOCALES, SITE_URL, type PageMeta } from '@/lib/seo'
@@ -7,6 +8,8 @@ import { LANDING_PATHS, OG_LOCALES, SITE_URL, type PageMeta } from '@/lib/seo'
 /** Search/social metadata for the guides (index + articles), used by the prerenderer and the client. */
 
 const absolute = (path: string) => SITE_URL + path
+/** When the month and comparison pages went up (their content changes only with the guides). */
+const EXPLORE_PUBLISHED = '2026-10-13'
 const ORGANIZATION = { '@type': 'Organization', name: 'Roamie', url: absolute('/'), logo: absolute('/pwa-512x512.png') }
 
 function baseMeta(lang: LanguageCode, t: TFunction, title: string, description: string, pathFor: (lang: LanguageCode) => string) {
@@ -121,4 +124,53 @@ export function guideMeta(guide: GuideMeta, lang: LanguageCode, t: TFunction): P
       (entry): entry is NonNullable<typeof entry> => entry !== null,
     ),
   }
+}
+
+const destinationList = (places: ExplorePlace[], lang: LanguageCode) => ({
+  '@type': 'ItemList',
+  itemListElement: places.map((place, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'TouristDestination',
+      name: place.name[lang],
+      geo: { '@type': 'GeoCoordinates', latitude: place.lat, longitude: place.lng },
+      address: { '@type': 'PostalAddress', addressCountry: place.countryCode },
+    },
+  })),
+})
+
+function exploreArticle(meta: ReturnType<typeof baseMeta>, lang: LanguageCode, headline: string, places: ExplorePlace[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description: meta.description,
+    inLanguage: lang,
+    url: meta.canonical,
+    mainEntityOfPage: meta.canonical,
+    image: meta.ogImage,
+    datePublished: EXPLORE_PUBLISHED,
+    dateModified: EXPLORE_PUBLISHED,
+    author: ORGANIZATION,
+    publisher: ORGANIZATION,
+    about: destinationList(places, lang),
+  }
+}
+
+/** "Where to go in November with friends". */
+export function monthMeta(month: number, lang: LanguageCode, t: TFunction): PageMeta {
+  const places = placesForMonth(month)
+  const name = monthName(month, lang)
+  const title = EXPLORE_COPY.monthTitle[lang](name)
+  const meta = baseMeta(lang, t, `${title} · Roamie`, EXPLORE_COPY.monthDescription[lang](name, places.length), (l) => monthPath(month, l))
+  return { ...meta, jsonLd: [exploreArticle(meta, lang, title, places), breadcrumbs(lang, t, [{ name: title, path: monthPath(month, lang) }])] }
+}
+
+/** "Lisbon or Porto?". */
+export function pairMeta(pair: Pair, lang: LanguageCode, t: TFunction): PageMeta {
+  const [a, b] = [pair.a.name[lang], pair.b.name[lang]]
+  const title = EXPLORE_COPY.pairTitle[lang](a, b)
+  const meta = baseMeta(lang, t, `${title} · Roamie`, EXPLORE_COPY.pairDescription[lang](a, b), (l) => pairPath(pair, l))
+  return { ...meta, jsonLd: [exploreArticle(meta, lang, title, [pair.a, pair.b]), breadcrumbs(lang, t, [{ name: title, path: pairPath(pair, lang) }])] }
 }

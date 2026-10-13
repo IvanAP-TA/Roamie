@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { EXPLORE_COPY, MONTHS, monthName, monthPath } from '@/content/guides/explore'
 import type { LanguageCode } from '@/i18n'
 import { usePageMeta } from '@/hooks/useSeo'
 import { guidesIndexMeta } from '@/lib/guideSeo'
@@ -22,6 +24,23 @@ export default function GuidesIndexPage({ lang }: { lang: LanguageCode }) {
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{t('guides.indexIntro')}</p>
         </header>
         <GuideCards lang={lang} heading="h2" media={guideCardPhoto} className="mt-10" />
+        <nav className="mt-14" aria-labelledby="by-month">
+          <h2 id="by-month" className="text-3xl">
+            {EXPLORE_COPY.monthEyebrow[lang]}
+          </h2>
+          <ul className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+            {MONTHS.map((month) => (
+              <li key={month}>
+                <Link
+                  to={monthPath(month, lang)}
+                  className="glass flex min-h-12 items-center rounded-2xl px-4 text-sm font-medium capitalize transition hover:text-primary"
+                >
+                  {monthName(month, lang)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <GuideCta lang={lang} />
       </PageTransition>
     </GuideShell>
