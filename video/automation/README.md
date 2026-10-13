@@ -1,6 +1,6 @@
 # Post automatici per i social
 
-Ogni giorno feriale verso le 16:00 UTC (le 18 in Italia d’estate) GitHub Actions prepara un post dalle guide di Roamie:
+Ogni giorno feriale alle 16:00 UTC (le 18 in Italia d’estate, le 17 d’inverno) Supabase fa partire su GitHub Actions il giro che prepara un post dalle guide di Roamie. Serve un token GitHub nel Vault di Supabase con il nome `github_actions_token` (Fine-grained, solo questo repository, permesso "Actions: read and write"). Il pianificatore di GitHub resta come riserva alle 17:30 UTC; un giro automatico non fa nulla se quel giorno il post è già uscito.
 
 - **lunedì, mercoledì e venerdì un video** (Reel, Short, TikTok) con musica ed effetti sonori;
 - **martedì e giovedì un carosello** di immagini (Instagram, TikTok): copertina, una slide per meta, slide finale.

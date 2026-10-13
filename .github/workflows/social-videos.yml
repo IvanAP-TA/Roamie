@@ -6,10 +6,11 @@
 name: Social videos
 
 on:
+  # The day's run is started at 16:00 UTC (18:00 in Italy in summer, 17:00 in winter) by Supabase's pg_cron, which is
+  # punctual (migration social_post_schedule): GitHub's own scheduler starts runs late or drops them. This schedule is
+  # only a backup an hour and a half later; an automatic run does nothing if the day's post is already out.
   schedule:
-    # Monday to Friday at 15:40 UTC: GitHub starts scheduled runs late (often 10–30 minutes, more on the hour), so
-    # posts land around 18:00 in Italy in summer, 17:00 in winter.
-    - cron: '40 15 * * 1-5'
+    - cron: '30 17 * * 1-5'
   workflow_dispatch:
     inputs:
       lang:
@@ -18,6 +19,9 @@ on:
       kind:
         description: What to make (empty = the day's choice, video or carousel)
         default: ''
+      auto:
+        description: Started by the daily schedule (skips if the day's post is already out)
+        default: 'false'
 
 permissions:
   contents: write
@@ -50,6 +54,7 @@ jobs:
         env:
           VIDEO_LANG: ${{ inputs.lang || vars.VIDEO_LANG || 'it' }}
           POST_KIND: ${{ inputs.kind }}
+          AUTO: ${{ github.event_name == 'schedule' || inputs.auto == 'true' }}
           SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}
           PUBLISH: ${{ vars.SOCIAL_PUBLISH }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
@@ -98,5 +103,7 @@ jobs:
           # Vercel reads its settings from the pushed commit: without this, every post would start a failing deploy.
           echo '{ "git": { "deploymentEnabled": false } }' > vercel.json
           git add history.json vercel.json
+          # An automatic run that found the day's post already out changes nothing.
+          if git diff --cached --quiet; then echo "Nothing new to save"; exit 0; fi
           git commit -m "Post of $(date -u +%F)"
           git push origin social-history

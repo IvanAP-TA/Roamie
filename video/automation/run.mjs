@@ -7,6 +7,7 @@
  * Environment:
  *   VIDEO_LANG       it (default) or en
  *   POST_KIND        video or carousel, to override the day's choice (manual runs)
+ *   AUTO             "true" for the daily schedule: skips when the day's post is already out
  *   PUBLISH          "on" to publish; anything else renders and checks only (dry run)
  *   TELEGRAM_*       if set, the post and its texts are also sent to Telegram, to post by hand with a sound
  *   SOCIAL_UPLOAD_SECRET  hosts carousel slides at roamie.org/social (needed to publish carousels)
@@ -280,6 +281,12 @@ async function carousel(history, today) {
 async function main() {
   const history = existsSync(historyPath) ? JSON.parse(readFileSync(historyPath, 'utf8')) : []
   const today = new Date()
+  // The daily start can come twice (Supabase, then GitHub's backup schedule): one post a day.
+  if (process.env.AUTO === 'true' && history.some((h) => h.lang === lang && h.date.slice(0, 10) === today.toISOString().slice(0, 10))) {
+    log('already posted today: nothing to do')
+    summary("## Skipped: the day's post is already out\n")
+    return
+  }
   // Last posts' numbers first: the planner favours the formats that work (see metrics.mjs).
   const metrics = await refreshMetrics(history, today)
   log(`metrics: ${metrics.read} posts read${metrics.skipped ? ` (${metrics.skipped})` : ''}`)
