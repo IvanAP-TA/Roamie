@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 import { AnimatePresence, animate, motion, useMotionValue } from 'framer-motion'
-import { ArrowRight, Sparkles, X } from 'lucide-react'
+import { ArrowRight, MessageCircle, Sparkles, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useDestinations } from '@/hooks/useDestinations'
@@ -11,11 +11,12 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { keys } from '@/hooks/useTrips'
 import { onSpinAnnounced, revealOrder, SHOW_TIMING, slicesFromSpin, type LiveSpin, type SpinEntry } from '@/lib/liveSpin'
 import { targetRotation, totalPoints } from '@/lib/roulette'
+import { publicTripLink, whatsappShareUrl } from '@/lib/share'
 import { playWin } from '@/lib/sound'
 import { renderDecisionCard, storyPhotoUrl } from '@/lib/storyCard'
 import { supabase } from '@/lib/supabase'
 import type { Destination } from '@/lib/types'
-import { cn } from '@/lib/utils'
+import { appUrl, cn } from '@/lib/utils'
 import { Floating } from '@/components/layout/Floating'
 import { CoverImage } from '@/components/media/CoverImage'
 import { ShareStoryButton } from '@/components/media/ShareStoryButton'
@@ -493,7 +494,20 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
             )}
           </div>
         </motion.div>
-        <ShareStoryButton render={story} fileName="roamie-ruota.png" title={t('story.shareTitle')} />
+        <div className="flex flex-wrap justify-center gap-2">
+          {/* The decision, ready for the group chat: the trip's public page if it has one, Roamie otherwise. */}
+          <Button asChild variant="glass">
+            <a
+              href={whatsappShareUrl(t('story.whatsappText', { place: winnerName }), trip.public_slug ? publicTripLink(trip.public_slug) : `${appUrl()}/?ref=whatsapp`)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle />
+              {t('story.whatsapp')}
+            </a>
+          </Button>
+          <ShareStoryButton render={story} fileName="roamie-ruota.png" title={t('story.shareTitle')} />
+        </div>
         </div>
       )}
     </Overlay>

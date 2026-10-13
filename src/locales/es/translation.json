@@ -594,7 +594,9 @@
     "download": "Descargar imagen",
     "wheelEyebrow": "La ruleta ha decidido 🎡",
     "footer": "Decidid también vosotros en roamie.org",
-    "shareTitle": "Decidido con Roamie"
+    "shareTitle": "Decidido con Roamie",
+    "whatsapp": "WhatsApp",
+    "whatsappText": "🎡 La ruleta ha decidido: ¡nos vamos a {{place}}! Lo elegimos juntos en Roamie, probadlo con vuestro grupo:"
   },
   "notifications": {
     "title": "Notificaciones",

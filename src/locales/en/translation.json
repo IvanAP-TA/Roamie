@@ -594,7 +594,9 @@
     "download": "Download image",
     "wheelEyebrow": "The wheel has spoken 🎡",
     "footer": "Plan yours on roamie.org",
-    "shareTitle": "Decided with Roamie"
+    "shareTitle": "Decided with Roamie",
+    "whatsapp": "WhatsApp",
+    "whatsappText": "🎡 The wheel has spoken: we’re going to {{place}}! We picked it together on Roamie, try it with your group:"
   },
   "notifications": {
     "title": "Notifications",
