@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { checkLine, hashtags, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
 import { CROSS_DAYS, makeCarouselPlan, makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
+import { formatBonus, formatScores, refreshMetrics, score } from './metrics.mjs'
 import { kitMessages } from './publish/telegram.mjs'
 
 const places = loadPlaces()
@@ -221,5 +222,42 @@ describe('carousels', () => {
 
   it('gives every guide carousel a theme for its cover', () => {
     for (const { plan } of carousels.filter((h) => h.format === 'guide')) expect(guideTheme(plan.guide, 'it')).toBeTruthy()
+  })
+})
+
+describe('learning from what worked', () => {
+  const now = new Date('2026-12-01T16:00:00Z')
+  const post = (format, daysAgo, metrics, kind = 'video') => ({ date: new Date(now.getTime() - daysAgo * DAY).toISOString(), kind, format, lang: 'it', places: [], metrics, results: { instagram: { id: `m${format}${daysAgo}` } } })
+
+  it('scores saves and shares above likes, and ignores posts that reached too few people', () => {
+    expect(score({ metrics: { reach: 10, saved: 5, shares: 5, interactions: 10 } })).toBeNull()
+    const saved = score({ metrics: { reach: 100, saved: 10, shares: 0, interactions: 10 } })
+    const liked = score({ metrics: { reach: 100, saved: 0, shares: 0, interactions: 30 } })
+    expect(saved).toBeGreaterThan(liked)
+  })
+
+  it('nudges formats only once they have enough scored posts, within the variety rules', () => {
+    const good = { reach: 200, saved: 20, shares: 10, interactions: 40, at: now.toISOString() }
+    const poor = { reach: 200, saved: 1, shares: 0, interactions: 5, at: now.toISOString() }
+    const history = [1, 3, 5].flatMap((d) => [post('wheel', d, good), post('versus', d + 1, poor)])
+    const bonus = formatBonus(formatScores(history, 'video', now))
+    expect(bonus.wheel).toBeGreaterThan(0)
+    expect(bonus.versus).toBeLessThan(0)
+    expect(Math.abs(bonus.wheel)).toBeLessThanOrEqual(0.9)
+    expect(formatBonus(formatScores(history.slice(0, 2), 'video', now))).toEqual({})
+  })
+
+  it('reads numbers for recent posts only, and stops on a permission error', async () => {
+    const history = [post('wheel', 0.5, undefined), post('month', 3, undefined), post('versus', 90, undefined)]
+    const read = async () => ({ reach: 50, saved: 2, shares: 1, interactions: 5 })
+    process.env.INSTAGRAM_ACCESS_TOKEN ??= 'test'
+    const result = await refreshMetrics(history, now, read)
+    expect(result.read).toBe(1)
+    expect(history[1].metrics.reach).toBe(50)
+    expect(history[0].metrics).toBeUndefined()
+    const denied = await refreshMetrics([post('wheel', 2, undefined)], now, async () => {
+      throw new Error('missing permission')
+    })
+    expect(denied).toEqual({ read: 0, skipped: 'missing permission' })
   })
 })

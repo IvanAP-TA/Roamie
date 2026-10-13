@@ -10,12 +10,16 @@
  *  - photos that aren't of the place itself (satellite shots, maps, flags, logos) are never used.
  */
 
+import { formatBonus, formatScores } from './metrics.mjs'
+
 export const FORMATS = ['wheel', 'month', 'versus']
 export const CAROUSEL_FORMATS = ['guide', 'month']
 export const RECENT_DAYS = 30
 export const MONTH_GAP_DAYS = 200
 /** Videos and carousels keep their own freshness window; across the two, a place only waits this long. */
 export const CROSS_DAYS = 7
+/** Share of posts planned ignoring what worked, so a format that started badly still gets another chance. */
+export const EXPLORE_SHARE = 0.25
 
 const DAY = 86_400_000
 const BAD_PHOTO = /satellite|_ESA\d|ESA\d{5}|locator|map[_ (.]|_map|flag|logo|diagram|coat_of_arms/i
@@ -71,7 +75,10 @@ export function makePlan(places, history, today, lang) {
   // last four; if no format can be planned that way, only "not the last one" still holds.
   const last = mine.slice(-4).map((h) => h.format)
   const uses = (f) => last.filter((x) => x === f).length
-  const ordered = shuffle(FORMATS, rand).sort((a, b) => uses(a) - uses(b))
+  // What worked on Instagram nudges the order (see metrics.mjs), except in the exploring share of posts.
+  const bonus = rand() < EXPLORE_SHARE ? {} : formatBonus(formatScores(mine, 'video', today))
+  const weight = (f) => uses(f) - (bonus[f] ?? 0)
+  const ordered = shuffle(FORMATS, rand).sort((a, b) => weight(a) - weight(b))
   const notLast = ordered.filter((f) => f !== last[last.length - 1])
   const strict = notLast.filter((f) => uses(f) < 2)
 
@@ -161,7 +168,13 @@ export function makeCarouselPlan(places, history, today, lang) {
   const videos = history.filter((h) => h.lang === lang && h.kind !== 'carousel')
   const within = (h, days) => today - new Date(h.date) < days * DAY
   const last = mine[mine.length - 1]?.format
-  const formats = [...shuffle(CAROUSEL_FORMATS, rand).filter((f) => f !== last), ...(last ? [last] : [])]
+  const bonus = rand() < EXPLORE_SHARE ? {} : formatBonus(formatScores(mine, 'carousel', today))
+  const formats = [
+    ...shuffle(CAROUSEL_FORMATS, rand)
+      .filter((f) => f !== last)
+      .sort((a, b) => (bonus[b] ?? 0) - (bonus[a] ?? 0)),
+    ...(last ? [last] : []),
+  ]
 
   for (const days of [RECENT_DAYS, 21, 14]) {
     const recent = new Set([...mine.filter((h) => within(h, days)), ...videos.filter((h) => within(h, CROSS_DAYS))].flatMap((h) => h.places))

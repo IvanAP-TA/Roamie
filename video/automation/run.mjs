@@ -21,6 +21,7 @@ import { spawnSync } from 'node:child_process'
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { hashtags, monthName, photoCredit, pickFromPool, POOLS, writeCopy } from './copy.mjs'
+import { formatScores, refreshMetrics } from './metrics.mjs'
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
 import { makeCarouselPlan, makePlan, pickMusic, seeded } from './plan.mjs'
 import { facebook } from './publish/facebook.mjs'
@@ -279,7 +280,14 @@ async function carousel(history, today) {
 async function main() {
   const history = existsSync(historyPath) ? JSON.parse(readFileSync(historyPath, 'utf8')) : []
   const today = new Date()
-  await (kindOf(today) === 'carousel' ? carousel(history, today) : video(history, today))
+  // Last posts' numbers first: the planner favours the formats that work (see metrics.mjs).
+  const metrics = await refreshMetrics(history, today)
+  log(`metrics: ${metrics.read} posts read${metrics.skipped ? ` (${metrics.skipped})` : ''}`)
+  const kind = kindOf(today)
+  const scores = formatScores(history.filter((h) => h.lang === lang), kind, today)
+  if (Object.keys(scores).length) summary(`Format scores (${kind}): ${Object.entries(scores).map(([f, s]) => `${f} ${s.avg.toFixed(3)} (${s.n})`).join(', ')}
+`)
+  await (kind === 'carousel' ? carousel(history, today) : video(history, today))
 }
 
 main().catch((error) => {

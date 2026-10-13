@@ -25,6 +25,7 @@ Per ogni post il bot:
   - somigliano troppo a un post precedente (confronto sulle sequenze di parole).
   
   L'AI ha tre tentativi; se fallisce, si usa una frase scritta a mano non ancora usata di recente.
+- **Cosa funziona:** a ogni giro il bot legge da Instagram copertura, salvataggi, condivisioni e interazioni dei post recenti e dà un punteggio a ogni formato. I formati che funzionano meglio vengono proposti un po' più spesso, ma solo quando hanno almeno 3 post misurati, senza mai scavalcare le regole sulla varietà, e un post su quattro ignora i punteggi per continuare a provare tutto. I punteggi compaiono nel riepilogo dell'esecuzione. Serve il permesso `instagram_manage_insights` sul token (vedi sotto); senza, il bot va avanti come prima.
 - **Hashtag, link, crediti delle foto e invito finale:** scelti dal codice, mai dall'AI.
 - **Musica:** ogni formato ha i suoi brani (in `public/music`, provenienza in `SOURCES.md`). Un formato non riusa il brano della volta precedente. Sopra ci sono effetti sonori generati dal codice: il tic della ruota, il "ding" della meta e il "whoosh" ai cambi di scena.
 - **Foto:** quelle satellitari, mappe, bandiere e loghi sono escluse. Per ogni foto c'è il credito della licenza, nel video e nella didascalia.
@@ -87,7 +88,7 @@ Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v26.0`). Aggiornala
 Usa lo stesso token della Pagina di Instagram, con un permesso in più.
 
 1. Nell'app Meta "Roamie Video" aggiungi il caso d'uso **"Gestisci tutto sulla tua Pagina"** e l'autorizzazione `pages_manage_posts`.
-2. Nel Graph API Explorer rigenera il token con le autorizzazioni di Instagram **più** `pages_manage_posts`, estendilo e ricava di nuovo il token della Pagina da `me/accounts` (vedi sopra). Il campo `id` della Pagina è l'id da salvare.
+2. Nel Graph API Explorer rigenera il token con le autorizzazioni di Instagram **più** `pages_manage_posts` e `instagram_manage_insights` (per leggere i risultati dei post), estendilo e ricava di nuovo il token della Pagina da `me/accounts` (vedi sopra). Il campo `id` della Pagina è l'id da salvare.
 3. **Secrets:** aggiorna `INSTAGRAM_ACCESS_TOKEN` con il nuovo token della Pagina (vale per entrambi) e aggiungi `FACEBOOK_PAGE_ID`. In alternativa puoi tenere un token a parte in `FACEBOOK_PAGE_TOKEN`.
 
 ### 6. TikTok
