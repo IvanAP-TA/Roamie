@@ -2,6 +2,9 @@ import type { LanguageCode } from '@/i18n'
 import type { Mood } from '@/lib/types'
 import { GUIDE_CONTENT, type GuidePlace } from './content'
 import { GUIDE_BASE, GUIDES, type Localized } from './meta'
+import { MONTHS, monthName, monthPath, monthSlug, slugify } from './months'
+
+export { MONTHS, monthName, monthPath, monthSlug, slugify }
 
 /**
  * Pages built from the guides' places, for the searches people actually make: "where to go in November with friends"
@@ -26,28 +29,6 @@ export const EXPLORE_PLACES: ExplorePlace[] = (() => {
   }
   return [...byKey.values()]
 })()
-
-export const slugify = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-
-export const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
-
-export const monthName = (month: number, lang: LanguageCode) =>
-  new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2021, month - 1, 15)))
-
-const MONTH_SLUG: Localized<(month: string) => string> = {
-  it: (m) => `dove-andare-a-${m}`,
-  en: (m) => `where-to-go-in-${m}`,
-  es: (m) => `donde-ir-en-${m}`,
-}
-
-export const monthSlug = (month: number, lang: LanguageCode) => MONTH_SLUG[lang](slugify(monthName(month, lang)))
-export const monthPath = (month: number, lang: LanguageCode) => `${GUIDE_BASE[lang]}/${monthSlug(month, lang)}`
 
 /** The places at their best in a month: the most seasonal first (a short season is the better tip), then by name. */
 export function placesForMonth(month: number): ExplorePlace[] {

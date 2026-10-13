@@ -19,6 +19,7 @@ import { Splash } from '@/components/layout/Splash'
 import { GuideCards } from '@/components/guides/GuideCards'
 import { InstallAppButton } from '@/components/install/InstallApp'
 import { GUIDE_BASE } from '@/content/guides/meta'
+import { comingMonths, MONTH_LINK, monthName, monthPath } from '@/content/guides/months'
 
 /**
  * The landing page animates with CSS only (see the intro rules in index.css): it's the page most visitors see first,
@@ -252,6 +253,15 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
             </Link>
           </div>
           <GuideCards lang={lang} limit={4} className="mt-8" />
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {comingMonths(new Date().getMonth() + 1, 4).map((month) => (
+              <li key={month}>
+                <Link to={monthPath(month, lang)} className="glass inline-flex min-h-10 items-center rounded-full px-4 text-sm font-medium transition hover:text-primary">
+                  {MONTH_LINK[lang](monthName(month, lang))}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section aria-labelledby="faq-title" className="mx-auto w-full max-w-3xl px-5 pt-20 md:px-8 md:pt-24">
