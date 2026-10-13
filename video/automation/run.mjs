@@ -23,6 +23,7 @@ import { fileURLToPath } from 'node:url'
 import { hashtags, monthName, photoCredit, pickFromPool, POOLS, writeCopy } from './copy.mjs'
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
 import { makeCarouselPlan, makePlan, pickMusic, seeded } from './plan.mjs'
+import { facebook } from './publish/facebook.mjs'
 import { instagram } from './publish/instagram.mjs'
 import { media } from './publish/media.mjs'
 import { telegram } from './publish/telegram.mjs'
@@ -36,7 +37,7 @@ const historyPath = process.env.HISTORY_PATH ?? fileURLToPath(new URL('./history
 const FPS = 30
 const DURATIONS = { wheel: 390, month: 395, versus: 370 }
 const COMPOSITION = { wheel: 'Wheel', month: 'Month', versus: 'Versus' }
-const PLATFORMS = [youtube, instagram, tiktok]
+const PLATFORMS = [youtube, instagram, facebook, tiktok]
 
 /** Tuesdays and Thursdays are for carousels, the other days for videos; POST_KIND overrides it. */
 const kindOf = (today) => (['video', 'carousel'].includes(process.env.POST_KIND) ? process.env.POST_KIND : [2, 4].includes(today.getUTCDay()) ? 'carousel' : 'video')

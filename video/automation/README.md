@@ -82,6 +82,14 @@ Finché Google non verifica l'app, i video caricati via API restano **privati**.
 
 Facoltativo: la variabile `META_GRAPH_VERSION` (predefinita `v26.0`). Aggiornala quando Meta ritira la versione.
 
+### 5b. Pagina Facebook (Reel e post con più foto)
+
+Usa lo stesso token della Pagina di Instagram, con un permesso in più.
+
+1. Nell'app Meta "Roamie Video" aggiungi il caso d'uso **"Gestisci tutto sulla tua Pagina"** e l'autorizzazione `pages_manage_posts`.
+2. Nel Graph API Explorer rigenera il token con le autorizzazioni di Instagram **più** `pages_manage_posts`, estendilo e ricava di nuovo il token della Pagina da `me/accounts` (vedi sopra). Il campo `id` della Pagina è l'id da salvare.
+3. **Secrets:** aggiorna `INSTAGRAM_ACCESS_TOKEN` con il nuovo token della Pagina (vale per entrambi) e aggiungi `FACEBOOK_PAGE_ID`. In alternativa puoi tenere un token a parte in `FACEBOOK_PAGE_TOKEN`.
+
 ### 6. TikTok
 
 Su TikTok video e caroselli arrivano **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi.
