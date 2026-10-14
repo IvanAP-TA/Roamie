@@ -29,6 +29,8 @@ export default defineConfig(({ isSsrBuild }) => ({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.svg', 'favicon.ico', 'apple-touch-icon-180x180.png'],
         manifest: {
+          // A stable identity for the installed app, whatever start_url becomes.
+          id: '/',
           name: 'Roamie — Group travel bucket list',
           short_name: 'Roamie',
           description: 'Propose destinations with your friends, vote, and spin the wheel to pick the next trip.',
@@ -39,7 +41,25 @@ export default defineConfig(({ isSsrBuild }) => ({
           orientation: 'portrait',
           start_url: '/trips',
           scope: '/',
+          dir: 'ltr',
           categories: ['travel', 'social', 'lifestyle'],
+          // Reopening the app (or a link to it) focuses the window already open instead of starting another.
+          launch_handler: { client_mode: ['navigate-existing', 'auto'] },
+          // The Play Store app is the same web app in a Trusted Web Activity: the web one stays the one to install.
+          prefer_related_applications: false,
+          related_applications: [{ platform: 'play', url: 'https://play.google.com/store/apps/details?id=org.roamie.app', id: 'org.roamie.app' }],
+          shortcuts: [
+            { name: 'New trip', short_name: 'New trip', url: '/trips?new=1', icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }] },
+            { name: 'Explore destinations', short_name: 'Explore', url: '/explore', icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }] },
+          ],
+          // Shown by the browser's install prompt (and by stores that read the manifest).
+          screenshots: [
+            { src: 'screenshots/1-home.jpg', sizes: '540x960', type: 'image/jpeg', form_factor: 'narrow', label: 'Decide your next group trip together' },
+            { src: 'screenshots/2-mete.jpg', sizes: '540x960', type: 'image/jpeg', form_factor: 'narrow', label: 'Propose places and vote with points' },
+            { src: 'screenshots/3-ruota.jpg', sizes: '540x960', type: 'image/jpeg', form_factor: 'narrow', label: 'Let the wheel pick the destination' },
+            { src: 'screenshots/4-piano.jpg', sizes: '540x960', type: 'image/jpeg', form_factor: 'narrow', label: 'Plan the itinerary day by day' },
+            { src: 'screenshots/wide-home.jpg', sizes: '1280x720', type: 'image/jpeg', form_factor: 'wide', label: 'Roamie on a computer' },
+          ],
           icons: [
             { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
             { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
@@ -56,8 +76,8 @@ export default defineConfig(({ isSsrBuild }) => ({
           navigateFallbackDenylist: [/^\/api\//, /\/[^/?]+\.[a-z0-9]+$/i],
           globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
           // Font subsets the UI languages never need (still loaded on demand via unicode-range),
-          // social preview images, and the prerendered pages.
-          globIgnores: ['**/*vietnamese*', '**/*cyrillic*', '**/*greek*', 'og/**', ...PRERENDERED],
+          // social preview images, the install prompt's screenshots, and the prerendered pages.
+          globIgnores: ['**/*vietnamese*', '**/*cyrillic*', '**/*greek*', 'og/**', 'screenshots/**', ...PRERENDERED],
           // Supabase API/auth traffic is never cached. Only public map tiles and photos are.
           runtimeCaching: [
             {
