@@ -97,16 +97,59 @@ export const POOLS = {
   },
 }
 
+// ── Hashtags: chosen by code, never by the AI ──
+// Ordered from the most specific (the places, their country, the post's theme) to the broad ones people follow, so a
+// platform that only shows the first few (YouTube shows three) still shows the useful ones. Only tags in real use.
 const HASHTAGS = {
   it: {
-    base: ['#viaggiconamici', '#viaggiodigruppo', '#dovevado', '#weekendfuoriporta', '#ideeviaggio', '#viaggiare', '#travelitalia'],
+    broad: ['#viaggiconamici', '#viaggiodigruppo', '#ideeviaggio', '#doveandare', '#viaggiare', '#weekendfuoriporta', '#organizzareviaggi'],
+    region: { europe: '#europa', asia: '#asia', africa: '#africa', americas: '#america' },
+    month: (m) => `#viaggi${normalize(monthName(m, 'it'))}`,
+    guide: {
+      'long-weekends': ['#weekendlungo', '#citybreak'],
+      budget: ['#viaggilowcost', '#viaggiareconpoco'],
+      'summer-sea': ['#mare', '#vacanzealmare'],
+      nature: ['#trekking', '#natura'],
+      food: ['#viaggigastronomici', '#foodtravel'],
+      nightlife: ['#nightlife', '#vacanzedidivertimento'],
+      winter: ['#viaggiinvernali', '#mercatinidinatale'],
+      bachelor: ['#addioalcelibato', '#addioalnubilato'],
+      graduation: ['#viaggiodimaturita', '#maturita'],
+      students: ['#viaggistudenti', '#weekendlowcost'],
+      couples: ['#viaggidicoppia', '#viaggiinsieme'],
+    },
     mood: { culture: '#cittadarte', food_wine: '#viaggigastronomici', nightlife: '#nightlife', relax: '#relax', adventure: '#avventura', nature: '#natura', family: '#viaggiinfamiglia', romantic: '#viaggiodicoppia' },
   },
   en: {
-    base: ['#grouptrip', '#travelwithfriends', '#wheretonext', '#weekendgetaway', '#travelideas', '#tripplanning', '#bucketlist'],
+    broad: ['#grouptrip', '#travelwithfriends', '#travelplanning', '#traveltips', '#bucketlist', '#wanderlust', '#traveldestinations'],
+    region: { europe: '#europetravel', asia: '#asiatravel', africa: '#africatravel', americas: '#latinamericatravel' },
+    month: (m) => `#${normalize(monthName(m, 'en'))}travel`,
+    guide: {
+      'long-weekends': ['#citybreak', '#weekendgetaway'],
+      budget: ['#budgettravel', '#cheaptravel'],
+      'summer-sea': ['#beachvacation', '#summertravel'],
+      nature: ['#hiking', '#naturetravel'],
+      food: ['#foodietravel', '#foodtravel'],
+      nightlife: ['#nightlife', '#partytrip'],
+      winter: ['#wintertravel', '#christmasmarkets'],
+      bachelor: ['#bachelorparty', '#bachelorettetrip'],
+      graduation: ['#graduationtrip', '#seniortrip'],
+      students: ['#studenttravel', '#budgettravel'],
+      couples: ['#couplestravel', '#doubledate'],
+    },
     mood: { culture: '#citybreak', food_wine: '#foodtravel', nightlife: '#nightlife', relax: '#slowtravel', adventure: '#adventuretravel', nature: '#naturetravel', family: '#familytravel', romantic: '#romanticgetaway' },
   },
 }
+
+// The country tags people actually use, where the plain name isn't it.
+const COUNTRY_TAG = { GB: 'uk', CZ: 'czechrepublic', US: 'usa', NL: 'netherlands', TR: 'turkey' }
+const REGION = { JP: 'asia', VN: 'asia', GE: 'asia', MA: 'africa', MX: 'americas' }
+
+const tag = (text) => `#${normalize(text).replace(/ /g, '')}`
+/** "Malta (St Julian’s)" → "#malta": the name people tag, not the resort in brackets. */
+const placeTag = (name) => tag(name.replace(/\s*\(.*\)\s*/g, ' '))
+const countryTag = (code, lang) =>
+  `#${(lang === 'en' && COUNTRY_TAG[code]) || normalize(new Intl.DisplayNames([lang], { type: 'region' }).of(code) ?? code).replace(/ /g, '')}`
 
 // Words only one of the two languages uses (no "a", "in" or "no", which both do).
 const STOPWORDS = {
@@ -197,13 +240,20 @@ export function photoCredit(photo) {
   return `${short || author.slice(0, 40)} (${photo.license})`
 }
 
-/** Hashtags chosen by code: two general ones (rotating), the places' moods, and one per place name. */
+/**
+ * Hashtags for a plan, at most 8, most specific first: the places, their countries, the guide's theme or the month,
+ * the region when they share one, then two broad tags in rotation. All lowercase and deduplicated.
+ */
 export function hashtags(plan, lang, rand) {
-  const tags = HASHTAGS[lang]
-  const base = [...tags.base].sort(() => rand() - 0.5).slice(0, 2)
-  const moods = [...new Set(plan.places.flatMap((p) => p.moods))].slice(0, 2).map((m) => tags.mood[m]).filter(Boolean)
-  const places = plan.places.slice(0, 3).map((p) => `#${normalize(p.name[lang]).replace(/ /g, '')}`)
-  return [...new Set([...base, ...moods, ...places])].slice(0, 7)
+  const set = HASHTAGS[lang]
+  const places = plan.places.slice(0, 3).map((p) => placeTag(p.name[lang === 'it' ? 'it' : 'en']))
+  const countries = [...new Set(plan.places.map((p) => p.countryCode))].slice(0, 2).map((code) => countryTag(code, lang))
+  const theme = plan.guide ? (set.guide[plan.guide] ?? []) : plan.month ? [set.month(plan.month)] : []
+  const moods = theme.length ? [] : [...new Set(plan.places.flatMap((p) => p.moods))].slice(0, 2).map((m) => set.mood[m])
+  const regions = new Set(plan.places.map((p) => REGION[p.countryCode] ?? 'europe'))
+  const region = regions.size === 1 ? [set.region[[...regions][0]]] : []
+  const broad = [...set.broad].sort(() => rand() - 0.5).slice(0, 2)
+  return [...new Set([...places, ...countries, ...theme, ...moods, ...region, ...broad].filter(Boolean))].slice(0, 8)
 }
 
 const MODELS = ['ministral-14b-2512', 'ministral-8b-2512']

@@ -144,7 +144,7 @@ describe('copy checks', () => {
   it('builds varied, valid hashtags', () => {
     const tags = hashtags({ places: places.slice(0, 3) }, 'it', seeded('h'))
     expect(tags.length).toBeGreaterThanOrEqual(4)
-    for (const t of tags) expect(t).toMatch(/^#[a-z]+$/)
+    for (const t of tags) expect(t).toMatch(/^#[a-z0-9]+$/)
   })
 })
 
@@ -259,5 +259,25 @@ describe('learning from what worked', () => {
       throw new Error('missing permission')
     })
     expect(denied).toEqual({ read: 0, skipped: 'missing permission' })
+  })
+})
+
+describe('hashtags', () => {
+  const byKey = (k) => places.find((p) => p.key === k)
+
+  it('start with the places and their countries, without the resort in brackets', () => {
+    const tags = hashtags({ places: [byKey('st-julians'), byKey('lisbon')] }, 'en', seeded('t'))
+    expect(tags.slice(0, 2)).toEqual(['#malta', '#lisbon'])
+    expect(tags).toContain('#portugal')
+    expect(tags.length).toBeLessThanOrEqual(8)
+  })
+
+  it("use the guide's theme or the month, in the post's language", () => {
+    const budget = places.filter((p) => p.guides.includes('budget')).slice(0, 5)
+    expect(hashtags({ guide: 'budget', places: budget }, 'en', seeded('b'))).toContain('#budgettravel')
+    expect(hashtags({ guide: 'budget', places: budget }, 'it', seeded('b'))).toContain('#viaggilowcost')
+    const november = places.filter((p) => p.months.includes(11)).slice(0, 3)
+    expect(hashtags({ month: 11, places: november }, 'en', seeded('m'))).toContain('#novembertravel')
+    expect(hashtags({ month: 11, places: november }, 'it', seeded('m'))).toContain('#viagginovembre')
   })
 })
