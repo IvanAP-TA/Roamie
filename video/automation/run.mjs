@@ -179,8 +179,11 @@ async function deliver(post, method) {
     log('nothing published automatically (set PUBLISH=on to publish)')
     return results
   }
+  // ONLY=youtube (a manual run's input) publishes on those platforms alone, e.g. to film one upload.
+  const only = (process.env.ONLY ?? '').split(',').map((s) => s.trim()).filter(Boolean)
   for (const platform of PLATFORMS) {
     if (!platform[method]) continue
+    if (only.length && !only.includes(platform.name)) continue
     if (!platform.ready()) {
       log(`${platform.name}: no keys, skipped`)
       continue

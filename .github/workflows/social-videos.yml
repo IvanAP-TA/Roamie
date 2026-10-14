@@ -19,6 +19,9 @@ on:
       kind:
         description: What to make (empty = the day's choice, video or carousel; check = only test the keys)
         default: ''
+      only:
+        description: Publish only on these platforms (e.g. youtube; empty = all)
+        default: ''
       auto:
         description: Started by the daily schedule (skips if the day's post is already out)
         default: 'false'
@@ -54,6 +57,7 @@ jobs:
         env:
           VIDEO_LANG: ${{ inputs.lang || vars.VIDEO_LANG || 'en' }}
           POST_KIND: ${{ inputs.kind }}
+          ONLY: ${{ inputs.only }}
           AUTO: ${{ github.event_name == 'schedule' || inputs.auto == 'true' }}
           SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}
           PUBLISH: ${{ vars.SOCIAL_PUBLISH }}
