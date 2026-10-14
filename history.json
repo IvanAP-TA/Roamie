@@ -127,5 +127,37 @@
         "draft": true
       }
     }
+  },
+  {
+    "date": "2026-10-14T16:01:27.960Z",
+    "kind": "video",
+    "format": "versus",
+    "lang": "en",
+    "places": [
+      "st-julians",
+      "amsterdam"
+    ],
+    "pair": "amsterdam+st-julians",
+    "hook": "Weekend with friends: Malta (St Julian’s) or Amsterdam?",
+    "caption": "Malta (St Julian’s) and Amsterdam: which one would you pick?",
+    "copySource": "pool",
+    "music": "music/versus-1-lofi-vlog-beats.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "27"
+      },
+      "youtube": {
+        "error": "YouTube token: deleted_client"
+      },
+      "instagram": {
+        "error": "Instagram container: {\"error\":{\"message\":\"Cannot call API for app 998712009937668 on behalf of user 122103634029504930\",\"type\":\"OAuthException\",\"code\":200,\"fbtrace_id\":\"A67A1LPT8R1J7sZWBQ1uP6a\"}}"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7696554503016810518",
+        "url": null,
+        "draft": true
+      }
+    }
   }
 ]
