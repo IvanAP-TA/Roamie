@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.roamie.app",
+      "sha256_cert_fingerprints": [
+        "EF:C9:54:D4:08:DF:86:42:C9:BE:4D:D2:CD:73:61:E4:AD:05:AF:E7:47:C6:61:76:CB:8D:AF:BA:E1:92:B3:0A"
+      ]
+    }
+  }
+]
