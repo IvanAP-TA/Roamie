@@ -47,7 +47,7 @@ export default defineConfig(({ isSsrBuild }) => ({
           launch_handler: { client_mode: ['navigate-existing', 'auto'] },
           // The Play Store app is the same web app in a Trusted Web Activity: the web one stays the one to install.
           prefer_related_applications: false,
-          related_applications: [{ platform: 'play', url: 'https://play.google.com/store/apps/details?id=org.roamie.app', id: 'org.roamie.app' }],
+          related_applications: [{ platform: 'play', url: 'https://play.google.com/store/apps/details?id=org.roamie.org', id: 'org.roamie.org' }],
           shortcuts: [
             { name: 'New trip', short_name: 'New trip', url: '/trips?new=1', icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }] },
             { name: 'Explore destinations', short_name: 'Explore', url: '/explore', icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }] },
