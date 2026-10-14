@@ -8,6 +8,7 @@ import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { Logo } from '@/components/brand/Logo'
 import { GoogleButton } from '@/components/auth/GoogleButton'
 import { Footer } from '@/components/layout/Footer'
+import { LanguageHint } from '@/components/layout/LanguageHint'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Button } from '@/components/ui/button'
 
@@ -21,7 +22,7 @@ export function useUrlLanguage(lang: LanguageCode) {
 
 /** Public pages, but signed-in members get a way back to their trips. */
 export function GuideShell({ children }: { children: ReactNode }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { session } = useAuth()
 
   return (
@@ -41,6 +42,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <LanguageSwitcher />
         </div>
       </header>
+      <LanguageHint lang={(i18n.resolvedLanguage ?? 'it') as LanguageCode} />
       <main className="flex-1 pb-4">{children}</main>
       <Footer />
     </div>

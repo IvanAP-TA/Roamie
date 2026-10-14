@@ -93,7 +93,7 @@ export const POOLS = {
     ],
     spin: ['The wheel decides.', 'Spin it.', 'Over to you, wheel.', 'Three, two, one…'],
     question: ['Which one would you pick?', 'Whose side are you on?', 'Where is your group going?', 'Vote in the comments'],
-    cta: ['Decide your next trip together at roamie.org', 'Propose, vote, spin the wheel: roamie.org', 'Your group decides at roamie.org, for free'],
+    cta: ['Decide your next trip together at roamie.org/en', 'Propose, vote, spin the wheel: roamie.org/en', 'Your group decides at roamie.org/en, for free'],
   },
 }
 

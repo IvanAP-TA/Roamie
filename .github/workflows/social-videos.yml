@@ -14,8 +14,8 @@ on:
   workflow_dispatch:
     inputs:
       lang:
-        description: Language of the post (it or en)
-        default: it
+        description: Language of the post (en or it; empty = the VIDEO_LANG variable, English by default)
+        default: ''
       kind:
         description: What to make (empty = the day's choice, video or carousel)
         default: ''
@@ -52,7 +52,7 @@ jobs:
       - name: Plan, write, render, check, publish
         working-directory: video
         env:
-          VIDEO_LANG: ${{ inputs.lang || vars.VIDEO_LANG || 'it' }}
+          VIDEO_LANG: ${{ inputs.lang || vars.VIDEO_LANG || 'en' }}
           POST_KIND: ${{ inputs.kind }}
           AUTO: ${{ github.event_name == 'schedule' || inputs.auto == 'true' }}
           SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}

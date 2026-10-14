@@ -13,6 +13,7 @@ import { Logo } from '@/components/brand/Logo'
 import { Scene } from '@/components/brand/Scene'
 import { GoogleButton } from '@/components/auth/GoogleButton'
 import { TryWithoutAccount } from '@/components/auth/TryWithoutAccount'
+import { LanguageHint } from '@/components/layout/LanguageHint'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Footer } from '@/components/layout/Footer'
 import { Splash } from '@/components/layout/Splash'
@@ -160,6 +161,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
         <Logo />
         <LanguageSwitcher />
       </header>
+      <LanguageHint lang={lang} />
 
       <main className="flex-1">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-4 px-5 md:min-h-[calc(100dvh-4.5rem)] md:grid-cols-[1.05fr_1fr] md:gap-12 md:px-8 md:py-10">

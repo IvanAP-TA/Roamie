@@ -5,7 +5,7 @@
  *   node --experimental-strip-types automation/run.mjs
  *
  * Environment:
- *   VIDEO_LANG       it (default) or en
+ *   VIDEO_LANG       en (default) or it
  *   POST_KIND        video or carousel, to override the day's choice (manual runs)
  *   AUTO             "true" for the daily schedule: skips when the day's post is already out
  *   PUBLISH          "on" to publish; anything else renders and checks only (dry run)
@@ -33,7 +33,7 @@ import { tiktok } from './publish/tiktok.mjs'
 import { youtube } from './publish/youtube.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
-const lang = process.env.VIDEO_LANG === 'en' ? 'en' : 'it'
+const lang = process.env.VIDEO_LANG === 'it' ? 'it' : 'en'
 const publishing = ['on', 'true', 'yes', '1'].includes((process.env.PUBLISH ?? '').trim().toLowerCase())
 const historyPath = process.env.HISTORY_PATH ?? fileURLToPath(new URL('./history.json', import.meta.url))
 const FPS = 30
