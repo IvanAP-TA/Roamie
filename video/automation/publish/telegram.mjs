@@ -92,6 +92,11 @@ export const telegram = {
     return { id: String(sent[0]?.message_id ?? '') }
   },
 
+  /** A plain HTML message to the owner. */
+  async message(text) {
+    await call('sendMessage', new URLSearchParams({ chat_id: process.env.TELEGRAM_CHAT_ID, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
+  },
+
   /** Tells the owner which platforms failed, so a broken token doesn't go unnoticed for days. */
   async alert(results) {
     const text = failureMessage(results)

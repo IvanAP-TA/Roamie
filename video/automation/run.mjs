@@ -279,7 +279,28 @@ async function carousel(history, today) {
   report('carousel', plan, copy, results)
 }
 
+/** POST_KIND=check: tries every platform's keys without posting anything (after renewing a token). */
+async function checkKeys() {
+  const lines = []
+  for (const platform of PLATFORMS) {
+    if (!platform.ready()) {
+      lines.push(`➖ ${platform.name}: no keys`)
+      continue
+    }
+    try {
+      lines.push(`✅ ${platform.name}: ${await platform.check()}`)
+    } catch (error) {
+      lines.push(`❌ ${platform.name}: ${error.message.slice(0, 200)}`)
+    }
+  }
+  for (const line of lines) log(line)
+  summary(`## Keys check\n\n${lines.map((l) => `- ${l}`).join('\n')}\n`)
+  if (telegram.ready()) await telegram.message(`🔑 <b>Controllo chiavi</b>\n\n${lines.join('\n').replace(/&/g, '&amp;').replace(/</g, '&lt;')}`)
+  if (lines.some((l) => l.startsWith('❌'))) throw new Error('some keys failed')
+}
+
 async function main() {
+  if (process.env.POST_KIND === 'check') return checkKeys()
   const history = existsSync(historyPath) ? JSON.parse(readFileSync(historyPath, 'utf8')) : []
   const today = new Date()
   // The daily start can come twice (Supabase, then GitHub's backup schedule): one post a day.

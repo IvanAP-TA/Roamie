@@ -17,7 +17,7 @@ on:
         description: Language of the post (en or it; empty = the VIDEO_LANG variable, English by default)
         default: ''
       kind:
-        description: What to make (empty = the day's choice, video or carousel)
+        description: What to make (empty = the day's choice, video or carousel; check = only test the keys)
         default: ''
       auto:
         description: Started by the daily schedule (skips if the day's post is already out)

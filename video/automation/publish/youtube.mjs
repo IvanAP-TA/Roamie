@@ -6,22 +6,36 @@
  */
 import { readFileSync, statSync } from 'node:fs'
 
+/** A fresh access token from the long-lived refresh token. */
+async function accessToken() {
+  const token = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      client_id: process.env.YOUTUBE_CLIENT_ID,
+      client_secret: process.env.YOUTUBE_CLIENT_SECRET,
+      refresh_token: process.env.YOUTUBE_REFRESH_TOKEN,
+      grant_type: 'refresh_token',
+    }),
+  }).then((r) => r.json())
+  if (!token.access_token) throw new Error(`YouTube token: ${token.error ?? 'no access token'}`)
+  return token
+}
+
 export const youtube = {
   name: 'youtube',
   ready: () => Boolean(process.env.YOUTUBE_CLIENT_ID && process.env.YOUTUBE_CLIENT_SECRET && process.env.YOUTUBE_REFRESH_TOKEN),
 
+  /** The keys work and may upload. */
+  async check() {
+    const { access_token } = await accessToken()
+    const info = await fetch(`https://oauth2.googleapis.com/tokeninfo?access_token=${access_token}`).then((r) => r.json())
+    if (!info.scope?.includes('youtube.upload')) throw new Error(`YouTube token without the youtube.upload scope (${info.scope ?? info.error})`)
+    return 'token ok, upload allowed'
+  },
+
   async publish({ file, title, description, tags }) {
-    const token = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        client_id: process.env.YOUTUBE_CLIENT_ID,
-        client_secret: process.env.YOUTUBE_CLIENT_SECRET,
-        refresh_token: process.env.YOUTUBE_REFRESH_TOKEN,
-        grant_type: 'refresh_token',
-      }),
-    }).then((r) => r.json())
-    if (!token.access_token) throw new Error(`YouTube token: ${token.error ?? 'no access token'}`)
+    const token = await accessToken()
 
     const size = statSync(file).size
     const start = await fetch('https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status', {

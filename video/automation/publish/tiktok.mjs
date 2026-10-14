@@ -50,6 +50,12 @@ export const tiktok = {
   name: 'tiktok',
   ready: () => Boolean(process.env.TIKTOK_CLIENT_KEY && process.env.TIKTOK_CLIENT_SECRET && process.env.TIKTOK_REFRESH_TOKEN),
 
+  /** The refresh token still gives an access token. */
+  async check() {
+    await accessToken()
+    return 'token ok'
+  },
+
   async publish({ file, caption }) {
     const token = await accessToken()
     const size = statSync(file).size

@@ -14,6 +14,13 @@ export const instagram = {
   name: 'instagram',
   ready: () => Boolean(process.env.INSTAGRAM_USER_ID && process.env.INSTAGRAM_ACCESS_TOKEN),
 
+  /** The token reaches the account. */
+  async check() {
+    const me = await fetch(`${GRAPH()}/${process.env.INSTAGRAM_USER_ID}?fields=username&access_token=${process.env.INSTAGRAM_ACCESS_TOKEN}`).then((r) => r.json())
+    if (!me.username) throw new Error(`Instagram account: ${me.error?.message ?? JSON.stringify(me)}`.slice(0, 300))
+    return `@${me.username}`
+  },
+
   async publish({ file, caption }) {
     const user = process.env.INSTAGRAM_USER_ID
     const token = process.env.INSTAGRAM_ACCESS_TOKEN

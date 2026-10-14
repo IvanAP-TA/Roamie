@@ -20,6 +20,16 @@ export const facebook = {
   name: 'facebook',
   ready: () => Boolean(process.env.FACEBOOK_PAGE_ID && token()),
 
+  /** The token reaches the Page and carries the permissions for posting and for the insights. */
+  async check() {
+    const page = await fetch(`${GRAPH()}/${process.env.FACEBOOK_PAGE_ID}?fields=name&access_token=${token()}`).then((r) => r.json())
+    if (!page.name) throw new Error(`Facebook Page: ${page.error?.message ?? JSON.stringify(page)}`.slice(0, 300))
+    const { data } = await fetch(`${GRAPH()}/debug_token?input_token=${token()}&access_token=${token()}`).then((r) => r.json())
+    const missing = ['pages_manage_posts', 'instagram_manage_insights'].filter((s) => !data?.scopes?.includes(s))
+    if (missing.length) throw new Error(`token without ${missing.join(', ')}`)
+    return `${page.name}, ${data.expires_at ? `token expires ${new Date(data.expires_at * 1000).toISOString().slice(0, 10)}` : 'token never expires'}`
+  },
+
   /** A Page Reel: start an upload, send the file, then publish it with the caption. */
   async publish({ file, caption }) {
     const page = process.env.FACEBOOK_PAGE_ID
