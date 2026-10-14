@@ -3,6 +3,7 @@ import { CAROUSEL_HEIGHT, CAROUSEL_WIDTH, CarouselFormat, carouselMetadata } fro
 import { MONTH_DURATION, MonthFormat } from "./formats/MonthFormat";
 import { VERSUS_DURATION, VersusFormat } from "./formats/VersusFormat";
 import { WHEEL_DURATION, WheelFormat } from "./formats/WheelFormat";
+import { LAUNCH_LANDSCAPE_DURATION, LaunchLandscape } from "./LaunchLandscape";
 import { LaunchVideo } from "./LaunchVideo";
 import { ChatScene } from "./scenes/ChatScene";
 import { CtaScene } from "./scenes/CtaScene";
@@ -20,6 +21,8 @@ export const RemotionRoot: React.FC = () => {
     <>
       <Composition id="Lancio" component={LaunchVideo} durationInFrames={687} fps={30} width={1080} height={1920} defaultProps={{ lang: "it" as const }} />
       <Composition id="Launch" component={LaunchVideo} durationInFrames={687} fps={30} width={1080} height={1920} defaultProps={{ lang: "en" as const }} />
+      {/* 16:9 for the Play Store listing and YouTube. */}
+      <Composition id="LaunchLandscape" component={LaunchLandscape} durationInFrames={LAUNCH_LANDSCAPE_DURATION} fps={30} width={1920} height={1080} defaultProps={{ lang: "en" as const }} />
       <Folder name="Social">
         <Composition
           id="Wheel"
