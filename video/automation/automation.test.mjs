@@ -3,7 +3,7 @@ import { checkLine, hashtags, looksLike, photoCredit, pickFromPool, POOLS, simil
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
 import { CROSS_DAYS, makeCarouselPlan, makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
 import { formatBonus, formatScores, refreshMetrics, score } from './metrics.mjs'
-import { kitMessages } from './publish/telegram.mjs'
+import { failureMessage, kitMessages } from './publish/telegram.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -155,6 +155,15 @@ describe('telegram kit', () => {
     expect(messages[0]).toContain('<code>Lisbon &lt;3 &amp; Porto\n\n#grouptrip</code>')
     expect(messages[1]).toContain('<code>Lisbon or Porto? #shorts</code>')
     expect(messages[2]).toContain('https://roamie.org/guide/x</code>')
+  })
+
+  it('alerts only about the platforms that failed, with what fixes them', () => {
+    expect(failureMessage({ telegram: { id: '1' }, instagram: { id: '2' } })).toBeNull()
+    const text = failureMessage({ telegram: { id: '1' }, youtube: { error: 'YouTube token: deleted_client' }, instagram: { error: 'Instagram container: {"error":{"type":"OAuthException"}}' }, tiktok: { id: 'v' } })
+    expect(text).toContain('Non pubblicato su youtube, instagram')
+    expect(text).toContain('nuovo token YouTube')
+    expect(text).toContain('nuovo token Meta')
+    expect(text).not.toContain('tiktok')
   })
 })
 

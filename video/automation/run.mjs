@@ -193,6 +193,7 @@ async function deliver(post, method) {
       results[platform.name] = { error: error.message.slice(0, 300) }
     }
   }
+  if (telegram.ready()) await telegram.alert(results).catch((error) => log(`telegram: alert FAILED ${error.message}`))
   const tried = PLATFORMS.map((p) => results[p.name]).filter(Boolean)
   if (tried.length && tried.every((r) => r.error)) throw new Error('every platform failed')
   return results

@@ -21,6 +21,24 @@ export function kitMessages({ caption, title, description }) {
   ]
 }
 
+// What usually fixes each failure, for the owner reading the alert on the phone.
+const HINTS = [
+  [/deleted_client|invalid_client|invalid_grant/, 'serve un nuovo token YouTube (client ID, secret e refresh token su GitHub)'],
+  [/TikTok token|access_token_invalid|refresh_token/i, 'serve un nuovo refresh token TikTok'],
+  [/OAuthException|Cannot call API|access token/i, 'serve un nuovo token Meta (Graph API Explorer → INSTAGRAM_ACCESS_TOKEN su GitHub)'],
+]
+
+/** The alert for platforms that failed, or nothing when all went well. */
+export function failureMessage(results) {
+  const failed = Object.entries(results).filter(([name, r]) => name !== 'telegram' && r?.error)
+  if (!failed.length) return null
+  const lines = failed.map(([name, r]) => {
+    const hint = HINTS.find(([pattern]) => pattern.test(r.error))?.[1]
+    return `• <b>${escape(name)}</b>: ${escape(r.error.slice(0, 160))}${hint ? `\n  → ${hint}` : ''}`
+  })
+  return `⚠️ <b>Non pubblicato su ${failed.map(([name]) => escape(name)).join(', ')}</b>\n\n${lines.join('\n')}`
+}
+
 async function call(method, body) {
   const response = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${method}`, { method: 'POST', body })
   const data = await response.json().catch(() => ({}))
@@ -72,5 +90,12 @@ export const telegram = {
       await call('sendMessage', new URLSearchParams({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
     }
     return { id: String(sent[0]?.message_id ?? '') }
+  },
+
+  /** Tells the owner which platforms failed, so a broken token doesn't go unnoticed for days. */
+  async alert(results) {
+    const text = failureMessage(results)
+    if (!text) return
+    await call('sendMessage', new URLSearchParams({ chat_id: process.env.TELEGRAM_CHAT_ID, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
   },
 }
