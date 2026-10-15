@@ -3,7 +3,7 @@ import { CalendarDays, Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { GuidePlace } from '@/content/guides/content'
 import { bestMonthsLabel } from '@/content/guides/format'
-import { guidePlaceImage } from '@/content/guides/images'
+import { guidePhotoSrcSet, guidePlaceImage } from '@/content/guides/images'
 import type { LanguageCode } from '@/i18n'
 import { flagEmoji } from '@/lib/flags'
 import { serializeAttribution } from '@/lib/wikimedia'
@@ -43,6 +43,8 @@ export function GuidePlaceCard({
         attribution={photo ? serializeAttribution(photo.attribution) : null}
         seed={place.key}
         sizes="(min-width: 768px) 208px, 100vw"
+        avif={photo ? guidePhotoSrcSet(photo) : undefined}
+        dimensions={photo ?? undefined}
         className="flex h-44 items-center justify-center md:h-full md:min-h-56"
         attributionClassName="right-2 bottom-2"
       >

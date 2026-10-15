@@ -90,6 +90,16 @@ export default defineConfig(({ isSsrBuild }) => ({
               },
             },
             {
+              // The guides' photos as AVIF (scripts/guide-photos.mjs): kept like the Commons originals below.
+              urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith('/guides/photos/'),
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'guide-photos',
+                expiration: { maxEntries: 200, maxAgeSeconds: 30 * 24 * 60 * 60 },
+                cacheableResponse: { statuses: [200] },
+              },
+            },
+            {
               urlPattern: ({ url }) => url.hostname === 'upload.wikimedia.org' || url.hostname === 'thumb.wikimedia.org',
               handler: 'CacheFirst',
               options: {

@@ -26,17 +26,19 @@ export function GuideCards({
   limit?: number
   heading?: 'h2' | 'h3'
   /** Photos for the cards. Passed in rather than imported, so the landing page doesn't download them. */
-  media?: (guide: GuideMeta, priority: boolean) => GuideCardMedia | null
-  /** How many of the first cards are at the top of the page: their photos load first instead of lazily */
+  media?: (guide: GuideMeta, loading: { priority?: boolean; eager?: boolean }) => GuideCardMedia | null
+  /** How many of the first cards are at the top of the page: their photos load right away instead of lazily, the
+   * first photo among them (the page's main image) at a high priority */
   eager?: number
   className?: string
 }) {
   const guides = GUIDES.filter((guide) => guide.id !== exclude).slice(0, limit)
+  const firstPhoto = media ? guides.findIndex((guide) => media(guide, {}) !== null) : -1
 
   return (
     <ul className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', className)}>
       {guides.map((guide, index) => {
-        const photo = media?.(guide, index < eager)
+        const photo = media?.(guide, { priority: index === firstPhoto && index < eager, eager: index < eager })
         return (
           <li key={guide.id} className="relative">
             <Link

@@ -22,7 +22,10 @@ export function CoverImage({
   showAttribution = true,
   attributionClassName,
   sizes,
+  avif,
+  dimensions,
   priority = false,
+  eager = false,
 }: {
   url: string | null | undefined
   attribution?: string | null
@@ -35,8 +38,14 @@ export function CoverImage({
   attributionClassName?: string
   /** How wide the image is shown (the `sizes` attribute), so a Commons photo is fetched at a fitting width */
   sizes?: string
+  /** The same photo as AVIF at several widths (a srcset), preferred by browsers that read it */
+  avif?: string
+  /** The photo's own size, for the width and height attributes */
+  dimensions?: { width: number; height: number }
   /** The page's main image: loaded right away and first */
   priority?: boolean
+  /** Above the fold but not the main image: loaded right away, at the normal priority */
+  eager?: boolean
 }) {
   // Remember which URL failed, so switching to another photo tries loading it again.
   const [failedUrl, setFailedUrl] = useState<string | null>(null)
@@ -56,22 +65,35 @@ export function CoverImage({
     )
   }
 
+  const img = (
+    <img
+      key={photoUrl}
+      src={photoUrl}
+      srcSet={srcSet}
+      sizes={srcSet ? sizes : undefined}
+      width={dimensions?.width}
+      height={dimensions?.height}
+      alt=""
+      loading={priority || eager ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : undefined}
+      decoding="async"
+      crossOrigin="anonymous"
+      referrerPolicy="strict-origin-when-cross-origin"
+      onError={() => setFailedUrl(photoUrl)}
+      className={cn('absolute inset-0 size-full object-cover', imgClassName)}
+    />
+  )
+
   return (
     <div className={cn('relative overflow-hidden bg-muted', className)}>
-      <img
-        key={photoUrl}
-        src={photoUrl}
-        srcSet={srcSet}
-        sizes={srcSet ? sizes : undefined}
-        alt=""
-        loading={priority ? 'eager' : 'lazy'}
-        fetchPriority={priority ? 'high' : undefined}
-        decoding="async"
-        crossOrigin="anonymous"
-        referrerPolicy="strict-origin-when-cross-origin"
-        onError={() => setFailedUrl(photoUrl)}
-        className={cn('absolute inset-0 size-full object-cover', imgClassName)}
-      />
+      {avif ? (
+        <picture>
+          <source type="image/avif" srcSet={avif} sizes={sizes} />
+          {img}
+        </picture>
+      ) : (
+        img
+      )}
       {children}
       {showAttribution && attribution && (
         <AttributionChip raw={attribution} className={cn('absolute right-2.5 bottom-2.5 z-10', attributionClassName)} />

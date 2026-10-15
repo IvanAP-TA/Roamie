@@ -122,6 +122,9 @@ window.addEventListener('vite:preloadError', (event) => {
 const urlLanguage = pathLanguage(window.location.pathname)
 const languageReady = urlLanguage && !hasStoredSession() ? i18n.changeLanguage(urlLanguage) : i18nReady
 
+/** Resolves once the browser has painted a frame: the next task after the next animation frame. */
+const afterFirstPaint = () => new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)))
+
 // Prerendered pages already contain markup in #root (scripts/prerender.mjs renders this same tree), shown until the
 // strings arrive. React adopts it as it is (hydration) when its first render will match: the page's language, and no
 // saved session (a signed-in visitor is sent into the app instead). Otherwise it draws the page anew, as for the app
@@ -154,6 +157,8 @@ void languageReady.finally(() => {
       </PersistQueryClientProvider>
     </StrictMode>
   )
-  if (adopt) void loadPagesFor(window.location.pathname).then(() => hydrateRoot(root, app), () => createRoot(root).render(app))
-  else createRoot(root).render(app)
+  if (!adopt) createRoot(root).render(app)
+  // Once the markup is on screen: with the scripts already at hand (a later visit, the installed app), adopting it
+  // would otherwise run before the browser had painted anything.
+  else void Promise.all([loadPagesFor(window.location.pathname), afterFirstPaint()]).then(() => hydrateRoot(root, app), () => createRoot(root).render(app))
 })

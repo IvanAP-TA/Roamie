@@ -1,4 +1,4 @@
-import { guideCoverImage } from '@/content/guides/images'
+import { guideCoverImage, guidePhotoSrcSet } from '@/content/guides/images'
 import type { GuideMeta } from '@/content/guides/meta'
 import { serializeAttribution } from '@/lib/wikimedia'
 import { AttributionChip } from '@/components/media/Attribution'
@@ -6,7 +6,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import type { GuideCardMedia } from './GuideCards'
 
 /** For <GuideCards media={guideCardPhoto} />: the guide's cover photo and its credit, on pages that load guide content. */
-export function guideCardPhoto(guide: GuideMeta, priority = false): GuideCardMedia | null {
+export function guideCardPhoto(guide: GuideMeta, loading: { priority?: boolean; eager?: boolean } = {}): GuideCardMedia | null {
   const cover = guideCoverImage(guide.id)
   if (!cover) return null
   return {
@@ -15,7 +15,10 @@ export function guideCardPhoto(guide: GuideMeta, priority = false): GuideCardMed
         url={cover.url}
         seed={guide.id}
         showAttribution={false}
-        priority={priority}
+        avif={guidePhotoSrcSet(cover, true)}
+        dimensions={{ width: cover.width, height: Math.round(cover.width / 3) }}
+        priority={loading.priority}
+        eager={loading.eager}
         sizes="(min-width: 1024px) 240px, (min-width: 640px) 50vw, 100vw"
         className="h-full transition-transform duration-500 group-hover:scale-[1.03]"
       />

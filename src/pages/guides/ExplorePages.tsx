@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import type { GuidePlace } from '@/content/guides/content'
 import { EXPLORE_COPY, MONTHS, monthName, monthPath, pairPath, placesForMonth, relatedPairs, verdict, type ExplorePlace, type Pair } from '@/content/guides/explore'
 import { bestMonthsLabel } from '@/content/guides/format'
-import { guidePlaceImage } from '@/content/guides/images'
+import { guidePhotoSrcSet, guidePlaceImage } from '@/content/guides/images'
 import { GUIDE_BASE, GUIDES, guidePath } from '@/content/guides/meta'
 import type { LanguageCode } from '@/i18n'
 import { usePageMeta } from '@/hooks/useSeo'
@@ -86,6 +86,8 @@ export function MonthArticle({ month, lang }: { month: number; lang: LanguageCod
               attribution={cover ? serializeAttribution(cover.attribution) : null}
               seed={`month-${month}`}
               sizes="(min-width: 896px) 832px, 100vw"
+              avif={cover ? guidePhotoSrcSet(cover) : undefined}
+              dimensions={cover ?? undefined}
               priority
               className="mt-2 h-44 rounded-[2rem] shadow-soft md:h-60"
             />
@@ -160,7 +162,7 @@ export function PairArticle({ pair, lang }: { pair: Pair; lang: LanguageCode }) 
         <article>
           <header>
             <div className="mt-2 grid grid-cols-2 gap-3">
-              {places.map((p) => {
+              {places.map((p, index) => {
                 const photo = guidePlaceImage(p.key)
                 return (
                   <CoverImage
@@ -169,7 +171,10 @@ export function PairArticle({ pair, lang }: { pair: Pair; lang: LanguageCode }) 
                     attribution={photo ? serializeAttribution(photo.attribution) : null}
                     seed={p.key}
                     sizes="(min-width: 896px) 416px, 50vw"
-                    priority
+                    avif={photo ? guidePhotoSrcSet(photo) : undefined}
+                    dimensions={photo ?? undefined}
+                    priority={index === 0}
+                    eager
                     className="h-40 rounded-[1.75rem] shadow-soft md:h-56"
                     attributionClassName="right-2 bottom-2"
                   >

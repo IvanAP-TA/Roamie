@@ -4,7 +4,7 @@ import { ArrowLeft, Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { GUIDE_CONTENT, type GuidePlace } from '@/content/guides/content'
 import { EXPLORE_COPY, findExplore, guidePairs, pairPath } from '@/content/guides/explore'
-import { guideCoverImage } from '@/content/guides/images'
+import { guideCoverImage, guidePhotoSrcSet } from '@/content/guides/images'
 import { findGuide, GUIDE_BASE, type GuideMeta } from '@/content/guides/meta'
 import type { LanguageCode } from '@/i18n'
 import { usePageMeta } from '@/hooks/useSeo'
@@ -60,6 +60,8 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
               attribution={cover ? serializeAttribution(cover.attribution) : null}
               seed={guide.id}
               sizes="(min-width: 896px) 832px, 100vw"
+              avif={cover ? guidePhotoSrcSet(cover) : undefined}
+              dimensions={cover ?? undefined}
               priority
               className="mt-2 h-44 rounded-[2rem] shadow-soft md:h-60"
             />

@@ -13,7 +13,8 @@
     "i18n:check": "node scripts/check-i18n.mjs",
     "types": "supabase gen types typescript --project-id tvcumfzhnuljngdzuuue > src/lib/database.types.ts",
     "icons": "pwa-assets-generator",
-    "og-image": "node scripts/og-image.mjs"
+    "og-image": "node scripts/og-image.mjs",
+    "guide-photos": "node scripts/guide-photos.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
