@@ -60,6 +60,13 @@
         "id": "18105526661346335",
         "url": "https://www.instagram.com/p/DeZRJm0DLki/"
       }
+    },
+    "metrics": {
+      "reach": 2,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-15T16:01:12.089Z"
     }
   },
   {
@@ -94,6 +101,13 @@
         "url": null,
         "draft": true
       }
+    },
+    "metrics": {
+      "reach": 3,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-15T16:01:12.089Z"
     }
   },
   {
@@ -126,6 +140,13 @@
         "url": null,
         "draft": true
       }
+    },
+    "metrics": {
+      "reach": 3,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-15T16:01:12.089Z"
     }
   },
   {
@@ -155,6 +176,42 @@
       },
       "tiktok": {
         "id": "v_inbox_file~v2.7696554503016810518",
+        "url": null,
+        "draft": true
+      }
+    }
+  },
+  {
+    "date": "2026-10-15T16:01:12.089Z",
+    "kind": "carousel",
+    "format": "month",
+    "lang": "en",
+    "places": [
+      "granada",
+      "oaxaca",
+      "osaka",
+      "cappadocia",
+      "vienna"
+    ],
+    "month": 11,
+    "hook": "November trip? 5 ideas for your group",
+    "caption": "Granada, Oaxaca, Osaka, Cappadocia and Vienna: which one would you put to your group?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "32"
+      },
+      "instagram": {
+        "id": "18085094039320999",
+        "url": "https://www.instagram.com/p/DehV6s2FGYU/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122103967827506337",
+        "url": "https://www.facebook.com/1360561970475478_122103967827506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7696925811181668355",
         "url": null,
         "draft": true
       }
