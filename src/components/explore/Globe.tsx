@@ -13,7 +13,18 @@ import { cn } from '@/lib/utils'
  * (Malta, Singapore…) are dots at their capital.
  */
 
-type CountryFeature = Feature<Geometry, { name: string }> & { code: string | null }
+type CountryFeature = Feature<Geometry, { name: string }> & {
+  code: string | null
+  /** A circle on the sphere holding the whole country: its centre, and its angular radius in radians */
+  center: [number, number]
+  reach: number
+}
+
+/** Every [lng, lat] of a country's outline. */
+function* vertices(geometry: Geometry): Generator<[number, number]> {
+  const rings = geometry.type === 'Polygon' ? geometry.coordinates : geometry.type === 'MultiPolygon' ? geometry.coordinates.flat() : []
+  for (const ring of rings) for (const point of ring) yield point as [number, number]
+}
 
 export interface GlobeDot {
   lat: number
@@ -73,7 +84,8 @@ export function Globe({
   const [topology, setTopology] = useState<Topology | null>(null)
   const [size, setSize] = useState(0)
   const view = useRef({ rotation: [-12, -38] as [number, number], zoom: 1, hover: null as string | null, spinning: true })
-  const drawRef = useRef<() => void>(() => undefined)
+  // fast: a draft for frames in motion (see the drawing below); otherwise the finished globe.
+  const drawRef = useRef<(fast?: boolean) => void>(() => undefined)
   const animation = useRef<number | null>(null)
 
   useEffect(() => {
@@ -95,10 +107,12 @@ export function Globe({
   const shapes = useMemo(() => {
     if (!topology) return null
     const object = topology.objects.countries as GeometryCollection<{ name: string }>
-    const features = (feature(topology, object) as unknown as { features: Feature<Geometry, { name: string }>[] }).features.map((f) => ({
-      ...f,
-      code: (f.id != null ? byNumber.get(String(f.id)) : undefined) ?? BY_NAME[f.properties.name] ?? null,
-    })) as CountryFeature[]
+    const features = (feature(topology, object) as unknown as { features: Feature<Geometry, { name: string }>[] }).features.map((f) => {
+      const center = geoCentroid(f)
+      let reach = 0
+      for (const point of vertices(f.geometry)) reach = Math.max(reach, geoDistance(center, point))
+      return { ...f, code: (f.id != null ? byNumber.get(String(f.id)) : undefined) ?? BY_NAME[f.properties.name] ?? null, center, reach }
+    }) as CountryFeature[]
     const drawn = new Set(features.map((f) => f.code))
     return {
       features,
@@ -124,9 +138,12 @@ export function Globe({
   }, [])
 
   const projection = useMemo(() => geoOrthographic().clipAngle(90).precision(0.4), [])
+  // The same projection without clipping at the horizon, for countries wholly on the visible side: clipping a
+  // polygon walks all of it again to tell inside from outside, and was most of the cost of a frame.
+  const unclipped = useMemo(() => geoOrthographic().preclip((stream) => stream), [])
   const graticule = useMemo(() => geoGraticule10(), [])
 
-  drawRef.current = () => {
+  drawRef.current = (fast = false) => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx || !size) return
@@ -137,8 +154,12 @@ export function Globe({
     }
     const { rotation, zoom, hover } = view.current
     const radius = (size / 2) * 0.9 * zoom
-    projection.scale(radius).translate([size / 2, size / 2]).rotate([rotation[0], rotation[1], 0])
+    // Projecting the borders is nearly all the cost of a frame. In motion (dragging, zooming, turning) each country
+    // is projected once, coarser, and its outline stroked as the border; the finished globe, with its separate coast
+    // and border lines, is drawn once the motion stops.
+    for (const p of [projection, unclipped]) p.scale(radius).translate([size / 2, size / 2]).rotate([rotation[0], rotation[1], 0]).precision(fast ? 0 : 0.4)
     const path = geoPath(projection, ctx)
+    const center: [number, number] = [-rotation[0], -rotation[1]]
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, size, size)
@@ -164,7 +185,15 @@ export function Globe({
     ctx.stroke()
 
     if (shapes) {
+      // One path and one fill per colour rather than per country: filling is what costs on a phone, and the
+      // globe is redrawn on every frame while it turns.
+      // Countries on the far side are skipped; those wholly on this side need no clipping.
+      const byFill = new Map<string, CountryFeature[]>()
+      const whole = new Set<CountryFeature>()
       for (const f of shapes.features) {
+        const distance = geoDistance(center, f.center)
+        if (distance - f.reach > Math.PI / 2) continue
+        if (distance + f.reach < Math.PI / 2 - 0.01) whole.add(f)
         const fill =
           f.code && f.code === selected
             ? COLORS.selected
@@ -173,21 +202,43 @@ export function Globe({
               : f.code && f.code === hover
                 ? COLORS.landHover
                 : COLORS.land
-        ctx.beginPath()
-        path(f)
-        ctx.fillStyle = fill
-        ctx.fill()
+        const group = byFill.get(fill)
+        if (group) group.push(f)
+        else byFill.set(fill, [f])
       }
-      ctx.beginPath()
-      path(shapes.borders)
-      ctx.strokeStyle = COLORS.border
-      ctx.lineWidth = 0.6
-      ctx.stroke()
-      ctx.beginPath()
-      path(shapes.coast)
-      ctx.strokeStyle = COLORS.coast
-      ctx.lineWidth = 0.8
-      ctx.stroke()
+      if (fast) {
+        for (const [fill, group] of byFill) {
+          const outline = new Path2D()
+          // d3 only moves, draws lines and closes on its context; the typing also asks for beginPath.
+          const context = Object.assign(outline, { beginPath: () => undefined })
+          const draft = geoPath(projection, context)
+          const draftWhole = geoPath(unclipped, context)
+          for (const f of group) (whole.has(f) ? draftWhole : draft)(f)
+          ctx.fillStyle = fill
+          ctx.fill(outline)
+          ctx.strokeStyle = COLORS.border
+          ctx.lineWidth = 0.6
+          ctx.stroke(outline)
+        }
+      } else {
+        const pathWhole = geoPath(unclipped, ctx)
+        for (const [fill, group] of byFill) {
+          ctx.beginPath()
+          for (const f of group) (whole.has(f) ? pathWhole : path)(f)
+          ctx.fillStyle = fill
+          ctx.fill()
+        }
+        ctx.beginPath()
+        path(shapes.borders)
+        ctx.strokeStyle = COLORS.border
+        ctx.lineWidth = 0.6
+        ctx.stroke()
+        ctx.beginPath()
+        path(shapes.coast)
+        ctx.strokeStyle = COLORS.coast
+        ctx.lineWidth = 0.8
+        ctx.stroke()
+      }
 
       const picked = shapes.features.find((f) => f.code && f.code === selected)
       if (picked) {
@@ -198,7 +249,6 @@ export function Globe({
         ctx.stroke()
       }
 
-      const center: [number, number] = [-rotation[0], -rotation[1]]
       const visible = (lng: number, lat: number) => geoDistance([lng, lat], center) < Math.PI / 2 - 0.02
       for (const dot of dots) {
         if (!visible(dot.lng, dot.lat)) continue
@@ -234,22 +284,67 @@ export function Globe({
 
   const redraw = () => drawRef.current()
 
+  // Pointer and wheel events can come several times a frame: one draft per frame, the finished globe once they stop.
+  const pending = useRef({ frame: 0, settle: 0 })
+  const redrawMoving = () => {
+    const p = pending.current
+    if (!p.frame) {
+      p.frame = requestAnimationFrame(() => {
+        p.frame = 0
+        drawRef.current(true)
+      })
+    }
+    clearTimeout(p.settle)
+    p.settle = window.setTimeout(() => drawRef.current(), 160)
+  }
+  useEffect(() => {
+    const p = pending.current
+    return () => {
+      cancelAnimationFrame(p.frame)
+      clearTimeout(p.settle)
+    }
+  }, [])
+
   useEffect(redraw, [size, shapes, selected, highlighted, dots]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // A slow turn until the first touch, unless reduced motion is asked for.
+  // A slow turn until the first touch, on computers only and unless reduced motion is asked for. Each frame redraws
+  // the whole globe, which would keep a phone's main thread busy and every tap on the page slow; on computers too,
+  // 30 frames a second are enough for a turn this slow, none while the globe is scrolled out of sight, and it comes
+  // to rest after half a minute.
   useEffect(() => {
-    if (!shapes || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const canvas = canvasRef.current
+    if (!shapes || !canvas || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      view.current.spinning = false
+      return
+    }
+    let inSight = true
+    const observer = new IntersectionObserver(([entry]) => (inSight = entry.isIntersecting))
+    observer.observe(canvas)
+    const started = performance.now()
+    let last = started
     let frame = 0
-    const tick = () => {
+    const tick = (now: number) => {
       if (!view.current.spinning) return
-      if (document.visibilityState === 'visible') {
-        view.current.rotation[0] += 0.08
+      if (now - started > 30_000) {
+        view.current.spinning = false
         drawRef.current()
+        return
+      }
+      if (now - last >= 33) {
+        if (inSight && document.visibilityState === 'visible') {
+          // 0.08° per 60 Hz frame, whatever the frame rate.
+          view.current.rotation[0] += (now - last) * 0.0048
+          drawRef.current(true)
+        }
+        last = now
       }
       frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
+    return () => {
+      cancelAnimationFrame(frame)
+      observer.disconnect()
+    }
   }, [shapes])
 
   const stopSpinning = () => {
@@ -276,7 +371,7 @@ export function Globe({
       const t = Math.min(1, (now - start) / 700)
       const ease = 1 - (1 - t) ** 3
       view.current.rotation = [from[0] + (to[0] - from[0]) * ease, from[1] + (to[1] - from[1]) * ease]
-      drawRef.current()
+      drawRef.current(t < 1)
       animation.current = t < 1 ? requestAnimationFrame(step) : null
     }
     animation.current = requestAnimationFrame(step)
@@ -340,7 +435,7 @@ export function Globe({
       const distance = Math.hypot(a.x - b.x, a.y - b.y)
       if (g.pinch > 0) view.current.zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, (g.zoom * distance) / g.pinch))
       g.moved += 10
-      redraw()
+      redrawMoving()
       return
     }
     const dx = point.x - previous.x
@@ -349,7 +444,7 @@ export function Globe({
     const speed = 180 / (size * 0.9 * view.current.zoom)
     const [lng, lat] = view.current.rotation
     view.current.rotation = [lng + dx * speed, Math.max(-80, Math.min(80, lat - dy * speed))]
-    redraw()
+    redrawMoving()
   }
 
   const onPointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -376,7 +471,7 @@ export function Globe({
       e.preventDefault()
       stopSpinning()
       view.current.zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, view.current.zoom * Math.exp(-e.deltaY * 0.0015)))
-      drawRef.current()
+      redrawMoving()
     }
     canvas.addEventListener('wheel', onWheel, { passive: false })
     return () => canvas.removeEventListener('wheel', onWheel)

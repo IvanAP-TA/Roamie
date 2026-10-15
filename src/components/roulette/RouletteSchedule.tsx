@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Sheet } from '@/components/ui/sheet'
+import { dateFormat } from '@/lib/intl'
 
 /** "yyyy-MM-ddTHH:mm" in the device's time zone, as <input type="datetime-local"> expects. */
 const toLocalInput = (date: Date) => new Date(date.getTime() - date.getTimezoneOffset() * 60_000).toISOString().slice(0, 16)
@@ -56,7 +57,7 @@ export function RouletteSchedule({ className }: { className?: string }) {
         : t('live.dueNow')
 
   const when = (date: Date) =>
-    new Intl.DateTimeFormat(i18n.resolvedLanguage, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(date)
+    dateFormat(i18n.resolvedLanguage, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(date)
 
   const edit = () => {
     setValue(toLocalInput(at ?? suggestedTime()))

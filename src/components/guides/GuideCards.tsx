@@ -18,6 +18,7 @@ export function GuideCards({
   limit,
   heading: Heading = 'h3',
   media,
+  eager = 0,
   className,
 }: {
   lang: LanguageCode
@@ -25,15 +26,17 @@ export function GuideCards({
   limit?: number
   heading?: 'h2' | 'h3'
   /** Photos for the cards. Passed in rather than imported, so the landing page doesn't download them. */
-  media?: (guide: GuideMeta) => GuideCardMedia | null
+  media?: (guide: GuideMeta, priority: boolean) => GuideCardMedia | null
+  /** How many of the first cards are at the top of the page: their photos load first instead of lazily */
+  eager?: number
   className?: string
 }) {
   const guides = GUIDES.filter((guide) => guide.id !== exclude).slice(0, limit)
 
   return (
     <ul className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', className)}>
-      {guides.map((guide) => {
-        const photo = media?.(guide)
+      {guides.map((guide, index) => {
+        const photo = media?.(guide, index < eager)
         return (
           <li key={guide.id} className="relative">
             <Link

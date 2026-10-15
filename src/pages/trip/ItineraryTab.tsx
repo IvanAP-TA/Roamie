@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { CalendarDays, CalendarPlus, CalendarRange, Download, Eraser, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
 import { buildItineraryIcs, fileSlug } from '@/lib/ics'
 import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useItinerary, useItineraryMutations } from '@/hooks/useItinerary'
+import { useSlidingPill } from '@/hooks/useSlidingPill'
 import { useTripContext } from '@/hooks/useTripContext'
-import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
+import { PageTransition, staggerDelay } from '@/components/layout/PageTransition'
 import { DayCard } from '@/components/itinerary/DayCard'
 import { DayFormSheet, ItemFormSheet } from '@/components/itinerary/ItineraryForms'
 import { ChecklistSection } from '@/components/plan/ChecklistSection'
@@ -112,9 +112,9 @@ function ItineraryView() {
               </Button>
             )}
           </div>
-          <motion.div variants={staggerContainer} initial="hidden" animate="show" className="space-y-4">
-            {days.map((day) => (
-              <motion.div key={day.id} variants={staggerItem}>
+          <div className="space-y-4">
+            {days.map((day, index) => (
+              <div key={day.id} style={staggerDelay(index)} className="stagger-item">
                 <DayCard
                   day={day}
                   canEdit={canEdit}
@@ -130,9 +130,9 @@ function ItineraryView() {
                     )
                   }
                 />
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
           {canEdit && (
             <button
@@ -243,13 +243,22 @@ export default function PlanTab() {
   const requested = params.get('view')
   const view: View = VIEWS.some((v) => v.id === requested) ? (requested as View) : 'itinerary'
   const tabsRef = useRef<HTMLDivElement>(null)
+  const capturePill = useSlidingPill(tabsRef, view)
 
-  // On phones the tabs scroll sideways: keep the current one in sight.
+  // On phones the tabs scroll sideways: keep the current one in sight. Only the bar scrolls, and only when it
+  // overflows, at the next frame (scrollIntoView would lay out the whole page in the middle of opening the tab).
   useEffect(() => {
-    tabsRef.current?.querySelector<HTMLElement>('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest', inline: 'center' })
+    const frame = requestAnimationFrame(() => {
+      const bar = tabsRef.current
+      const tab = bar?.querySelector<HTMLElement>('[aria-selected="true"]')
+      if (!bar || !tab || bar.scrollWidth <= bar.clientWidth) return
+      bar.scrollTo({ left: tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' })
+    })
+    return () => cancelAnimationFrame(frame)
   }, [view])
 
-  const setView = (next: View) =>
+  const setView = (next: View) => {
+    capturePill()
     setParams(
       (p) => {
         if (next === 'itinerary') p.delete('view')
@@ -258,6 +267,7 @@ export default function PlanTab() {
       },
       { replace: true },
     )
+  }
 
   return (
     <PageTransition className="mx-auto max-w-3xl px-5 md:px-6">
@@ -267,7 +277,7 @@ export default function PlanTab() {
         <p className="mt-2 text-sm text-muted-foreground">{t(`plan.subtitle.${view}`)}</p>
       </header>
 
-      <div ref={tabsRef} role="tablist" aria-label={t('plan.title')} className="glass scrollbar-none mb-6 flex gap-1 overflow-x-auto rounded-full p-1">
+      <div ref={tabsRef} role="tablist" aria-label={t('plan.title')} className="glass scrollbar-none relative mb-6 flex gap-1 overflow-x-auto rounded-full p-1">
         {VIEWS.map(({ id, icon: Icon }) => (
           <button
             key={id}
@@ -281,7 +291,7 @@ export default function PlanTab() {
             )}
           >
             {view === id && (
-              <motion.span layoutId="plan-view-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
+              <span data-pill className="absolute inset-0 rounded-full bg-foreground" />
             )}
             <Icon className="relative size-4" aria-hidden />
             {/* Labels always visible: on phones the bar scrolls sideways instead of hiding them. */}

@@ -1,5 +1,6 @@
 import type { LanguageCode } from '@/i18n'
 import { GUIDE_BASE, type Localized } from './meta'
+import { dateFormat } from '@/lib/intl'
 
 /**
  * The month pages' URLs and names, without the guides' content: small enough for the landing, which links the
@@ -17,7 +18,7 @@ export const slugify = (text: string) =>
 export const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
 
 export const monthName = (month: number, lang: LanguageCode) =>
-  new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2021, month - 1, 15)))
+  dateFormat(lang, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2021, month - 1, 15)))
 
 const MONTH_SLUG: Localized<(month: string) => string> = {
   it: (m) => `dove-andare-a-${m}`,

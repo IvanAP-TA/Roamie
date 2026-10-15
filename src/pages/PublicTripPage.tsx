@@ -18,6 +18,7 @@ import { PageTransition } from '@/components/layout/PageTransition'
 import { CoverImage } from '@/components/media/CoverImage'
 import { Button } from '@/components/ui/button'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
+import { dateFormat } from '@/lib/intl'
 
 /** Same tags api/public-trip.ts renders on the server, kept in sync for client-side navigation. */
 function usePublicTripSeo(trip: PublicTrip | null | undefined) {
@@ -99,7 +100,7 @@ export default function PublicTripPage() {
 function TripContent({ trip, signedIn }: { trip: PublicTrip; signedIn: boolean }) {
   const { t, i18n } = useTranslation()
   const lang = (i18n.resolvedLanguage ?? 'it') as LanguageCode
-  const dayDate = new Intl.DateTimeFormat(lang, { weekday: 'short', day: 'numeric', month: 'short' })
+  const dayDate = dateFormat(lang, { weekday: 'short', day: 'numeric', month: 'short' })
 
   return (
     <>

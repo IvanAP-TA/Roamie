@@ -1,55 +1,46 @@
-import { Check, Languages } from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { lazy, Suspense, useState } from 'react'
+import { Languages } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { localizedPath, pathLanguage } from '@/content/guides/meta'
-import { LANGUAGES, type LanguageCode } from '@/i18n'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
+const loadMenu = () => import('./LanguageMenu')
+const LanguageMenu = lazy(loadMenu)
+
+/** Fetches the menu's code ahead of time, when the browser is idle. */
+export function preloadLanguageMenu() {
+  void loadMenu().catch(() => {})
+}
+
+export const triggerClass =
+  'glass inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold tracking-wider uppercase transition active:scale-95'
+
+/**
+ * The language button. Until it's first used it is a plain button: the menu (and the positioning library under it)
+ * loads on the first tap and opens right away, so it isn't part of the landing page's first download.
+ */
 export function LanguageSwitcher({ className }: { className?: string }) {
   const { i18n, t } = useTranslation()
-  const location = useLocation()
-  const navigate = useNavigate()
+  const [used, setUsed] = useState(false)
   const current = i18n.resolvedLanguage ?? 'en'
 
-  const change = (lng: string) => {
-    void i18n.changeLanguage(lng)
-    // The landings and the guides have one URL per language. The page's own hreflang links know its translations
-    // (month and comparison pages included); the path rules are the fallback.
-    const alternate = pathLanguage(location.pathname) ? document.head.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${lng}"]`)?.href : undefined
-    const target = (alternate && new URL(alternate).pathname) || localizedPath(location.pathname, lng as LanguageCode)
-    if (target) navigate({ pathname: target, search: location.search })
-  }
-
+  const button = (
+    <button
+      type="button"
+      aria-label={t('common.language')}
+      aria-haspopup="menu"
+      onPointerEnter={preloadLanguageMenu}
+      onFocus={preloadLanguageMenu}
+      onClick={() => setUsed(true)}
+      className={cn(triggerClass, className)}
+    >
+      <Languages className="size-3.5 opacity-70" />
+      {current}
+    </button>
+  )
+  if (!used) return button
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        aria-label={t('common.language')}
-        className={cn(
-          'glass inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold tracking-wider uppercase transition active:scale-95',
-          className,
-        )}
-      >
-        <Languages className="size-3.5 opacity-70" />
-        {current}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup value={current} onValueChange={change}>
-          {LANGUAGES.map((lang) => (
-            <DropdownMenuRadioItem key={lang.code} value={lang.code}>
-              <span className="w-6 text-[0.7rem] font-bold tracking-wider text-muted-foreground uppercase">{lang.code}</span>
-              <span className="flex-1">{lang.label}</span>
-              {current === lang.code && <Check />}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Suspense fallback={button}>
+      <LanguageMenu className={className} defaultOpen />
+    </Suspense>
   )
 }

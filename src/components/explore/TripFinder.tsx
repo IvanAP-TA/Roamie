@@ -29,6 +29,7 @@ import { TripChoiceList } from '@/components/trips/TripChoiceList'
 import { Button } from '@/components/ui/button'
 import { Chip, Skeleton } from '@/components/ui/misc'
 import { Sheet } from '@/components/ui/sheet'
+import { dateFormat } from '@/lib/intl'
 
 const EMPTY: Criteria = { moods: [], continent: null, budget: null, month: null, length: null, fame: null, distance: null, pace: null }
 const DEFAULT_DAYS = { weekend: 3, week: 6, long: 12 } as const
@@ -316,7 +317,7 @@ export function CriteriaForm({ criteria, onChange }: { criteria: Criteria; onCha
   const { t, i18n } = useTranslation()
   const set = <K extends keyof Criteria>(key: K, value: Criteria[K]) => onChange({ ...criteria, [key]: value })
   const any = t('tripFinder.any')
-  const month = (m: number) => new Intl.DateTimeFormat(i18n.resolvedLanguage, { month: 'short' }).format(new Date(2026, m - 1, 15))
+  const month = (m: number) => dateFormat(i18n.resolvedLanguage, { month: 'short' }).format(new Date(2026, m - 1, 15))
 
   const toggleMood = (mood: Mood) => {
     if (criteria.moods.includes(mood)) set('moods', criteria.moods.filter((m) => m !== mood))

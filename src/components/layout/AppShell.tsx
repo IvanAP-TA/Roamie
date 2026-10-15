@@ -1,15 +1,18 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Skeleton } from '@/components/ui/misc'
 import { Earth, Luggage, Plus, Stamp, UserRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
+import { preloadPages } from '@/lib/pages'
 import { DockNav } from './DockNav'
 
 /** Shell for the authenticated, non-trip screens (trip list, passport, profile). */
 export function AppShell() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  // The other dock tabs, and a trip's screens: the next taps.
+  useEffect(() => preloadPages('trips', 'explore', 'passport', 'profile', 'tripLayout', 'destinations'), [])
 
   return (
     <div className="relative min-h-dvh">
@@ -29,7 +32,6 @@ export function AppShell() {
         </Suspense>
       </div>
       <DockNav
-        layoutId="main-dock"
         items={[
           { to: '/trips', label: t('nav.trips'), icon: Luggage, end: true },
           { to: '/explore', label: t('nav.explore'), icon: Earth },

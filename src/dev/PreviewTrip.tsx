@@ -232,7 +232,6 @@ export default function PreviewTrip() {
           <Tab />
         </div>
         <DockNav
-          layoutId="preview-dock"
           items={[
             { to: `${p}/places`, label: 'Mete', icon: Compass },
             { to: `${p}/map`, label: 'Mappa', icon: Map },

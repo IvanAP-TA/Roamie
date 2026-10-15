@@ -8,6 +8,7 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { UserAvatar } from '@/components/ui/avatar'
 import type { Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import { numberFormat } from '@/lib/intl'
 
 export const averageRating = (d: Pick<Destination, 'reviews'>) =>
   d.reviews.length ? d.reviews.reduce((sum, r) => sum + r.rating, 0) / d.reviews.length : null
@@ -23,7 +24,7 @@ export function RatingSection({ destination: d, className }: { destination: Dest
   const mine = d.reviews.find((r) => r.user_id === user?.id)?.rating ?? 0
   const shown = hover ?? mine
   const average = averageRating(d)
-  const format = new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 1 })
+  const format = numberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 1 })
 
   // Tapping your current rating again removes it.
   const rate = (value: number) =>

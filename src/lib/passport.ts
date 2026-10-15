@@ -1,4 +1,5 @@
 import type { Destination, Trip, VisitedPlace } from './types'
+import { collator } from '@/lib/intl'
 
 /** A destination the group marked as visited, as returned by the passport query. */
 export type TripVisit = Destination & { trip: Pick<Trip, 'id' | 'name'> | null }
@@ -126,7 +127,7 @@ export function passportStats(stamps: Stamp[], countryName: (stamp: Stamp) => st
 
   return {
     places: stamps.length,
-    countries: [...countries.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, locale)),
+    countries: [...countries.values()].sort((a, b) => b.count - a.count || collator(locale).compare(a.name, b.name)),
     continents: [...new Set(stamps.map((s) => continentOf(s.countryCode)).filter((c): c is Continent => c !== null))],
     trips: new Set(stamps.flatMap((s) => (s.trip ? [s.trip.id] : []))).size,
     years: years.length ? [Math.min(...years), Math.max(...years)] : null,

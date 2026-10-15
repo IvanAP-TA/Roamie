@@ -1,10 +1,10 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { MapPinOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useDestinations } from '@/hooks/useDestinations'
 import { useItinerary } from '@/hooks/useItinerary'
+import { useSlidingPill } from '@/hooks/useSlidingPill'
 import { useTripContext } from '@/hooks/useTripContext'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { StopsMap, dayColor, isLocated } from '@/components/map/StopsMap'
@@ -23,7 +23,11 @@ export default function MapTab() {
   const [params, setParams] = useSearchParams()
   const layer: Layer = params.get('layer') === 'stops' ? 'stops' : 'destinations'
 
-  const setLayer = (next: Layer) =>
+  const layerBar = useRef<HTMLDivElement>(null)
+  const captureLayerPill = useSlidingPill(layerBar, layer)
+
+  const setLayer = (next: Layer) => {
+    if (next !== layer) captureLayerPill()
     setParams(
       (p) => {
         if (next === 'stops') p.set('layer', 'stops')
@@ -32,6 +36,7 @@ export default function MapTab() {
       },
       { replace: true },
     )
+  }
 
   const open = (id: string) =>
     setParams((p) => {
@@ -56,7 +61,7 @@ export default function MapTab() {
           <p className="hidden truncate text-sm font-medium text-muted-foreground md:block">{trip.name}</p>
           <h1 className="text-[2.3rem] leading-none md:text-5xl">{t('map.title')}</h1>
         </div>
-        <div role="tablist" aria-label={t('map.title')} className="glass flex gap-1 rounded-full p-1">
+        <div ref={layerBar} role="tablist" aria-label={t('map.title')} className="glass relative flex gap-1 rounded-full p-1">
           {(['destinations', 'stops'] as const).map((id) => (
             <button
               key={id}
@@ -70,7 +75,7 @@ export default function MapTab() {
               )}
             >
               {layer === id && (
-                <motion.span layoutId="map-layer-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
+                <span data-pill className="absolute inset-0 rounded-full bg-foreground" />
               )}
               <span className="relative">{t(id === 'stops' ? 'stops.layerStops' : 'stops.layerDestinations')}</span>
             </button>

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useDestinations } from '@/hooks/useDestinations'
 import { useShowOnScrollUp } from '@/hooks/useShowOnScrollUp'
+import { useSlidingPill } from '@/hooks/useSlidingPill'
 import { useTripContext } from '@/hooks/useTripContext'
 import { Floating } from '@/components/layout/Floating'
 import { PageTransition } from '@/components/layout/PageTransition'
@@ -39,6 +40,8 @@ export default function DestinationsTab() {
   const { data: destinations, isLoading, isError, isFetchedAfterMount, refetch } = useDestinations(trip.id)
   const [, setParams] = useSearchParams()
   const [status, setStatus] = useState<DestinationStatus>('proposed')
+  const statusBar = useRef<HTMLDivElement>(null)
+  const captureStatusPill = useSlidingPill(statusBar, status)
   const [moodFilter, setMoodFilter] = useState<Mood | null>(null)
   const [sort, setSort] = useState<'votes' | 'recent'>('votes')
   const [adding, setAdding] = useState(false)
@@ -174,12 +177,13 @@ export default function DestinationsTab() {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             {/* min-w-0 lets the tabs shrink on narrow phones instead of pushing the page wider than the screen. */}
-            <div className="glass relative flex min-w-0 flex-1 gap-1 rounded-full p-1 sm:flex-none">
+            <div ref={statusBar} className="glass relative flex min-w-0 flex-1 gap-1 rounded-full p-1 sm:flex-none">
               {STATUSES.map((s) => (
                 <button
                   key={s}
                   type="button"
                   onClick={() => {
+                    if (s !== status) captureStatusPill()
                     setStatus(s)
                     setMoodFilter(null)
                   }}
@@ -189,7 +193,7 @@ export default function DestinationsTab() {
                   )}
                 >
                   {status === s && (
-                    <motion.span layoutId="status-pill" className="absolute inset-0 rounded-full bg-foreground" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
+                    <span data-pill className="absolute inset-0 rounded-full bg-foreground" />
                   )}
                   <span className="relative block truncate">
                     {t(`status.tab.${s}`)} <span className="opacity-60">{counts[s]}</span>
@@ -284,11 +288,12 @@ export default function DestinationsTab() {
         )}
 
         {list.length > 0 && (
-          <motion.div layout className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
-              {list.map((d) => (
+              {list.map((d, index) => (
                 <DestinationCard
                   key={d.id}
+                  index={index}
                   destination={d}
                   selectable={selecting}
                   selected={selected.includes(d.id)}
@@ -296,7 +301,7 @@ export default function DestinationsTab() {
                 />
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
         )}
       </div>
 

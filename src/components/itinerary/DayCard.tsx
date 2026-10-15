@@ -10,7 +10,6 @@ import {
 } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { motion } from 'framer-motion'
 import { GripVertical, MapPin, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -23,6 +22,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import type { ItineraryDay, ItineraryItem } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import { dateFormat } from '@/lib/intl'
 
 function Stop({ item, canEdit, onEdit, isLast }: { item: ItineraryItem; canEdit: boolean; onEdit: () => void; isLast: boolean }) {
   const { t } = useTranslation()
@@ -114,11 +114,11 @@ export function DayCard({
   }
 
   const dateLabel = day.date
-    ? new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(`${day.date}T12:00:00`))
+    ? dateFormat(locale, { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(`${day.date}T12:00:00`))
     : null
 
   return (
-    <motion.article layout className="glass rounded-[2rem] p-4 md:p-5">
+    <article className="glass rounded-[2rem] p-4 md:p-5">
       <header className="mb-4 flex items-start gap-3">
         <span className="font-display text-5xl leading-[0.8] font-medium text-primary/90 display-wonk">
           {String(day.day_number).padStart(2, '0')}
@@ -176,6 +176,6 @@ export function DayCard({
           {t('itinerary.addItem')}
         </button>
       )}
-    </motion.article>
+    </article>
   )
 }

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { relativeTimeFormat } from '@/lib/intl'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -60,7 +61,7 @@ const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
 
 export function timeAgo(iso: string, lang: string): string {
   const seconds = (new Date(iso).getTime() - Date.now()) / 1000
-  const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' })
+  const rtf = relativeTimeFormat(lang, { numeric: 'auto' })
   for (const [unit, size] of UNITS) {
     if (Math.abs(seconds) >= size) return rtf.format(Math.round(seconds / size), unit)
   }

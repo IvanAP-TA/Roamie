@@ -11,6 +11,7 @@ import { useOrigin } from '@/lib/origin'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import { staggerDelay } from '@/components/layout/PageTransition'
 
 export const DestinationCard = forwardRef<
   HTMLElement,
@@ -20,8 +21,10 @@ export const DestinationCard = forwardRef<
     /** Compare mode: tapping the card selects it instead of opening it. */
     selectable?: boolean
     selected?: boolean
+    /** Position in the list: the cards rise in one after the other. */
+    index?: number
   }
->(function DestinationCard({ destination: d, onOpen, selectable = false, selected = false }, ref) {
+>(function DestinationCard({ destination: d, onOpen, selectable = false, selected = false, index = 0 }, ref) {
   const { t } = useTranslation()
   const comments = d.comments[0]?.count ?? 0
   const [origin] = useOrigin()
@@ -32,14 +35,15 @@ export const DestinationCard = forwardRef<
   return (
     <motion.article
       ref={ref}
+      // Moves to its new place when the ranking changes; the entrance is a CSS animation (.stagger-item), which the
+      // compositor plays instead of a spring stepped in JavaScript for every card.
       layout
-      initial={{ opacity: 0, y: 20, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.2 } }}
       transition={{ type: 'spring', stiffness: 260, damping: 28 }}
       whileHover={{ y: -4 }}
+      style={staggerDelay(index)}
       className={cn(
-        'group overflow-hidden rounded-[2rem] bg-paper shadow-soft transition-shadow hover:shadow-lift',
+        'stagger-item group overflow-hidden rounded-[2rem] bg-paper shadow-soft transition-shadow hover:shadow-lift',
         selected && 'ring-3 ring-primary ring-offset-2 ring-offset-[var(--background)]',
       )}
     >

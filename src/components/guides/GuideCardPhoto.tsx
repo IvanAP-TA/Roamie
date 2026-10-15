@@ -6,7 +6,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import type { GuideCardMedia } from './GuideCards'
 
 /** For <GuideCards media={guideCardPhoto} />: the guide's cover photo and its credit, on pages that load guide content. */
-export function guideCardPhoto(guide: GuideMeta): GuideCardMedia | null {
+export function guideCardPhoto(guide: GuideMeta, priority = false): GuideCardMedia | null {
   const cover = guideCoverImage(guide.id)
   if (!cover) return null
   return {
@@ -15,6 +15,7 @@ export function guideCardPhoto(guide: GuideMeta): GuideCardMedia | null {
         url={cover.url}
         seed={guide.id}
         showAttribution={false}
+        priority={priority}
         sizes="(min-width: 1024px) 240px, (min-width: 640px) 50vw, 100vw"
         className="h-full transition-transform duration-500 group-hover:scale-[1.03]"
       />

@@ -5,29 +5,31 @@ import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { Splash } from '@/components/layout/Splash'
 import LandingPage from '@/pages/LandingPage'
 import AuthCallbackPage from '@/pages/AuthCallbackPage'
+import { pages } from '@/lib/pages'
 
 // Everything but the landing page loads on demand, animation library included (MotionShell): the first visit to
 // roamie.org downloads only what the landing needs.
-const MotionShell = lazy(() => import('@/components/layout/MotionShell'))
-const AppShell = lazy(() => import('@/components/layout/AppShell').then((module) => ({ default: module.AppShell })))
-const TripsPage = lazy(() => import('@/pages/TripsPage'))
-const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
-const PassportPage = lazy(() => import('@/pages/PassportPage'))
-const JoinPage = lazy(() => import('@/pages/JoinPage'))
-const PublicTripPage = lazy(() => import('@/pages/PublicTripPage'))
-const GuidesIndexPage = lazy(() => import('@/pages/guides/GuidesIndexPage'))
-const GuidePage = lazy(() => import('@/pages/guides/GuidePage'))
-const LegalPage = lazy(() => import('@/pages/LegalPage'))
-const ExplorePage = lazy(() => import('@/pages/ExplorePage'))
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
-const TripLayout = lazy(() => import('@/pages/trip/TripLayout'))
-const DestinationsTab = lazy(() => import('@/pages/trip/DestinationsTab'))
-const MapTab = lazy(() => import('@/pages/trip/MapTab'))
-const RouletteTab = lazy(() => import('@/pages/trip/RouletteTab'))
-const ItineraryTab = lazy(() => import('@/pages/trip/ItineraryTab'))
-const GroupTab = lazy(() => import('@/pages/trip/GroupTab'))
-// Mock-data UI preview for local development only; removed from production builds.
-const DevPreview = import.meta.env.DEV ? lazy(() => import('@/dev/PreviewTrip')) : null
+const MotionShell = lazy(pages.motionShell)
+const AppShell = lazy(() => pages.appShell().then((module) => ({ default: module.AppShell })))
+const TripsPage = lazy(pages.trips)
+const ProfilePage = lazy(pages.profile)
+const PassportPage = lazy(pages.passport)
+const JoinPage = lazy(pages.join)
+const PublicTripPage = lazy(pages.publicTrip)
+const GuidesIndexPage = lazy(pages.guidesIndex)
+const GuidePage = lazy(pages.guide)
+const LegalPage = lazy(pages.legal)
+const ExplorePage = lazy(pages.explore)
+const NotFoundPage = lazy(pages.notFound)
+const TripLayout = lazy(pages.tripLayout)
+const DestinationsTab = lazy(pages.destinations)
+const MapTab = lazy(pages.map)
+const RouletteTab = lazy(pages.roulette)
+const ItineraryTab = lazy(pages.itinerary)
+const GroupTab = lazy(pages.group)
+// Mock-data UI preview for local development, and for performance benchmarks of a production build made with
+// VITE_PREVIEW=1; removed from the builds that get deployed.
+const DevPreview = import.meta.env.DEV || import.meta.env.VITE_PREVIEW === '1' ? lazy(() => import('@/dev/PreviewTrip')) : null
 
 export default function App() {
   return (

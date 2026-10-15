@@ -23,7 +23,7 @@ export default function GuidesIndexPage({ lang }: { lang: LanguageCode }) {
           <h1 className="mt-2 text-[2.6rem] leading-[1.02] md:text-6xl">{t('guides.indexTitle')}</h1>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{t('guides.indexIntro')}</p>
         </header>
-        <GuideCards lang={lang} heading="h2" media={guideCardPhoto} className="mt-10" />
+        <GuideCards lang={lang} heading="h2" media={guideCardPhoto} eager={2} className="mt-10" />
         <nav className="mt-14" aria-labelledby="by-month">
           <h2 id="by-month" className="text-3xl">
             {EXPLORE_COPY.monthEyebrow[lang]}

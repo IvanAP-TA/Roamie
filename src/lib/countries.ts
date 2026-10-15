@@ -1,4 +1,5 @@
 import type { LanguageCode } from '@/i18n'
+import { dateFormat } from '@/lib/intl'
 
 /** Country facts from scripts/countries.mjs (Wikidata, Unicode CLDR, countries-and-timezones). */
 export interface CountryFacts {
@@ -21,12 +22,19 @@ export type CountryTable = Record<string, CountryFacts>
 /** Loaded with the pages that need it (about 50 KB), not with the app. */
 export const loadCountries = () => import('@/data/countries.json').then((module) => module.default.countries as unknown as CountryTable)
 
+// One per language and type: the country list asks for ~250 names at a time.
+const namers = new Map<string, Intl.DisplayNames | null>()
+
 function displayNames(lang: string, type: Intl.DisplayNamesType): Intl.DisplayNames | null {
-  try {
-    return new Intl.DisplayNames([lang], { type })
-  } catch {
-    return null
+  const key = `${lang}|${type}`
+  if (!namers.has(key)) {
+    try {
+      namers.set(key, new Intl.DisplayNames([lang], { type }))
+    } catch {
+      namers.set(key, null)
+    }
   }
+  return namers.get(key)!
 }
 
 export const countryName = (code: string, lang: string) => displayNames(lang, 'region')?.of(code) ?? code
@@ -49,7 +57,7 @@ export function utcLabel([low, high]: [number, number]): string {
 /** A zone's current offset from UTC in minutes, daylight saving included. */
 export function zoneOffset(timeZone: string, at = new Date()): number | null {
   try {
-    const part = new Intl.DateTimeFormat('en', { timeZone, timeZoneName: 'shortOffset' })
+    const part = dateFormat('en', { timeZone, timeZoneName: 'shortOffset' })
       .formatToParts(at)
       .find((p) => p.type === 'timeZoneName')?.value
     const match = part && /GMT([+-])(\d{1,2})(?::(\d{2}))?/.exec(part)

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { flagEmoji } from '@/lib/flags'
 import { ORIGIN_HUBS, useOrigin } from '@/lib/origin'
 import { cn } from '@/lib/utils'
+import { collator } from '@/lib/intl'
 
 /** The country flights are estimated from: a native select, so it works the same on every phone. */
 export function OriginSelect({ label, className }: { label: string; className?: string }) {
@@ -20,7 +21,7 @@ export function OriginSelect({ label, className }: { label: string; className?: 
     }
     return Object.keys(ORIGIN_HUBS)
       .map((code) => ({ code, name: names?.of(code) ?? code }))
-      .sort((a, b) => a.name.localeCompare(b.name, lang))
+      .sort((a, b) => collator(lang).compare(a.name, b.name))
   }, [lang])
 
   return (

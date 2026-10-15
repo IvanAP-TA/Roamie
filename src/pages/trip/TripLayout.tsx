@@ -14,6 +14,7 @@ import { TripContext, type TripContextValue } from '@/hooks/useTripContext'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { DockNav } from '@/components/layout/DockNav'
+import { preloadPages } from '@/lib/pages'
 import { Splash } from '@/components/layout/Splash'
 import { DestinationDetailSheet } from '@/components/destinations/DestinationDetailSheet'
 import { LiveTripProvider } from '@/components/roulette/LiveTrip'
@@ -31,6 +32,8 @@ export default function TripLayout() {
   const membersQuery = useTripMembers(tripId)
   const [inviteOpen, setInviteOpen] = useState(false)
   useTripRealtime(tripId)
+  // The other tabs of the dock, so the first tap on each opens it at once.
+  useEffect(() => preloadPages('destinations', 'map', 'roulette', 'itinerary', 'group'), [])
 
   // Load the whole trip as soon as it opens, not view by view: it's all saved on the device for offline use.
   useDestinations(tripId!)
@@ -137,7 +140,6 @@ export default function TripLayout() {
         </div>
 
         <DockNav
-          layoutId="trip-dock"
           items={[
             { to: base, end: true, label: t('nav.destinations'), icon: Compass },
             { to: `${base}/map`, label: t('nav.map'), icon: Map },

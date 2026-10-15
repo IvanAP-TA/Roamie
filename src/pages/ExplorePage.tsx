@@ -14,6 +14,7 @@ import { GuideShell } from '@/components/guides/GuideLayout'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/misc'
+import { collator } from '@/lib/intl'
 
 /** "Esplora": a dark globe to turn and tap, with a card for each country. The picked country lives in ?c=. */
 export default function ExplorePage() {
@@ -55,7 +56,7 @@ export default function ExplorePage() {
       countries
         ? Object.keys(countries)
             .map((code) => ({ code, name: countryName(code, lang) }))
-            .sort((a, b) => a.name.localeCompare(b.name, lang))
+            .sort((a, b) => collator(lang).compare(a.name, b.name))
         : [],
     [countries, lang],
   )

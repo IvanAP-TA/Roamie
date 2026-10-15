@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { Loader2, Plane, Plus, Sparkles, Ticket } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -14,7 +13,7 @@ import { InspirationCard } from '@/components/guides/GuidesLink'
 import { InstallAppCard } from '@/components/install/InstallApp'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
-import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
+import { PageTransition, staggerDelay } from '@/components/layout/PageTransition'
 import { TicketCard } from '@/components/trips/TicketCard'
 import { TrendingPlaces } from '@/components/trips/TrendingPlaces'
 import { TripFormSheet } from '@/components/trips/TripFormSheet'
@@ -116,18 +115,13 @@ export default function TripsPage() {
         )}
 
         {trips && trips.length > 0 && (
-          <motion.ul
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {trips.map((trip) => (
-              <motion.li key={trip.id} variants={staggerItem}>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {trips.map((trip, index) => (
+              <li key={trip.id} style={staggerDelay(index)} className="stagger-item">
                 <TicketCard trip={trip} myRole={trip.trip_members.find((m) => m.user_id === user?.id)?.role} />
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
+          </ul>
         )}
 
         {trips && trips.length > 0 && <InstallAppCard className="mt-10" />}

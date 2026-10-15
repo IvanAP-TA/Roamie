@@ -1,6 +1,7 @@
-import { NavLink } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { NavLink, matchPath, useLocation } from 'react-router-dom'
 import type { LucideIcon } from 'lucide-react'
+import { useSlidingPill } from '@/hooks/useSlidingPill'
 import { cn } from '@/lib/utils'
 
 export interface DockItem {
@@ -37,19 +38,13 @@ function PrimaryVisual({ item, active }: { item: DockItem; active: boolean }) {
   )
 }
 
-function RegularVisual({ item, active, layoutId }: { item: DockItem; active: boolean; layoutId: string }) {
+function RegularVisual({ item, active }: { item: DockItem; active: boolean }) {
   return (
     <>
-      {active && (
-        <motion.span
-          layoutId={layoutId}
-          className="absolute inset-0 rounded-2xl bg-accent/80"
-          transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-        />
-      )}
+      {active && <span data-pill className="absolute inset-0 rounded-2xl bg-accent/80" />}
       <item.icon
         className={cn(
-          'relative size-[1.35rem] transition-all duration-300 group-active:scale-90',
+          'relative size-[1.35rem] transition-transform duration-300 group-active:scale-90',
           active ? 'text-accent-foreground' : 'text-muted-foreground group-hover:text-foreground',
         )}
         strokeWidth={active ? 2.3 : 1.9}
@@ -63,8 +58,21 @@ function RegularVisual({ item, active, layoutId }: { item: DockItem; active: boo
 
 /**
  * Mobile: floating glass dock in the thumb zone. ≥768px: vertical rail on the left.
+ *
+ * The tapped tab lights up at once, before the router has rendered the new page (navigation is a transition, which
+ * on a slow phone takes a few hundred milliseconds), and the highlight slides over on the compositor (useSlidingPill),
+ * so it stays smooth while the main thread builds the page.
  */
-export function DockNav({ items, layoutId }: { items: DockItem[]; layoutId: string }) {
+export function DockNav({ items }: { items: DockItem[] }) {
+  const { pathname } = useLocation()
+  const [tapped, setTapped] = useState<{ index: number; from: string } | null>(null)
+  const routeIndex = items.findIndex((item) => item.to && matchPath({ path: item.to, end: item.end ?? false }, pathname))
+  // The tap counts until the location changes; from then on the route says which tab is active.
+  const active = tapped && tapped.from === pathname ? tapped.index : routeIndex
+
+  const listRef = useRef<HTMLUListElement>(null)
+  const capturePill = useSlidingPill(listRef, active)
+
   return (
     <nav
       className={cn(
@@ -73,18 +81,33 @@ export function DockNav({ items, layoutId }: { items: DockItem[]; layoutId: stri
         'md:inset-x-auto md:top-1/2 md:bottom-auto md:left-5 md:-translate-y-1/2',
       )}
     >
-      <ul className="glass-strong mx-auto flex max-w-md items-center justify-around gap-1 rounded-[1.75rem] px-2 py-2 md:flex-col md:gap-2 md:rounded-[2rem] md:py-3">
-        {items.map((item) => {
+      <ul
+        ref={listRef}
+        className="glass-strong mx-auto flex max-w-md items-center justify-around gap-1 rounded-[1.75rem] px-2 py-2 md:flex-col md:gap-2 md:rounded-[2rem] md:py-3"
+      >
+        {items.map((item, index) => {
           const Visual = item.primary ? PrimaryVisual : RegularVisual
+          const isActive = index === active
           return (
             <li key={item.to ?? item.label} className="flex flex-1 justify-center md:flex-none">
               {item.to ? (
-                <NavLink to={item.to} end={item.end} onClick={item.onClick} className={itemClass}>
-                  {({ isActive }) => <Visual item={item} active={isActive} layoutId={layoutId} />}
+                <NavLink
+                  to={item.to}
+                  end={item.end}
+                  onClick={(event) => {
+                    if (!event.defaultPrevented && !event.metaKey && !event.ctrlKey && !event.shiftKey && index !== active) {
+                      capturePill()
+                      setTapped({ index, from: pathname })
+                    }
+                    item.onClick?.()
+                  }}
+                  className={itemClass}
+                >
+                  <Visual item={item} active={isActive} />
                 </NavLink>
               ) : (
                 <button type="button" onClick={item.onClick} className={itemClass}>
-                  <Visual item={item} active={false} layoutId={layoutId} />
+                  <Visual item={item} active={false} />
                 </button>
               )}
             </li>

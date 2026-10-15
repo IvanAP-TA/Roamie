@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { Crown, DoorOpen, Eye, MoreHorizontal, Pencil, RefreshCw, Trash2, UserMinus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useTripContext } from '@/hooks/useTripContext'
 import { useDeleteTrip, useRegenerateInvite, useRemoveMember, useUpdateMemberRole } from '@/hooks/useTrips'
-import { PageTransition, staggerContainer, staggerItem } from '@/components/layout/PageTransition'
+import { PageTransition, staggerDelay } from '@/components/layout/PageTransition'
 import { InviteTicket } from '@/components/trips/InviteTicket'
 import { PublicPageSection } from '@/components/trips/PublicPageSection'
 import { TripFormSheet } from '@/components/trips/TripFormSheet'
@@ -125,11 +124,11 @@ export default function GroupTab() {
         <h2 className="text-2xl">
           {t('group.members')} <span className="font-sans text-base font-semibold text-muted-foreground">{members.length}</span>
         </h2>
-        <motion.ul variants={staggerContainer} initial="hidden" animate="show" className="glass divide-y divide-border rounded-[1.75rem]">
-          {members.map((member) => {
+        <ul className="glass divide-y divide-border rounded-[1.75rem]">
+          {members.map((member, index) => {
             const isMe = member.id === me?.id
             return (
-              <motion.li key={member.id} variants={staggerItem} layout className="flex items-center gap-3 px-4 py-3">
+              <li key={member.id} style={staggerDelay(index)} className="stagger-item flex items-center gap-3 px-4 py-3">
                 <UserAvatar profile={member.profile} className="size-11" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold">
@@ -174,10 +173,10 @@ export default function GroupTab() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 )}
-              </motion.li>
+              </li>
             )
           })}
-        </motion.ul>
+        </ul>
         <p className="px-2 text-xs text-muted-foreground">{t('group.rolesLegend')}</p>
       </section>
 

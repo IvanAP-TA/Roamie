@@ -21,6 +21,7 @@ import { useDueEvents, useLastVisit, useTripEvents, type TripEvent, type TripEve
 import { UserAvatar } from '@/components/ui/avatar'
 import { Sheet } from '@/components/ui/sheet'
 import { cn, timeAgo } from '@/lib/utils'
+import { dateFormat } from '@/lib/intl'
 
 const ICONS: Record<TripEventKind, LucideIcon> = {
   joined: UserPlus,
@@ -50,7 +51,7 @@ function EventLine({ event, isNew, onOpenDestination }: { event: TripEvent; isNe
   const subjectless = NO_SUBJECT.includes(event.kind)
   const dates =
     event.data.start &&
-    new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short' }).formatRange(
+    dateFormat(lang, { day: 'numeric', month: 'short' }).formatRange(
       new Date(`${event.data.start}T12:00:00`),
       new Date(`${event.data.end ?? event.data.start}T12:00:00`),
     )
@@ -135,7 +136,7 @@ export function ActivityFeed({ tripId, onOpenDestination }: { tripId: string; on
             ? t('feed.today')
             : key === yesterday
               ? t('feed.yesterday')
-              : new Intl.DateTimeFormat(lang, { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(e.created_at))
+              : dateFormat(lang, { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(e.created_at))
         group = { key, label, events: [] }
         groups.push(group)
       }

@@ -20,6 +20,7 @@ import { RouletteWheel, SLICE_COLORS } from '@/components/roulette/RouletteWheel
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
+import { numberFormat } from '@/lib/intl'
 
 export default function RouletteTab() {
   const { t, i18n } = useTranslation()
@@ -51,7 +52,7 @@ export default function RouletteTab() {
         .sort((a, b) => (b.selected_at ?? '').localeCompare(a.selected_at ?? '')),
     [destinations],
   )
-  const percent = new Intl.NumberFormat(i18n.resolvedLanguage, { style: 'percent', maximumFractionDigits: 0 })
+  const percent = numberFormat(i18n.resolvedLanguage, { style: 'percent', maximumFractionDigits: 0 })
 
   const openDestination = (id: string) =>
     setParams((p) => {

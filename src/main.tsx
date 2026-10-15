@@ -13,6 +13,8 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { AuthProvider } from '@/hooks/useAuth'
 import { startAnalytics } from '@/lib/analytics'
 import { OfflineBanner } from '@/components/layout/OfflineBanner'
+import { preloadSheet } from '@/components/ui/sheet'
+import { preloadLanguageMenu } from '@/components/layout/LanguageSwitcher'
 import { Toaster } from '@/components/ui/toaster'
 import { CACHE_BUSTER, OFFLINE_MAX_AGE, offlinePersister, shouldPersistQuery } from '@/lib/offline'
 import { pathLanguage } from '@/content/guides/meta'
@@ -91,6 +93,13 @@ function startServiceWorker() {
 const afterLoad = () => {
   startServiceWorker()
   startAnalytics()
+  // The code of the sheets and of the language menu, so that the first one opened shows at once.
+  const preload = () => {
+    preloadSheet()
+    preloadLanguageMenu()
+  }
+  if ('requestIdleCallback' in window) requestIdleCallback(preload, { timeout: 5000 })
+  else setTimeout(preload, 2000)
 }
 if (document.readyState === 'complete') afterLoad()
 else window.addEventListener('load', afterLoad, { once: true })
