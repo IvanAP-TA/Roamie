@@ -5,7 +5,7 @@ import './index.css'
 import i18n, { i18nReady } from './i18n'
 
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -18,6 +18,7 @@ import { preloadLanguageMenu } from '@/components/layout/LanguageSwitcher'
 import { Toaster } from '@/components/ui/toaster'
 import { CACHE_BUSTER, OFFLINE_MAX_AGE, offlinePersister, shouldPersistQuery } from '@/lib/offline'
 import { pathLanguage } from '@/content/guides/meta'
+import { loadPagesFor } from '@/lib/pages'
 import { hasStoredSession } from '@/lib/supabaseEnv'
 // Registers the install-prompt listener before anything renders: the browser fires it early.
 import '@/lib/install'
@@ -121,13 +122,18 @@ window.addEventListener('vite:preloadError', (event) => {
 const urlLanguage = pathLanguage(window.location.pathname)
 const languageReady = urlLanguage && !hasStoredSession() ? i18n.changeLanguage(urlLanguage) : i18nReady
 
-// Prerendered pages already contain markup in #root, shown until the strings arrive; React then replaces it.
+// Prerendered pages already contain markup in #root (scripts/prerender.mjs renders this same tree), shown until the
+// strings arrive. React adopts it as it is (hydration) when its first render will match: the page's language, and no
+// saved session (a signed-in visitor is sent into the app instead). Otherwise it draws the page anew, as for the app
+// shell, whose #root is empty.
 void languageReady.finally(() => {
   const root = document.getElementById('root')!
-  // The landing intro has already played on the prerendered markup: the copy React renders shouldn't play it again.
-  if (root.firstElementChild) document.documentElement.classList.add('no-intro')
+  const prerendered = root.firstElementChild !== null
+  const adopt = prerendered && !hasStoredSession() && i18n.resolvedLanguage === document.documentElement.dataset.markupLang
+  // The landing intro has already played on the prerendered markup: a copy drawn anew shouldn't play it again.
+  if (prerendered && !adopt) document.documentElement.classList.add('no-intro')
 
-  createRoot(root).render(
+  const app = (
     <StrictMode>
       <PersistQueryClientProvider
         client={queryClient}
@@ -146,6 +152,8 @@ void languageReady.finally(() => {
         <OfflineBanner />
         <Toaster />
       </PersistQueryClientProvider>
-    </StrictMode>,
+    </StrictMode>
   )
+  if (adopt) void loadPagesFor(window.location.pathname).then(() => hydrateRoot(root, app), () => createRoot(root).render(app))
+  else createRoot(root).render(app)
 })

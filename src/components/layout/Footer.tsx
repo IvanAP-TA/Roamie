@@ -8,6 +8,7 @@ import type { LegalDoc } from '@/components/legal/LegalContent'
 
 // The sheet (and the legal texts' layout) is only downloaded when someone opens it.
 const LegalSheet = lazy(() => import('@/components/legal/LegalSheet'))
+import { useToday } from '@/hooks/useToday'
 import { cn } from '@/lib/utils'
 import { SocialLinks } from './SocialLinks'
 
@@ -16,6 +17,7 @@ export function Footer({ className }: { className?: string }) {
   const guidesPath = GUIDE_BASE[i18n.resolvedLanguage as LanguageCode] ?? GUIDE_BASE.en
   const [doc, setDoc] = useState<LegalDoc | null>(null)
   const [lastDoc, setLastDoc] = useState<LegalDoc | null>(null)
+  const year = useToday().getFullYear()
 
   const open = (next: LegalDoc) => {
     setLastDoc(next)
@@ -56,7 +58,7 @@ export function Footer({ className }: { className?: string }) {
           {t('footer.terms')}
         </a>
         <span aria-hidden className="size-1 rounded-full bg-muted-foreground/40" />
-        <span>© {new Date().getFullYear()} Roamie</span>
+        <span>© {year} Roamie</span>
       </nav>
 
       {lastDoc && (

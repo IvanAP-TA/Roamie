@@ -5,28 +5,28 @@ import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { Splash } from '@/components/layout/Splash'
 import LandingPage from '@/pages/LandingPage'
 import AuthCallbackPage from '@/pages/AuthCallbackPage'
-import { pages } from '@/lib/pages'
+import { lazyPage, pages } from '@/lib/pages'
 
 // Everything but the landing page loads on demand, animation library included (MotionShell): the first visit to
 // roamie.org downloads only what the landing needs.
-const MotionShell = lazy(pages.motionShell)
+const MotionShell = lazyPage(pages.motionShell)
 const AppShell = lazy(() => pages.appShell().then((module) => ({ default: module.AppShell })))
-const TripsPage = lazy(pages.trips)
-const ProfilePage = lazy(pages.profile)
-const PassportPage = lazy(pages.passport)
-const JoinPage = lazy(pages.join)
-const PublicTripPage = lazy(pages.publicTrip)
-const GuidesIndexPage = lazy(pages.guidesIndex)
-const GuidePage = lazy(pages.guide)
-const LegalPage = lazy(pages.legal)
-const ExplorePage = lazy(pages.explore)
-const NotFoundPage = lazy(pages.notFound)
-const TripLayout = lazy(pages.tripLayout)
-const DestinationsTab = lazy(pages.destinations)
-const MapTab = lazy(pages.map)
-const RouletteTab = lazy(pages.roulette)
-const ItineraryTab = lazy(pages.itinerary)
-const GroupTab = lazy(pages.group)
+const TripsPage = lazyPage(pages.trips)
+const ProfilePage = lazyPage(pages.profile)
+const PassportPage = lazyPage(pages.passport)
+const JoinPage = lazyPage(pages.join)
+const PublicTripPage = lazyPage(pages.publicTrip)
+const GuidesIndexPage = lazyPage(pages.guidesIndex)
+const GuidePage = lazyPage(pages.guide)
+const LegalPage = lazyPage(pages.legal)
+const ExplorePage = lazyPage(pages.explore)
+const NotFoundPage = lazyPage(pages.notFound)
+const TripLayout = lazyPage(pages.tripLayout)
+const DestinationsTab = lazyPage(pages.destinations)
+const MapTab = lazyPage(pages.map)
+const RouletteTab = lazyPage(pages.roulette)
+const ItineraryTab = lazyPage(pages.itinerary)
+const GroupTab = lazyPage(pages.group)
 // Mock-data UI preview for local development, and for performance benchmarks of a production build made with
 // VITE_PREVIEW=1; removed from the builds that get deployed.
 const DevPreview = import.meta.env.DEV || import.meta.env.VITE_PREVIEW === '1' ? lazy(() => import('@/dev/PreviewTrip')) : null

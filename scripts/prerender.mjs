@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Post-build step (see "build" in package.json): renders the public pages (landing ×3 languages,
-// legal, 404) into static HTML with their meta tags, so crawlers and link previews get real content.
+// legal, 404, guides) into static HTML with their meta tags, so crawlers and link previews get real content and the
+// browser can adopt the markup as it is (hydration, see main.tsx).
 import { existsSync } from 'node:fs'
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
@@ -52,10 +53,14 @@ const beasties = new Beasties({
   logLevel: 'warn',
 })
 
+// The build day, for what the pages show by date: the client renders the same while adopting the markup (useToday).
+// data-markup-lang keeps the markup's language for main.tsx: the app rewrites <html lang> as soon as it picks one.
+const built = new Date().toISOString().slice(0, 10)
+
 for (const route of ROUTES) {
   const { html, head } = await render(route)
   const rendered = template
-    .replace(/<html lang="[^"]*"/, `<html lang="${route.lang}"`)
+    .replace(/<html lang="[^"]*"/, `<html lang="${route.lang}" data-built="${built}" data-markup-lang="${route.lang}"`)
     .replace(HEAD, () => [...fontPreloads, head].join('\n    '))
     .replace('<!--app-html-->', () => html)
   const page = await beasties.process(rendered)

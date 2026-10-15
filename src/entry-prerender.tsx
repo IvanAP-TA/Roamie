@@ -1,24 +1,22 @@
 /**
  * Build-time renderer for the public pages, run by scripts/prerender.mjs. Not part of the client bundle.
- * Crawlers and link previews get real content and per-page meta tags; the client then renders normally.
+ * Crawlers and link previews get real content and per-page meta tags. It renders the very tree main.tsx renders
+ * (the whole app, routed to the page), so the browser can adopt this markup as it is (hydration) instead of
+ * drawing the page again once the scripts have loaded.
  */
-import type { ReactElement } from 'react'
-import { renderToString } from 'react-dom/server'
+import { StrictMode } from 'react'
+import { prerender } from 'react-dom/static'
 import { StaticRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { MotionConfig } from 'framer-motion'
+import App from '@/App'
+import { OfflineBanner } from '@/components/layout/OfflineBanner'
+import { Toaster } from '@/components/ui/toaster'
 import { MONTHS, monthPath, PAIRS, pairPath, type Pair } from '@/content/guides/explore'
 import { GUIDE_BASE, GUIDES, guidePath, type GuideMeta } from '@/content/guides/meta'
 import i18n, { LANGUAGES, type LanguageCode } from '@/i18n'
 import { AuthProvider } from '@/hooks/useAuth'
 import { guideMeta, guidesIndexMeta, monthMeta, pairMeta } from '@/lib/guideSeo'
 import { headTags, LANDING_PATHS, pageMeta, SITE_URL, type SeoPage } from '@/lib/seo'
-import LandingPage from '@/pages/LandingPage'
-import LegalPage from '@/pages/LegalPage'
-import NotFoundPage from '@/pages/NotFoundPage'
-import GuidesIndexPage from '@/pages/guides/GuidesIndexPage'
-import { GuideArticle } from '@/pages/guides/GuidePage'
-import { MonthArticle, PairArticle } from '@/pages/guides/ExplorePages'
 
 export interface PrerenderRoute {
   path: string
@@ -89,28 +87,30 @@ export const ROUTES: PrerenderRoute[] = [
   ),
 ]
 
-const PAGES: Partial<Record<PrerenderRoute['page'], (route: PrerenderRoute) => ReactElement>> = {
-  landing: (route) => <LandingPage lang={route.lang} />,
-  privacy: () => <LegalPage doc="privacy" />,
-  terms: () => <LegalPage doc="terms" />,
-  notFound: () => <NotFoundPage />,
-  guides: (route) => <GuidesIndexPage lang={route.lang} />,
-  guide: (route) => <GuideArticle guide={route.guide!} lang={route.lang} />,
-  month: (route) => <MonthArticle month={route.month!} lang={route.lang} />,
-  pair: (route) => <PairArticle pair={route.pair!} lang={route.lang} />,
+/**
+ * The page's markup. The static renderer waits for the lazily loaded routes; the tree mirrors main.tsx's, with a
+ * fixed location instead of the browser's.
+ */
+async function renderPage(path: string): Promise<string> {
+  const { prelude } = await prerender(
+    <StrictMode>
+      <QueryClientProvider client={new QueryClient()}>
+        <StaticRouter location={path}>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </StaticRouter>
+        <OfflineBanner />
+        <Toaster />
+      </QueryClientProvider>
+    </StrictMode>,
+  )
+  return new Response(prelude).text()
 }
 
 export async function render(route: PrerenderRoute): Promise<{ html: string; head: string }> {
   await i18n.changeLanguage(route.lang)
-  const html = renderToString(
-    <QueryClientProvider client={new QueryClient()}>
-      <MotionConfig reducedMotion="user">
-        <StaticRouter location={route.path}>
-          <AuthProvider>{PAGES[route.page]!(route)}</AuthProvider>
-        </StaticRouter>
-      </MotionConfig>
-    </QueryClientProvider>,
-  )
+  const html = await renderPage(route.path)
   const t = i18n.getFixedT(route.lang)
   const meta =
     route.page === 'guide'
