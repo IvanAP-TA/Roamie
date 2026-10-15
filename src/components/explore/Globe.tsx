@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { geoContains, geoDistance, geoGraticule10, geoOrthographic, geoPath, geoCentroid } from 'd3-geo'
-import type { Feature, Geometry } from 'geojson'
+import type { Feature, Geometry, MultiLineString } from 'geojson'
 import { feature, mesh } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 import { Minus, Plus } from 'lucide-react'
@@ -18,6 +18,38 @@ type CountryFeature = Feature<Geometry, { name: string }> & {
   /** A circle on the sphere holding the whole country: its centre, and its angular radius in radians */
   center: [number, number]
   reach: number
+  /** Its rings as [lng, lat, lng, lat, …] in radians, for drawing it without d3 when it's wholly in sight */
+  rings: Float64Array[]
+}
+
+/** A border or coast line, with a circle on the sphere holding it (as for countries) */
+interface Line {
+  coordinates: [number, number][]
+  points: Float64Array
+  center: [number, number]
+  reach: number
+}
+
+const RADIANS = Math.PI / 180
+
+/** [[lng, lat], …] in degrees → [lng, lat, lng, lat, …] in radians */
+function radians(coordinates: number[][]): Float64Array {
+  const points = new Float64Array(coordinates.length * 2)
+  coordinates.forEach(([lng, lat], i) => {
+    points[2 * i] = lng * RADIANS
+    points[2 * i + 1] = lat * RADIANS
+  })
+  return points
+}
+
+/** Splits a mesh into its lines, each with the circle that holds it, so lines out of sight can be skipped. */
+function lines(mesh: MultiLineString): Line[] {
+  return mesh.coordinates.map((coordinates) => {
+    const center = geoCentroid({ type: 'LineString', coordinates })
+    let reach = 0
+    for (const point of coordinates) reach = Math.max(reach, geoDistance(center, point as [number, number]))
+    return { coordinates: coordinates as [number, number][], points: radians(coordinates), center, reach }
+  })
 }
 
 /** Every [lng, lat] of a country's outline. */
@@ -84,8 +116,7 @@ export function Globe({
   const [topology, setTopology] = useState<Topology | null>(null)
   const [size, setSize] = useState(0)
   const view = useRef({ rotation: [-12, -38] as [number, number], zoom: 1, hover: null as string | null, spinning: true })
-  // fast: a draft for frames in motion (see the drawing below); otherwise the finished globe.
-  const drawRef = useRef<(fast?: boolean) => void>(() => undefined)
+  const drawRef = useRef<() => void>(() => undefined)
   const animation = useRef<number | null>(null)
 
   useEffect(() => {
@@ -111,13 +142,15 @@ export function Globe({
       const center = geoCentroid(f)
       let reach = 0
       for (const point of vertices(f.geometry)) reach = Math.max(reach, geoDistance(center, point))
-      return { ...f, code: (f.id != null ? byNumber.get(String(f.id)) : undefined) ?? BY_NAME[f.properties.name] ?? null, center, reach }
+      const polygons = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates : []
+      const rings = polygons.flat().map(radians)
+      return { ...f, code: (f.id != null ? byNumber.get(String(f.id)) : undefined) ?? BY_NAME[f.properties.name] ?? null, center, reach, rings }
     }) as CountryFeature[]
     const drawn = new Set(features.map((f) => f.code))
     return {
       features,
-      borders: mesh(topology, object, (a, b) => a !== b),
-      coast: mesh(topology, object, (a, b) => a === b),
+      borders: lines(mesh(topology, object, (a, b) => a !== b)),
+      coast: lines(mesh(topology, object, (a, b) => a === b)),
       // Too small for this map: a dot at the capital.
       small: Object.entries(countries)
         .filter(([code]) => !drawn.has(code))
@@ -138,12 +171,12 @@ export function Globe({
   }, [])
 
   const projection = useMemo(() => geoOrthographic().clipAngle(90).precision(0.4), [])
-  // The same projection without clipping at the horizon, for countries wholly on the visible side: clipping a
-  // polygon walks all of it again to tell inside from outside, and was most of the cost of a frame.
-  const unclipped = useMemo(() => geoOrthographic().preclip((stream) => stream), [])
+  // Countries and lines across the horizon: 1:110m outlines have short segments, so they need no resampling (the
+  // sphere's rim and the graticule's long lines do). Those wholly in sight skip d3 altogether (see the drawing).
+  const clipped = useMemo(() => geoOrthographic().clipAngle(90).precision(0), [])
   const graticule = useMemo(() => geoGraticule10(), [])
 
-  drawRef.current = (fast = false) => {
+  drawRef.current = () => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx || !size) return
@@ -154,10 +187,9 @@ export function Globe({
     }
     const { rotation, zoom, hover } = view.current
     const radius = (size / 2) * 0.9 * zoom
-    // Projecting the borders is nearly all the cost of a frame. In motion (dragging, zooming, turning) each country
-    // is projected once, coarser, and its outline stroked as the border; the finished globe, with its separate coast
-    // and border lines, is drawn once the motion stops.
-    for (const p of [projection, unclipped]) p.scale(radius).translate([size / 2, size / 2]).rotate([rotation[0], rotation[1], 0]).precision(fast ? 0 : 0.4)
+    // Every frame is drawn the same way, in motion or not: a cheaper draft while turning made the coasts brighten
+    // each time the finger stopped.
+    for (const p of [projection, clipped]) p.scale(radius).translate([size / 2, size / 2]).rotate([rotation[0], rotation[1], 0])
     const path = geoPath(projection, ctx)
     const center: [number, number] = [-rotation[0], -rotation[1]]
 
@@ -206,39 +238,51 @@ export function Globe({
         if (group) group.push(f)
         else byFill.set(fill, [f])
       }
-      if (fast) {
-        for (const [fill, group] of byFill) {
-          const outline = new Path2D()
-          // d3 only moves, draws lines and closes on its context; the typing also asks for beginPath.
-          const context = Object.assign(outline, { beginPath: () => undefined })
-          const draft = geoPath(projection, context)
-          const draftWhole = geoPath(unclipped, context)
-          for (const f of group) (whole.has(f) ? draftWhole : draft)(f)
-          ctx.fillStyle = fill
-          ctx.fill(outline)
-          ctx.strokeStyle = COLORS.border
-          ctx.lineWidth = 0.6
-          ctx.stroke(outline)
+      const pathEdge = geoPath(clipped, ctx)
+      // What's wholly in sight needs no clipping, and is drawn without d3's projection stream: the same orthographic
+      // projection (d3's rotation by longitude then latitude, without resampling), a few multiplications per point.
+      const lambda = rotation[0] * RADIANS
+      const cosPhi = Math.cos(rotation[1] * RADIANS)
+      const sinPhi = Math.sin(rotation[1] * RADIANS)
+      const half = size / 2
+      const trace = (points: Float64Array, close: boolean) => {
+        for (let i = 0; i < points.length; i += 2) {
+          const lng = points[i] + lambda
+          const cosLat = Math.cos(points[i + 1])
+          const x = Math.cos(lng) * cosLat
+          const y = Math.sin(lng) * cosLat
+          const k = Math.sin(points[i + 1]) * cosPhi + x * sinPhi
+          if (i === 0) ctx.moveTo(half + radius * y, half - radius * k)
+          else ctx.lineTo(half + radius * y, half - radius * k)
         }
-      } else {
-        const pathWhole = geoPath(unclipped, ctx)
-        for (const [fill, group] of byFill) {
-          ctx.beginPath()
-          for (const f of group) (whole.has(f) ? pathWhole : path)(f)
-          ctx.fillStyle = fill
-          ctx.fill()
+        if (close) ctx.closePath()
+      }
+      for (const [fill, group] of byFill) {
+        ctx.beginPath()
+        for (const f of group) {
+          if (whole.has(f)) for (const ring of f.rings) trace(ring, true)
+          else pathEdge(f)
         }
+        ctx.fillStyle = fill
+        ctx.fill()
+      }
+      // Borders and coasts the same way: lines out of sight skipped, those wholly in sight not clipped.
+      const strokeLines = (all: Line[], color: string, width: number) => {
+        const atEdge: [number, number][][] = []
         ctx.beginPath()
-        path(shapes.borders)
-        ctx.strokeStyle = COLORS.border
-        ctx.lineWidth = 0.6
-        ctx.stroke()
-        ctx.beginPath()
-        path(shapes.coast)
-        ctx.strokeStyle = COLORS.coast
-        ctx.lineWidth = 0.8
+        for (const line of all) {
+          const distance = geoDistance(center, line.center)
+          if (distance - line.reach > Math.PI / 2) continue
+          if (distance + line.reach < Math.PI / 2 - 0.01) trace(line.points, false)
+          else atEdge.push(line.coordinates)
+        }
+        pathEdge({ type: 'MultiLineString', coordinates: atEdge })
+        ctx.strokeStyle = color
+        ctx.lineWidth = width
         ctx.stroke()
       }
+      strokeLines(shapes.borders, COLORS.border, 0.6)
+      strokeLines(shapes.coast, COLORS.coast, 0.8)
 
       const picked = shapes.features.find((f) => f.code && f.code === selected)
       if (picked) {
@@ -284,26 +328,16 @@ export function Globe({
 
   const redraw = () => drawRef.current()
 
-  // Pointer and wheel events can come several times a frame: one draft per frame, the finished globe once they stop.
-  const pending = useRef({ frame: 0, settle: 0 })
+  // Pointer and wheel events can come several times a frame: the globe is drawn once per frame.
+  const pendingFrame = useRef(0)
   const redrawMoving = () => {
-    const p = pending.current
-    if (!p.frame) {
-      p.frame = requestAnimationFrame(() => {
-        p.frame = 0
-        drawRef.current(true)
-      })
-    }
-    clearTimeout(p.settle)
-    p.settle = window.setTimeout(() => drawRef.current(), 160)
+    if (pendingFrame.current) return
+    pendingFrame.current = requestAnimationFrame(() => {
+      pendingFrame.current = 0
+      drawRef.current()
+    })
   }
-  useEffect(() => {
-    const p = pending.current
-    return () => {
-      cancelAnimationFrame(p.frame)
-      clearTimeout(p.settle)
-    }
-  }, [])
+  useEffect(() => () => cancelAnimationFrame(pendingFrame.current), [])
 
   useEffect(redraw, [size, shapes, selected, highlighted, dots]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -334,7 +368,7 @@ export function Globe({
         if (inSight && document.visibilityState === 'visible') {
           // 0.08° per 60 Hz frame, whatever the frame rate.
           view.current.rotation[0] += (now - last) * 0.0048
-          drawRef.current(true)
+          drawRef.current()
         }
         last = now
       }
@@ -371,7 +405,7 @@ export function Globe({
       const t = Math.min(1, (now - start) / 700)
       const ease = 1 - (1 - t) ** 3
       view.current.rotation = [from[0] + (to[0] - from[0]) * ease, from[1] + (to[1] - from[1]) * ease]
-      drawRef.current(t < 1)
+      drawRef.current()
       animation.current = t < 1 ? requestAnimationFrame(step) : null
     }
     animation.current = requestAnimationFrame(step)
