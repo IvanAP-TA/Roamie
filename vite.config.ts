@@ -20,7 +20,11 @@ function productionHeaders(): Record<string, string> {
   return Object.fromEntries((global?.headers ?? []).map(({ key, value }) => [key, value]))
 }
 
+// The version shown in the footer: package.json's, raised by `npm run bump` with every release.
+const APP_VERSION = (JSON.parse(readFileSync(path('./package.json'), 'utf8')) as { version: string }).version
+
 export default defineConfig(({ isSsrBuild }) => ({
+  define: { 'import.meta.env.VITE_APP_VERSION': JSON.stringify(APP_VERSION) },
   plugins: [
     react(),
     tailwindcss(),

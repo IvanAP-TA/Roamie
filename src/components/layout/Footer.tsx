@@ -58,7 +58,9 @@ export function Footer({ className }: { className?: string }) {
           {t('footer.terms')}
         </a>
         <span aria-hidden className="size-1 rounded-full bg-muted-foreground/40" />
-        <span>© {year} Roamie</span>
+        <span>
+          © {year} Roamie · v{import.meta.env.VITE_APP_VERSION}
+        </span>
       </nav>
 
       {lastDoc && (

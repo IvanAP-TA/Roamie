@@ -1,7 +1,7 @@
 {
   "name": "roamie",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,8 @@
     "types": "supabase gen types typescript --project-id tvcumfzhnuljngdzuuue > src/lib/database.types.ts",
     "icons": "pwa-assets-generator",
     "og-image": "node scripts/og-image.mjs",
-    "guide-photos": "node scripts/guide-photos.mjs"
+    "guide-photos": "node scripts/guide-photos.mjs",
+    "bump": "npm version patch --no-git-tag-version"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
