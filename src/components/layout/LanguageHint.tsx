@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Languages, X } from 'lucide-react'
 import { localizedPath } from '@/content/guides/meta'
@@ -40,13 +40,15 @@ export function LanguageHint({ lang }: { lang: LanguageCode }) {
       // storage unavailable: still offer it
     }
     const target = browserLanguage()
-    if (!target || target === lang) return setOffer(null)
+    // A transition, like the offer below: this runs as React adopts a prerendered page, which an urgent update would
+    // make it finish in one long task.
+    if (!target || target === lang) return startTransition(() => setOffer(null))
     // The page's own hreflang links know its translations (month and comparison pages included); the path rules are
     // the fallback. Read once the page has set its metadata.
     const timer = setTimeout(() => {
       const alternate = document.head.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${target}"]`)?.href
       const path = (alternate && new URL(alternate).pathname) || localizedPath(location.pathname, target)
-      setOffer(path && path !== location.pathname ? { target, path } : null)
+      startTransition(() => setOffer(path && path !== location.pathname ? { target, path } : null))
     }, 300)
     return () => clearTimeout(timer)
   }, [lang, location.pathname])

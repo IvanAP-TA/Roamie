@@ -4,15 +4,15 @@ import '@fontsource-variable/instrument-sans/index.css'
 import './index.css'
 import i18n, { i18nReady } from './i18n'
 
-import { StrictMode } from 'react'
+import { StrictMode, startTransition } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { AuthProvider } from '@/hooks/useAuth'
 import { startAnalytics } from '@/lib/analytics'
 import { OfflineBanner } from '@/components/layout/OfflineBanner'
+import { OfflineCacheProvider } from '@/components/layout/OfflineCacheProvider'
 import { preloadSheet } from '@/components/ui/sheet'
 import { preloadLanguageMenu } from '@/components/layout/LanguageSwitcher'
 import { Toaster } from '@/components/ui/toaster'
@@ -138,7 +138,7 @@ void languageReady.finally(() => {
 
   const app = (
     <StrictMode>
-      <PersistQueryClientProvider
+      <OfflineCacheProvider
         client={queryClient}
         persistOptions={{
           persister: offlinePersister,
@@ -154,11 +154,16 @@ void languageReady.finally(() => {
         </BrowserRouter>
         <OfflineBanner />
         <Toaster />
-      </PersistQueryClientProvider>
+      </OfflineCacheProvider>
     </StrictMode>
   )
   if (!adopt) createRoot(root).render(app)
   // Once the markup is on screen: with the scripts already at hand (a later visit, the installed app), adopting it
-  // would otherwise run before the browser had painted anything.
-  else void Promise.all([loadPagesFor(window.location.pathname), afterFirstPaint()]).then(() => hydrateRoot(root, app), () => createRoot(root).render(app))
+  // would otherwise run before the browser had painted anything. As a transition, React adopts the page in short
+  // slices instead of one long task: nothing on screen changes, so nothing needs it done at once.
+  else
+    void Promise.all([loadPagesFor(window.location.pathname), afterFirstPaint()]).then(
+      () => startTransition(() => void hydrateRoot(root, app)),
+      () => createRoot(root).render(app),
+    )
 })
