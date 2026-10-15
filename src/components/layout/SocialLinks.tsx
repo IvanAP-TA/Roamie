@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 /** Roamie's social accounts, where the automatic posts go (video/automation). */
 const NETWORKS = [
   { name: 'Instagram', href: 'https://www.instagram.com/getroamie/', icon: InstagramIcon },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595190126785', icon: FacebookIcon },
   { name: 'TikTok', href: 'https://www.tiktok.com/@getroamie', icon: TikTokIcon },
   { name: 'YouTube', href: 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA', icon: YouTubeIcon },
 ] as const
@@ -15,6 +16,16 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <path d="M15.5 7.5h-1.75a2.25 2.25 0 0 0-2.25 2.25V21" />
+      <path d="M9 12.5h6" />
     </svg>
   )
 }
