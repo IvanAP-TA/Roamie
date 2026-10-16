@@ -214,6 +214,8 @@ export function checkLine(text, { min, max, lang, past, maxSimilarity, mustMenti
   if (/[€$£%#@]/.test(t)) return 'prices, hashtags or handles'
   // Social captions show markdown as it is: *really* stays with its asterisks.
   if (/[*_~`]/.test(t)) return 'formatting'
+  // Long dashes read as AI-written to many people: commas, colons and full stops instead.
+  if (/[—–]/.test(t)) return 'dash'
   for (const n of t.match(/\d+/g) ?? []) if (!allowedNumbers.includes(n)) return `number ${n}`
   if ((t.match(/\p{Extended_Pictographic}/gu) ?? []).length > 1) return 'emoji'
   if (t === t.toUpperCase() && /[A-Z]/.test(t)) return 'shouting'

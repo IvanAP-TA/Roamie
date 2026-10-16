@@ -139,3 +139,18 @@ describe('LinkedIn facts', () => {
     expect(quoted.text).toBe(GOOD)
   })
 })
+
+describe('LinkedIn style and repetition', () => {
+  const plan = { kind: 'insight', facts: 'group chat' }
+
+  it('rejects long dashes', () => {
+    expect(checkPost(GOOD.replace('boring and simple:', 'boring and simple —'), plan, [])).toBe('dash')
+    expect(checkPost(GOOD.replace('boring and simple:', 'boring and simple –'), plan, [])).toBe('dash')
+  })
+
+  it('rejects a post too close to an earlier one, even with a new first line', () => {
+    const again = GOOD.replace("Most group trips don't fail on the destination. They fail in the group chat.", 'Group chats are where trips go to die, and we have seen it happen again and again.')
+    expect(checkPost(again, plan, [], [GOOD])).toBe('too close to an earlier post')
+    expect(checkPost(GOOD, plan, [], ['A completely different post about our new map, the colours of its pins and why we kept it simple.'])).toBeNull()
+  })
+})

@@ -69,7 +69,8 @@ async function main() {
   log(`plan: ${plan.kind} · ${plan.topic}`)
 
   const past = history.map((h) => h.firstLine).filter(Boolean)
-  const written = await writeLinkedInPost(plan, past, (messages) => askMistral(messages, { maxTokens: 900 }))
+  const pastTexts = history.slice(-30).map((h) => h.text).filter(Boolean)
+  const written = await writeLinkedInPost(plan, past, (messages) => askMistral(messages, { maxTokens: 900 }), pastTexts)
   if (written.rejected.length) log(`rejected: ${written.rejected.join('; ')}`)
   if (!written.text) {
     const reason = process.env.MISTRAL_API_KEY ? `the AI's texts didn't pass the checks (${written.rejected.join('; ') || 'no answer'})` : 'no MISTRAL_API_KEY'
@@ -122,6 +123,7 @@ async function main() {
     topic: plan.topic,
     ...(plan.places && { places: plan.places }),
     firstLine: postFirstLine(written.text),
+    text: written.text,
     published: Boolean(results.linkedin && !results.linkedin.error),
     results,
   })

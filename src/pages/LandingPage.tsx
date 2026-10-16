@@ -11,6 +11,7 @@ import { cn, safeNextPath } from '@/lib/utils'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { Logo } from '@/components/brand/Logo'
 import { Scene } from '@/components/brand/Scene'
+import { AttributionChip } from '@/components/media/Attribution'
 import { GoogleButton } from '@/components/auth/GoogleButton'
 import { TryWithoutAccount } from '@/components/auth/TryWithoutAccount'
 import { LanguageHint } from '@/components/layout/LanguageHint'
@@ -28,10 +29,21 @@ import { useToday } from '@/hooks/useToday'
  * and the animation library would be the biggest script to start on a phone.
  */
 
+/** A photo of the place from Wikimedia Commons, cropped to the card (public/landing/<file>-<width>.avif). */
+const photo = (file: string, author: string, license: string, commonsFile: string) => ({
+  file,
+  attribution: JSON.stringify({
+    author,
+    license,
+    licenseUrl: `https://creativecommons.org/licenses/${license.replace(/^CC /, '').split(' ')[0].toLowerCase()}/${license.split(' ').at(-1)}`,
+    sourceUrl: `https://commons.wikimedia.org/wiki/File:${commonsFile}`,
+  }),
+})
+
 const POSTCARDS = [
-  { name: 'Lisboa', country: 'Portugal', votes: 7, rotate: -9, x: '-38%', y: '6%', delay: 0 },
-  { name: 'Oaxaca', country: 'México', votes: 5, rotate: 8, x: '38%', y: '10%', delay: 0.6 },
-  { name: 'Kyoto', country: '日本', votes: 11, rotate: -1, x: '0%', y: '-4%', delay: 0.3 },
+  { name: 'Lisboa', country: 'Portugal', votes: 7, rotate: -9, x: '-38%', y: '6%', delay: 0, photo: photo('lisbon', 'Vitor Oliveira', 'CC BY-SA 2.0', 'Lisboa_-_Portugal_(52597836992).jpg') },
+  { name: 'Oaxaca', country: 'México', votes: 5, rotate: 8, x: '38%', y: '10%', delay: 0.6, photo: photo('oaxaca', 'Luisalvaz', 'CC BY-SA 4.0', 'Fachada_del_Templo_de_Santo_Domingo_de_Guzmán,_Oaxaca,_Oax..JPG') },
+  { name: 'Kyoto', country: '日本', votes: 11, rotate: -1, x: '0%', y: '-4%', delay: 0.3, photo: photo('kyoto', 'Josep M. Gracia', 'CC BY-SA 4.0', 'GIO_-_Yasaka_Pagoda_seen_from_Higashiyama_near_Gion,_Kyoto,_Japan,_2015.jpg') },
 ]
 
 const FEATURES = [
@@ -89,10 +101,16 @@ function Postcard({ card, index }: { card: (typeof POSTCARDS)[number]; index: nu
           style={{ animationDuration: `${5 + index}s`, animationDelay: `${card.delay}s` }}
           className="animate-float rounded-[1.6rem] bg-paper p-2 shadow-lift"
         >
+          {/* The illustrated scene shows until the photo is there (and stays where AVIF isn't supported). */}
           <Scene seed={card.name} className="aspect-[3/4] rounded-[1.2rem]">
-            <span className="absolute top-2.5 right-2.5 flex size-11 rotate-12 items-center justify-center rounded-full border-[1.5px] border-dashed border-white/80 text-[0.5rem] leading-none font-bold tracking-[0.12em] text-white/90 uppercase">
+            <picture>
+              <source type="image/avif" srcSet={`/landing/${card.photo.file}-360.avif 360w, /landing/${card.photo.file}-600.avif 600w`} sizes="(min-width: 768px) 15rem, (min-width: 640px) 12rem, 38vw" />
+              <img src={`/landing/${card.photo.file}-480.jpg`} alt="" width={600} height={800} decoding="async" draggable={false} className="absolute inset-0 size-full object-cover" />
+            </picture>
+            <span className="absolute top-2.5 right-2.5 flex size-11 rotate-12 items-center justify-center rounded-full border-[1.5px] border-dashed border-white/80 text-[0.5rem] leading-none font-bold tracking-[0.12em] text-white/90 uppercase drop-shadow-[0_1px_2px_rgb(0_0_0/0.5)]">
               roamie
             </span>
+            <AttributionChip raw={card.photo.attribution} compact className="absolute bottom-2 left-2 z-10" />
           </Scene>
           <div className="flex items-end justify-between gap-2 px-1.5 pt-2 pb-1">
             <div className="min-w-0">

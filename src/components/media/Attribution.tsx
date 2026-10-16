@@ -11,7 +11,7 @@ const AttributionPopover = lazy(() => import('./AttributionPopover'))
  * a page shows one per photo, and a popover mounted on each, even closed, updates its state as it mounts, which forced
  * React to adopt a prerendered page in one long task. The popover loads on the first tap and opens right away.
  */
-export function AttributionChip({ raw, className }: { raw: string | null | undefined; className?: string }) {
+export function AttributionChip({ raw, className, compact = false }: { raw: string | null | undefined; className?: string; compact?: boolean }) {
   const { t } = useTranslation()
   const [used, setUsed] = useState(false)
   const attribution = parseAttribution(raw)
@@ -28,12 +28,14 @@ export function AttributionChip({ raw, className }: { raw: string | null | undef
       aria-label={t('media.photoCredits')}
       aria-haspopup="dialog"
       className={cn(
-        'inline-flex h-6 items-center gap-1 rounded-full bg-black/35 px-2 text-[0.62rem] font-semibold text-white/90 backdrop-blur-md transition hover:bg-black/50',
+        'inline-flex h-6 items-center gap-1 rounded-full bg-black/35 text-[0.62rem] font-semibold text-white/90 backdrop-blur-md transition hover:bg-black/50',
+        compact ? 'w-6 justify-center' : 'px-2',
         className,
       )}
     >
       <Copyright className="size-3" />
-      {attribution.license ? attribution.license.replace(/^CC /, 'CC ') : t('media.credits')}
+      {/* Compact (small cards): the icon alone, the licence is in the details it opens. */}
+      {!compact && (attribution.license ? attribution.license.replace(/^CC /, 'CC ') : t('media.credits'))}
     </button>
   )
   if (!used) return trigger

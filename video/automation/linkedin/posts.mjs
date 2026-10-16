@@ -167,7 +167,7 @@ export function linkedInPrompt(plan, past) {
     'Shape: a first line that makes people want to read on (under 140 characters, no question marks needed), then 2 to 4 short paragraphs separated by a blank line, and a last line asking the reader a genuine question.',
     'Length: 500 to 1100 characters in total. No hashtags, no links, no markdown (no asterisks, underscores or bullet symbols), no @ mentions.',
     'Use only the facts given. Never invent numbers, quotes, customers, users counts or results. Do not add places, landmarks, neighbourhoods, weather, prices or anything else that is not in the facts, even if you believe it is true: a shorter post is better than an invented detail. Do not name any place or proper noun that is not in the facts.',
-    'Write the post itself, not wrapped in quotation marks.',
+    'Write the post itself, not wrapped in quotation marks. Never use em dashes or en dashes (— or –): use commas, colons or full stops.',
     'Return JSON {"post": string}.',
     ...(past.length ? ['Earlier posts started like this; do not reuse their wording or structure:', ...past.slice(-10).map((l) => `  · ${l}`)] : []),
   ].join('\n')
@@ -205,8 +205,11 @@ export function unknownNames(text, facts) {
   return [...new Set(names)]
 }
 
-/** Every check a post must pass. Returns the reason it fails, or null. */
-export function checkPost(text, plan, past) {
+/**
+ * Every check a post must pass. Returns the reason it fails, or null. `past` holds earlier posts' first lines,
+ * `pastTexts` their whole texts.
+ */
+export function checkPost(text, plan, past, pastTexts = []) {
   if (typeof text !== 'string') return 'missing'
   const t = text.trim()
   if (t.length < 400 || t.length > 1300) return `length ${t.length}`
@@ -225,6 +228,8 @@ export function checkPost(text, plan, past) {
     if (problem) return problem
   }
   for (const old of past) if (similarity(firstLine(t), old) > 0.4) return 'too close to an earlier post'
+  // Whole texts share a few word triples by chance; a quarter of them means the same post again.
+  for (const old of pastTexts) if (similarity(t, old) > 0.25) return 'too close to an earlier post'
   return null
 }
 
@@ -244,7 +249,7 @@ export function assemblePost(text, plan) {
 }
 
 /** Writes the post: up to three tries with the AI. Returns { text, rejected } or { text: null, rejected }. */
-export async function writeLinkedInPost(plan, past, ask) {
+export async function writeLinkedInPost(plan, past, ask, pastTexts = []) {
   const rejected = []
   const messages = linkedInPrompt(plan, past)
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -252,7 +257,7 @@ export async function writeLinkedInPost(plan, past, ask) {
     if (!answer) break
     // Some answers come wrapped in quotation marks, sometimes only on one side.
     const post = typeof answer.post === 'string' ? answer.post.trim().replace(/^["“”]+|["“”]+$/g, '').trim() : answer.post
-    const problem = checkPost(post, plan, past)
+    const problem = checkPost(post, plan, past, pastTexts)
     if (!problem) return { text: post, rejected }
     rejected.push(problem)
   }
