@@ -431,7 +431,7 @@
    frame blend without stretching. */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.26s;
+  animation-duration: 0.22s;
   animation-timing-function: var(--ease-out-expo);
 }
 /* The photo's group moves by transform only, from the card's box to the header's (variables set by
@@ -440,7 +440,7 @@
 html.vt-morph::view-transition-group(trip-cover),
 html.vt-morph::view-transition-group(guide-cover) {
   transform-origin: 0 0;
-  animation: vt-morph 0.46s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  animation: vt-morph 0.34s cubic-bezier(0.2, 0.9, 0.25, 1) both;
 }
 @keyframes vt-morph {
   from {
@@ -462,7 +462,7 @@ html.vt-morph::view-transition-group(guide-cover) {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation-duration: 0.46s;
+  animation-duration: 0.34s;
 }
 ::view-transition-group(dock) {
   animation: none;

@@ -49,10 +49,10 @@ function setPlaying(value: boolean) {
 }
 
 /**
- * False while a page transition plays, true otherwise (and always outside a transition, as on a direct load). A page
- * renders what the transition shows (its header, the photo that carries over) at once and the rest once this turns
- * true: the browser holds the old page until the new one has rendered, and the animation stutters while the main
- * thread is busy, so a page built in full on a slow phone meant a long freeze and no animation to speak of.
+ * False while a page transition captures the new page, true otherwise (and always outside a transition, as on a
+ * direct load). A page renders what the transition shows (its header, the photo that carries over) at once and the
+ * rest once this turns true: the browser holds the old page frozen until the new one has rendered, so a page built in
+ * full on a slow phone meant a long freeze before any animation.
  */
 export function usePageSettled(): boolean {
   const [settled, setSettled] = useState(() => !playing)
@@ -113,6 +113,9 @@ export function navigateWithTransition(go: () => void, path: string, shared?: Sh
         go()
       }),
   )
+  // The rest of the page is built as soon as the animation has started: it plays on the compositor (transforms and
+  // opacity only), so the main thread's work doesn't make it stutter, and the page is complete as early as possible.
+  void transition.ready.finally(() => setPlaying(false))
   void transition.finished.finally(() => {
     setPlaying(false)
     root.classList.remove('vt-morph')
