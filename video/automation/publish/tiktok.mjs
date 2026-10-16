@@ -34,26 +34,39 @@ async function accessToken() {
 
 const json = (token, body) => ({ method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json; charset=UTF-8' }, body: JSON.stringify(body) })
 
-/** Waits until TikTok has processed the post: in the inbox for a draft, published otherwise. */
+/** TikTok's processing state of a post: { status, fail_reason, ... } or { error }. */
+async function fetchStatus(token, publishId) {
+  const answer = await fetch(`${API}/post/publish/status/fetch/`, json(token, { publish_id: publishId })).then((r) => r.json())
+  return answer.data?.status ? answer.data : { error: answer.error?.message || answer.error?.code || 'no status' }
+}
+
+/**
+ * Waits until TikTok has processed the post: in the inbox for a draft, published otherwise. The last state seen is
+ * kept with the result (a post still PROCESSING_UPLOAD after five minutes may still arrive, or never).
+ */
 async function settle(token, publishId) {
+  let last = 'unknown'
   for (let i = 0; i < 30; i++) {
-    const status = await fetch(`${API}/post/publish/status/fetch/`, json(token, { publish_id: publishId })).then((r) => r.json())
+    const status = await fetchStatus(token, publishId)
+    last = status.status ?? status.error
     // A draft ends in the inbox: its caption is the one in the Telegram kit.
-    if (status.data?.status === 'PUBLISH_COMPLETE' || status.data?.status === 'SEND_TO_USER_INBOX') return { id: publishId, url: null, draft: draft() }
-    if (status.data?.status === 'FAILED') throw new Error(`TikTok processing: ${status.data.fail_reason}`)
+    if (last === 'PUBLISH_COMPLETE' || last === 'SEND_TO_USER_INBOX') return { id: publishId, url: null, draft: draft(), status: last }
+    if (last === 'FAILED') throw new Error(`TikTok processing: ${status.fail_reason}`)
     await wait(10_000)
   }
-  return { id: publishId, url: null, draft: draft() }
+  throw new Error(`TikTok processing: still ${last} after five minutes (publish id ${publishId})`)
 }
 
 export const tiktok = {
   name: 'tiktok',
   ready: () => Boolean(process.env.TIKTOK_CLIENT_KEY && process.env.TIKTOK_CLIENT_SECRET && process.env.TIKTOK_REFRESH_TOKEN),
 
-  /** The refresh token still gives an access token. */
-  async check() {
-    await accessToken()
-    return 'token ok'
+  /** The refresh token still gives an access token; with a publish id, also where that post got to. */
+  async check(lastPublishId) {
+    const token = await accessToken()
+    if (!lastPublishId) return 'token ok'
+    const status = await fetchStatus(token, lastPublishId)
+    return `token ok · last post ${status.status ?? status.error}${status.fail_reason ? ` (${status.fail_reason})` : ''}`
   },
 
   async publish({ file, caption }) {

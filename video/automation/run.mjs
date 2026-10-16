@@ -282,6 +282,12 @@ async function carousel(history, today) {
   report('carousel', plan, copy, results)
 }
 
+/** The id of the last post a platform accepted, from the history (TikTok reports where it got to). */
+function lastPublishId(name) {
+  const history = existsSync(historyPath) ? JSON.parse(readFileSync(historyPath, 'utf8')) : []
+  return [...history].reverse().find((h) => h.results?.[name]?.id)?.results[name].id
+}
+
 /** POST_KIND=check: tries every platform's keys without posting anything (after renewing a token). */
 async function checkKeys() {
   const lines = []
@@ -291,7 +297,7 @@ async function checkKeys() {
       continue
     }
     try {
-      lines.push(`✅ ${platform.name}: ${await platform.check()}`)
+      lines.push(`✅ ${platform.name}: ${await platform.check(lastPublishId(platform.name))}`)
     } catch (error) {
       lines.push(`❌ ${platform.name}: ${error.message.slice(0, 200)}`)
     }
