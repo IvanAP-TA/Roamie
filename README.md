@@ -33,10 +33,18 @@ What it covers:
 - **Marketing automation.** A daily pipeline (Supabase pg_cron → GitHub Actions) plans a post from the guides, writes
   the copy with an LLM under automatic quality checks, renders a video or carousel with Remotion, publishes it to
   Instagram, Facebook, TikTok and YouTube, alerts on Telegram when a platform fails, and learns from Instagram insights
-  which formats work best. See [`video/automation`](video/automation).
+  which formats work best. A second bot writes one LinkedIn post a day for the company page (the week's changes, how
+  groups decide, a destination, a feature, a lesson learnt) and posts it through a **Make.com** scenario, the only
+  route LinkedIn opens to company pages without a partner review. Its texts are rejected if they invent a name that
+  isn't in the facts they were given, repeat an earlier post, or read like AI (emoji, hype, long dashes). See
+  [`video/automation`](video/automation).
 - **Measured performance.** Every optimisation was benchmarked on an emulated mid-range Android phone (4× CPU) against
   the previous release: tab-bar feedback 230–370 ms → ~45 ms, home LCP 1.9 s → 0.8 s, guide photos −84% (AVIF),
   initial JavaScript 311 → 190 KB.
+- **Motion that stays smooth on a mid-range phone.** Page transitions with the View Transitions API (a trip's photo
+  grows into the trip's header, moved by transforms only so the compositor plays it), a header and covers driven by
+  CSS scroll-driven animations, micro-interactions with haptics, and a staged reveal of the wheel's winner. Each step
+  was measured against the release before it: opening a trip and scrolling cost the same as without the animations.
 - **Security and privacy by design.** Row Level Security on every table, server-side draws, strict Content-Security-
   Policy, no ads, no profiling cookies, account deletion and data export.
 
@@ -57,6 +65,8 @@ The rest of this file is the technical documentation.
 | Maps | React-Leaflet + OpenStreetMap tiles, Nominatim geocoding |
 | Photos | Wikimedia Commons API, with CC attribution always shown |
 | Extras | canvas-confetti, dnd-kit (itinerary reordering), vite-plugin-pwa, i18next |
+| Motion | View Transitions API, CSS scroll-driven animations, Web Animations; Framer Motion where a spring is needed |
+| Automation | GitHub Actions started by Supabase pg_cron, Remotion (videos and carousels), Mistral (copy), Make.com (LinkedIn), Telegram (alerts and hand-posting kit) |
 | Fonts | Fraunces + Instrument Sans, **self-hosted** via Fontsource (no Google Fonts requests) |
 
 ## Getting started
@@ -121,6 +131,8 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 | `npm run types` | Regenerates `src/lib/database.types.ts` from the live schema (run `npx supabase login` once). Run it after every migration: the Supabase client is typed with it, so wrong table, column or RPC names fail the build |
 | `npm run icons` | Regenerates the PWA icons from `public/favicon.svg` |
 | `npm run og-image` | Regenerates the social preview images in `public/og/` |
+| `npm run guide-photos` | Makes the AVIF copies of the guides' photos and covers in `public/guides/photos/` (existing files are kept) |
+| `npm run bump` | Raises the patch version before every push; the version is shown in the footer next to the copyright |
 
 ## Architecture notes
 
@@ -146,6 +158,15 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   - Signed-in routes and invite links are served by `shell.html` (`noindex`) through the rewrites in `vercel.json`; unknown paths get a real 404 status. `robots.txt` is in `public/`; `sitemap.xml` is generated from the prerendered routes, with hreflang alternates.
   - **Inspiration guides.** 12 guides (`src/content/guides/`) in three languages, each with its own URL (`/guide/…`, `/en/guides/…`, `/es/guias/…`), hreflang, `Article`/`HowTo`/`BreadcrumbList` JSON-LD, and links from the landing and the footer. Every destination has an "Add to a trip" action that proposes it in one of your trips, with coordinates, mood, budget and a Commons photo.
 - **Place search.** Typing shows suggestions from [Photon](https://photon.komoot.io) (debounced, superseded requests aborted, only real places, cached). Nominatim's usage policy forbids autocomplete, so Nominatim is only called explicitly: the full search ("Search …" or Enter) and one lookup when a suggestion is picked, to get its name in the UI language (Beijing → Pechino). Nominatim calls go through a global client queue limited to 1 request per second and are cached in localStorage. Browsers can't set `User-Agent`, so the app identifies itself with the `Referer` header and the `email` parameter.
+- **Animations.** `src/lib/viewTransition.ts` wraps navigation in a view transition: the shared photo gets its
+  `view-transition-name` only during the transition (a named element would switch off the glass blur inside it), moves
+  by translate and scale (`html.vt-morph`), and heavy pages render their header first and the rest once the animation
+  has started (`usePageSettled`). The app header and the trip and guide covers follow the scroll with
+  `animation-timeline: scroll()` (with a one-step fallback where it isn't supported); everything animates transform and
+  opacity only, and parallax is off with reduced motion.
+- **Guide covers.** `src/content/guides/covers.json` holds each guide's cover photo (the photo of its first place, kept
+  equal by a test; the how-to guide has its own), small enough for the landing page to show photos without downloading
+  the guides. The landing's postcards use their own cropped AVIFs in `public/landing/`, credited like every photo.
 - **Wikimedia images.** Lookup tries the Wikipedia lead image first, resolved on Commons (so only freely licensed files are used), then a Commons file search whose titles must contain the place name. Maps, flags, coats of arms and tiny files are discarded. If nothing relevant remains, the card shows an illustrated scene instead. Attribution (author, licence, source) is stored as JSON and shown on every image.
 - **Passport.** `/passport` collects the visited destinations of all your trips (RLS scopes the query) and places you add yourself (`visited_places`, readable only by their author): countries and continents reached (ISO code from the place search, localized with `Intl.DisplayNames`), a map, and stamps with ratings, filterable by trip. "I wasn't there" (`passport_exclusions`) hides a group visit from your passport only. `visited_at` is kept by the status trigger; members rate visited destinations 1–5 with `set_rating` (0 removes it). The share button draws a 1080×1920 story image on a canvas in the browser (`src/lib/passportCard.ts`) and hands it to the system share sheet, or downloads it.
 - **Public trip page.** Off by default. The owner can publish a read-only page at `/p/:slug` (`set_trip_public`): the slug is the trip name plus 8 random characters, so pages can't be enumerated. `get_public_trip` is the only data `anon` gets besides the invite preview: trip details, destinations with photo and total points, and the itinerary. Members, individual votes, comments, links and the checklist are never included. On Vercel, `api/public-trip.ts` serves the app shell with the trip's own title, description, image, canonical and `TouristTrip` JSON-LD, so link previews and search engines show the trip (CDN cache 60 s, so unpublishing takes previews down quickly).

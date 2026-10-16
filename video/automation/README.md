@@ -22,6 +22,7 @@ Per ogni post il bot:
 - **Testi dell'AI:** vengono scartati se:
   - contengono numeri inventati, prezzi, link, hashtag, maiuscole urlate o parole proibite ("imperdibile", "garantito"…);
   - sono nella lingua sbagliata;
+  - usano trattini lunghi (— o –), che molti associano ai testi scritti dall'AI;
   - somigliano troppo a un post precedente (confronto sulle sequenze di parole).
   
   L'AI ha tre tentativi; se fallisce, si usa una frase scritta a mano non ancora usata di recente.
@@ -93,7 +94,7 @@ Usa lo stesso token della Pagina di Instagram, con un permesso in più.
 
 ### 6. TikTok
 
-Su TikTok video e caroselli arrivano **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi.
+Su TikTok video e caroselli arrivano **in bozza**: ti arriva una notifica nell'app, scegli un suono di tendenza (solo l'app può farlo) e pubblichi incollando la didascalia del kit Telegram. Ci vogliono circa 30 secondi. I video vengono caricati in pezzi da 10 MB, come raccomanda TikTok: in un pezzo solo la bozza poteva metterci venti minuti ad arrivare. Se una bozza tarda, il controllo chiavi (Run workflow con kind = `check`) dice su Telegram a che punto è l'ultimo post.
 
 L'account deve essere **personale o Creator**, non Business: gli account Business non possono usare i brani di tendenza.
 
@@ -125,7 +126,7 @@ Un flusso a parte (`linkedin/`, workflow `.github/workflows/linkedin.yml`) pubbl
 | Venerdì | dove andare il mese prossimo (3 mete) | foto della meta |
 | Sabato | qualcosa che abbiamo imparato costruendo Roamie | scheda dell'app |
 
-- **Testi:** li scrive l'AI dai fatti che le dà il bot (`linkedin/posts.mjs`), in inglese, con la voce del team, senza emoji né parole da pubblicità. Vengono scartati se hanno numeri che non sono nei fatti, elenchi puntati, punti esclamativi o somigliano a un post precedente. Link, crediti delle foto e hashtag li aggiunge il codice. Se in tre tentativi l'AI non scrive un testo valido, quel giorno non esce nulla e ti arriva un avviso su Telegram.
+- **Testi:** li scrive l'AI dai fatti che le dà il bot (`linkedin/posts.mjs`), in inglese, con la voce del team, senza emoji né parole da pubblicità. Vengono scartati se hanno numeri che non sono nei fatti, nomi di luoghi o persone che non sono nei fatti (l'AI riceve il paragrafo intero della guida, così non deve inventare dettagli), elenchi puntati, punti esclamativi, trattini lunghi, o se somigliano a un post precedente: la prima riga e il testo intero vengono confrontati con gli ultimi post. Link, crediti delle foto e hashtag li aggiunge il codice. Se in tre tentativi l'AI non scrive un testo valido, quel giorno non esce nulla e ti arriva un avviso su Telegram.
 - **Argomenti:** funzioni, osservazioni e lezioni girano tutte prima di ripetersi; una meta non torna prima di 90 giorni.
 - **Schede dell'app:** sono immagini fisse in `linkedin/cards` (titolo + screenshot, 1200×1500).
 
