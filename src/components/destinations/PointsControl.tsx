@@ -13,6 +13,7 @@ import { votesHidden } from '@/lib/secretVoting'
 import { rpcErrorCode } from '@/lib/supabase'
 import { POINTS_BUDGET, type Destination } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import { haptic } from '@/lib/haptics'
 
 const SAVE_DELAY_MS = 450
 
@@ -31,6 +32,12 @@ export function PointsControl({ destination, size = 'default', className }: { de
 
   const mine = destination.votes.find((v) => v.user_id === user?.id)?.points ?? 0
   const total = totalPoints(destination)
+  // Which way the total rolls: up when it grows, down when it shrinks.
+  const shown = useRef(total)
+  const direction = total >= shown.current ? 1 : -1
+  useEffect(() => {
+    shown.current = total
+  }, [total])
   const { trip } = useTripContext()
   const hidden = votesHidden(trip)
   const open = destination.status === 'proposed'
@@ -73,7 +80,7 @@ export function PointsControl({ destination, size = 'default', className }: { de
     }
     const next = Math.min(POINTS_BUDGET, Math.max(0, current + delta))
     if (next === current) return
-    if (typeof navigator.vibrate === 'function') navigator.vibrate(8)
+    haptic('tap')
 
     const previous = pending.current?.previous ?? list
     if (pending.current) clearTimeout(pending.current.timer)
@@ -122,12 +129,18 @@ export function PointsControl({ destination, size = 'default', className }: { de
           <Lock className={cn('text-muted-foreground', lg ? 'size-[1.125rem]' : 'size-3.5')} aria-label={t('secret.hiddenTotal')} />
         ) : (
           <span className="relative overflow-hidden">
-            <AnimatePresence mode="popLayout" initial={false}>
+            <AnimatePresence mode="popLayout" initial={false} custom={direction}>
               <motion.span
                 key={total}
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
+                custom={direction}
+                variants={{
+                  enter: (dir: number) => ({ y: 10 * dir, opacity: 0 }),
+                  center: { y: 0, opacity: 1 },
+                  leave: (dir: number) => ({ y: -10 * dir, opacity: 0 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="leave"
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 className={cn('block font-semibold', lg ? 'text-lg' : 'text-sm', total > 0 && 'text-primary')}
               >

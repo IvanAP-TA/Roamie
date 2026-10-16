@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Backpack, CalendarCheck, Check, Eye, Plus, UserPlus, X, type LucideIcon } from 'lucide-react'
+import { Backpack, CalendarCheck, Eye, Plus, UserPlus, X, type LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useChecklist, useChecklistMutations } from '@/hooks/usePlan'
@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/misc'
 import { CHECKLIST_KINDS, type ChecklistItem, type ChecklistKind } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import { haptic } from '@/lib/haptics'
 
 const KIND_ICON: Record<ChecklistKind, LucideIcon> = { book: CalendarCheck, pack: Backpack }
 const NOBODY = 'nobody'
@@ -63,7 +64,16 @@ function ChecklistGroup({ kind, items }: { kind: ChecklistKind; items: Checklist
   const { trip, canEdit } = useTripContext()
   const m = useChecklistMutations(trip.id)
   const [draft, setDraft] = useState('')
+  // Items ticked during this visit: they get the drawn tick and the pop (not those already done when the page opens).
+  const [justDone, setJustDone] = useState<ReadonlySet<string>>(() => new Set())
   const Icon = KIND_ICON[kind]
+  const toggle = (item: ChecklistItem) => {
+    if (!item.done) {
+      haptic('success')
+      setJustDone((ids) => new Set(ids).add(item.id))
+    }
+    m.update.mutate({ id: item.id, patch: { done: !item.done } }, { onError })
+  }
   const onError = () => toast.error(t('errors.generic'))
 
   // Open items first, then the ones already done; each in the order they were added.
@@ -105,19 +115,29 @@ function ChecklistGroup({ kind, items }: { kind: ChecklistKind; items: Checklist
                 aria-checked={item.done}
                 aria-label={item.done ? t('checklist.markTodo') : t('checklist.markDone')}
                 disabled={!canEdit}
-                onClick={() => m.update.mutate({ id: item.id, patch: { done: !item.done } }, { onError })}
+                onClick={() => toggle(item)}
                 className="flex size-10 shrink-0 items-center justify-center rounded-full transition active:scale-90 disabled:cursor-default"
               >
                 <span
                   className={cn(
                     'flex size-6 items-center justify-center rounded-full border-2 transition-colors',
                     item.done ? 'border-transparent bg-sage text-white' : 'border-foreground/25',
+                    item.done && justDone.has(item.id) && 'check-pop',
                   )}
                 >
-                  {item.done && <Check className="size-3.5" strokeWidth={3} />}
+                  {item.done && (
+                    <svg viewBox="0 0 24 24" aria-hidden className={cn('size-3.5', justDone.has(item.id) && 'check-draw')}>
+                      <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
                 </span>
               </button>
-              <span className={cn('min-w-0 flex-1 text-[0.95rem] leading-snug break-words', item.done && 'text-muted-foreground line-through')}>
+              <span
+                className={cn(
+                  'min-w-0 flex-1 text-[0.95rem] leading-snug break-words line-through decoration-transparent transition-[color,text-decoration-color] duration-300',
+                  item.done && 'text-muted-foreground decoration-current',
+                )}
+              >
                 {item.title}
               </span>
               <AssigneePicker item={item} canEdit={canEdit} onChange={(assignee_id) => m.update.mutate({ id: item.id, patch: { assignee_id } }, { onError })} />
@@ -173,11 +193,10 @@ export function ChecklistSection() {
         <div className="glass rounded-[1.5rem] px-5 py-4">
           <p className="text-sm font-semibold">{t('checklist.progress', { done, total })}</p>
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-foreground/[0.07]">
-            <motion.div
-              className="h-full rounded-full bg-[linear-gradient(90deg,var(--sun),var(--sage))]"
-              initial={false}
-              animate={{ width: `${(done / total) * 100}%` }}
-              transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+            {/* Slid in rather than widened: a transform, which the compositor animates on its own. */}
+            <div
+              className="h-full rounded-full bg-[linear-gradient(90deg,var(--sun),var(--sage))] transition-transform duration-500 ease-[var(--ease-spring)]"
+              style={{ transform: `translateX(${(done / total) * 100 - 100}%)` }}
             />
           </div>
         </div>

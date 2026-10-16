@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils'
 import { UserAvatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { haptic } from '@/lib/haptics'
 
 /** "Perché andarci": short reasons members write to win the group over, with likes (hidden during a secret vote). */
 export function ReasonsSection({ destination: d, className }: { destination: Destination; className?: string }) {
@@ -23,6 +24,8 @@ export function ReasonsSection({ destination: d, className }: { destination: Des
   const add = useAddReason(trip.id, d.id)
   const remove = useDeleteReason(trip.id)
   const like = useToggleReasonLike(trip.id)
+  // The reason liked last during this visit: its thumb pops.
+  const [popped, setPopped] = useState<string | null>(null)
   const [text, setText] = useState('')
 
   const reasons = sortReasons(d.reasons ?? [], hidden)
@@ -90,7 +93,13 @@ export function ReasonsSection({ destination: d, className }: { destination: Des
                   aria-label={t('reasons.like')}
                   title={t('reasons.like')}
                   disabled={like.isPending && like.variables?.reasonId === r.id}
-                  onClick={() => like.mutate({ reasonId: r.id, liked }, { onError: () => toast.error(t('errors.generic')) })}
+                  onClick={() => {
+                    if (!liked) {
+                      haptic('tap')
+                      setPopped(r.id)
+                    }
+                    like.mutate({ reasonId: r.id, liked }, { onError: () => toast.error(t('errors.generic')) })
+                  }}
                   className={cn(
                     'flex h-10 min-w-12 shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-sm font-semibold tabular-nums transition active:scale-90',
                     liked
@@ -98,7 +107,8 @@ export function ReasonsSection({ destination: d, className }: { destination: Des
                       : 'bg-[var(--glass-strong)] text-muted-foreground hover:text-foreground',
                   )}
                 >
-                  <ThumbsUp className={cn('size-4', liked && 'fill-current')} />
+                  {/* Remounted when it turns on, so the pop plays again each time. */}
+                  <ThumbsUp key={String(liked)} className={cn('size-4', liked && 'fill-current', liked && popped === r.id && 'like-pop')} />
                   {!hidden && r.likes.length > 0 && r.likes.length}
                 </button>
               </li>

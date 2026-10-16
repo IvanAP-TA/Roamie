@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
 import { numberFormat } from '@/lib/intl'
+import { haptic } from '@/lib/haptics'
 
 export default function RouletteTab() {
   const { t, i18n } = useTranslation()
@@ -61,6 +62,7 @@ export default function RouletteTab() {
     })
 
   const runSpin = async () => {
+    haptic('tap')
     setSpinning(true)
     try {
       await spin.mutateAsync()

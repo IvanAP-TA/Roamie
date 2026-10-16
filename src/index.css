@@ -468,6 +468,38 @@ html.vt-morph::view-transition-group(guide-cover) {
   animation: none;
 }
 
+/* ─── Micro-interactions (transforms only, except the tick's short stroke) ─────────────────────────────── */
+/* A checklist tick drawing itself in, its circle popping. */
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 24;
+  }
+}
+.check-draw path {
+  stroke-dasharray: 24;
+  animation: check-draw 0.32s var(--ease-out-expo) 0.06s both;
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+  }
+  55% {
+    transform: scale(1.18);
+  }
+}
+.check-pop {
+  animation: pop 0.38s var(--ease-out-expo) both;
+}
+/* A liked reason's thumb jumping up. */
+@keyframes like-pop {
+  40% {
+    transform: scale(1.45) rotate(-14deg);
+  }
+}
+.like-pop {
+  animation: like-pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
 .skeleton-shimmer {
   background: linear-gradient(
     100deg,

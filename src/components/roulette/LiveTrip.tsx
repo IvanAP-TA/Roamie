@@ -23,6 +23,7 @@ import { ShareStoryButton } from '@/components/media/ShareStoryButton'
 import { UserAvatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { RouletteWheel } from './RouletteWheel'
+import { haptic } from '@/lib/haptics'
 
 /**
  * The trip's live moments, shared by everyone who has it open: the wheel spinning (by hand or at the scheduled time),
@@ -400,7 +401,7 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
         setPhase('result')
         celebrate()
         playWin()
-        if (typeof navigator.vibrate === 'function') navigator.vibrate([30, 60, 30])
+        haptic('celebrate')
       })
     })
 
