@@ -8,6 +8,7 @@ out
 
 # Kept on the social-history branch by the Social videos workflow
 automation/history.json
+automation/linkedin/history.json
 
 # Remotion agent skills installed by create-video (local tooling)
 .agents
