@@ -1,0 +1,19 @@
+[
+  {
+    "date": "2026-10-16T14:07:20.769Z",
+    "kind": "month",
+    "topic": "month-11",
+    "places": [
+      "tenerife",
+      "vienna",
+      "oaxaca"
+    ],
+    "firstLine": "November travel feels like a quiet reward after the year’s rush. ",
+    "published": false,
+    "results": {
+      "telegram": {
+        "id": "40"
+      }
+    }
+  }
+]
