@@ -72,7 +72,7 @@ export function CoverImage({
     const sceneSeed = isScene ? url!.slice(SCENE_PREFIX.length) : seed
     return (
       <div data-vt={vt} className={cn('relative overflow-hidden', className)}>
-        <Scene seed={sceneSeed} className="absolute inset-0">
+        <Scene seed={sceneSeed} className={cn('absolute inset-0', imgClassName)}>
           {pin && <MapPin className="size-9 -translate-y-3 text-white/90 drop-shadow-md" strokeWidth={1.8} />}
         </Scene>
         {children}

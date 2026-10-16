@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { createContext, Fragment, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RealtimeChannel } from '@supabase/supabase-js'
@@ -362,6 +362,37 @@ function RevealShow({ entries, onClose }: { entries: SpinEntry[]; onClose: () =>
 
 type Phase = 'reveal' | 'countdown' | 'spin' | 'result'
 
+const letters = (text: string) =>
+  typeof Intl.Segmenter === 'function' ? Array.from(new Intl.Segmenter().segment(text), (s) => s.segment) : Array.from(text)
+
+/**
+ * The winning place's name, rising in letter by letter (index.css, .winner-letter). Read whole by screen readers;
+ * each word stays on one line.
+ */
+function WinnerName({ name, className }: { name: string; className?: string }) {
+  const words = name.split(' ')
+  const count = name.replace(/ /g, '').length
+  // The whole name is in within about half a second, however long it is.
+  const step = Math.min(0.05, 0.5 / Math.max(count, 1))
+  let index = 0
+  return (
+    <h2 aria-label={name} className={className}>
+      {words.map((word, w) => (
+        <Fragment key={w}>
+          {w > 0 && ' '}
+          <span aria-hidden className="inline-block whitespace-nowrap">
+            {letters(word).map((letter, l) => (
+              <span key={l} className="winner-letter inline-block" style={{ '--delay': `${0.3 + index++ * step}s` } as React.CSSProperties}>
+                {letter}
+              </span>
+            ))}
+          </span>
+        </Fragment>
+      ))}
+    </h2>
+  )
+}
+
 function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }) {
   const { t } = useTranslation()
   const { trip, members } = useTripContext()
@@ -456,24 +487,44 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
 
       {phase === 'result' && (
         <div className="flex w-full flex-col items-center gap-4">
+        {/* Light behind everything: rays opening and turning slowly, and one ring rushing out as the card lands. Fixed
+            to the screen and clipped there, so it never makes the overlay scroll. */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-[42%] left-1/2 size-0">
+            <div className="winner-rays absolute -top-[22rem] -left-[22rem] size-[44rem]" />
+            <div className="winner-ring absolute -top-40 -left-40 size-80 rounded-full border-2 border-white/70" />
+          </div>
+        </div>
         <motion.div
           initial={{ scale: 0.6, rotate: -8, y: 40 }}
           animate={{ scale: 1, rotate: 0, y: 0 }}
           transition={{ type: 'spring', stiffness: 180, damping: 15 }}
           className="relative w-full max-w-sm overflow-hidden rounded-[2.25rem] bg-paper p-2 shadow-lift"
         >
-          <CoverImage url={winner?.image_url} seed={winnerName} pin showAttribution={false} sizes="384px" className="h-64 rounded-[1.9rem]">
+          <CoverImage
+            url={winner?.image_url}
+            seed={winnerName}
+            pin
+            showAttribution={false}
+            sizes="384px"
+            imgClassName="winner-zoom"
+            className="h-64 rounded-[1.9rem]"
+          >
             <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgb(20_10_5/0.7))]" />
             <div className="absolute inset-x-5 bottom-5 text-white">
-              <p className="inline-flex items-center gap-1 text-xs font-bold tracking-[0.24em] uppercase opacity-85">
+              <p className="winner-in inline-flex items-center gap-1 text-xs font-bold tracking-[0.24em] uppercase opacity-85" style={{ '--delay': '0.2s' } as React.CSSProperties}>
                 <Sparkles className="size-3.5" />
                 {t('live.winnerEyebrow')}
               </p>
-              <h2 className="text-5xl leading-none drop-shadow-lg display-wonk">{winnerName}</h2>
-              {winner?.country && <p className="mt-1 text-sm opacity-85">{winner.country}</p>}
+              <WinnerName name={winnerName} className="text-5xl leading-none drop-shadow-lg display-wonk" />
+              {winner?.country && (
+                <p className="winner-in mt-1 text-sm opacity-85" style={{ '--delay': '0.75s' } as React.CSSProperties}>
+                  {winner.country}
+                </p>
+              )}
             </div>
           </CoverImage>
-          <div className="flex gap-2 p-3">
+          <div className="winner-in flex gap-2 p-3" style={{ '--delay': '0.9s' } as React.CSSProperties}>
             <Button variant="ghost" onClick={onClose}>
               {t('live.close')}
             </Button>
@@ -495,7 +546,7 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
             )}
           </div>
         </motion.div>
-        <div className="flex flex-wrap justify-center gap-2">
+        <div className="winner-in flex flex-wrap justify-center gap-2" style={{ '--delay': '1.05s' } as React.CSSProperties}>
           {/* The decision, ready for the group chat: the trip's public page if it has one, Roamie otherwise. */}
           <Button asChild variant="glass">
             <a

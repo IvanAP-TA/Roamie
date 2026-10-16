@@ -157,10 +157,11 @@ export default function DestinationsTab() {
           sizes="(min-width: 1024px) 1000px, 100vw"
           priority
           vt="trip-hero"
+          imgClassName="cover-depth"
           className="h-60 rounded-[2.25rem] shadow-soft md:h-72"
         >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_25%,rgb(20_10_5/0.7))]" />
-          <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-white md:inset-x-8 md:bottom-7">
+          <div className="cover-depth-text absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-white md:inset-x-8 md:bottom-7">
             <div className="min-w-0">
               <h1 className="text-[2.5rem] leading-[0.95] drop-shadow-md md:text-6xl">{trip.name}</h1>
               {trip.description && <p className="mt-2 line-clamp-2 max-w-xl text-sm text-white/85 md:text-base">{trip.description}</p>}

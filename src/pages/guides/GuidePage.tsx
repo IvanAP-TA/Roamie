@@ -68,6 +68,7 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
               dimensions={cover ?? undefined}
               priority
               vt="guide-hero"
+              imgClassName="cover-depth"
               className="mt-2 h-44 rounded-[2rem] shadow-soft md:h-60"
             />
             <p className="mt-8 text-sm font-semibold tracking-wide text-primary uppercase">{t('guides.eyebrow')}</p>
