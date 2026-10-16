@@ -6,8 +6,9 @@ import { cn } from '@/lib/utils'
 const buttonVariants = cva(
   [
     'relative inline-flex shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap font-medium',
-    'transition-[transform,box-shadow,background-color,color,opacity] duration-200 ease-[var(--ease-out-expo)]',
-    'active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50',
+    // Pressed: down quickly; released: back with a small spring.
+    'transition-[transform,box-shadow,background-color,color,opacity] duration-300 ease-[var(--ease-spring)]',
+    'active:scale-[0.96] active:duration-100 disabled:pointer-events-none disabled:opacity-50',
     'focus-visible:outline-2 focus-visible:outline-offset-2',
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[1.1em]",
   ].join(' '),

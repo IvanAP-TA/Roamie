@@ -19,6 +19,7 @@ import { MonthArticle, PairArticle } from '@/pages/guides/ExplorePages'
 import { GuideCards } from '@/components/guides/GuideCards'
 import { GuideCta, GuideShell, useUrlLanguage } from '@/components/guides/GuideLayout'
 import { PageTransition } from '@/components/layout/PageTransition'
+import { useTransitionClick } from '@/lib/viewTransition'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 export default function GuidePage({ lang }: { lang: LanguageCode }) {
@@ -41,12 +42,15 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
   const cover = guideCoverImage(guide.id)
   const [adding, setAdding] = useState<GuidePlace | null>(null)
   const pairs = guidePairs(guide.id)
+  // The cover shrinks back into the guide's card on the index.
+  const backToGuides = useTransitionClick(GUIDE_BASE[lang], { name: 'guide-cover', from: '[data-vt="guide-hero"]', to: `[data-vt="guide-${guide.id}"]` })
 
   return (
     <GuideShell>
       <PageTransition className="mx-auto w-full max-w-4xl px-5 md:px-8">
         <Link
           to={GUIDE_BASE[lang]}
+          onClick={backToGuides}
           className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
@@ -63,6 +67,7 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
               avif={cover ? guidePhotoSrcSet(cover) : undefined}
               dimensions={cover ?? undefined}
               priority
+              vt="guide-hero"
               className="mt-2 h-44 rounded-[2rem] shadow-soft md:h-60"
             />
             <p className="mt-8 text-sm font-semibold tracking-wide text-primary uppercase">{t('guides.eyebrow')}</p>

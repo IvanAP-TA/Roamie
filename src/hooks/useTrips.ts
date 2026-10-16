@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query'
 import type { PostgrestError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import type { Role, Trip, TripListItem, TripMember, TripPreview } from '@/lib/types'
@@ -38,18 +38,39 @@ export function useMyTrips() {
   })
 }
 
+/**
+ * The trip as the trips list already has it (the list loads each trip with its members): a trip opened from the list
+ * shows at once, with no loading screen, and is refreshed in the background like any data that's no longer fresh.
+ */
+function fromTripList(qc: QueryClient, tripId: string | undefined) {
+  const trip = qc.getQueryData<TripListItem[]>(keys.trips)?.find((t) => t.id === tripId)
+  return trip ? { trip, updatedAt: qc.getQueryState(keys.trips)?.dataUpdatedAt } : undefined
+}
+
 export function useTrip(tripId: string | undefined) {
+  const qc = useQueryClient()
   return useQuery({
     queryKey: keys.trip(tripId ?? ''),
     enabled: Boolean(tripId),
     queryFn: async () => unwrap<Trip | null>(await supabase.from('trips').select('*').eq('id', tripId!).maybeSingle()),
+    initialData: () => {
+      const listed = fromTripList(qc, tripId)?.trip
+      if (!listed) return undefined
+      const { trip_members: _members, destinations: _count, ...trip } = listed
+      return trip as Trip
+    },
+    initialDataUpdatedAt: () => fromTripList(qc, tripId)?.updatedAt,
   })
 }
 
 export function useTripMembers(tripId: string | undefined) {
+  const qc = useQueryClient()
   return useQuery({
     queryKey: keys.members(tripId ?? ''),
     enabled: Boolean(tripId),
+    initialData: () =>
+      fromTripList(qc, tripId)?.trip.trip_members.slice().sort((a, b) => a.joined_at.localeCompare(b.joined_at)),
+    initialDataUpdatedAt: () => fromTripList(qc, tripId)?.updatedAt,
     queryFn: async () =>
       unwrap<TripMember[]>(
         await supabase.from('trip_members').select(MEMBER_SELECT).eq('trip_id', tripId!).order('joined_at'),

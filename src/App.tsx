@@ -6,6 +6,7 @@ import { Splash } from '@/components/layout/Splash'
 import LandingPage from '@/pages/LandingPage'
 import AuthCallbackPage from '@/pages/AuthCallbackPage'
 import { lazyPage, pages } from '@/lib/pages'
+import { ViewTransitionReady } from '@/lib/viewTransition'
 
 // Everything but the landing page loads on demand, animation library included (MotionShell): the first visit to
 // roamie.org downloads only what the landing needs.
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <ErrorBoundary>
     <Suspense fallback={<Splash />}>
+      <ViewTransitionReady />
       <Routes>
         <Route path="/" element={<LandingPage lang="it" />} />
         <Route path="/en" element={<LandingPage lang="en" />} />

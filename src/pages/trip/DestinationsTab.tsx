@@ -154,6 +154,7 @@ export default function DestinationsTab() {
           seed={trip.id}
           sizes="(min-width: 1024px) 1000px, 100vw"
           priority
+          vt="trip-hero"
           className="h-60 rounded-[2.25rem] shadow-soft md:h-72"
         >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_25%,rgb(20_10_5/0.7))]" />

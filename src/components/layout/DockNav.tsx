@@ -75,6 +75,7 @@ export function DockNav({ items }: { items: DockItem[] }) {
 
   return (
     <nav
+      data-dock
       className={cn(
         'fixed z-40',
         'inset-x-3 bottom-[max(env(safe-area-inset-bottom),0.75rem)]',

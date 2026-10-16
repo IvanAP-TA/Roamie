@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { ArrowLeft, CalendarRange, Compass, FerrisWheel, Map, Users } from 'lucide-react'
 import { keys } from '@/hooks/useTrips'
+import { useTransitionClick } from '@/lib/viewTransition'
 import { TripContext } from '@/hooks/useTripContext'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { AppHeader } from '@/components/layout/AppHeader'
@@ -109,6 +110,7 @@ const TABS = { places: DestinationsTab, map: MapTab, roulette: RouletteTab, itin
 export default function PreviewTrip() {
   const { tab = 'places' } = useParams()
   const qc = useQueryClient()
+  const backToTrips = useTransitionClick('/__preview/trips', { name: 'trip-cover', from: '[data-vt="trip-hero"]', to: '[data-vt="trip-preview-trip"]' })
   useState(() => {
     qc.setQueryDefaults(['trip', TRIP.id], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryDefaults(['comments'], { staleTime: Infinity, refetchOnWindowFocus: false })
@@ -200,6 +202,7 @@ export default function PreviewTrip() {
             <TicketCard
               key={trip.id}
               myRole={i ? 'editor' : 'owner'}
+              href={`/__preview/places`}
               trip={{ ...trip, trip_members: MEMBERS, destinations: [{ count: i ? 2 : 5 }] }}
             />
           ))}
@@ -221,7 +224,7 @@ export default function PreviewTrip() {
         <AppHeader
           left={
             <Button asChild variant="glass" size="icon-sm">
-              <Link to={`${p}/trips`}>
+              <Link to={`${p}/trips`} onClick={backToTrips}>
                 <ArrowLeft />
               </Link>
             </Button>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { MapPin } from 'lucide-react'
 import { Scene } from '@/components/brand/Scene'
 import { AttributionChip } from './Attribution'
@@ -26,6 +26,7 @@ export function CoverImage({
   dimensions,
   priority = false,
   eager = false,
+  vt,
 }: {
   url: string | null | undefined
   attribution?: string | null
@@ -46,17 +47,31 @@ export function CoverImage({
   priority?: boolean
   /** Above the fold but not the main image: loaded right away, at the normal priority */
   eager?: boolean
+  /** Marks it for page transitions (data-vt, see lib/viewTransition) */
+  vt?: string
 }) {
   // Remember which URL failed, so switching to another photo tries loading it again.
   const [failedUrl, setFailedUrl] = useState<string | null>(null)
   const isScene = Boolean(url?.startsWith(SCENE_PREFIX))
   const photoUrl = isScene ? null : safeImageUrl(url)
   const srcSet = photoUrl && sizes ? commonsSrcSet(photoUrl) : undefined
+  const imgRef = useRef<HTMLImageElement>(null)
+
+  // A photo still loading fades in once it's there, over the base colour, instead of appearing line by line. Not the
+  // page's main image: that one shows as soon as it can.
+  useLayoutEffect(() => {
+    const el = imgRef.current
+    if (!el || priority || el.complete) return
+    el.classList.add('img-fade')
+    const show = () => el.classList.add('img-loaded')
+    el.addEventListener('load', show, { once: true })
+    return () => el.removeEventListener('load', show)
+  }, [photoUrl, priority])
 
   if (!photoUrl || failedUrl === photoUrl) {
     const sceneSeed = isScene ? url!.slice(SCENE_PREFIX.length) : seed
     return (
-      <div className={cn('relative overflow-hidden', className)}>
+      <div data-vt={vt} className={cn('relative overflow-hidden', className)}>
         <Scene seed={sceneSeed} className="absolute inset-0">
           {pin && <MapPin className="size-9 -translate-y-3 text-white/90 drop-shadow-md" strokeWidth={1.8} />}
         </Scene>
@@ -67,6 +82,7 @@ export function CoverImage({
 
   const img = (
     <img
+      ref={imgRef}
       key={photoUrl}
       src={photoUrl}
       srcSet={srcSet}
@@ -85,7 +101,7 @@ export function CoverImage({
   )
 
   return (
-    <div className={cn('relative overflow-hidden bg-muted', className)}>
+    <div data-vt={vt} className={cn('relative overflow-hidden bg-muted', className)}>
       {avif ? (
         <picture>
           <source type="image/avif" srcSet={avif} sizes={sizes} />

@@ -15,6 +15,7 @@ import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { DockNav } from '@/components/layout/DockNav'
 import { preloadPages } from '@/lib/pages'
+import { useTransitionClick } from '@/lib/viewTransition'
 import { Splash } from '@/components/layout/Splash'
 import { DestinationDetailSheet } from '@/components/destinations/DestinationDetailSheet'
 import { LiveTripProvider } from '@/components/roulette/LiveTrip'
@@ -32,6 +33,8 @@ export default function TripLayout() {
   const membersQuery = useTripMembers(tripId)
   const [inviteOpen, setInviteOpen] = useState(false)
   useTripRealtime(tripId)
+  // The header's photo shrinks back into the trip's card.
+  const backToTrips = useTransitionClick('/trips', { name: 'trip-cover', from: '[data-vt="trip-hero"]', to: `[data-vt="trip-${tripId}"]` })
   // The other tabs of the dock, so the first tap on each opens it at once.
   useEffect(() => preloadPages('destinations', 'map', 'roulette', 'itinerary', 'group'), [])
 
@@ -112,7 +115,7 @@ export default function TripLayout() {
         <AppHeader
           left={
             <Button asChild variant="glass" size="icon-sm" aria-label={t('trip.backToTrips')}>
-              <Link to="/trips">
+              <Link to="/trips" onClick={backToTrips}>
                 <ArrowLeft />
               </Link>
             </Button>

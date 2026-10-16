@@ -5,6 +5,7 @@ import type { LanguageCode } from '@/i18n'
 import { GUIDES, guidePath, type GuideMeta } from '@/content/guides/meta'
 import { Scene } from '@/components/brand/Scene'
 import { cn } from '@/lib/utils'
+import { useTransitionNavigate } from '@/lib/viewTransition'
 
 export interface GuideCardMedia {
   cover: ReactNode
@@ -34,6 +35,8 @@ export function GuideCards({
 }) {
   const guides = GUIDES.filter((guide) => guide.id !== exclude).slice(0, limit)
   const firstPhoto = media ? guides.findIndex((guide) => media(guide, {}) !== null) : -1
+  // The card's picture grows into the guide's cover (GuidePage).
+  const open = useTransitionNavigate()
 
   return (
     <ul className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', className)}>
@@ -43,9 +46,10 @@ export function GuideCards({
           <li key={guide.id} className="relative">
             <Link
               to={guidePath(guide, lang)}
-              className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-paper shadow-soft transition-shadow hover:shadow-lift"
+              onClick={(event) => open(event, guidePath(guide, lang), { name: 'guide-cover', to: '[data-vt="guide-hero"]' })}
+              className="pressable group flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-paper shadow-soft hover:shadow-lift"
             >
-              <div className="h-28 overflow-hidden">
+              <div data-vt={`guide-${guide.id}`} className="h-28 overflow-hidden">
                 {photo?.cover ?? <Scene seed={guide.id} className="h-full transition-transform duration-500 group-hover:scale-[1.03]" />}
               </div>
               <div className="flex flex-1 flex-col gap-2 p-5">

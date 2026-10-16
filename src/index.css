@@ -405,6 +405,56 @@
   animation-delay: calc(0.05s + var(--i, 0) * 0.06s);
 }
 
+/* A card that gives under the finger and springs back when released. */
+@utility pressable {
+  transition-property: transform, box-shadow;
+  transition-duration: 0.32s;
+  transition-timing-function: var(--ease-spring);
+  &:active {
+    transform: scale(0.975);
+    transition-duration: 0.1s;
+  }
+}
+
+/* A photo that was still loading fades in over its base colour (CoverImage). */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out-expo);
+}
+.img-fade.img-loaded {
+  opacity: 1;
+}
+
+/* ─── Page transitions (lib/viewTransition.ts) ───────────────────────────────────────────────────────────────
+   The page cross-fades quickly; a photo carried from one page to the next (trip, guide) and the dock morph. The
+   photo's snapshots fill their box like the photo does (object-fit: cover), so a card's strip and a header's taller
+   frame blend without stretching. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.26s;
+  animation-timing-function: var(--ease-out-expo);
+}
+::view-transition-group(trip-cover),
+::view-transition-group(guide-cover),
+::view-transition-group(dock) {
+  animation-duration: 0.46s;
+  animation-timing-function: cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+::view-transition-old(trip-cover),
+::view-transition-new(trip-cover),
+::view-transition-old(guide-cover),
+::view-transition-new(guide-cover) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: clip;
+}
+::view-transition-group(trip-cover),
+::view-transition-group(guide-cover) {
+  overflow: clip;
+  border-radius: 1.75rem;
+}
+
 .skeleton-shimmer {
   background: linear-gradient(
     100deg,

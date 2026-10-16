@@ -7,6 +7,7 @@ import { AvatarStack } from '@/components/ui/avatar'
 import { formatInviteCode } from '@/lib/share'
 import type { Role, TripListItem } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import { useTransitionClick } from '@/lib/viewTransition'
 
 const ROLE_STYLE: Record<Role, string> = {
   owner: 'bg-[var(--sun)] text-[#3b2410]',
@@ -15,8 +16,10 @@ const ROLE_STYLE: Record<Role, string> = {
 }
 
 /** A trip as a boarding pass: photo, route-style title, perforation and a tear-off stub. */
-export function TicketCard({ trip, myRole }: { trip: TripListItem; myRole: Role | undefined }) {
+export function TicketCard({ trip, myRole, href = `/trips/${trip.id}` }: { trip: TripListItem; myRole: Role | undefined; href?: string }) {
   const { t } = useTranslation()
+  // The photo grows into the trip's header (DestinationsTab).
+  const open = useTransitionClick(href, { name: 'trip-cover', to: '[data-vt="trip-hero"]' })
   const destinationCount = trip.destinations[0]?.count ?? 0
 
   return (
@@ -27,7 +30,8 @@ export function TicketCard({ trip, myRole }: { trip: TripListItem; myRole: Role 
       className="drop-shadow-[0_18px_28px_rgb(150_70_30/0.18)] dark:drop-shadow-[0_18px_28px_rgb(0_0_0/0.45)]"
     >
       <Link
-        to={`/trips/${trip.id}`}
+        to={href}
+        onClick={open}
         className="ticket-notch block overflow-hidden rounded-[1.75rem] bg-paper outline-none [--notch-y:calc(100%-3.5rem)] focus-visible:ring-2 focus-visible:ring-ring"
       >
         <CoverImage
@@ -35,6 +39,7 @@ export function TicketCard({ trip, myRole }: { trip: TripListItem; myRole: Role 
           attribution={trip.cover_image_attribution}
           seed={trip.id}
           sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+          vt={`trip-${trip.id}`}
           className="h-40"
         >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.15),transparent_40%,rgb(0_0_0/0.25))]" />
