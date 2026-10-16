@@ -261,5 +261,33 @@
         "draft": true
       }
     }
+  },
+  {
+    "date": "2026-10-16T16:21:29.602Z",
+    "kind": "video",
+    "format": "wheel",
+    "lang": "en",
+    "places": [
+      "skye",
+      "madeira",
+      "bled",
+      "lofoten"
+    ],
+    "hook": "Four places, one group, one wheel",
+    "caption": "Isle of Skye, Madeira, Bled and Lofoten Islands: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/wheel-4-ukulele.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "50"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7697301815159375894",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
   }
 ]
