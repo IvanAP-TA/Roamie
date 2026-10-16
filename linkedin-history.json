@@ -15,5 +15,25 @@
         "id": "40"
       }
     }
+  },
+  {
+    "date": "2026-10-16T14:25:56.865Z",
+    "kind": "month",
+    "topic": "month-11",
+    "places": [
+      "seville",
+      "granada",
+      "hanoi"
+    ],
+    "firstLine": "\"November is the month for destinations that feel like a warm embrace after the year’s chill.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "42"
+      }
+    }
   }
 ]
