@@ -62,11 +62,11 @@
       }
     },
     "metrics": {
-      "reach": 2,
+      "reach": 4,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-15T16:01:12.089Z"
+      "at": "2026-10-16T16:01:27.560Z"
     }
   },
   {
@@ -103,11 +103,11 @@
       }
     },
     "metrics": {
-      "reach": 3,
+      "reach": 5,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-15T16:01:12.089Z"
+      "at": "2026-10-16T16:01:27.560Z"
     }
   },
   {
@@ -142,11 +142,11 @@
       }
     },
     "metrics": {
-      "reach": 3,
+      "reach": 6,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-15T16:01:12.089Z"
+      "at": "2026-10-16T16:01:27.560Z"
     }
   },
   {
@@ -212,6 +212,51 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7696925811181668355",
+        "url": null,
+        "draft": true
+      }
+    },
+    "metrics": {
+      "reach": 3,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 1,
+      "at": "2026-10-16T16:01:27.560Z"
+    }
+  },
+  {
+    "date": "2026-10-16T16:01:27.560Z",
+    "kind": "video",
+    "format": "month",
+    "lang": "en",
+    "places": [
+      "tromso",
+      "colmar",
+      "tenerife"
+    ],
+    "month": 12,
+    "hook": "Northern lights, wine routes or volcano stargazing?",
+    "caption": "Tromsø lights up the sky, Alsace warms up with wine and Tenerife keeps the sun going—where would your group rather be in December? 🌌",
+    "copySource": "ai",
+    "music": "music/month-4-warm-acoustic.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "44"
+      },
+      "youtube": {
+        "error": "YouTube token: deleted_client"
+      },
+      "instagram": {
+        "id": "18384023422235333",
+        "url": "https://www.instagram.com/reel/Dej6oTZCKyr/"
+      },
+      "facebook": {
+        "id": "1601426341103904",
+        "url": "https://www.facebook.com/reel/1601426341103904"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7697296886117681174",
         "url": null,
         "draft": true
       }
