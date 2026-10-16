@@ -1,0 +1,85 @@
+# Every day: one post for Roamie's LinkedIn page (video/automation/linkedin). The AI writes it from facts the bot
+# gives it, checks decide whether it's good enough, and it goes to the page through a Make.com scenario. The text and
+# the image also arrive on Telegram, to post by hand while Make isn't connected. See video/automation/README.md.
+# The history of posts (what keeps topics from repeating) lives on the "social-history" branch, not on main.
+name: LinkedIn
+
+on:
+  # Started at 07:00 UTC (09:00 in Italy in summer, 08:00 in winter) by Supabase's pg_cron (migration
+  # linkedin_post_schedule), which is punctual; this schedule is a later backup, skipped if the post is already out.
+  schedule:
+    - cron: '45 8 * * *'
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: What to post (empty = the day's choice; or build, insight, destination, feature, month, lesson)
+        default: ''
+      auto:
+        description: Started by the daily schedule (skips if the day's post is already out)
+        default: 'false'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: linkedin
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The week's commits, for Monday's post.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Previous posts
+        run: git show origin/social-history:linkedin-history.json > video/automation/linkedin/history.json 2>/dev/null || echo '[]' > video/automation/linkedin/history.json
+
+      - name: Plan, write, publish
+        working-directory: video
+        env:
+          LINKEDIN_KIND: ${{ inputs.kind }}
+          AUTO: ${{ github.event_name == 'schedule' || inputs.auto == 'true' }}
+          PUBLISH: ${{ vars.SOCIAL_PUBLISH }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}
+          MAKE_LINKEDIN_WEBHOOK: ${{ secrets.MAKE_LINKEDIN_WEBHOOK }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node --experimental-strip-types --no-warnings automation/linkedin/run.mjs
+
+      - name: Keep the post for two weeks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkedin-${{ github.run_number }}
+          path: |
+            video/out/linkedin.jpg
+            video/out/linkedin.txt
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Save the history
+        if: success()
+        run: |
+          cp video/automation/linkedin/history.json "$RUNNER_TEMP/linkedin-history.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          if git show-ref --verify --quiet refs/remotes/origin/social-history; then
+            git switch -c social-history origin/social-history
+          else
+            git switch --orphan social-history
+          fi
+          cp "$RUNNER_TEMP/linkedin-history.json" linkedin-history.json
+          # Vercel reads its settings from the pushed commit: without this, every post would start a failing deploy.
+          echo '{ "git": { "deploymentEnabled": false } }' > vercel.json
+          git add linkedin-history.json vercel.json
+          if git diff --cached --quiet; then echo "Nothing new to save"; exit 0; fi
+          git commit -m "LinkedIn post of $(date -u +%F)"
+          git push origin social-history

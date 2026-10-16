@@ -112,6 +112,36 @@ Se un giorno vuoi la pubblicazione diretta dei video, senza bozza: scope `video.
 
 Ogni social senza chiavi viene saltato, gli altri pubblicano lo stesso.
 
+## LinkedIn (un post al giorno)
+
+Un flusso a parte (`linkedin/`, workflow `.github/workflows/linkedin.yml`) pubblica ogni giorno alle 07:00 UTC (le 9 in Italia d'estate, le 8 d'inverno) un post sulla pagina [Roamie](https://www.linkedin.com/company/getroamie). Su LinkedIn funzionano testi più lunghi e pacati, quindi i contenuti sono diversi dagli altri social. Ogni giorno ha il suo tipo di post:
+
+| Giorno | Post | Immagine |
+|---|---|---|
+| Lunedì | cosa è cambiato in Roamie nell'ultima settimana (dai commit) | scheda dell'app |
+| Martedì | come decidono i gruppi, e dove si inceppano | scheda dell'app |
+| Mercoledì e domenica | una meta delle guide, con il link alla guida | foto della meta |
+| Giovedì | una funzione di Roamie e il problema che risolve | scheda dell'app |
+| Venerdì | dove andare il mese prossimo (3 mete) | foto della meta |
+| Sabato | qualcosa che abbiamo imparato costruendo Roamie | scheda dell'app |
+
+- **Testi:** li scrive l'AI dai fatti che le dà il bot (`linkedin/posts.mjs`), in inglese, con la voce del team, senza emoji né parole da pubblicità. Vengono scartati se hanno numeri che non sono nei fatti, elenchi puntati, punti esclamativi o somigliano a un post precedente. Link, crediti delle foto e hashtag li aggiunge il codice. Se in tre tentativi l'AI non scrive un testo valido, quel giorno non esce nulla e ti arriva un avviso su Telegram.
+- **Argomenti:** funzioni, osservazioni e lezioni girano tutte prima di ripetersi; una meta non torna prima di 90 giorni.
+- **Schede dell'app:** sono immagini fisse in `linkedin/cards` (titolo + screenshot, 1200×1500).
+
+**Kit su Telegram:** ogni giorno ricevi immagine e testo pronti da copiare. Finché Make non è collegato, lo pubblichi tu dalla pagina.
+
+**Pubblicazione automatica con Make.com.** LinkedIn lascia pubblicare sulle pagine aziendali solo alle app approvate; Make lo è, ed è gratis per un post al giorno.
+
+1. Crea un account su [make.com](https://www.make.com) e un nuovo **Scenario**.
+2. Primo modulo: **Webhooks → Custom webhook** → Add → nome "Roamie LinkedIn" → copia l'indirizzo che ti dà.
+3. Secondo modulo: **HTTP → Get a file**, URL = `image_url` (dal webhook).
+4. Terzo modulo: **LinkedIn → Create a Company Image Post**. Collega il tuo account LinkedIn (quello amministratore della pagina), scegli la pagina **Roamie**, nel testo metti `text` (dal webhook) e come immagine il file del modulo HTTP.
+5. Salva, attiva lo scenario (interruttore in basso a sinistra) e imposta "Immediately as data arrives".
+6. Su GitHub aggiungi il **secret** `MAKE_LINKEDIN_WEBHOOK` con l'indirizzo del webhook. È un segreto: chi lo conosce può pubblicare sulla pagina.
+
+La pubblicazione segue lo stesso interruttore `SOCIAL_PUBLISH`. Per provare: Actions → LinkedIn → Run workflow (nel campo "kind" puoi forzare il tipo di post). Make tiene lo storico di ogni esecuzione: se LinkedIn rifiuta un post, l'errore è lì. Se il collegamento a LinkedIn scade, Make lo segnala per email e nello scenario: basta ricollegare l'account.
+
 ## Provare a mano
 
 - **Da GitHub:** Actions → Social videos → Run workflow. Nel campo "kind" puoi scrivere `video` o `carousel` per forzare il tipo di post.

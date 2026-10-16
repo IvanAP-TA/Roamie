@@ -1,0 +1,112 @@
+import { existsSync } from 'node:fs'
+import { describe, expect, it } from 'vitest'
+import { loadPlaces } from '../places.mjs'
+import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, writeLinkedInPost } from './posts.mjs'
+
+const places = loadPlaces()
+const DAY = 86_400_000
+// 2026-10-19 is a Monday.
+const monday = new Date('2026-10-19T08:00:00Z')
+const on = (offset) => new Date(monday.getTime() + offset * DAY)
+
+const GOOD = `Most group trips don't fail on the destination. They fail in the group chat.
+
+Someone suggests a place, three people react, a meme arrives, and by the evening the idea is buried under new messages. A week later nobody remembers what was agreed.
+
+What helps is boring and simple: put every option in one place, where it stays visible, and let everyone say what they think of each one before deciding.
+
+How does your group usually decide where to go?`
+
+describe('LinkedIn plan', () => {
+  it('follows the week: build, insight, destination, feature, month, lesson, destination', () => {
+    expect(SCHEDULE).toEqual(['destination', 'build', 'insight', 'destination', 'feature', 'month', 'lesson'])
+    const kinds = [0, 1, 2, 3, 4, 5, 6].map((d) => makeLinkedInPlan({ places, history: [], today: on(d), commits: ['Wheel result reveal', 'Faster trip pages'] }).kind)
+    expect(kinds).toEqual(['build', 'insight', 'destination', 'feature', 'month', 'lesson', 'destination'])
+  })
+
+  it('tells the week only with at least two real changes, otherwise explains a feature', () => {
+    expect(buildFacts(['Bump to 1.1.8', 'Merge branch x', 'Animations, phase 3: covers with depth (1.1.7)', 'Fix typo'])).toEqual(['Animations, phase 3: covers with depth'])
+    expect(makeLinkedInPlan({ places, history: [], today: monday, commits: ['Bump to 1.1.8'] }).kind).toBe('feature')
+  })
+
+  it('goes through every feature, insight and lesson before repeating one', () => {
+    for (const [kind, pool] of [['feature', FEATURES], ['insight', INSIGHTS], ['lesson', LESSONS]]) {
+      const history = []
+      for (let i = 0; i < pool.length; i++) {
+        process.env.LINKEDIN_KIND = kind
+        const plan = makeLinkedInPlan({ places, history, today: on(i) })
+        history.push({ date: on(i).toISOString(), kind: plan.kind, topic: plan.topic })
+      }
+      delete process.env.LINKEDIN_KIND
+      expect(new Set(history.map((h) => h.topic)).size).toBe(pool.length)
+    }
+  })
+
+  it('uses only cards that exist', () => {
+    for (const item of [...FEATURES, ...INSIGHTS, ...LESSONS]) expect(CARDS).toContain(item.card)
+    for (const name of CARDS) expect(existsSync(new URL(`./cards/${name}.jpg`, import.meta.url))).toBe(true)
+  })
+
+  it('picks a destination not posted in the last three months, with its photo, credit and guide', () => {
+    const recent = places.slice(0, 40).map((p) => p.key)
+    const history = [{ date: on(-10).toISOString(), kind: 'destination', places: recent }]
+    const plan = makeLinkedInPlan({ places, history, today: on(2) })
+    expect(plan.kind).toBe('destination')
+    expect(recent).not.toContain(plan.places[0])
+    expect(plan.image.photo.url).toMatch(/^https:\/\/[a-z]+\.wikimedia\.org\//)
+    expect(plan.credit).toMatch(/^Photo: .+, Wikimedia Commons$/)
+    expect(plan.link).toMatch(/^https:\/\/roamie\.org\/en\/guides\//)
+  })
+
+  it('suggests next month with three places at their best then and the month page', () => {
+    const plan = makeLinkedInPlan({ places, history: [], today: on(4) })
+    expect(plan.kind).toBe('month')
+    expect(plan.month).toBe(11)
+    expect(plan.places).toHaveLength(3)
+    for (const key of plan.places) expect(places.find((p) => p.key === key).months).toContain(11)
+    expect(plan.link).toBe('https://roamie.org/en/guides/where-to-go-in-november')
+  })
+})
+
+describe('LinkedIn checks', () => {
+  const plan = makeLinkedInPlan({ places, history: [], today: on(1) })
+
+  it('accepts a calm post with paragraphs and a closing question', () => {
+    expect(checkPost(GOOD, plan, [])).toBeNull()
+  })
+
+  it('rejects what doesn’t belong on the page', () => {
+    expect(checkPost(GOOD.replace('simple:', 'simple 🚀:'), plan, [])).toBe('emoji')
+    expect(checkPost(GOOD.replace('A week later', 'In 2025, 73 groups'), plan, [])).toMatch(/number/)
+    expect(checkPost(`${GOOD} #travel`, plan, [])).not.toBeNull()
+    expect(checkPost(GOOD.replace(/\?$/, '.'), plan, [])).toBe('no closing question')
+    expect(checkPost(GOOD.replace('What helps', '- What helps'), plan, [])).toBe('bullets')
+    expect(checkPost(GOOD.replace('boring and simple', 'a real game-changer'), plan, [])).toBe('buzzwords')
+    expect(checkPost(GOOD.replace('meme arrives', 'meme arrives!'), plan, [])).toBe('exclamation')
+    expect(checkPost(GOOD.slice(0, 300), plan, [])).toMatch(/length/)
+    expect(checkPost(GOOD, plan, ["Most group trips don't fail on the destination. They fail in the group chat."])).toBe('too close to an earlier post')
+  })
+
+  it('allows the numbers that are in the facts', () => {
+    const lesson = { kind: 'lesson', facts: 'from about 1 MB to under 200 KB' }
+    expect(checkPost(GOOD.replace('A week later', 'From 1 MB to 200 KB, and a week later'), lesson, [])).toBeNull()
+  })
+
+  it('adds the link, the photo credit and the hashtags itself', () => {
+    const destination = makeLinkedInPlan({ places, history: [], today: on(2) })
+    const post = assemblePost(GOOD, destination)
+    expect(post.startsWith(GOOD)).toBe(true)
+    expect(post).toContain(`The guide: ${destination.link}`)
+    expect(post).toContain(destination.credit)
+    expect(post.trim().split('\n').at(-1)).toMatch(/^(#\w+ ?){3}$/)
+  })
+
+  it('tries the AI three times, then gives up rather than posting a weak text', async () => {
+    let calls = 0
+    const bad = await writeLinkedInPost(plan, [], async () => (calls++, { post: 'Too short?' }))
+    expect(calls).toBe(3)
+    expect(bad.text).toBeNull()
+    const good = await writeLinkedInPost(plan, [], async () => ({ post: GOOD }))
+    expect(good.text).toBe(GOOD)
+  })
+})

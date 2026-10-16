@@ -258,14 +258,15 @@ export function hashtags(plan, lang, rand) {
 
 const MODELS = ['ministral-14b-2512', 'ministral-8b-2512']
 
-async function askMistral(messages) {
+/** Asks Mistral for a JSON answer; null without a key or when every model fails. */
+export async function askMistral(messages, { maxTokens = 400 } = {}) {
   const key = process.env.MISTRAL_API_KEY
   if (!key) return null
   for (const model of MODELS) {
     const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, messages, temperature: 0.9, max_tokens: 400, response_format: { type: 'json_object' } }),
+      body: JSON.stringify({ model, messages, temperature: 0.9, max_tokens: maxTokens, response_format: { type: 'json_object' } }),
       signal: AbortSignal.timeout(40_000),
     }).catch(() => null)
     if (!response?.ok) continue

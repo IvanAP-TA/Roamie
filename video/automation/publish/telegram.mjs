@@ -26,6 +26,7 @@ const HINTS = [
   [/deleted_client|invalid_client|invalid_grant/, 'serve un nuovo token YouTube (client ID, secret e refresh token su GitHub)'],
   [/TikTok token|access_token_invalid|refresh_token/i, 'serve un nuovo refresh token TikTok'],
   [/OAuthException|Cannot call API|access token/i, 'serve un nuovo token Meta (Graph API Explorer → INSTAGRAM_ACCESS_TOKEN su GitHub)'],
+  [/Make webhook/, 'controlla lo scenario su Make (attivo? collegamento LinkedIn scaduto?) e il secret MAKE_LINKEDIN_WEBHOOK'],
 ]
 
 /** The alert for platforms that failed, or nothing when all went well. */
@@ -90,6 +91,25 @@ export const telegram = {
       await call('sendMessage', new URLSearchParams({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
     }
     return { id: String(sent[0]?.message_id ?? '') }
+  },
+
+  /**
+   * A LinkedIn post: the image, then the text to copy. `posted` says whether it already went out on the page by
+   * itself (then the kit is only for reference).
+   */
+  async publishLinkedIn({ image, text, summary, posted }) {
+    const chat = process.env.TELEGRAM_CHAT_ID
+    const photo = new FormData()
+    photo.set('chat_id', chat)
+    photo.set('caption', posted ? `💼 Pubblicato su LinkedIn: ${summary}` : `💼 Post LinkedIn di oggi: ${summary}
+
+Copialo dal messaggio qui sotto e pubblicalo sulla pagina Roamie con questa immagine.`)
+    photo.set('photo', new Blob([image], { type: 'image/jpeg' }), 'linkedin.jpg')
+    const sent = await call('sendPhoto', photo)
+    await call('sendMessage', new URLSearchParams({ chat_id: chat, text: `<b>LinkedIn</b> · testo
+
+<code>${escape(text)}</code>`, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
+    return { id: String(sent.message_id) }
   },
 
   /** A plain HTML message to the owner. */
