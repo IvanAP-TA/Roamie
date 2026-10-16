@@ -7,6 +7,7 @@ const NETWORKS = [
   { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595190126785', icon: FacebookIcon },
   { name: 'TikTok', href: 'https://www.tiktok.com/@getroamie', icon: TikTokIcon },
   { name: 'YouTube', href: 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA', icon: YouTubeIcon },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/getroamie', icon: LinkedInIcon },
 ] as const
 
 /** Brand marks drawn as plain line icons, so they sit with the rest of the UI instead of shouting in brand colours. */
@@ -44,6 +45,18 @@ function YouTubeIcon(props: React.SVGProps<SVGSVGElement>) {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinejoin="round" aria-hidden {...props}>
       <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
       <path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" />
+    </svg>
+  )
+}
+
+function LinkedInIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <path d="M8 10.5V16" />
+      <circle cx="8" cy="7.6" r="0.6" fill="currentColor" stroke="none" />
+      <path d="M11.5 16v-5.5" />
+      <path d="M11.5 13a2.5 2.5 0 0 1 5 0v3" />
     </svg>
   )
 }
