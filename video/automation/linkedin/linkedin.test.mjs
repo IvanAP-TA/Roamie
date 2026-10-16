@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { loadPlaces } from '../places.mjs'
 import { littleText } from '../publish/make.mjs'
-import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, writeLinkedInPost } from './posts.mjs'
+import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, unknownNames, writeLinkedInPost } from './posts.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -117,5 +117,25 @@ describe('LinkedIn text format', () => {
     const post = 'Photo: Jane Doe (CC BY-SA 4.0), Wikimedia Commons\n\n#grouptravel #travel'
     expect(littleText(post)).toBe(String.raw`Photo: Jane Doe \(CC BY-SA 4.0\), Wikimedia Commons` + '\n\n' + String.raw`{hashtag|\#|grouptravel} {hashtag|\#|travel}`)
     expect(littleText(String.raw`a_b [c] @d *e* ~f~ <g> {h} |i| \j`)).toBe(String.raw`a\_b \[c\] \@d \*e\* \~f\~ \<g\> \{h\} \|i\| \\j`)
+  })
+})
+
+describe('LinkedIn facts', () => {
+  const facts = '- Granada (Spain): every drink comes with a free tapa, the Alhambra to book well ahead and sunset from the Mirador de San Nicolás.'
+
+  it('rejects places and names the facts don’t have', () => {
+    const text = 'November suits Granada. The Alhambra—booked early—is calm, and the Old Quarter of Hanoi or Andalusia’s coast are close.'
+    expect(unknownNames(text, facts)).toEqual(['Old', 'Quarter', 'Hanoi', 'Andalusia'])
+  })
+
+  it('accepts the names in the facts, sentence openers, months and Roamie', () => {
+    const text = 'In November, Granada is easy. Watch the sunset from the Mirador de San Nicolás. We built Roamie for this. On LinkedIn, Monday posts are ours.'
+    expect(unknownNames(text, facts)).toEqual([])
+  })
+
+  it('takes the post out of quotation marks the AI sometimes puts around it', async () => {
+    const plan = { kind: 'insight', facts: 'group chat' }
+    const quoted = await writeLinkedInPost(plan, [], async () => ({ post: `"${GOOD}` }))
+    expect(quoted.text).toBe(GOOD)
   })
 })

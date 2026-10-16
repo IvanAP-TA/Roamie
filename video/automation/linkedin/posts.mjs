@@ -143,7 +143,7 @@ const MOODS = { culture: 'culture', food_wine: 'food and wine', nightlife: 'nigh
 function placeFacts(p) {
   const months = p.months.map((m) => monthName(m, 'en')).join(', ')
   const moods = p.moods.map((m) => MOODS[m] ?? m.replace(/_/g, ' ')).join(', ')
-  return `- ${p.name.en} (${p.country.en}): ${p.line.en} Good for: ${moods}. Best months: ${months}. ${BUDGET[p.budget] ?? ''}.`
+  return `- ${p.name.en} (${p.country.en}): ${p.text?.en ?? p.line.en} Good for: ${moods}. Best months: ${months}. ${BUDGET[p.budget] ?? ''}.`
 }
 
 const BRIEF = {
@@ -166,7 +166,8 @@ export function linkedInPrompt(plan, past) {
     `This post: ${BRIEF[plan.kind]}.`,
     'Shape: a first line that makes people want to read on (under 140 characters, no question marks needed), then 2 to 4 short paragraphs separated by a blank line, and a last line asking the reader a genuine question.',
     'Length: 500 to 1100 characters in total. No hashtags, no links, no markdown (no asterisks, underscores or bullet symbols), no @ mentions.',
-    'Use only the facts given. Never invent numbers, quotes, customers, users counts or results.',
+    'Use only the facts given. Never invent numbers, quotes, customers, users counts or results. Do not add places, landmarks, neighbourhoods, weather, prices or anything else that is not in the facts, even if you believe it is true: a shorter post is better than an invented detail. Do not name any place or proper noun that is not in the facts.',
+    'Write the post itself, not wrapped in quotation marks.',
     'Return JSON {"post": string}.',
     ...(past.length ? ['Earlier posts started like this; do not reuse their wording or structure:', ...past.slice(-10).map((l) => `  · ${l}`)] : []),
   ].join('\n')
@@ -177,6 +178,32 @@ export function linkedInPrompt(plan, past) {
 }
 
 const firstLine = (text) => text.trim().split('\n')[0].trim()
+
+// Capitalised words that may appear without being in the facts: the product, the platform, the language, months and
+// days, and the words that open a sentence anyway.
+const ALWAYS_NAMED = new Set(['roamie', 'linkedin', 'english', 'italian', 'spanish', 'ai', 'i', 'we', 'our', 'it', 'its'])
+const CALENDAR = [...Array(12)].map((_, m) => monthName(m + 1, 'en').toLowerCase()).concat(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+const fold = (word) => word.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()
+
+/**
+ * The proper nouns of a text that its facts don't contain: capitalised words that don't open a sentence. A landmark or
+ * a region the AI added on its own shows up here.
+ */
+export function unknownNames(text, facts) {
+  const known = fold(facts)
+  const names = []
+  for (const sentence of text.split(/(?<=[.!?:])\s+|\n+/)) {
+    const words = sentence.trim().split(/[\s—–]+/).slice(1)
+    for (const raw of words) {
+      const word = raw.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').replace(/[’']s$/, '')
+      if (!/^\p{Lu}/u.test(word)) continue
+      const f = fold(word)
+      if (ALWAYS_NAMED.has(f) || CALENDAR.includes(f) || known.includes(f)) continue
+      names.push(word)
+    }
+  }
+  return [...new Set(names)]
+}
 
 /** Every check a post must pass. Returns the reason it fails, or null. */
 export function checkPost(text, plan, past) {
@@ -190,6 +217,8 @@ export function checkPost(text, plan, past) {
   if (t.split(/\n\s*\n/).length < 3) return 'paragraphs'
   if (!/\?\s*$/.test(t)) return 'no closing question'
   if (firstLine(t).length > 160) return 'first line too long'
+  const unknown = unknownNames(t, plan.facts)
+  if (unknown.length) return `names not in the facts: ${unknown.slice(0, 4).join(', ')}`
   for (const paragraph of t.split(/\n\s*\n/)) {
     // The short-form checks (banned words, prices, numbers, formatting, language), paragraph by paragraph.
     const problem = checkLine(paragraph, { min: 1, max: 900, lang: 'en', past: [], maxSimilarity: 1, allowedNumbers: numbersIn(plan.facts) })
@@ -221,8 +250,10 @@ export async function writeLinkedInPost(plan, past, ask) {
   for (let attempt = 0; attempt < 3; attempt++) {
     const answer = await ask(rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). Try again.` }] : messages)
     if (!answer) break
-    const problem = checkPost(answer.post, plan, past)
-    if (!problem) return { text: answer.post.trim(), rejected }
+    // Some answers come wrapped in quotation marks, sometimes only on one side.
+    const post = typeof answer.post === 'string' ? answer.post.trim().replace(/^["“”]+|["“”]+$/g, '').trim() : answer.post
+    const problem = checkPost(post, plan, past)
+    if (!problem) return { text: post, rejected }
     rejected.push(problem)
   }
   return { text: null, rejected }

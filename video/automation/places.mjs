@@ -27,6 +27,8 @@ export function loadPlaces() {
         budget: place.budget,
         months: place.months,
         line: { it: firstSentence(place.text.it), en: firstSentence(place.text.en) },
+        // The guide's whole paragraph, for the longer texts (LinkedIn) that would otherwise pad with made-up details.
+        text: { it: place.text.it, en: place.text.en },
         photo: { url: image.url, author: image.attribution.author, license: image.attribution.license },
         guides: [],
       }
