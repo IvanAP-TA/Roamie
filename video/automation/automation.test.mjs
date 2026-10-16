@@ -4,6 +4,7 @@ import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
 import { CROSS_DAYS, makeCarouselPlan, makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
 import { formatBonus, formatScores, refreshMetrics, score } from './metrics.mjs'
 import { failureMessage, kitMessages } from './publish/telegram.mjs'
+import { uploadChunks } from './publish/tiktok.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -288,5 +289,19 @@ describe('hashtags', () => {
     const november = places.filter((p) => p.months.includes(11)).slice(0, 3)
     expect(hashtags({ month: 11, places: november }, 'en', seeded('m'))).toContain('#novembertravel')
     expect(hashtags({ month: 11, places: november }, 'it', seeded('m'))).toContain('#viagginovembre')
+  })
+})
+
+describe('TikTok upload parts', () => {
+  it('sends a small video whole and a larger one in parts of 10 MB, the last taking the rest', () => {
+    expect(uploadChunks(3_000_000)).toEqual([{ start: 0, end: 2_999_999 }])
+    expect(uploadChunks(9_000_000)).toEqual([{ start: 0, end: 8_999_999 }])
+    const parts = uploadChunks(34_500_000)
+    expect(parts).toHaveLength(3)
+    expect(parts[0]).toEqual({ start: 0, end: 9_999_999 })
+    expect(parts.at(-1)).toEqual({ start: 20_000_000, end: 34_499_999 })
+    // Contiguous, and the last part stays under TikTok's limit.
+    for (let i = 1; i < parts.length; i++) expect(parts[i].start).toBe(parts[i - 1].end + 1)
+    expect(parts.at(-1).end - parts.at(-1).start + 1).toBeLessThanOrEqual(64_000_000)
   })
 })

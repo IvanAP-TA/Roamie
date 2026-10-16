@@ -57,6 +57,16 @@ async function settle(token, publishId) {
   throw new Error(`TikTok processing: still ${last} after five minutes (publish id ${publishId})`)
 }
 
+/**
+ * How a video is sent: TikTok takes it in parts of 5 to 64 MB (one part when it's smaller than 5 MB), the last part
+ * taking the rest. A whole video in one request sometimes never finishes processing (stuck at PROCESSING_UPLOAD).
+ */
+export function uploadChunks(size, chunk = 10_000_000) {
+  if (size < 5_000_000) return [{ start: 0, end: size - 1 }]
+  const count = Math.max(1, Math.floor(size / chunk))
+  return Array.from({ length: count }, (_, i) => ({ start: i * chunk, end: i === count - 1 ? size - 1 : (i + 1) * chunk - 1 }))
+}
+
 export const tiktok = {
   name: 'tiktok',
   ready: () => Boolean(process.env.TIKTOK_CLIENT_KEY && process.env.TIKTOK_CLIENT_SECRET && process.env.TIKTOK_REFRESH_TOKEN),
@@ -72,7 +82,8 @@ export const tiktok = {
   async publish({ file, caption }) {
     const token = await accessToken()
     const size = statSync(file).size
-    const source_info = { source: 'FILE_UPLOAD', video_size: size, chunk_size: size, total_chunk_count: 1 }
+    const chunks = uploadChunks(size)
+    const source_info = { source: 'FILE_UPLOAD', video_size: size, chunk_size: chunks[0].end - chunks[0].start + 1, total_chunk_count: chunks.length }
     const init = await fetch(
       `${API}/post/publish/${draft() ? 'inbox/' : ''}video/init/`,
       json(
@@ -87,12 +98,15 @@ export const tiktok = {
     ).then((r) => r.json())
     if (!init.data?.upload_url) throw new Error(`TikTok init: ${JSON.stringify(init.error ?? init).slice(0, 300)}`)
 
-    const upload = await fetch(init.data.upload_url, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'video/mp4', 'Content-Length': String(size), 'Content-Range': `bytes 0-${size - 1}/${size}` },
-      body: readFileSync(file),
-    })
-    if (!upload.ok) throw new Error(`TikTok upload: ${upload.status} ${await upload.text()}`)
+    const video = readFileSync(file)
+    for (const [i, { start, end }] of chunks.entries()) {
+      const upload = await fetch(init.data.upload_url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'video/mp4', 'Content-Length': String(end - start + 1), 'Content-Range': `bytes ${start}-${end}/${size}` },
+        body: video.subarray(start, end + 1),
+      })
+      if (!upload.ok) throw new Error(`TikTok upload, part ${i + 1} of ${chunks.length}: ${upload.status} ${await upload.text()}`)
+    }
     return settle(token, init.data.publish_id)
   },
 
