@@ -98,7 +98,7 @@ cp .env.example .env.local
 | --- | --- |
 | `VITE_SUPABASE_URL` | Project URL. Also written into the Content-Security-Policy at build time. |
 | `VITE_SUPABASE_ANON_KEY` | anon / publishable key. It is public by design; RLS protects the data. |
-| `VITE_PUBLIC_APP_URL` | Base URL for invite links and the OAuth redirect. Set to `https://roamie.org` in the committed `.env.production`; leave it empty locally. |
+| `VITE_PUBLIC_APP_URL` | Base URL for invite links and the OAuth redirect. `https://roamie.org` in production; leave it empty locally. |
 | `VITE_CONTACT_EMAIL` | Contact shown in the Privacy Policy. It is also sent to Nominatim/Wikimedia to identify the app. |
 
 ### 5. Run
@@ -155,7 +155,7 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 ## Deploying (Vercel)
 
 1. Push the repository to GitHub. Database backups live in a separate **private** repository (see below), since workflow artifacts of a public repository can be downloaded by anyone.
-2. Import it in Vercel. `vercel.json` sets the build (`npm run build` → `dist`), clean URLs, rewrites, headers and caching. The public Supabase values come from the committed `.env.production`; optionally add `VITE_CONTACT_EMAIL` in *Settings → Environment Variables*.
+2. Import it in Vercel. `vercel.json` sets the build (`npm run build` → `dist`), clean URLs, rewrites, headers and caching. Set the four `VITE_` variables above in *Settings → Environment Variables* (Production and Preview); locally they live in `.env.local` or `.env.production`, both ignored by git.
 3. In Supabase *Authentication → URL Configuration*, add the Vercel domain to **Redirect URLs** (e.g. `https://roamie.vercel.app/**`) so Google sign-in works there too.
 4. Under *Settings → Domains*, add `roamie.org` and `www.roamie.org` (redirecting to the apex), then point the DNS records at Vercel as instructed.
 

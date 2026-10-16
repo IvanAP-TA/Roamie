@@ -6,7 +6,6 @@ dev-dist
 .env
 .env.*
 !.env.example
-!.env.production
 .DS_Store
 *.log
 .claude/settings.local.json
