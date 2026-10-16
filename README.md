@@ -16,7 +16,7 @@ everyone and plans the itinerary day by day.
 
 ## About this project
 
-Roamie is a solo side project by **Ivan Antonino Pace**, designed and shipped end to end: product, web app, Android app,
+Roamie is a solo side project by **Ivan Pace**, designed and shipped end to end: product, web app, Android app,
 backend, SEO and marketing automation. It was built with an AI coding assistant (Claude Code): I defined the product
 and the priorities, made the decisions, tested everything on real devices and set up every external service; most of the
 code was written by the assistant under that direction.
@@ -40,7 +40,7 @@ What it covers:
 - **Security and privacy by design.** Row Level Security on every table, server-side draws, strict Content-Security-
   Policy, no ads, no profiling cookies, account deletion and data export.
 
-*© 2026 Ivan Antonino Pace. All rights reserved: the source is published so it can be read, not reused (see
+*© 2026 Ivan Pace. All rights reserved: the source is published so it can be read, not reused (see
 [LICENSE](LICENSE)).*
 
 ---
