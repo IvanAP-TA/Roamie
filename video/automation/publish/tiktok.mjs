@@ -41,8 +41,9 @@ async function fetchStatus(token, publishId) {
 }
 
 /**
- * Waits until TikTok has processed the post: in the inbox for a draft, published otherwise. The last state seen is
- * kept with the result (a post still PROCESSING_UPLOAD after five minutes may still arrive, or never).
+ * Waits until TikTok has processed the post: in the inbox for a draft, published otherwise. TikTok can take a long
+ * time (a draft once took twenty minutes), so after five minutes the post counts as sent, with the last state seen;
+ * the keys check (kind=check) tells later where it got to.
  */
 async function settle(token, publishId) {
   let last = 'unknown'
@@ -54,7 +55,7 @@ async function settle(token, publishId) {
     if (last === 'FAILED') throw new Error(`TikTok processing: ${status.fail_reason}`)
     await wait(10_000)
   }
-  throw new Error(`TikTok processing: still ${last} after five minutes (publish id ${publishId})`)
+  return { id: publishId, url: null, draft: draft(), status: last }
 }
 
 /**
