@@ -131,14 +131,12 @@ Un flusso a parte (`linkedin/`, workflow `.github/workflows/linkedin.yml`) pubbl
 
 **Kit su Telegram:** ogni giorno ricevi immagine e testo pronti da copiare. Finché Make non è collegato, lo pubblichi tu dalla pagina.
 
-**Pubblicazione automatica con Make.com.** LinkedIn lascia pubblicare sulle pagine aziendali solo alle app approvate; Make lo è, ed è gratis per un post al giorno.
+**Pubblicazione automatica con Make.com.** LinkedIn lascia pubblicare sulle pagine aziendali solo alle app approvate; Make lo è, ed è gratis per un post al giorno. Lo scenario **"Roamie · LinkedIn post"** (team "My Team" su eu1.make.com) è già pronto:
 
-1. Crea un account su [make.com](https://www.make.com) e un nuovo **Scenario**.
-2. Primo modulo: **Webhooks → Custom webhook** → Add → nome "Roamie LinkedIn" → copia l'indirizzo che ti dà.
-3. Secondo modulo: **HTTP → Get a file**, URL = `image_url` (dal webhook).
-4. Terzo modulo: **LinkedIn → Create a Company Image Post**. Collega il tuo account LinkedIn (quello amministratore della pagina), scegli la pagina **Roamie**, nel testo metti `text` (dal webhook) e come immagine il file del modulo HTTP.
-5. Salva, attiva lo scenario (interruttore in basso a sinistra) e imposta "Immediately as data arrives".
-6. Su GitHub aggiungi il **secret** `MAKE_LINKEDIN_WEBHOOK` con l'indirizzo del webhook. È un segreto: chi lo conosce può pubblicare sulla pagina.
+- **Custom webhook** riceve `{ text, image_url }` dal bot;
+- **LinkedIn › Create a Company Image Post** pubblica sulla pagina Roamie, con l'immagine presa dal link.
+
+Il bot scrive il testo nel formato di LinkedIn (`littleText` in `publish/make.mjs`): parentesi, trattini bassi e gli altri caratteri riservati vengono preceduti da `\`, altrimenti LinkedIn taglia il post al primo che trova, e gli hashtag diventano link. Il **secret** `MAKE_LINKEDIN_WEBHOOK` contiene l'indirizzo del webhook (Make → scenario → primo modulo → *Copy address to clipboard*). È un segreto: chi lo conosce può pubblicare sulla pagina.
 
 La pubblicazione segue lo stesso interruttore `SOCIAL_PUBLISH`. Per provare: Actions → LinkedIn → Run workflow (nel campo "kind" puoi forzare il tipo di post). Make tiene lo storico di ogni esecuzione: se LinkedIn rifiuta un post, l'errore è lì. Se il collegamento a LinkedIn scade, Make lo segnala per email e nello scenario: basta ricollegare l'account.
 

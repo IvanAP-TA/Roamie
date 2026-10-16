@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { loadPlaces } from '../places.mjs'
+import { littleText } from '../publish/make.mjs'
 import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, writeLinkedInPost } from './posts.mjs'
 
 const places = loadPlaces()
@@ -108,5 +109,13 @@ describe('LinkedIn checks', () => {
     expect(bad.text).toBeNull()
     const good = await writeLinkedInPost(plan, [], async () => ({ post: GOOD }))
     expect(good.text).toBe(GOOD)
+  })
+})
+
+describe('LinkedIn text format', () => {
+  it('escapes what LinkedIn would cut the post at, and keeps hashtags clickable', () => {
+    const post = 'Photo: Jane Doe (CC BY-SA 4.0), Wikimedia Commons\n\n#grouptravel #travel'
+    expect(littleText(post)).toBe(String.raw`Photo: Jane Doe \(CC BY-SA 4.0\), Wikimedia Commons` + '\n\n' + String.raw`{hashtag|\#|grouptravel} {hashtag|\#|travel}`)
+    expect(littleText(String.raw`a_b [c] @d *e* ~f~ <g> {h} |i| \j`)).toBe(String.raw`a\_b \[c\] \@d \*e\* \~f\~ \<g\> \{h\} \|i\| \\j`)
   })
 })
