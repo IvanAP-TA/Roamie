@@ -434,11 +434,26 @@
   animation-duration: 0.26s;
   animation-timing-function: var(--ease-out-expo);
 }
+/* The photo's group moves by transform only, from the card's box to the header's (variables set by
+   lib/viewTransition.ts): the browser's default also animates width and height, on the main thread. Its snapshots
+   cross-fade inside, each filling the box like the photo does. The dock stays where it is: it only cross-fades. */
+html.vt-morph::view-transition-group(trip-cover),
+html.vt-morph::view-transition-group(guide-cover) {
+  transform-origin: 0 0;
+  animation: vt-morph 0.46s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+@keyframes vt-morph {
+  from {
+    transform: translate(var(--vt-from-x), var(--vt-from-y)) scale(var(--vt-scale));
+  }
+  to {
+    transform: translate(var(--vt-to-x), var(--vt-to-y));
+  }
+}
 ::view-transition-group(trip-cover),
-::view-transition-group(guide-cover),
-::view-transition-group(dock) {
-  animation-duration: 0.46s;
-  animation-timing-function: cubic-bezier(0.2, 0.9, 0.25, 1);
+::view-transition-group(guide-cover) {
+  overflow: clip;
+  border-radius: 1.75rem;
 }
 ::view-transition-old(trip-cover),
 ::view-transition-new(trip-cover),
@@ -447,12 +462,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  overflow: clip;
+  animation-duration: 0.46s;
 }
-::view-transition-group(trip-cover),
-::view-transition-group(guide-cover) {
-  overflow: clip;
-  border-radius: 1.75rem;
+::view-transition-group(dock) {
+  animation: none;
 }
 
 .skeleton-shimmer {

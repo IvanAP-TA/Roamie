@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useDestinations } from '@/hooks/useDestinations'
 import { useShowOnScrollUp } from '@/hooks/useShowOnScrollUp'
 import { useSlidingPill } from '@/hooks/useSlidingPill'
+import { usePageSettled } from '@/lib/viewTransition'
 import { useTripContext } from '@/hooks/useTripContext'
 import { Floating } from '@/components/layout/Floating'
 import { PageTransition } from '@/components/layout/PageTransition'
@@ -39,6 +40,7 @@ export default function DestinationsTab() {
   const { trip, members, canEdit } = useTripContext()
   const { data: destinations, isLoading, isError, isFetchedAfterMount, refetch } = useDestinations(trip.id)
   const [, setParams] = useSearchParams()
+  const settled = usePageSettled()
   const [status, setStatus] = useState<DestinationStatus>('proposed')
   const statusBar = useRef<HTMLDivElement>(null)
   const captureStatusPill = useSlidingPill(statusBar, status)
@@ -168,7 +170,9 @@ export default function DestinationsTab() {
         </CoverImage>
       </section>
 
-      <div className="space-y-6 px-5 pt-6 md:px-6">
+      {/* Below the photo: built once the page transition has played (usePageSettled), then rising in. */}
+      {settled ? (
+      <div className="page-enter space-y-6 px-5 pt-6 md:px-6">
         <SampleTripBanner />
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
@@ -305,6 +309,12 @@ export default function DestinationsTab() {
           </div>
         )}
       </div>
+      ) : (
+        <div aria-hidden className="space-y-6 px-5 pt-6 md:px-6">
+          <Skeleton className="h-24 rounded-[2rem]" />
+          <Skeleton className="h-40 rounded-[2rem]" />
+        </div>
+      )}
 
       <Floating>
       {/* Floating "Propose": above the dock on phones, bottom right on larger screens (next to the toolbar button).

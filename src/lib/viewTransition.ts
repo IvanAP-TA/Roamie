@@ -1,4 +1,4 @@
-import { useLayoutEffect, type MouseEvent } from 'react'
+import { startTransition, useEffect, useLayoutEffect, useState, type MouseEvent } from 'react'
 import { useLocation, useNavigate, useNavigationType } from 'react-router-dom'
 
 /**
@@ -40,12 +40,42 @@ export const viewTransitionsSupported = () =>
 const element = (target: string | Element | null | undefined) =>
   (typeof target === 'string' ? document.querySelector(target) : target) as HTMLElement | null
 
+// Whether a transition is playing, for the pages that keep their heavy parts for after it (usePageSettled).
+let playing = false
+const settleListeners = new Set<() => void>()
+function setPlaying(value: boolean) {
+  playing = value
+  settleListeners.forEach((listener) => listener())
+}
+
+/**
+ * False while a page transition plays, true otherwise (and always outside a transition, as on a direct load). A page
+ * renders what the transition shows (its header, the photo that carries over) at once and the rest once this turns
+ * true: the browser holds the old page until the new one has rendered, and the animation stutters while the main
+ * thread is busy, so a page built in full on a slow phone meant a long freeze and no animation to speak of.
+ */
+export function usePageSettled(): boolean {
+  const [settled, setSettled] = useState(() => !playing)
+  useEffect(() => {
+    if (settled) return
+    const check = () => !playing && startTransition(() => setSettled(true))
+    settleListeners.add(check)
+    check()
+    return () => void settleListeners.delete(check)
+  }, [settled])
+  return settled
+}
+
 export function navigateWithTransition(go: () => void, path: string, shared?: SharedElement) {
   if (!viewTransitionsSupported()) return go()
+  setPlaying(true)
   const all = shared ? [...ALWAYS, shared] : ALWAYS
   const sources = all.map((s) => element(s.from))
   sources.forEach((el, i) => el && (el.style.viewTransitionName = all[i].name))
   const landed: HTMLElement[] = []
+  // Where the shared element starts, read now while the page's layout is still clean.
+  const fromBox = shared ? element(shared.from)?.getBoundingClientRect() : undefined
+  const root = document.documentElement
 
   const transition = document.startViewTransition(
     () =>
@@ -63,6 +93,18 @@ export function navigateWithTransition(go: () => void, path: string, shared?: Sh
             // The landing element is animated by the transition: its own entrance would only fight it.
             const entering = el.closest<HTMLElement>('.page-enter, .stagger-item')
             if (entering && s.name !== 'dock') entering.style.animation = 'none'
+            // The photo travels by translation and a uniform scale only (index.css, .vt-morph): the browser's own
+            // morph animates width and height, which the main thread has to compute frame by frame, and on a slow
+            // phone it's busy right then with the new page. The compositor plays transforms on its own.
+            if (s === shared && fromBox) {
+              const toBox = el.getBoundingClientRect()
+              root.style.setProperty('--vt-from-x', `${fromBox.left}px`)
+              root.style.setProperty('--vt-from-y', `${fromBox.top}px`)
+              root.style.setProperty('--vt-scale', String(fromBox.width / (toBox.width || 1)))
+              root.style.setProperty('--vt-to-x', `${toBox.left}px`)
+              root.style.setProperty('--vt-to-y', `${toBox.top}px`)
+              root.classList.add('vt-morph')
+            }
           })
           resolve()
         }
@@ -72,6 +114,8 @@ export function navigateWithTransition(go: () => void, path: string, shared?: Sh
       }),
   )
   void transition.finished.finally(() => {
+    setPlaying(false)
+    root.classList.remove('vt-morph')
     for (const el of landed) el.style.viewTransitionName = ''
   })
 }
