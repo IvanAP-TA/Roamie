@@ -1,8 +1,51 @@
 # Roamie
 
-A group travel bucket list: propose destinations, vote on them together, spin a wheel weighted by the group's votes, and plan the itinerary day by day. Mobile-first, installable as a PWA, and multilingual (IT / EN / ES).
+**Decide your next group trip, together.** Everyone proposes the places they'd love to visit, spreads 10 points across the
+options, and a wheel weighted by the group's votes picks the destination. Then the group finds the dates that work for
+everyone and plans the itinerary day by day.
 
-**No paid services.** It runs on the Supabase free plan, Google sign-in, OpenStreetMap (tiles + Nominatim) and Wikimedia Commons. None of these need a paid API key.
+**Live at [roamie.org](https://roamie.org)** · Android app in closed testing on Google Play · Italian, English and Spanish
+
+<p>
+  <img src="docs/screenshots/1-home.webp" width="160" alt="Trips">
+  <img src="docs/screenshots/2-places.webp" width="160" alt="Proposed destinations">
+  <img src="docs/screenshots/3-wheel.webp" width="160" alt="The weighted wheel">
+  <img src="docs/screenshots/4-plan.webp" width="160" alt="The trip plan">
+  <img src="docs/screenshots/5-map.webp" width="160" alt="The map">
+</p>
+
+## About this project
+
+Roamie is a solo side project by **Ivan Antonino Pace**, designed and shipped end to end: product, web app, Android app,
+backend, SEO and marketing automation. It was built with an AI coding assistant (Claude Code): I defined the product
+and the priorities, made the decisions, tested everything on real devices and set up every external service; most of the
+code was written by the assistant under that direction.
+
+What it covers:
+
+- **A complete product in production.** Group trips with invites and roles, point voting (optionally secret), a
+  server-side weighted draw shared live with the whole group, date finding from everyone's availability, itinerary,
+  checklist, map, passport of visited places, public trip pages, guest access, push notifications, offline mode.
+- **AI inside the product.** Destination ideas and comparisons from Mistral models (Supabase Edge Functions, free plan
+  with automatic fallback between models). Only public facts reach the model, never what members wrote.
+- **SEO at scale.** 575 prerendered pages in three languages (12 travel guides, 36 "where to go in…" pages, 495
+  destination comparisons) with hreflang, JSON-LD and a sitemap; React hydrates the prerendered markup.
+- **Marketing automation.** A daily pipeline (Supabase pg_cron → GitHub Actions) plans a post from the guides, writes
+  the copy with an LLM under automatic quality checks, renders a video or carousel with Remotion, publishes it to
+  Instagram, Facebook, TikTok and YouTube, alerts on Telegram when a platform fails, and learns from Instagram insights
+  which formats work best. See [`video/automation`](video/automation).
+- **Measured performance.** Every optimisation was benchmarked on an emulated mid-range Android phone (4× CPU) against
+  the previous release: tab-bar feedback 230–370 ms → ~45 ms, home LCP 1.9 s → 0.8 s, guide photos −84% (AVIF),
+  initial JavaScript 311 → 190 KB.
+- **Security and privacy by design.** Row Level Security on every table, server-side draws, strict Content-Security-
+  Policy, no ads, no profiling cookies, account deletion and data export.
+
+*© 2026 Ivan Antonino Pace. All rights reserved: the source is published so it can be read, not reused (see
+[LICENSE](LICENSE)).*
+
+---
+
+The rest of this file is the technical documentation.
 
 ## Stack
 
@@ -101,27 +144,31 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   - The public pages are prerendered at build time (`src/entry-prerender.tsx` + `scripts/prerender.mjs`): `/` (Italian), `/en`, `/es`, `/privacy`, `/terms`, `404.html` and the guides. Each ships its real content, title, description, canonical, Open Graph/Twitter tags and, on the landing, hreflang alternates and JSON-LD (`WebSite`, `Organization`, `WebApplication`, `FAQPage`).
   - Every landing URL has a fixed language; the language switcher moves between them. `useSeo` keeps the same tags in sync on client-side navigation.
   - Signed-in routes and invite links are served by `shell.html` (`noindex`) through the rewrites in `vercel.json`; unknown paths get a real 404 status. `robots.txt` is in `public/`; `sitemap.xml` is generated from the prerendered routes, with hreflang alternates.
-  - **Inspiration guides.** 8 guides (`src/content/guides/`) in three languages, each with its own URL (`/guide/…`, `/en/guides/…`, `/es/guias/…`), hreflang, `Article`/`HowTo`/`BreadcrumbList` JSON-LD, and links from the landing and the footer. Every destination has an "Add to a trip" action that proposes it in one of your trips, with coordinates, mood, budget and a Commons photo.
+  - **Inspiration guides.** 12 guides (`src/content/guides/`) in three languages, each with its own URL (`/guide/…`, `/en/guides/…`, `/es/guias/…`), hreflang, `Article`/`HowTo`/`BreadcrumbList` JSON-LD, and links from the landing and the footer. Every destination has an "Add to a trip" action that proposes it in one of your trips, with coordinates, mood, budget and a Commons photo.
 - **Place search.** Typing shows suggestions from [Photon](https://photon.komoot.io) (debounced, superseded requests aborted, only real places, cached). Nominatim's usage policy forbids autocomplete, so Nominatim is only called explicitly: the full search ("Search …" or Enter) and one lookup when a suggestion is picked, to get its name in the UI language (Beijing → Pechino). Nominatim calls go through a global client queue limited to 1 request per second and are cached in localStorage. Browsers can't set `User-Agent`, so the app identifies itself with the `Referer` header and the `email` parameter.
 - **Wikimedia images.** Lookup tries the Wikipedia lead image first, resolved on Commons (so only freely licensed files are used), then a Commons file search whose titles must contain the place name. Maps, flags, coats of arms and tiny files are discarded. If nothing relevant remains, the card shows an illustrated scene instead. Attribution (author, licence, source) is stored as JSON and shown on every image.
 - **Passport.** `/passport` collects the visited destinations of all your trips (RLS scopes the query) and places you add yourself (`visited_places`, readable only by their author): countries and continents reached (ISO code from the place search, localized with `Intl.DisplayNames`), a map, and stamps with ratings, filterable by trip. "I wasn't there" (`passport_exclusions`) hides a group visit from your passport only. `visited_at` is kept by the status trigger; members rate visited destinations 1–5 with `set_rating` (0 removes it). The share button draws a 1080×1920 story image on a canvas in the browser (`src/lib/passportCard.ts`) and hands it to the system share sheet, or downloads it.
 - **Public trip page.** Off by default. The owner can publish a read-only page at `/p/:slug` (`set_trip_public`): the slug is the trip name plus 8 random characters, so pages can't be enumerated. `get_public_trip` is the only data `anon` gets besides the invite preview: trip details, destinations with photo and total points, and the itinerary. Members, individual votes, comments, links and the checklist are never included. On Vercel, `api/public-trip.ts` serves the app shell with the trip's own title, description, image, canonical and `TouristTrip` JSON-LD, so link previews and search engines show the trip (CDN cache 60 s, so unpublishing takes previews down quickly).
 - **Climate.** Destinations with coordinates show their average climate from Open-Meteo's historical weather API (free for non-commercial use, CC BY 4.0, credited next to the chart): 5 years of daily data reduced to 12 months, cached for 180 days on a ~25 km grid. The "best time to go" is an estimate from daytime highs (18–28 °C ideal) and rainy days (`src/lib/climate.ts`). Compare mode puts 2–3 destinations side by side (points, best time, budget, mood, comments).
-- **Privacy.** There are no analytics, no third-party trackers and no consent banner. Only strictly necessary storage is used (Supabase session, language, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
+- **Privacy.** There are no third-party trackers and no consent banner: the only analytics is Cloudflare Web Analytics, cookieless and anonymous. Only strictly necessary storage is used (Supabase session, language, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
 
 ## Deploying (Vercel)
 
-1. Push the repository to GitHub (**private**: the backup workflow stores database dumps as artifacts).
+1. Push the repository to GitHub. Database backups live in a separate **private** repository (see below), since workflow artifacts of a public repository can be downloaded by anyone.
 2. Import it in Vercel. `vercel.json` sets the build (`npm run build` → `dist`), clean URLs, rewrites, headers and caching. The public Supabase values come from the committed `.env.production`; optionally add `VITE_CONTACT_EMAIL` in *Settings → Environment Variables*.
 3. In Supabase *Authentication → URL Configuration*, add the Vercel domain to **Redirect URLs** (e.g. `https://roamie.vercel.app/**`) so Google sign-in works there too.
 4. Under *Settings → Domains*, add `roamie.org` and `www.roamie.org` (redirecting to the apex), then point the DNS records at Vercel as instructed.
 
 ## Backups and keep-alive
 
-The Supabase free plan has no downloadable backups and pauses projects after about a week without activity. Two GitHub Actions workflows cover both:
+The Supabase free plan has no downloadable backups and pauses projects after about a week without activity.
 
-- **`supabase-backup.yml`** runs every Monday. It dumps roles, schema and data with the Supabase CLI and keeps them as a workflow artifact for 90 days. Add the repository secret `SUPABASE_DB_URL` (Supabase → *Connect* → *Session pooler* connection string).
-- **`supabase-keepalive.yml`** runs one read-only RPC every day. Add the repository variables `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
+- **Backups** run every Monday from a separate **private** repository (`roamie-backups`): dumps contain personal data, and
+  artifacts of a public repository are downloadable by anyone. It dumps roles, schema and data with the Supabase CLI and
+  keeps them as a workflow artifact for 90 days; it needs the secret `SUPABASE_DB_URL` (Supabase → *Connect* →
+  *Session pooler* connection string).
+- **`supabase-keepalive.yml`** (here) runs one read-only RPC every day. Add the repository variables `SUPABASE_URL` and
+  `SUPABASE_ANON_KEY`.
 
 **Test a restore** before you need one. Download an artifact, create a second free Supabase project, and run:
 
