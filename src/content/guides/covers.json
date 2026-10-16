@@ -1,0 +1,146 @@
+{
+  "how-to": {
+    "key": "howto-paris",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Tourists_looking_at_Paris_from_the_Eiffel_Tower_%2834861306904%29.jpg/960px-Tourists_looking_at_Paris_from_the_Eiffel_Tower_%2834861306904%29.jpg",
+    "width": 960,
+    "height": 719,
+    "attribution": {
+      "author": "Mark Bonica",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tourists_looking_at_Paris_from_the_Eiffel_Tower_(34861306904).jpg"
+    }
+  },
+  "long-weekends": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Lisboa_-_Portugal_%2852597836992%29.jpg/960px-Lisboa_-_Portugal_%2852597836992%29.jpg",
+    "width": 960,
+    "height": 615,
+    "attribution": {
+      "author": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lisboa_-_Portugal_(52597836992).jpg"
+    },
+    "key": "lisbon"
+  },
+  "budget": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Panoramic_view_over_central_Sofia_and_the_Vitosha_Mountain_2017-10-08.jpg/960px-Panoramic_view_over_central_Sofia_and_the_Vitosha_Mountain_2017-10-08.jpg",
+    "width": 960,
+    "height": 766,
+    "attribution": {
+      "author": "Deensel",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panoramic_view_over_central_Sofia_and_the_Vitosha_Mountain_2017-10-08.jpg"
+    },
+    "key": "sofia"
+  },
+  "summer-sea": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/%CE%9C%CE%AC%CF%81%CF%80%CE%B7%CF%83%CF%83%CE%B1_%CE%A0%CE%AC%CF%81%CE%BF%CF%85_5956.jpg/960px-%CE%9C%CE%AC%CF%81%CF%80%CE%B7%CF%83%CF%83%CE%B1_%CE%A0%CE%AC%CF%81%CE%BF%CF%85_5956.jpg",
+    "width": 960,
+    "height": 540,
+    "attribution": {
+      "author": "C messier",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%CE%9C%CE%AC%CF%81%CF%80%CE%B7%CF%83%CF%83%CE%B1_%CE%A0%CE%AC%CF%81%CE%BF%CF%85_5956.jpg"
+    },
+    "key": "paros"
+  },
+  "nature": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Faloria_Cortina_d%27Ampezzo_10.jpg/960px-Faloria_Cortina_d%27Ampezzo_10.jpg",
+    "width": 960,
+    "height": 664,
+    "attribution": {
+      "author": "kallerna",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Faloria_Cortina_d%27Ampezzo_10.jpg"
+    },
+    "key": "dolomites"
+  },
+  "food": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Torri_di_Bologna%2C_Bologna.jpg/960px-Torri_di_Bologna%2C_Bologna.jpg",
+    "width": 960,
+    "height": 640,
+    "attribution": {
+      "author": "Fabio Ciminelli",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Torri_di_Bologna,_Bologna.jpg"
+    },
+    "key": "bologna"
+  },
+  "nightlife": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Museumsinsel_Berlin_Juli_2021_1_%28cropped%29_b.jpg/960px-Museumsinsel_Berlin_Juli_2021_1_%28cropped%29_b.jpg",
+    "width": 960,
+    "height": 560,
+    "attribution": {
+      "author": "File:Museumsinsel Berlin Juli 2021 1 (cropped).jpg : Kasa Fue derivative work: Georgfotoart",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Museumsinsel_Berlin_Juli_2021_1_(cropped)_b.jpg"
+    },
+    "key": "berlin"
+  },
+  "winter": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Rovaniemi_Montage.jpg/960px-Rovaniemi_Montage.jpg",
+    "width": 960,
+    "height": 1554,
+    "attribution": {
+      "author": "Jari Kolehmainen , Flickr user lindstormORG , Idobi , Andriychenko , Biergerry , Arktikum , and Vincent Guth vingtcent",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rovaniemi_Montage.jpg"
+    },
+    "key": "rovaniemi"
+  },
+  "bachelor": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Riga_%2833844464828%29.jpg/960px-Riga_%2833844464828%29.jpg",
+    "width": 960,
+    "height": 576,
+    "attribution": {
+      "author": "Jorge Franganillo from Barcelona, Spain",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Riga_(33844464828).jpg"
+    },
+    "key": "riga"
+  },
+  "graduation": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Zakintos_-_panorama.jpg/960px-Zakintos_-_panorama.jpg",
+    "width": 960,
+    "height": 720,
+    "attribution": {
+      "author": "Mich973",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zakintos_-_panorama.jpg"
+    },
+    "key": "zakynthos"
+  },
+  "students": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Puente_Don_Luis_I%2C_Oporto%2C_Portugal%2C_2012-05-09%2C_DD_13.JPG/960px-Puente_Don_Luis_I%2C_Oporto%2C_Portugal%2C_2012-05-09%2C_DD_13.JPG",
+    "width": 960,
+    "height": 592,
+    "attribution": {
+      "author": "Diego Delso",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Puente_Don_Luis_I,_Oporto,_Portugal,_2012-05-09,_DD_13.JPG"
+    },
+    "key": "porto"
+  },
+  "couples": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Gordes_with_cirrus.jpg/960px-Gordes_with_cirrus.jpg",
+    "width": 960,
+    "height": 643,
+    "attribution": {
+      "author": "Astronautilus",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gordes_with_cirrus.jpg"
+    },
+    "key": "provence"
+  }
+}

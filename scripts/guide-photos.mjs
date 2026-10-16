@@ -14,7 +14,10 @@ import sharp from 'sharp'
 
 const root = new URL('../', import.meta.url)
 const out = new URL('public/guides/photos/', root)
-const images = JSON.parse(await readFile(new URL('src/content/guides/images.json', root), 'utf8'))
+const places = JSON.parse(await readFile(new URL('src/content/guides/images.json', root), 'utf8'))
+// Plus the covers chosen for guides without places (covers.json), under their own keys.
+const covers = JSON.parse(await readFile(new URL('src/content/guides/covers.json', root), 'utf8'))
+const images = { ...places, ...Object.fromEntries(Object.values(covers).filter((c) => !places[c.key]).map((c) => [c.key, c])) }
 const WIDTHS = [480, 960]
 const BAND = 3
 

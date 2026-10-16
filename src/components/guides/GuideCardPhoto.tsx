@@ -1,13 +1,13 @@
-import { guideCoverImage, guidePhotoSrcSet } from '@/content/guides/images'
+import { guideCover, guidePhotoSrcSet } from '@/content/guides/covers'
 import type { GuideMeta } from '@/content/guides/meta'
 import { serializeAttribution } from '@/lib/wikimedia'
 import { AttributionChip } from '@/components/media/Attribution'
 import { CoverImage } from '@/components/media/CoverImage'
 import type { GuideCardMedia } from './GuideCards'
 
-/** For <GuideCards media={guideCardPhoto} />: the guide's cover photo and its credit, on pages that load guide content. */
+/** For <GuideCards media={guideCardPhoto} />: the guide's cover photo and its credit (covers.json, small enough for the landing). */
 export function guideCardPhoto(guide: GuideMeta, loading: { priority?: boolean; eager?: boolean } = {}): GuideCardMedia | null {
-  const cover = guideCoverImage(guide.id)
+  const cover = guideCover(guide.id)
   if (!cover) return null
   return {
     cover: (

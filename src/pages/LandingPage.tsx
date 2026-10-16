@@ -19,6 +19,7 @@ import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Footer } from '@/components/layout/Footer'
 import { Splash } from '@/components/layout/Splash'
 import { GuideCards } from '@/components/guides/GuideCards'
+import { guideCardPhoto } from '@/components/guides/GuideCardPhoto'
 import { InstallAppButton } from '@/components/install/InstallApp'
 import { GUIDE_BASE } from '@/content/guides/meta'
 import { comingMonths, MONTH_LINK, monthName, monthPath } from '@/content/guides/months'
@@ -274,7 +275,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
               <ArrowRight className="size-4" />
             </Link>
           </div>
-          <GuideCards lang={lang} limit={4} className="mt-8" />
+          <GuideCards lang={lang} limit={4} media={guideCardPhoto} className="mt-8" />
           <ul className="mt-6 flex flex-wrap gap-2">
             {comingMonths(today.getMonth() + 1, 4).map((month) => (
               <li key={month}>
