@@ -176,7 +176,7 @@ export function linkedInPrompt(plan, past) {
   ]
 }
 
-const firstLine = (text) => text.trim().split('\n')[0]
+const firstLine = (text) => text.trim().split('\n')[0].trim()
 
 /** Every check a post must pass. Returns the reason it fails, or null. */
 export function checkPost(text, plan, past) {
