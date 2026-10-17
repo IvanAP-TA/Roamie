@@ -65,8 +65,9 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
+      # Also after a failed day: the history then says why (the reasons the texts were rejected).
       - name: Save the history
-        if: success()
+        if: always()
         run: |
           cp video/automation/linkedin/history.json "$RUNNER_TEMP/linkedin-history.json"
           git config user.name "github-actions[bot]"

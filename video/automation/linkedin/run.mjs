@@ -59,22 +59,38 @@ async function main() {
   const today = new Date()
   const day = today.toISOString().slice(0, 10)
   // The daily start can come twice (Supabase, then GitHub's backup schedule): one post a day.
-  if (process.env.AUTO === 'true' && history.some((h) => h.date.slice(0, 10) === day)) {
+  if (process.env.AUTO === 'true' && history.some((h) => h.date.slice(0, 10) === day && !h.failed)) {
     log('already posted today: nothing to do')
     summary("## Skipped: today's LinkedIn post is already out\n")
     return
   }
 
-  const plan = makeLinkedInPlan({ places: loadPlaces(), history, today, commits: lastWeekCommits() })
-  log(`plan: ${plan.kind} · ${plan.topic}`)
-
+  const places = loadPlaces()
+  const commits = lastWeekCommits()
   const past = history.map((h) => h.firstLine).filter(Boolean)
   const pastTexts = history.slice(-30).map((h) => h.text).filter(Boolean)
-  const written = await writeLinkedInPost(plan, past, (messages) => askMistral(messages, { maxTokens: 900 }), pastTexts)
-  if (written.rejected.length) log(`rejected: ${written.rejected.join('; ')}`)
+  const ask = (messages) => askMistral(messages, { maxTokens: 900 })
+  const rejected = []
+
+  // The day's kind of post, and if the AI can't write one that passes the checks, a post about a feature (the
+  // simplest facts) rather than nothing.
+  let plan = makeLinkedInPlan({ places, history, today, commits })
+  let written = { text: null }
+  for (const kind of [...new Set([plan.kind, 'feature'])]) {
+    if (kind !== plan.kind) plan = makeLinkedInPlan({ places, history, today, commits, kind })
+    log(`plan: ${plan.kind} · ${plan.topic}`)
+    written = await writeLinkedInPost(plan, past, ask, pastTexts)
+    rejected.push(...written.rejected.map((r) => `${plan.kind}: ${r}`))
+    if (written.text) break
+  }
+  if (rejected.length) log(`rejected: ${rejected.join('; ')}`)
   if (!written.text) {
-    const reason = process.env.MISTRAL_API_KEY ? `the AI's texts didn't pass the checks (${written.rejected.join('; ') || 'no answer'})` : 'no MISTRAL_API_KEY'
+    const reason = process.env.MISTRAL_API_KEY ? `the AI's texts didn't pass the checks (${rejected.join('; ') || 'no answer'})` : 'no MISTRAL_API_KEY'
     if (telegram.ready()) await telegram.message(`⚠️ <b>Niente post LinkedIn oggi</b>\n\n${reason.replace(/</g, '&lt;')}`).catch(() => {})
+    // Kept in the history (on the public social-history branch), so the reasons can be read without the run's logs;
+    // a failed day doesn't stop the backup schedule from trying again.
+    history.push({ date: today.toISOString(), kind: plan.kind, topic: plan.topic, failed: true, rejected: rejected.slice(-12) })
+    writeFileSync(historyPath, `${JSON.stringify(history, null, 2)}\n`)
     throw new Error(`no post: ${reason}`)
   }
   let image = plan.image.photo ? await commonsPhoto(plan.image.photo.url) : null

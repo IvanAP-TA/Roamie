@@ -86,9 +86,9 @@ function leastRecent(pool, history, kind, rand) {
  * Today's post: { kind, topic, facts, image, link, credit }. `image` is { card } or { photo }; `commits` are the last
  * week's commit subjects (for the Monday post).
  */
-export function makeLinkedInPlan({ places, history, today, commits = [] }) {
+export function makeLinkedInPlan({ places, history, today, commits = [], kind: forced }) {
   const rand = seeded(`${today.toISOString().slice(0, 10)}|linkedin|${history.length}`)
-  let kind = process.env.LINKEDIN_KIND || SCHEDULE[today.getUTCDay()]
+  let kind = forced || process.env.LINKEDIN_KIND || SCHEDULE[today.getUTCDay()]
 
   if (kind === 'build') {
     const facts = buildFacts(commits)
@@ -220,8 +220,11 @@ export function checkPost(text, plan, past, pastTexts = []) {
   if (t.split(/\n\s*\n/).length < 3) return 'paragraphs'
   if (!/\?\s*$/.test(t)) return 'no closing question'
   if (firstLine(t).length > 160) return 'first line too long'
-  const unknown = unknownNames(t, plan.facts)
-  if (unknown.length) return `names not in the facts: ${unknown.slice(0, 4).join(', ')}`
+  // Places are where invented details hurt (a landmark that isn't there): posts about places name nothing else.
+  if (plan.kind === 'destination' || plan.kind === 'month') {
+    const unknown = unknownNames(t, plan.facts)
+    if (unknown.length) return `names not in the facts: ${unknown.slice(0, 4).join(', ')}`
+  }
   for (const paragraph of t.split(/\n\s*\n/)) {
     // The short-form checks (banned words, prices, numbers, formatting, language), paragraph by paragraph.
     const problem = checkLine(paragraph, { min: 1, max: 900, lang: 'en', past: [], maxSimilarity: 1, allowedNumbers: numbersIn(plan.facts) })
@@ -248,11 +251,11 @@ export function assemblePost(text, plan) {
   return [text.trim(), link, ...(plan.credit ? [plan.credit] : []), HASHTAGS[plan.kind].join(' ')].join('\n\n')
 }
 
-/** Writes the post: up to three tries with the AI. Returns { text, rejected } or { text: null, rejected }. */
+/** Writes the post: up to five tries with the AI. Returns { text, rejected } or { text: null, rejected }. */
 export async function writeLinkedInPost(plan, past, ask, pastTexts = []) {
   const rejected = []
   const messages = linkedInPrompt(plan, past)
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 5; attempt++) {
     const answer = await ask(rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). Try again.` }] : messages)
     if (!answer) break
     // Some answers come wrapped in quotation marks, sometimes only on one side.

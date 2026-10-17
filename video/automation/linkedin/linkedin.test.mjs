@@ -102,10 +102,10 @@ describe('LinkedIn checks', () => {
     expect(post.trim().split('\n').at(-1)).toMatch(/^(#\w+ ?){3}$/)
   })
 
-  it('tries the AI three times, then gives up rather than posting a weak text', async () => {
+  it('tries the AI five times, then gives up rather than posting a weak text', async () => {
     let calls = 0
     const bad = await writeLinkedInPost(plan, [], async () => (calls++, { post: 'Too short?' }))
-    expect(calls).toBe(3)
+    expect(calls).toBe(5)
     expect(bad.text).toBeNull()
     const good = await writeLinkedInPost(plan, [], async () => ({ post: GOOD }))
     expect(good.text).toBe(GOOD)
@@ -152,5 +152,17 @@ describe('LinkedIn style and repetition', () => {
     const again = GOOD.replace("Most group trips don't fail on the destination. They fail in the group chat.", 'Group chats are where trips go to die, and we have seen it happen again and again.')
     expect(checkPost(again, plan, [], [GOOD])).toBe('too close to an earlier post')
     expect(checkPost(GOOD, plan, [], ['A completely different post about our new map, the colours of its pins and why we kept it simple.'])).toBeNull()
+  })
+})
+
+describe('LinkedIn fallbacks', () => {
+  it('checks names only on posts about places, where invented details hurt', () => {
+    const named = GOOD.replace('in the group chat.', 'in the group chat, on WhatsApp.')
+    expect(checkPost(named, { kind: 'insight', facts: 'group chat' }, [])).toBeNull()
+    expect(checkPost(named, { kind: 'destination', facts: 'group chat' }, [])).toMatch(/names not in the facts/)
+  })
+
+  it('can be asked for a given kind of post', () => {
+    expect(makeLinkedInPlan({ places, history: [], today: on(5), kind: 'feature' }).kind).toBe('feature')
   })
 })
