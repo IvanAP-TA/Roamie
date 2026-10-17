@@ -35,5 +35,21 @@
         "id": "42"
       }
     }
+  },
+  {
+    "date": "2026-10-17T08:20:50.149Z",
+    "kind": "feature",
+    "topic": "privacy",
+    "firstLine": "Planning a trip with friends can feel like handing over your privacy to every app you use.",
+    "text": "Planning a trip with friends can feel like handing over your privacy to every app you use. \n\nWe built Roamie so that the only data it keeps is what’s needed for the trip itself. No profiling, no trackers, no hidden details about who you are beyond what you share. \n\nThat means no ads following you, no third parties guessing your habits, nothing stored beyond the votes, the wheel spins, and the destination chosen. It’s just a tool for deciding where to go, and nothing more. \n\nWe don’t ask for much in return. What would you trust a tool to keep private when planning a trip?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "55"
+      }
+    }
   }
 ]
