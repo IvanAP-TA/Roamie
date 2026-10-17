@@ -140,6 +140,7 @@ async function main() {
     ...(plan.places && { places: plan.places }),
     firstLine: postFirstLine(written.text),
     text: written.text,
+    ...(rejected.length && { rejected: rejected.slice(-12) }),
     published: Boolean(results.linkedin && !results.linkedin.error),
     results,
   })
