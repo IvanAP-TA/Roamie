@@ -51,5 +51,30 @@
         "id": "55"
       }
     }
+  },
+  {
+    "date": "2026-10-18T07:00:10.784Z",
+    "kind": "feature",
+    "topic": "invite",
+    "firstLine": "Planning a trip with friends often means coordinating messages, spreadsheets, and endless back-and-forth.",
+    "text": "Planning a trip with friends often means coordinating messages, spreadsheets, and endless back-and-forth. \n\nWe built Roamie to make that easier. Anyone can join a trip with a link or a short code, no app to download, nothing to sign up for. It’s just a page in the browser, and it stays free. \n\nThe goal was to keep it simple: no extra steps, no friction. If you’ve ever wasted time trying to get everyone on the same page, you’ll know why that matters. \n\nWhat’s the one thing that always slows down your group’s planning?",
+    "rejected": [
+      "destination: dash",
+      "destination: first line too long",
+      "destination: dash",
+      "destination: dash",
+      "destination: dash",
+      "feature: dash",
+      "feature: dash"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "57"
+      }
+    }
   }
 ]
