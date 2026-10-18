@@ -22,6 +22,15 @@ async function accessToken() {
   return token
 }
 
+/**
+ * The video's visibility from YOUTUBE_PRIVACY (public, unlisted or private), public by default. GitHub passes an unset
+ * repository variable as an empty string, which YouTube refuses, so anything else counts as unset.
+ */
+export const privacyStatus = (value = process.env.YOUTUBE_PRIVACY) => {
+  const v = (value ?? '').trim().toLowerCase()
+  return ['public', 'unlisted', 'private'].includes(v) ? v : 'public'
+}
+
 export const youtube = {
   name: 'youtube',
   ready: () => Boolean(process.env.YOUTUBE_CLIENT_ID && process.env.YOUTUBE_CLIENT_SECRET && process.env.YOUTUBE_REFRESH_TOKEN),
@@ -48,7 +57,7 @@ export const youtube = {
       },
       body: JSON.stringify({
         snippet: { title: title.slice(0, 100), description: description.slice(0, 4900), tags: tags.map((t) => t.replace('#', '')), categoryId: '19' },
-        status: { privacyStatus: process.env.YOUTUBE_PRIVACY ?? 'public', selfDeclaredMadeForKids: false },
+        status: { privacyStatus: privacyStatus(), selfDeclaredMadeForKids: false },
       }),
     })
     const location = start.headers.get('location')

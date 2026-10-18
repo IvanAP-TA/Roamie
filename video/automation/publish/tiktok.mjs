@@ -92,7 +92,7 @@ export const tiktok = {
         draft()
           ? { source_info }
           : {
-              post_info: { title: caption.slice(0, 2200), privacy_level: process.env.TIKTOK_PRIVACY ?? 'SELF_ONLY', disable_comment: false, disable_duet: false, disable_stitch: false },
+              post_info: { title: caption.slice(0, 2200), privacy_level: process.env.TIKTOK_PRIVACY || 'SELF_ONLY', disable_comment: false, disable_duet: false, disable_stitch: false },
               source_info,
             },
       ),

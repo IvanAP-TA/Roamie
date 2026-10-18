@@ -5,6 +5,7 @@ import { CROSS_DAYS, makeCarouselPlan, makePlan, pickMusic, RECENT_DAYS, seeded 
 import { formatBonus, formatScores, refreshMetrics, score } from './metrics.mjs'
 import { failureMessage, kitMessages } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
+import { privacyStatus } from './publish/youtube.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -303,5 +304,15 @@ describe('TikTok upload parts', () => {
     // Contiguous, and the last part stays under TikTok's limit.
     for (let i = 1; i < parts.length; i++) expect(parts[i].start).toBe(parts[i - 1].end + 1)
     expect(parts.at(-1).end - parts.at(-1).start + 1).toBeLessThanOrEqual(64_000_000)
+  })
+})
+
+describe('YouTube visibility', () => {
+  it('is public unless YOUTUBE_PRIVACY says otherwise, even when GitHub passes the unset variable as empty', () => {
+    expect(privacyStatus('')).toBe('public')
+    expect(privacyStatus(undefined)).toBe('public')
+    expect(privacyStatus(' Unlisted ')).toBe('unlisted')
+    expect(privacyStatus('private')).toBe('private')
+    expect(privacyStatus('secret')).toBe('public')
   })
 })
