@@ -76,7 +76,10 @@ async function main() {
   // simplest facts) rather than nothing.
   let plan = makeLinkedInPlan({ places, history, today, commits })
   let written = { text: null }
-  for (const kind of [...new Set([plan.kind, 'feature'])]) {
+  // The fallbacks skip the kind of the last post, so a failed day doesn't bring the same kind of post twice running.
+  const lastKind = history.filter((h) => !h.failed).at(-1)?.kind
+  const fallbacks = ['feature', 'insight'].filter((kind) => kind !== lastKind)
+  for (const kind of [...new Set([plan.kind, ...fallbacks])]) {
     if (kind !== plan.kind) plan = makeLinkedInPlan({ places, history, today, commits, kind })
     log(`plan: ${plan.kind} · ${plan.topic}`)
     written = await writeLinkedInPost(plan, past, ask, pastTexts)
@@ -98,7 +101,9 @@ async function main() {
     log('photo unavailable: using an app card')
     delete plan.credit
   }
-  image ??= card(plan.image.card ?? 'home')
+  // The card shown, kept in the history: the next posts avoid it (posts.mjs, freshCard).
+  const shownCard = image ? undefined : (plan.image.card ?? 'home')
+  image ??= card(shownCard)
   const finalText = assemblePost(written.text, plan)
 
   mkdirSync(`${ROOT}/out`, { recursive: true })
@@ -138,6 +143,7 @@ async function main() {
     kind: plan.kind,
     topic: plan.topic,
     ...(plan.places && { places: plan.places }),
+    ...(shownCard && { card: shownCard }),
     firstLine: postFirstLine(written.text),
     text: written.text,
     ...(rejected.length && { rejected: rejected.slice(-12) }),

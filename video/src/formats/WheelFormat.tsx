@@ -95,9 +95,9 @@ const Spin: React.FC<WheelProps> = ({ spinTitle, places, points, winner }) => {
 
   return (
     <Sky>
-      <Sfx sound="whoosh" volume={0.5} />
+      <Sfx sound="whoosh" />
       {tickFrames(end).map((f) => (
-        <Sfx key={f} sound="tick" at={f} volume={0.45} />
+        <Sfx key={f} sound="tick" at={f} />
       ))}
       <Hook text={spinTitle} top={170} />
       <svg viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
@@ -129,7 +129,7 @@ const Reveal: React.FC<WheelProps> = ({ places, winner, bestTime, lang }) => {
   const nameSize = useFit(`${place.name}!`, 920, 150);
   return (
     <AbsoluteFill style={{ fontFamily: SANS }}>
-      <Sfx sound="ding" volume={0.6} />
+      <Sfx sound="ding" />
       <PhotoBackground src={place.photo} />
       <div style={{ position: "absolute", left: 80, right: 80, bottom: 230 }}>
         <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: nameSize, lineHeight: 1, color: C.ink, opacity: ramp(frame, 0, 10), scale: interpolate(ramp(frame, 0, 16), [0, 1], [0.8, 1]) }}>{place.name}!</div>

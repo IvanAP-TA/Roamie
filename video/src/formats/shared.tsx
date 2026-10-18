@@ -121,20 +121,53 @@ export const Credits: React.FC<{ readonly credits: readonly string[]; readonly l
 );
 
 /**
- * Background music (a track in public/music, picked by the automation): it fades in, sits under the sound effects
- * and fades out with the end card. Without a track the video is silent.
+ * How loud each track is where it's loud (dBFS of its 95th-percentile 400 ms window, measured on the files): the
+ * tracks differ by up to 10 dB, so each is brought to the same level instead of all getting one volume.
+ */
+const MUSIC_LEVEL: Record<string, number> = {
+  "month-1-deep-house-sunset.mp3": -14.0,
+  "month-2-tropical-house.mp3": -10.0,
+  "month-3-sunny-travel-diary.mp3": -10.5,
+  "month-4-warm-acoustic.mp3": -18.8,
+  "versus-1-lofi-vlog-beats.mp3": -8.6,
+  "versus-2-vlog-intro.mp3": -8.3,
+  "wheel-1-vlog-v2.mp3": -8.6,
+  "wheel-2-upbeat-funk.mp3": -11.2,
+  "wheel-3-pop.mp3": -9.8,
+  "wheel-4-ukulele.mp3": -9.9,
+};
+/** Where the music sits (dBFS); the sound effects are set 8 to 11 dB below it. */
+const MUSIC_TARGET = -11;
+
+/** The volume that brings a track to MUSIC_TARGET (never above 1: a quiet track stays as it is). */
+export const musicGain = (music: string) => {
+  const level = MUSIC_LEVEL[music.split("/").pop() ?? ""];
+  return level === undefined ? 0.8 : Math.min(1, 10 ** ((MUSIC_TARGET - level) / 20));
+};
+
+/**
+ * Background music (a track in public/music, picked by the automation): it fades in, carries the video and fades out
+ * with the end card. Without a track the video is silent.
  */
 export const Soundtrack: React.FC<{ readonly music?: string; readonly durationInFrames: number }> = ({ music, durationInFrames }) => {
   if (!music) return null;
-  const volume = (f: number) => 0.55 * interpolate(f, [0, 12, durationInFrames - 36, durationInFrames - 4], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const gain = musicGain(music);
+  const volume = (f: number) => gain * interpolate(f, [0, 12, durationInFrames - 36, durationInFrames - 4], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return <Audio src={staticFile(music)} volume={volume} />;
 };
 
 export type Sound = "tick" | "ding" | "whoosh";
 
+/**
+ * Each effect's volume, so it sits under the music rather than over it: the whoosh about 11 dB below, the ding (the
+ * moment the place is picked) about 8 dB, the wheel's ticks peaking about 9 dB below (they are short clicks, which
+ * the ear hears as louder than their level).
+ */
+export const SFX_VOLUME: Record<Sound, number> = { whoosh: 0.2, ding: 0.45, tick: 0.13 };
+
 /** A sound effect from public/sfx (made by scripts/make-sfx.mjs) at a frame of the current sequence. */
-export const Sfx: React.FC<{ readonly sound: Sound; readonly at?: number; readonly volume?: number }> = ({ sound, at = 0, volume = 0.7 }) => (
+export const Sfx: React.FC<{ readonly sound: Sound; readonly at?: number }> = ({ sound, at = 0 }) => (
   <Sequence from={at} durationInFrames={sound === "ding" ? 45 : 18} layout="none" name={`sfx ${sound}`}>
-    <Audio src={staticFile(`sfx/${sound}.wav`)} volume={volume} />
+    <Audio src={staticFile(`sfx/${sound}.wav`)} volume={SFX_VOLUME[sound]} />
   </Sequence>
 );

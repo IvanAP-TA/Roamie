@@ -42,7 +42,7 @@ const PlaceCard: React.FC<{ readonly place: VideoPlace; readonly index: number; 
   const nameSize = useFit(place.name, 920, 130);
   return (
     <AbsoluteFill style={{ fontFamily: SANS }}>
-      <Sfx sound="whoosh" volume={0.45} />
+      <Sfx sound="whoosh" />
       <PhotoBackground src={place.photo} />
       <div style={{ position: "absolute", left: 80, right: 80, bottom: 220 }}>
         <div style={{ fontFamily: DISPLAY, fontStyle: "italic", fontWeight: 600, fontSize: 90, color: C.sun, opacity: ramp(frame, 0, 10) }}>{index + 1}</div>

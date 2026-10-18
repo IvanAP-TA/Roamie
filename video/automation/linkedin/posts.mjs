@@ -83,6 +83,18 @@ function leastRecent(pool, history, kind, rand) {
 }
 
 /**
+ * The card for a post: the one that fits its topic, unless one of the last three posts showed it (the same picture
+ * two days running reads as the same post); then the card shown least recently.
+ */
+function freshCard(preferred, history, rand) {
+  const recent = history.filter((h) => !h.failed).slice(-3).map((h) => h.card)
+  if (preferred && !recent.includes(preferred)) return preferred
+  const lastShown = (card) => Math.max(-1, ...history.map((h, i) => (h.card === card ? i : -1)))
+  const oldest = Math.min(...CARDS.map(lastShown))
+  return pick(CARDS.filter((card) => lastShown(card) === oldest), rand)
+}
+
+/**
  * Today's post: { kind, topic, facts, image, link, credit }. `image` is { card } or { photo }; `commits` are the last
  * week's commit subjects (for the Monday post).
  */
@@ -92,13 +104,13 @@ export function makeLinkedInPlan({ places, history, today, commits = [], kind: f
 
   if (kind === 'build') {
     const facts = buildFacts(commits)
-    if (facts.length >= 2) return { kind, topic: today.toISOString().slice(0, 10), facts: facts.map((f) => `- ${f}`).join('\n'), image: { card: pick(CARDS, rand) }, link: 'https://roamie.org/en' }
+    if (facts.length >= 2) return { kind, topic: today.toISOString().slice(0, 10), facts: facts.map((f) => `- ${f}`).join('\n'), image: { card: freshCard(undefined, history, rand) }, link: 'https://roamie.org/en' }
     kind = 'feature'
   }
   if (kind === 'feature' || kind === 'insight' || kind === 'lesson') {
     const pool = { feature: FEATURES, insight: INSIGHTS, lesson: LESSONS }[kind]
     const item = leastRecent(pool, history, kind, rand)
-    return { kind, topic: item.id, facts: item.brief, image: { card: item.card }, link: 'https://roamie.org/en' }
+    return { kind, topic: item.id, facts: item.brief, image: { card: freshCard(item.card, history, rand) }, link: 'https://roamie.org/en' }
   }
 
   const recent = new Set(history.filter((h) => within(h, today, 90)).flatMap((h) => h.places ?? []))
@@ -169,7 +181,7 @@ export function linkedInPrompt(plan, past) {
     'Use only the facts given. Never invent numbers, quotes, customers, users counts or results. Do not add places, landmarks, neighbourhoods, weather, prices or anything else that is not in the facts, even if you believe it is true: a shorter post is better than an invented detail. Do not name any place or proper noun that is not in the facts.',
     'Write the post itself, not wrapped in quotation marks. Never use em dashes or en dashes (— or –): use commas, colons or full stops.',
     'Return JSON {"post": string}.',
-    ...(past.length ? ['Earlier posts started like this; do not reuse their wording or structure:', ...past.slice(-10).map((l) => `  · ${l}`)] : []),
+    ...(past.length ? ['Earlier posts started like this; start differently (never with the same first words), and do not reuse their wording or structure:', ...past.slice(-10).map((l) => `  · ${l}`)] : []),
   ].join('\n')
   return [
     { role: 'system', content: system },
@@ -178,6 +190,18 @@ export function linkedInPrompt(plan, past) {
 }
 
 const firstLine = (text) => text.trim().split('\n')[0].trim()
+/** The first three words, lowercased: two posts that open alike look like the same post in the feed. */
+const openingWords = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').trim().split(/\s+/).slice(0, 3).join(' ')
+
+/**
+ * The AI's long dashes, as commas: it uses them almost every time and asking doesn't stop it, so rejecting them only
+ * spent the tries. A dash before punctuation disappears, any other becomes a comma.
+ */
+export const withoutLongDashes = (text) =>
+  text
+    .replace(/\s*[—–]\s*(?=[.,;:!?])/g, '')
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/,\s*,/g, ',')
 
 // Capitalised words that may appear without being in the facts: the product, the platform, the language, months and
 // days, and the words that open a sentence anyway.
@@ -230,7 +254,9 @@ export function checkPost(text, plan, past, pastTexts = []) {
     const problem = checkLine(paragraph, { min: 1, max: 900, lang: 'en', past: [], maxSimilarity: 1, allowedNumbers: numbersIn(plan.facts) })
     if (problem) return problem
   }
-  for (const old of past) if (similarity(firstLine(t), old) > 0.4) return 'too close to an earlier post'
+  const opening = openingWords(t)
+  if (past.some((old) => openingWords(old) === opening)) return 'same opening as an earlier post'
+  for (const old of past) if (similarity(firstLine(t), old) > 0.3) return 'too close to an earlier post'
   // Whole texts share a few word triples by chance; a quarter of them means the same post again.
   for (const old of pastTexts) if (similarity(t, old) > 0.25) return 'too close to an earlier post'
   return null
@@ -259,7 +285,7 @@ export async function writeLinkedInPost(plan, past, ask, pastTexts = []) {
     const answer = await ask(rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). Try again.` }] : messages)
     if (!answer) break
     // Some answers come wrapped in quotation marks, sometimes only on one side.
-    const post = typeof answer.post === 'string' ? answer.post.trim().replace(/^["“”]+|["“”]+$/g, '').trim() : answer.post
+    const post = typeof answer.post === 'string' ? withoutLongDashes(answer.post.trim().replace(/^["“”]+|["“”]+$/g, '').trim()) : answer.post
     const problem = checkPost(post, plan, past, pastTexts)
     if (!problem) return { text: post, rejected }
     rejected.push(problem)

@@ -104,7 +104,7 @@ const Question: React.FC<VersusProps> = ({ question, a, b }) => {
   const size = useFit(question, 920, 110);
   return (
     <AbsoluteFill style={{ background: `linear-gradient(180deg, ${C.night}, #5a2a45 60%, #b8475a)`, alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-      <Sfx sound="whoosh" volume={0.45} />
+      <Sfx sound="whoosh" />
       <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: size, color: C.ink, opacity: ramp(frame, 0, 12), padding: "0 80px" }}>{question}</div>
       <div style={{ display: "flex", gap: 30, marginTop: 50, fontFamily: SANS, fontSize: 52, fontWeight: 700, opacity: ramp(frame, 10, 22) }}>
         <span style={{ background: C.coral, borderRadius: 999, padding: "16px 40px", color: C.ink }}>{a.name}</span>

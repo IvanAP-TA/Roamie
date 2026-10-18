@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { loadPlaces } from '../places.mjs'
 import { littleText } from '../publish/make.mjs'
-import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, unknownNames, writeLinkedInPost } from './posts.mjs'
+import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, unknownNames, withoutLongDashes, writeLinkedInPost } from './posts.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -85,7 +85,7 @@ describe('LinkedIn checks', () => {
     expect(checkPost(GOOD.replace('boring and simple', 'a real game-changer'), plan, [])).toBe('buzzwords')
     expect(checkPost(GOOD.replace('meme arrives', 'meme arrives!'), plan, [])).toBe('exclamation')
     expect(checkPost(GOOD.slice(0, 300), plan, [])).toMatch(/length/)
-    expect(checkPost(GOOD, plan, ["Most group trips don't fail on the destination. They fail in the group chat."])).toBe('too close to an earlier post')
+    expect(checkPost(GOOD, plan, ["Most group trips don't fail on the destination. They fail in the group chat."])).toMatch(/earlier post/)
   })
 
   it('allows the numbers that are in the facts', () => {
@@ -164,5 +164,31 @@ describe('LinkedIn fallbacks', () => {
 
   it('can be asked for a given kind of post', () => {
     expect(makeLinkedInPlan({ places, history: [], today: on(5), kind: 'feature' }).kind).toBe('feature')
+  })
+})
+
+describe('LinkedIn variety', () => {
+  const plan = { kind: 'insight', facts: 'group chat' }
+
+  it('rejects a post that opens with the same words as an earlier one', () => {
+    expect(checkPost(GOOD, plan, ['Most group trips are planned in a hurry, and it shows.'])).toBe('same opening as an earlier post')
+  })
+
+  it('turns the long dashes the AI insists on into commas', () => {
+    expect(withoutLongDashes('Simple — and free. The Alhambra—booked early—is calm —.')).toBe('Simple, and free. The Alhambra, booked early, is calm.')
+  })
+
+  it('writes the post with commas instead of throwing it away for its dashes', async () => {
+    const dashed = GOOD.replace('boring and simple:', 'boring and simple —')
+    const written = await writeLinkedInPost(plan, [], async () => ({ post: dashed }))
+    expect(written.text).toBe(GOOD.replace('boring and simple:', 'boring and simple,'))
+  })
+
+  it('does not show the same card as one of the last three posts', () => {
+    const history = ['home', 'places', 'wheel'].map((card, i) => ({ date: on(i - 3).toISOString(), kind: 'feature', topic: `x${i}`, card }))
+    for (let d = 0; d < 7; d++) {
+      const p = makeLinkedInPlan({ places, history, today: on(d), kind: 'feature' })
+      expect(['home', 'places', 'wheel']).not.toContain(p.image.card)
+    }
   })
 })
