@@ -66,7 +66,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-16T16:01:27.560Z"
+      "at": "2026-10-18T09:48:20.504Z"
     }
   },
   {
@@ -107,7 +107,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-16T16:01:27.560Z"
+      "at": "2026-10-18T09:48:20.504Z"
     }
   },
   {
@@ -142,11 +142,11 @@
       }
     },
     "metrics": {
-      "reach": 6,
+      "reach": 7,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-16T16:01:27.560Z"
+      "at": "2026-10-18T09:48:20.504Z"
     }
   },
   {
@@ -221,7 +221,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-16T16:01:27.560Z"
+      "at": "2026-10-18T09:48:20.504Z"
     }
   },
   {
@@ -260,6 +260,13 @@
         "url": null,
         "draft": true
       }
+    },
+    "metrics": {
+      "reach": 15,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 1,
+      "at": "2026-10-18T09:48:20.504Z"
     }
   },
   {
@@ -287,6 +294,31 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    }
+  },
+  {
+    "date": "2026-10-18T09:48:20.504Z",
+    "kind": "video",
+    "format": "versus",
+    "lang": "en",
+    "places": [
+      "riga",
+      "barcelona"
+    ],
+    "pair": "barcelona+riga",
+    "hook": "Riga’s old town or Barcelona’s beach vibes?",
+    "caption": "One’s got cobbled streets and craft beer, the other has siestas and sunset cocktails. Which would your crew actually pick?",
+    "copySource": "ai",
+    "music": "music/versus-2-vlog-intro.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "64"
+      },
+      "youtube": {
+        "id": "qqO2izY3O8A",
+        "url": "https://youtube.com/shorts/qqO2izY3O8A"
       }
     }
   }
