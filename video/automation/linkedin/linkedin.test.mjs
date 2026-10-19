@@ -192,3 +192,18 @@ describe('LinkedIn variety', () => {
     }
   })
 })
+
+describe('LinkedIn weekly changes', () => {
+  it('keeps only the changes people using Roamie notice', () => {
+    expect(
+      buildFacts([
+        'City photos on the landing\'s postcards; no long dashes and no repeated posts (1.1.14)',
+        'LinkedIn bot: a post every day even when the first try fails (1.1.20)',
+        'TikTok: upload videos in parts (1.1.16)',
+        'Android app: the package is org.roamie.org',
+        'Footer: TikTok icon',
+        'Animations, phase 3: a header that follows the scroll (1.1.7)',
+      ]),
+    ).toEqual(["City photos on the landing's postcards", 'Animations, phase 3: a header that follows the scroll'])
+  })
+})

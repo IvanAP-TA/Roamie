@@ -34,7 +34,11 @@ const isJpeg = (bytes) => bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] ===
 /** The last week's commit subjects on this branch, for Monday's "this week" post. */
 function lastWeekCommits() {
   try {
-    return execFileSync('git', ['log', '--since=8 days ago', '--no-merges', '--format=%s'], { cwd: ROOT, encoding: 'utf8' }).split('\n').filter(Boolean)
+    // Only the commits that change the app people use (src, public), not the social bots or the docs: "this week in
+    // Roamie" is about the product, and a bot fix told as a user-facing change is simply untrue.
+    return execFileSync('git', ['log', '--since=8 days ago', '--no-merges', '--format=%s', '--', 'src', 'public', 'index.html'], { cwd: `${ROOT}/..`, encoding: 'utf8' })
+      .split('\n')
+      .filter(Boolean)
   } catch {
     return []
   }

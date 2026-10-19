@@ -64,9 +64,23 @@ export const LESSONS = [
 // Commits about the repository rather than the app don't make a "this week" post.
 const MECHANICAL = /\b(bump|merge|typo|lint|tests?|ci|deps|dependenc|readme|licen[cs]e|environment values|gitignore|refactor|backup)\b/i
 
-/** The commit subjects worth telling, without the version numbers in brackets. */
+// Changes behind the scenes (our own social posts, the Android package, store listings): true, but nothing a person
+// using Roamie sees, and an AI asked to tell users about them makes up a user-facing story.
+const BEHIND_THE_SCENES = /\b(posts?|linkedin|tiktok|youtube|instagram|facebook|social|bot|telegram|make\.com|android|package|manifest|digital asset links|play store|footer)\b/i
+
+/**
+ * The changes worth telling, from commit subjects: the version number in brackets dropped, and a subject that joins
+ * several changes ("City photos on the postcards; no repeated posts") split, keeping only the parts users notice.
+ */
 export const buildFacts = (subjects) =>
-  [...new Set(subjects.map((s) => s.replace(/\s*\(\d+\.\d+\.\d+\)\s*$/, '').trim()).filter((s) => s && !MECHANICAL.test(s)))].slice(0, 8)
+  [
+    ...new Set(
+      subjects
+        .flatMap((s) => s.replace(/\s*\(\d+\.\d+\.\d+\)\s*$/, '').split(/;\s*/))
+        .map((s) => s.trim())
+        .filter((s) => s && !MECHANICAL.test(s) && !BEHIND_THE_SCENES.test(s)),
+    ),
+  ].slice(0, 8)
 
 const within = (entry, today, days) => today - new Date(entry.date) < days * DAY
 const pick = (list, rand) => list[Math.floor(rand() * list.length)]
@@ -159,7 +173,7 @@ function placeFacts(p) {
 }
 
 const BRIEF = {
-  build: 'a short "what we worked on this week" update from the team, explaining in plain words what changed for the people using Roamie (not how it was built). The facts are the week’s changes, written by the developers: translate them into what a user notices, skip what a user would not notice',
+  build: 'a short "what we worked on this week" update from the team, explaining in plain words what changed for the people using Roamie (not how it was built). The facts are the week’s changes to the Roamie app, written by the developers: translate them into what a user notices, skip what a user would not notice, and never describe anything that isn’t in them (no new features, no fixed problems that aren’t listed)',
   insight: 'an observation about how groups of friends decide a trip together, and what helps. Roamie can be mentioned once, lightly, near the end, or not at all',
   feature: 'one thing Roamie does, explained through the problem it solves for a group planning a trip',
   lesson: 'something the team learnt while building Roamie, told honestly and without bragging, useful to other people who build products',
