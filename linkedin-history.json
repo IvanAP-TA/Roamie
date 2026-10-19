@@ -78,5 +78,22 @@
       }
     },
     "card": "home"
+  },
+  {
+    "date": "2026-10-19T07:00:09.177Z",
+    "kind": "build",
+    "topic": "2026-10-19",
+    "card": "wheel",
+    "firstLine": "This week’s small steps make Roamie a little more reliable for the trips that matter most.",
+    "text": "This week’s small steps make Roamie a little more reliable for the trips that matter most.\n\nWe fixed a few things that might have caused frustration when sharing a trip. If you’ve ever tried to add a video and it didn’t work, it should now. If a post looked the same two days in a row, that won’t happen again. And if you’ve ever lost track of a draft on TikTok, you’ll see where it got to before it disappeared.\n\nThe landing page now shows photos with the guide cards, so you can picture the kind of trips people are planning. And if you’ve ever wondered why a post didn’t go through, you’ll see the attempts we tried and discarded, so you know we’re not giving up.\n\nWhat’s the one thing that still makes planning a trip feel like too much work?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "68"
+      }
+    }
   }
 ]
