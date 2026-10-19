@@ -62,11 +62,11 @@
       }
     },
     "metrics": {
-      "reach": 4,
+      "reach": 6,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-18T09:48:20.504Z"
+      "at": "2026-10-19T16:01:11.165Z"
     }
   },
   {
@@ -103,11 +103,11 @@
       }
     },
     "metrics": {
-      "reach": 5,
+      "reach": 6,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-18T09:48:20.504Z"
+      "at": "2026-10-19T16:01:11.165Z"
     }
   },
   {
@@ -142,11 +142,11 @@
       }
     },
     "metrics": {
-      "reach": 7,
+      "reach": 9,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-18T09:48:20.504Z"
+      "at": "2026-10-19T16:01:11.165Z"
     }
   },
   {
@@ -217,11 +217,11 @@
       }
     },
     "metrics": {
-      "reach": 3,
+      "reach": 7,
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-18T09:48:20.504Z"
+      "at": "2026-10-19T16:01:11.165Z"
     }
   },
   {
@@ -262,11 +262,11 @@
       }
     },
     "metrics": {
-      "reach": 15,
+      "reach": 20,
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-18T09:48:20.504Z"
+      "at": "2026-10-19T16:01:11.165Z"
     }
   },
   {
@@ -319,6 +319,46 @@
       "youtube": {
         "id": "qqO2izY3O8A",
         "url": "https://youtube.com/shorts/qqO2izY3O8A"
+      }
+    }
+  },
+  {
+    "date": "2026-10-19T16:01:11.165Z",
+    "kind": "video",
+    "format": "wheel",
+    "lang": "en",
+    "places": [
+      "lisbon",
+      "budapest",
+      "krakow",
+      "naples"
+    ],
+    "hook": "Where are we going? The wheel decides",
+    "caption": "Lisbon, Budapest, Kraków and Naples: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/wheel-3-pop.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "70"
+      },
+      "youtube": {
+        "id": "L0jW2cZ8Lvw",
+        "url": "https://youtube.com/shorts/L0jW2cZ8Lvw"
+      },
+      "instagram": {
+        "id": "18115487588117076",
+        "url": "https://www.instagram.com/reel/Dero_Uyk2g3/"
+      },
+      "facebook": {
+        "id": "2307375726474221",
+        "url": "https://www.facebook.com/reel/2307375726474221"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7698410158838368278",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
