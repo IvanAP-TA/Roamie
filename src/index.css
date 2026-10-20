@@ -416,19 +416,333 @@
 .story-strip::-webkit-scrollbar {
   display: none;
 }
-/* Each screen settles into place as it slides into view (scroll-driven, so the compositor plays it). */
-@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
-  @supports (animation-timeline: view()) {
-    .story-step img {
-      animation: story-in 1ms linear both;
-      animation-timeline: view(inline);
-      animation-range: entry 0% cover 45%;
+
+/* ─── Landing scroll story (LandingPage.tsx) ─────────────────────────────────────────────────────────────────
+   The still page first: what every browser shows, and what reduced motion keeps. Then, where the browser has
+   scroll-driven animations, the scenes: transform and opacity only, tied to the scroll, so the compositor plays them
+   without a line of JavaScript. */
+.scroll-progress,
+.zoom-bubbles,
+.how-progress {
+  display: none;
+}
+.how-num {
+  position: absolute;
+  z-index: 0;
+  top: -0.72em;
+  right: 0.06em;
+  font-family: var(--font-display);
+  font-size: 5.5rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--primary) 55%, transparent);
+  pointer-events: none;
+}
+.story-step {
+  z-index: 1;
+}
+.marquee-band {
+  display: grid;
+  gap: 0.08em;
+  overflow: clip;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 14vw, 9.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.marquee-line {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  translate: -8% 0;
+}
+.marquee-line > span {
+  display: inline-flex;
+  align-items: center;
+}
+.marquee-dot {
+  margin-inline: 0.45em;
+  font-size: 0.38em;
+  color: var(--primary);
+}
+.marquee-line-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--foreground) 40%, transparent);
+  translate: -30% 0;
+}
+
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes hero-text-out {
+  to { transform: translateY(-16vh); opacity: 0.05; }
+}
+@keyframes hero-fan-out {
+  to { transform: translateY(-6vh) scale(0.82) rotate(-4deg); opacity: 0.2; }
+}
+@keyframes zoom-grow {
+  from { transform: scale(0.5); }
+  to { transform: none; }
+}
+@keyframes zoom-photo {
+  from { transform: scale(1.4); }
+  to { transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes zoom-from-out {
+  to { transform: translateY(-8vh) scale(0.94); opacity: 0; }
+}
+@keyframes zoom-to-in {
+  from { transform: translateY(8vh); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes bubble-away {
+  to { transform: translate(var(--bx), var(--by)) scale(0.5) rotate(var(--br, 0deg)); opacity: 0; }
+}
+@keyframes typing {
+  0%, 60%, 100% { opacity: 0.25; }
+  30% { opacity: 1; }
+}
+@keyframes how-slide {
+  to { transform: translateX(min(0px, calc(-100% + 100vw))); }
+}
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-32%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-32%); }
+  to { transform: translateX(0); }
+}
+@keyframes how-deal {
+  from { transform: translateY(45svh) rotate(9deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes reveal-up {
+  from { transform: translateY(56px) scale(0.96); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes ticket-in {
+  from { transform: perspective(1200px) rotateX(36deg) translateY(70px) scale(0.92); opacity: 0.15; }
+  to { transform: none; opacity: 1; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 60;
+      height: 3px;
+      transform-origin: 0 50%;
+      background: linear-gradient(90deg, var(--sun), var(--coral), var(--primary));
+      animation: grow-x linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    /* The hero drifts away: the words faster than the postcards. */
+    .hero-scene {
+      view-timeline: --hero block;
+    }
+    .hero-text,
+    .hero-fan {
+      animation: hero-text-out linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 100%;
+    }
+    .hero-fan {
+      animation-name: hero-fan-out;
+    }
+
+    /* From the chat to the trip: the card grows into the screen while the section holds still. */
+    .zoom-scene {
+      max-width: none;
+      height: 270svh;
+      padding: 0;
+      view-timeline: --zoom block;
+    }
+    .zoom-sticky {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+    }
+    .zoom-frame {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      aspect-ratio: auto;
+      border-radius: 3rem;
+      transform-origin: 50% 56%;
+      animation: zoom-grow linear both;
+      animation-timeline: --zoom;
+      animation-range: contain 0% contain 58%;
+    }
+    .zoom-photo {
+      animation: zoom-photo linear both;
+      animation-timeline: --zoom;
+      animation-range: contain 0% contain 70%;
+    }
+    .zoom-shade {
+      animation: fade-in linear both;
+      animation-timeline: --zoom;
+      animation-range: contain 20% contain 60%;
+    }
+    .zoom-from {
+      position: absolute;
+      inset: 9svh 1.25rem auto;
+      z-index: 2;
+      text-align: center;
+      animation: zoom-from-out linear both;
+      animation-timeline: --zoom;
+      animation-range: contain 6% contain 30%;
+    }
+    .zoom-to {
+      animation: zoom-to-in linear both;
+      animation-timeline: --zoom;
+      animation-range: contain 48% contain 72%;
+    }
+    .zoom-bubbles {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .zoom-bubble {
+      position: absolute;
+      display: flex;
+      gap: 5px;
+      padding: 13px 16px;
+      border-radius: 999px 999px 999px 6px;
+      background: var(--glass-strong);
+      box-shadow: 0 10px 24px rgb(80 30 10 / 0.18);
+      animation: bubble-away linear both;
+      animation-timeline: --zoom;
+      animation-range: contain 4% contain 38%;
+    }
+    .zoom-bubble i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted-foreground);
+      animation: typing 1.2s ease-in-out infinite;
+    }
+    .zoom-bubble i:nth-child(2) { animation-delay: 0.15s; }
+    .zoom-bubble i:nth-child(3) { animation-delay: 0.3s; }
+    .zoom-bubble-0 { top: 31%; left: 5%; --bx: -40vw; --by: -12vh; --br: -20deg; }
+    .zoom-bubble-1 { top: 44%; right: 4%; --bx: 40vw; --by: -6vh; --br: 18deg; border-radius: 999px 999px 6px 999px; }
+    .zoom-bubble-2 { top: 64%; left: 7%; --bx: -38vw; --by: 10vh; }
+    .zoom-bubble-3 { top: 25%; right: 9%; --bx: 30vw; --by: -18vh; border-radius: 999px 999px 6px 999px; }
+    .zoom-bubble-4 { top: 76%; right: 10%; --bx: 34vw; --by: 16vh; --br: 12deg; }
+
+    /* How it works: the section holds still while the four screens slide past. */
+    .how-scene {
+      max-width: none;
+      height: 330svh;
+      padding: 0;
+      view-timeline: --how block;
+    }
+    .how-sticky {
+      position: sticky;
+      top: 0;
+      display: flex;
+      height: 100svh;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .how-title {
+      max-width: 36rem;
+      margin-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 2rem));
+      padding-inline: 0;
+    }
+    .how-track {
+      display: flex;
+      width: max-content;
+      gap: clamp(1.25rem, 3vw, 2.5rem);
+      margin-top: clamp(2rem, 5svh, 3.5rem);
+      padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 2rem));
+      padding-top: clamp(3rem, 8svh, 4.5rem);
+      overflow: visible;
+      scroll-snap-type: none;
+      animation: how-slide linear both;
+      animation-timeline: --how;
+      animation-range: contain 6% contain 94%;
+    }
+    .how-card {
+      width: min(70vw, 19rem, 38svh);
+    }
+    .how-card:nth-child(even) .story-step { transform: rotate(1.5deg); }
+    .how-card:nth-child(odd) .story-step { transform: rotate(-1.5deg); }
+    .how-num {
+      font-size: clamp(5rem, 14vw, 8rem);
+    }
+    /* On a wide screen the four screens nearly fit: they're dealt in one after another as well. */
+    @media (min-width: 1024px) {
+      .how-card {
+        animation: how-deal linear both;
+        animation-timeline: --how;
+      }
+      .how-card:nth-child(1) { animation-range: contain 0% contain 16%; }
+      .how-card:nth-child(2) { animation-range: contain 10% contain 30%; }
+      .how-card:nth-child(3) { animation-range: contain 24% contain 44%; }
+      .how-card:nth-child(4) { animation-range: contain 38% contain 58%; }
+    }
+    .how-progress {
+      display: block;
+      position: relative;
+      width: min(60vw, 18rem);
+      height: 3px;
+      margin: clamp(1.5rem, 4svh, 2.5rem) auto 0;
+      overflow: hidden;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--foreground) 12%, transparent);
+    }
+    .how-progress::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform-origin: 0 50%;
+      background: var(--primary);
+      animation: grow-x linear both;
+      animation-timeline: --how;
+      animation-range: contain 6% contain 94%;
+    }
+
+    /* The steps in giant words, the two lines sliding against each other. */
+    .marquee-band {
+      view-timeline: --marquee block;
+    }
+    .marquee-line {
+      translate: none;
+      animation: marquee-left linear both;
+      animation-timeline: --marquee;
+      animation-range: cover 0% cover 100%;
+    }
+    .marquee-line-outline {
+      animation-name: marquee-right;
+    }
+
+    /* Cards, questions and the boarding pass rise into place as they come into view. */
+    .reveal-cards > *,
+    .reveal-up {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+    .ticket-in {
+      transform-origin: 50% 100%;
+      animation: ticket-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 42%;
     }
   }
-}
-@keyframes story-in {
-  from { transform: scale(0.9) rotate(-2deg); opacity: 0.55; }
-  to { transform: none; opacity: 1; }
 }
 
 /* ─── Page and list entrances (PageTransition.tsx) ─────────────────────────────────────────────────────────

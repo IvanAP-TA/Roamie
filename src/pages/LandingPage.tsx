@@ -207,43 +207,127 @@ function PostcardFan() {
   )
 }
 
-/** "How it works": the real app, one screen per step, swiped sideways on a phone and side by side on a computer. */
+/**
+ * The landing's scroll story (index.css, "Landing scroll story"): every effect is a CSS scroll-driven animation, played
+ * by the compositor, and only where the browser has them and motion isn't reduced. Elsewhere the same markup is a
+ * plain, still page.
+ */
+
+/** A thin line at the top that fills as the page is read. */
+function ScrollProgress() {
+  return <div aria-hidden className="scroll-progress" />
+}
+
+/**
+ * From the group chat to the next trip: the picked postcard (Kyoto) grows from a card into the whole screen as you
+ * scroll, the chat's bubbles blow away, and the ticket's two ends take turns over it.
+ */
+function ZoomThrough() {
+  const { t } = useTranslation()
+  const kyoto = POSTCARDS[2].photo
+  return (
+    <section aria-labelledby="zoom-title" className="zoom-scene mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
+      <div className="zoom-sticky">
+        <p className="zoom-from font-display text-[2.4rem] leading-[1] sm:text-6xl md:text-7xl">
+          <span className="mb-2 block font-sans text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">{t('landing.ticket.from')}</span>
+          {t('landing.ticket.fromValue')}
+        </p>
+        <div className="zoom-frame relative mt-8 aspect-[4/5] overflow-hidden rounded-[2rem] shadow-lift md:aspect-[16/9]">
+          <picture>
+            <source
+              type="image/avif"
+              srcSet="/landing/kyoto-wide-900.avif 900w, /landing/kyoto-wide-1600.avif 1600w, /landing/kyoto-wide-2400.avif 2400w"
+              sizes="100vw"
+            />
+            <img src="/landing/kyoto-wide-1000.jpg" alt="" width={1000} height={1506} loading="lazy" decoding="async" className="zoom-photo absolute inset-0 size-full object-cover" />
+          </picture>
+          <div className="zoom-shade absolute inset-0 bg-[linear-gradient(180deg,rgb(20_10_5/0.15)_30%,rgb(20_10_5/0.7))]" />
+          <h2 id="zoom-title" className="zoom-to absolute inset-x-6 bottom-8 text-white md:inset-x-12 md:bottom-12">
+            <span className="mb-2 block font-sans text-xs font-bold tracking-[0.22em] uppercase opacity-80">{t('landing.ticket.to')}</span>
+            <span className="block font-display text-[2.6rem] leading-[0.95] drop-shadow-lg sm:text-6xl md:text-8xl">{t('landing.ticket.toValue')}</span>
+          </h2>
+          <AttributionChip raw={kyoto.attribution} compact className="absolute top-3 right-3 z-10" />
+        </div>
+        {/* The group chat: typing bubbles around the card, blown away as the trip takes the screen. */}
+        <div aria-hidden className="zoom-bubbles">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <span key={i} className={`zoom-bubble zoom-bubble-${i}`}>
+              <i />
+              <i />
+              <i />
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/** "How it works": the real app, one screen per step, sliding sideways while the section holds still. */
 function HowItWorks({ lang }: { lang: LanguageCode }) {
   const { t } = useTranslation()
   const set = lang === 'it' ? 'it' : 'en'
   return (
-    <section aria-labelledby="features-title" className="mx-auto w-full max-w-6xl pt-20 md:px-8 md:pt-24">
-      <h2 id="features-title" className="max-w-xl px-5 text-3xl leading-tight md:px-0 md:text-5xl">
-        {t('landing.features.title')}
-      </h2>
-      <ol className="story-strip mt-8 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible md:px-0">
-        {STEPS.map((key, i) => (
-          <li key={key} className="w-[74%] shrink-0 snap-start sm:w-[44%] md:w-auto">
-            <figure className="story-step">
-              <picture>
-                <source type="image/avif" srcSet={`/landing/step-${key}-${set}-360.avif 360w, /landing/step-${key}-${set}-540.avif 540w`} sizes="(min-width: 768px) 16rem, 74vw" />
-                <img
-                  src={`/landing/step-${key}-${set}-420.jpg`}
-                  alt={t(`landing.features.${key}.title`)}
-                  width={540}
-                  height={810}
-                  loading="lazy"
-                  decoding="async"
-                  className="block aspect-[2/3] w-full rounded-[1.75rem] border border-foreground/10 object-cover object-top shadow-soft"
-                />
-              </picture>
-              <figcaption className="mt-4 px-1">
-                <h3 className="flex items-baseline gap-2 text-xl leading-snug">
-                  <span className="font-display text-primary tabular-nums">{i + 1}</span>
-                  {t(`landing.features.${key}.title`)}
-                </h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{t(`landing.features.${key}.body`)}</p>
-              </figcaption>
-            </figure>
-          </li>
-        ))}
-      </ol>
+    <section aria-labelledby="features-title" className="how-scene mx-auto w-full max-w-6xl pt-20 md:px-8 md:pt-24">
+      <div className="how-sticky">
+        <h2 id="features-title" className="how-title max-w-xl px-5 text-3xl leading-tight md:px-0 md:text-5xl">
+          {t('landing.features.title')}
+        </h2>
+        <ol className="how-track story-strip mt-8 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible md:px-0">
+          {STEPS.map((key, i) => (
+            <li key={key} className="how-card relative w-[74%] shrink-0 snap-start sm:w-[44%] md:w-auto">
+              <span aria-hidden className="how-num">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <figure className="story-step relative">
+                <picture>
+                  <source type="image/avif" srcSet={`/landing/step-${key}-${set}-360.avif 360w, /landing/step-${key}-${set}-540.avif 540w`} sizes="(min-width: 768px) 16rem, 74vw" />
+                  <img
+                    src={`/landing/step-${key}-${set}-420.jpg`}
+                    alt={t(`landing.features.${key}.title`)}
+                    width={540}
+                    height={810}
+                    loading="lazy"
+                    decoding="async"
+                    className="block aspect-[2/3] w-full rounded-[1.75rem] border border-foreground/10 object-cover object-top shadow-soft"
+                  />
+                </picture>
+                <figcaption className="mt-4 px-1">
+                  <h3 className="flex items-baseline gap-2 text-xl leading-snug">
+                    <span className="font-display text-primary tabular-nums">{i + 1}</span>
+                    {t(`landing.features.${key}.title`)}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{t(`landing.features.${key}.body`)}</p>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ol>
+        <div aria-hidden className="how-progress" />
+      </div>
     </section>
+  )
+}
+
+/** The steps as two lines of giant words sliding against each other with the scroll. */
+function StepsMarquee() {
+  const { t } = useTranslation()
+  const words = STEPS.map((key) => t(`landing.features.${key}.title`))
+  const line = (outlined: boolean) => (
+    <p className={cn('marquee-line', outlined && 'marquee-line-outline')}>
+      {[...words, ...words].map((word, i) => (
+        <span key={i}>
+          {word}
+          <span className="marquee-dot">✦</span>
+        </span>
+      ))}
+    </p>
+  )
+  return (
+    <div aria-hidden className="marquee-band mt-20 md:mt-28">
+      {line(false)}
+      {line(true)}
+    </div>
   )
 }
 
@@ -252,7 +336,7 @@ function BoardingPass({ next }: { next: string }) {
   const { t } = useTranslation()
   return (
     <section aria-labelledby="cta-title" className="mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
-      <div className="drop-shadow-[0_18px_28px_rgb(150_70_30/0.18)] dark:drop-shadow-[0_18px_28px_rgb(0_0_0/0.45)]">
+      <div className="ticket-in drop-shadow-[0_18px_28px_rgb(150_70_30/0.18)] dark:drop-shadow-[0_18px_28px_rgb(0_0_0/0.45)]">
         <div className="ticket-notch mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-paper [--notch-y:6.5rem] md:[--notch-y:7rem]">
           <div className="flex h-[6.5rem] items-center justify-between gap-4 bg-[linear-gradient(115deg,var(--sun),var(--coral)_55%,var(--dusk))] px-6 text-white md:h-28 md:px-10">
             <div className="min-w-0">
@@ -303,8 +387,9 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
   if (waitingForSession) return <Splash />
 
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-hidden">
+    <div className="relative flex min-h-dvh flex-col overflow-x-clip">
       <AuroraBackground />
+      <ScrollProgress />
 
       <header className="pt-safe mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 md:px-8">
         <Logo />
@@ -313,12 +398,12 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
       <LanguageHint lang={lang} />
 
       <main className="flex-1">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-4 px-5 md:min-h-[min(calc(100dvh-4.5rem),44rem)] md:grid-cols-[1.05fr_1fr] md:gap-12 md:px-8 md:py-10">
-          <section className="order-1 pt-2 md:order-2">
+        <div className="hero-scene mx-auto grid w-full max-w-6xl items-center gap-4 px-5 md:min-h-[min(calc(100dvh-4.5rem),44rem)] md:grid-cols-[1.05fr_1fr] md:gap-12 md:px-8 md:py-10">
+          <section className="hero-fan order-1 pt-2 md:order-2">
             <PostcardFan />
           </section>
 
-          <section className="order-2 flex flex-col gap-5 md:order-1 md:gap-6">
+          <section className="hero-text order-2 flex flex-col gap-5 md:order-1 md:gap-6">
             {/* Transform-only entrance: the headline is the LCP element and is visible in the prerendered HTML. */}
             <div className="intro-rise space-y-4">
               <h1 className="text-[2.6rem] leading-[0.98] font-medium sm:text-5xl md:text-6xl lg:text-7xl">
@@ -353,9 +438,11 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
           </section>
         </div>
 
+        <ZoomThrough />
         <HowItWorks lang={lang} />
+        <StepsMarquee />
 
-        <section aria-labelledby="guides-title" className="mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
+        <section aria-labelledby="guides-title" className="mx-auto w-full max-w-6xl px-5 pt-16 md:px-8 md:pt-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
               <h2 id="guides-title" className="text-3xl leading-tight md:text-5xl">
@@ -371,7 +458,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
               <ArrowRight className="size-4" />
             </Link>
           </div>
-          <GuideCards lang={lang} limit={4} media={guideCardPhoto} className="mt-8" />
+          <GuideCards lang={lang} limit={4} media={guideCardPhoto} className="reveal-cards mt-8" />
           <ul className="mt-6 flex flex-wrap gap-2">
             {comingMonths(today.getMonth() + 1, 4).map((month) => (
               <li key={month}>
@@ -389,7 +476,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
           </h2>
           <div className="mt-8 space-y-3">
             {FAQ_KEYS.map((key) => (
-              <details key={key} className="glass group rounded-3xl px-6">
+              <details key={key} className="reveal-up glass group rounded-3xl px-6">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 font-display text-lg leading-snug [&::-webkit-details-marker]:hidden">
                   {t(`landing.faq.${key}.q`)}
                   <Plus className="size-5 shrink-0 text-primary transition group-open:rotate-45" />
