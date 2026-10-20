@@ -315,7 +315,9 @@
     "noneLeft": "Ya has usado tus 10 puntos: quita alguno de otro destino.",
     "hint": "Tienes 10 puntos para repartir entre los destinos propuestos. Cuantos más puntos recibe un destino, más grande es su porción en la ruleta.",
     "score_one": "{{count}} punto",
-    "score_other": "{{count}} puntos"
+    "score_other": "{{count}} puntos",
+    "leftShort_one": "{{count}} punto de 10",
+    "leftShort_other": "{{count}} puntos de 10"
   },
   "comments": {
     "title": "Comentarios",
@@ -1248,5 +1250,18 @@
     "delete": "Eliminar el ejemplo",
     "deleteTitle": "¿Eliminar el viaje de ejemplo?",
     "deleteBody": "Se borrarán sus destinos, puntos e itinerario."
+  },
+  "deck": {
+    "open": "Vota deslizando",
+    "title": "Vota deslizando",
+    "hint": "Un destino a la vez: desliza para pasar al siguiente.",
+    "progress": "{{current}} de {{total}}",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Terminar",
+    "summaryTitle": "Aquí fueron tus puntos",
+    "summaryEmpty": "Aún no has dado puntos a ningún destino.",
+    "again": "Empezar de nuevo",
+    "close": "Listo"
   }
 }

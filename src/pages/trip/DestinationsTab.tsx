@@ -17,9 +17,9 @@ import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
 import { GuidesLinkButton } from '@/components/guides/GuidesLink'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
-import { PointsLeftBadge } from '@/components/destinations/PointsControl'
 import { ResetPointsButton } from '@/components/destinations/ResetPoints'
 import { SecretVotingControl } from '@/components/destinations/SecretVotingControl'
+import { VoteDeck, VoteDeckButton } from '@/components/destinations/VoteDeck'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
 import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
@@ -55,6 +55,10 @@ export default function DestinationsTab() {
   const [selected, setSelected] = useState<string[]>([])
   const selectedRef = useRef<string[]>([])
   const [comparing, setComparing] = useState(false)
+
+  // The deck (the second way to vote): the order of the list when it was opened.
+  const [deckIds, setDeckIds] = useState<string[]>([])
+  const [deckOpen, setDeckOpen] = useState(false)
 
   const open = (id: string) =>
     setParams((p) => {
@@ -246,7 +250,13 @@ export default function DestinationsTab() {
               status === 'proposed' &&
               counts.proposed > 0 && (
                 <>
-                  <PointsLeftBadge tripId={trip.id} />
+                  <VoteDeckButton
+                    tripId={trip.id}
+                    onOpen={() => {
+                      setDeckIds(list.filter((d) => d.status === 'proposed').map((d) => d.id))
+                      setDeckOpen(true)
+                    }}
+                  />
                   <ResetPointsButton destinations={destinations ?? []} />
                   <SecretVotingControl />
                 </>
@@ -358,6 +368,8 @@ export default function DestinationsTab() {
         )}
       </AnimatePresence>
       </Floating>
+
+      <VoteDeck open={deckOpen} onOpenChange={setDeckOpen} ids={deckIds} destinations={destinations ?? []} />
 
       <DestinationFormSheet open={adding} onOpenChange={setAdding} tripId={trip.id} />
 

@@ -315,7 +315,9 @@
     "noneLeft": "You've used all 10 points: take some back from another place.",
     "hint": "You have 10 points to spread across the proposed places. The more points a place gets, the bigger its slice on the wheel.",
     "score_one": "{{count}} point",
-    "score_other": "{{count}} points"
+    "score_other": "{{count}} points",
+    "leftShort_one": "{{count}} point of 10",
+    "leftShort_other": "{{count}} points of 10"
   },
   "comments": {
     "title": "Comments",
@@ -1248,5 +1250,18 @@
     "delete": "Delete the sample",
     "deleteTitle": "Delete the sample trip?",
     "deleteBody": "Its places, points and itinerary will be deleted."
+  },
+  "deck": {
+    "open": "Swipe to vote",
+    "title": "Swipe to vote",
+    "hint": "One place at a time: swipe to move to the next.",
+    "progress": "{{current}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "summaryTitle": "Here’s where your points went",
+    "summaryEmpty": "You haven’t given points to any place yet.",
+    "again": "Start over",
+    "close": "Done"
   }
 }

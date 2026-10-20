@@ -172,17 +172,17 @@ export function PointsControl({ destination, size = 'default', className }: { de
   )
 }
 
-/** "You have N points left out of 10" for the current trip. */
-export function PointsLeftBadge({ tripId, className }: { tripId: string; className?: string }) {
+/** "You have N points left out of 10" for the current trip; `short`: "N points out of 10", inside another pill. */
+export function PointsLeftBadge({ tripId, short = false, className }: { tripId: string; short?: boolean; className?: string }) {
   const { t } = useTranslation()
   const { user } = useAuth()
   const { data: destinations } = useDestinations(tripId)
   const left = Math.max(0, pointsLeft(destinations ?? [], user?.id))
 
   return (
-    <p className={cn('inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground', className)} title={t('points.hint')}>
+    <span className={cn('inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-muted-foreground', className)} title={short ? undefined : t('points.hint')}>
       <Coins className={cn('size-3.5', left > 0 ? 'text-primary' : 'text-muted-foreground')} />
-      <span className={cn('font-semibold', left > 0 && 'text-foreground')}>{t('points.left', { count: left })}</span>
-    </p>
+      <span className={cn('font-semibold whitespace-nowrap', left > 0 && 'text-foreground')}>{t(short ? 'points.leftShort' : 'points.left', { count: left })}</span>
+    </span>
   )
 }

@@ -315,7 +315,9 @@
     "noneLeft": "Hai già usato tutti i 10 punti: togline da un'altra meta.",
     "hint": "Hai 10 punti da distribuire tra le mete proposte. Più punti riceve una meta, più grande è il suo spicchio sulla ruota.",
     "score_one": "{{count}} punto",
-    "score_other": "{{count}} punti"
+    "score_other": "{{count}} punti",
+    "leftShort_one": "{{count}} punto su 10",
+    "leftShort_other": "{{count}} punti su 10"
   },
   "comments": {
     "title": "Commenti",
@@ -1248,5 +1250,18 @@
     "delete": "Elimina l’esempio",
     "deleteTitle": "Eliminare il viaggio di esempio?",
     "deleteBody": "Mete, punti e itinerario di prova verranno cancellati."
+  },
+  "deck": {
+    "open": "Vota sfogliando",
+    "title": "Vota sfogliando",
+    "hint": "Una meta alla volta: scorri per passare alla prossima.",
+    "progress": "{{current}} di {{total}}",
+    "back": "Indietro",
+    "next": "Avanti",
+    "finish": "Fine",
+    "summaryTitle": "Ecco dove sono andati i tuoi punti",
+    "summaryEmpty": "Non hai ancora dato punti a nessuna meta.",
+    "again": "Ricomincia",
+    "close": "Fatto"
   }
 }
