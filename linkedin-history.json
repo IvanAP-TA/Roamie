@@ -95,5 +95,26 @@
         "id": "68"
       }
     }
+  },
+  {
+    "date": "2026-10-20T07:00:11.313Z",
+    "kind": "insight",
+    "topic": "why",
+    "card": "places",
+    "firstLine": "Deciding where to go isn’t just about counting votes. It’s about the reasons behind them.",
+    "text": "Deciding where to go isn’t just about counting votes. It’s about the reasons behind them.\n\nWhen someone says they’d like to go because of a cheap flight or a friend who lives nearby, it carries more weight than just a yes or no. A good reason can shift opinions without anyone feeling left out. It turns a simple choice into something more thoughtful.\n\nThat’s why the best trips often start with a conversation, not just a tally. Sometimes the most persuasive argument isn’t the loudest one.\n\nWhat’s the last trip you convinced a friend to join, and what made it convincing?",
+    "rejected": [
+      "insight: formatting",
+      "insight: formatting"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "74"
+      }
+    }
   }
 ]
