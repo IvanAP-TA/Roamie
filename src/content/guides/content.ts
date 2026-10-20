@@ -1288,4 +1288,62 @@ export const GUIDE_CONTENT: Record<string, GuideContent> = {
       },
     ],
   },
+  'choose-together': {
+    intro: {
+      it: 'Ogni gruppo ha il suo modo di scegliere dove andare, e quasi sempre la discussione parte nella chat. Ecco i cinque metodi più usati, con i pro e i contro di ciascuno, per capire quale fa per voi.',
+      en: 'Every group has its own way of choosing where to go, and the discussion almost always starts in the chat. Here are the five most common methods, with the pros and cons of each, to see which suits you.',
+      es: 'Cada grupo tiene su forma de elegir adónde ir, y la discusión casi siempre empieza en el chat. Estos son los cinco métodos más usados, con los pros y contras de cada uno, para ver cuál os va mejor.',
+    },
+    places: [],
+    steps: [
+      {
+        title: { it: "Il sondaggio nella chat di WhatsApp o Telegram", en: "A poll in the WhatsApp or Telegram chat", es: "La encuesta en el chat de WhatsApp o Telegram" },
+        body: {
+          it: "È il più veloce: è già lì, non serve nessuna app. Funziona bene quando le opzioni sono due o tre e già chiare. I limiti: ognuno ha un solo voto, quindi non si capisce quanto ci tiene; le proposte e i motivi si perdono tra i messaggi; e chi non risponde blocca tutto.",
+          en: "It's the fastest: it's already there, no app needed. It works well when there are two or three clear options. The limits: everyone gets one vote, so you can't tell how much they care; proposals and reasons get lost in the messages; and whoever doesn't answer holds everyone up.",
+          es: "Es el más rápido: ya está ahí, sin apps. Funciona bien cuando hay dos o tres opciones claras. Los límites: cada uno tiene un solo voto, así que no se sabe cuánto le importa; las propuestas y los motivos se pierden entre los mensajes; y quien no responde lo bloquea todo.",
+        },
+      },
+      {
+        title: { it: "Un documento o un foglio condiviso", en: "A shared doc or spreadsheet", es: "Un documento o una hoja compartida" },
+        body: {
+          it: "Google Docs, un foglio di calcolo o Notion tengono tutto in un posto: mete, prezzi, link. Va bene per gruppi organizzati. Ma serve qualcuno che lo curi, dal telefono si legge male e il documento raccoglie le idee senza aiutarvi a scegliere.",
+          en: "Google Docs, a spreadsheet or Notion keep everything in one place: destinations, prices, links. Good for organised groups. But someone has to look after it, it's awkward on a phone, and a document collects ideas without helping you choose.",
+          es: "Google Docs, una hoja de cálculo o Notion lo guardan todo en un sitio: destinos, precios, enlaces. Va bien para grupos organizados. Pero alguien tiene que cuidarlo, en el móvil se lee mal y el documento reúne ideas sin ayudaros a elegir.",
+        },
+      },
+      {
+        title: { it: "Un’app di itinerario", en: "An itinerary app", es: "Una app de itinerarios" },
+        body: {
+          it: "App come Wanderlog sono ottime per organizzare un viaggio già deciso: giorni, mappe, prenotazioni, spese. Sono pensate soprattutto per il dopo, quando la meta c’è. Se il gruppo non ha ancora scelto dove andare, conviene decidere prima e usarle poi.",
+          en: "Apps like Wanderlog are great for organising a trip that is already decided: days, maps, bookings, expenses. They are built mostly for afterwards, once the destination is set. If the group still has to choose where to go, decide first and use them next.",
+          es: "Apps como Wanderlog son excelentes para organizar un viaje ya decidido: días, mapas, reservas, gastos. Están pensadas sobre todo para el después, cuando el destino ya está. Si el grupo aún no ha elegido adónde ir, conviene decidir primero y usarlas luego.",
+        },
+      },
+      {
+        title: { it: "Decide una persona sola", en: "One person decides", es: "Decide una sola persona" },
+        body: {
+          it: "Il metodo più rapido in assoluto: uno sceglie, gli altri si fidano. Funziona nei gruppi piccoli e quando qualcuno conosce bene i gusti di tutti. Il rischio è che chi non è stato ascoltato parta controvoglia, o non parta.",
+          en: "The fastest method of all: one person chooses, the others trust them. It works in small groups and when someone knows everyone's tastes. The risk is that whoever wasn't heard comes along reluctantly, or doesn't come.",
+          es: "El método más rápido de todos: uno elige y los demás confían. Funciona en grupos pequeños y cuando alguien conoce bien los gustos de todos. El riesgo es que quien no fue escuchado vaya a regañadientes, o no vaya.",
+        },
+      },
+      {
+        title: { it: "Proposte, voto a punti e ruota", en: "Proposals, points voting and a wheel", es: "Propuestas, votación por puntos y ruleta" },
+        body: {
+          it: "È il metodo di Roamie: ognuno propone le sue mete con foto e motivi, poi ha 10 punti da distribuire (anche in segreto), e una ruota con spicchi grandi quanto i punti scioglie l’indecisione. Pesa quanto ci tiene ciascuno, non solo cosa sceglie. Il limite: serve che tutti aprano il link, anche se per votare basta il nome.",
+          en: "It's Roamie's method: everyone proposes their destinations with a photo and reasons, then has 10 points to spread (secretly too), and a wheel with slices as big as the points settles the indecision. It weighs how much each person cares, not just what they pick. The limit: everyone has to open the link, though a name is enough to vote.",
+          es: "Es el método de Roamie: cada uno propone sus destinos con foto y motivos, luego tiene 10 puntos para repartir (también en secreto), y una ruleta con porciones tan grandes como los puntos resuelve la indecisión. Pesa cuánto le importa a cada uno, no solo qué elige. El límite: todos tienen que abrir el enlace, aunque para votar basta el nombre.",
+        },
+      },
+      {
+        title: { it: "Quale scegliere", en: "Which one to use", es: "Cuál elegir" },
+        body: {
+          it: "Due o tre opzioni già chiare: il sondaggio nella chat basta. Tante idee diverse e gusti lontani: voto a punti. Meta già decisa: un’app di itinerario o un documento per organizzare. Spesso la strada migliore è mescolarli: si sceglie con i punti, si organizza dopo.",
+          en: "Two or three clear options: the poll in the chat is enough. Lots of different ideas and tastes: points voting. Destination already decided: an itinerary app or a doc to organise. Often the best route is to mix them: choose with points, organise afterwards.",
+          es: "Dos o tres opciones claras: basta la encuesta en el chat. Muchas ideas distintas y gustos lejanos: votación por puntos. Destino ya decidido: una app de itinerarios o un documento para organizar. A menudo lo mejor es combinarlos: se elige con puntos y se organiza después.",
+        },
+      },
+    ],
+  },
 }

@@ -142,5 +142,17 @@
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gordes_with_cirrus.jpg"
     },
     "key": "provence"
+  },
+  "choose-together": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Puente_Don_Luis_I%2C_Oporto%2C_Portugal%2C_2012-05-09%2C_DD_13.JPG/960px-Puente_Don_Luis_I%2C_Oporto%2C_Portugal%2C_2012-05-09%2C_DD_13.JPG",
+    "width": 960,
+    "height": 592,
+    "attribution": {
+      "author": "Diego Delso",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Puente_Don_Luis_I,_Oporto,_Portugal,_2012-05-09,_DD_13.JPG"
+    },
+    "key": "porto"
   }
 }

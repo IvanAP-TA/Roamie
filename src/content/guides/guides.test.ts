@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 describe('guide content', () => {
   it('has a body, localized texts and unique URL slugs for every guide', () => {
-    expect(GUIDES).toHaveLength(12)
+    expect(GUIDES).toHaveLength(13)
     for (const lang of langs) {
       const slugs = GUIDES.map((g) => g.slug[lang])
       expect(new Set(slugs).size).toBe(slugs.length)

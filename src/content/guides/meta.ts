@@ -216,6 +216,21 @@ export const GUIDES: GuideMeta[] = [
       es: 'Viñedos, lagos, islas y pueblos donde alquilar una casa entre varias parejas: destinos con buena mesa, excursiones y espacio para todos.',
     },
   },
+  {
+    id: 'choose-together',
+    slug: { it: 'come-decidere-meta-viaggio-gruppo', en: 'how-to-choose-group-trip-destination', es: 'como-decidir-destino-viaje-grupo' },
+    moods: [],
+    title: {
+      it: 'Come decidere la meta in gruppo: 5 metodi a confronto',
+      en: 'How to choose a destination as a group: 5 methods compared',
+      es: 'Cómo decidir el destino en grupo: 5 métodos comparados',
+    },
+    description: {
+      it: 'Sondaggio su WhatsApp, documento condiviso, app di itinerario, decide uno solo o voto a punti: pro e contro di ogni metodo e quando usarlo.',
+      en: 'A WhatsApp poll, a shared doc, an itinerary app, one person decides or points voting: the pros and cons of each method and when to use it.',
+      es: 'Encuesta de WhatsApp, documento compartido, app de itinerarios, decide uno solo o votación por puntos: pros y contras de cada método y cuándo usarlo.',
+    },
+  },
 ]
 
 const LANGS = Object.keys(GUIDE_BASE) as LanguageCode[]
