@@ -1,6 +1,7 @@
-# Every Sunday: what people say about planning trips with friends (the month's most discussed Reddit posts), turned
-# into ideas for the LinkedIn and social bots (video/automation/research). Read-only on Reddit, with an official
-# app token. The ideas are kept on the "social-history" branch as research-bank.json; a summary goes to Telegram.
+# Every Sunday: what people say about planning trips with friends (the comments under the month's YouTube videos on
+# the subject, and Reddit's posts if its API ever approves an app), turned into ideas for the LinkedIn and social bots
+# (video/automation/research). Read-only, official APIs. The ideas are kept on the "social-history" branch as
+# research-bank.json; a summary goes to Telegram.
 name: Research
 
 on:
@@ -31,6 +32,7 @@ jobs:
       - name: Read, summarise, keep
         working-directory: video
         env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}

@@ -37,7 +37,7 @@ What it covers:
   groups decide, a destination, a feature, a lesson learnt) and posts it through a **Make.com** scenario, the only
   route LinkedIn opens to company pages without a partner review. Its texts are rejected if they invent a name that
   isn't in the facts they were given, repeat an earlier post, or read like AI (emoji, hype, long dashes). A weekly
-  research step reads what people say about planning trips with friends on Reddit (official API) and turns it into
+  research step reads what people say about planning trips with friends (YouTube comments, official API) and turns it into
   angles and hooks for both bots, summarised in our own words, never quoted. See
   [`video/automation`](video/automation).
 - **Measured performance.** Every optimisation was benchmarked on an emulated mid-range Android phone (4× CPU) against

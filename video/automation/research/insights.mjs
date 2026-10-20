@@ -19,6 +19,9 @@ export const QUERIES = [
   { query: 'friends trip', subreddit: 'solotravel' },
 ]
 
+/** The same, as YouTube searches: videos about trips with friends, whose comments tell where it gets hard. */
+export const VIDEO_QUERIES = ['group trip with friends', 'planning a trip with friends', 'friends trip went wrong', 'how to plan a group trip', 'bachelor party trip planning']
+
 const words = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').split(/\s+/).filter(Boolean)
 
 /** Whether `text` copies a run of `n` words from any source: a quote in disguise. */
@@ -55,11 +58,11 @@ export function checkInsight(insight, sources) {
 /** The messages for the AI: the posts and comments, and what to return. */
 export function researchPrompt(posts) {
   const material = posts
-    .map((p, i) => [`Post ${i + 1} (${p.score} upvotes, ${p.comments} comments): ${p.title}`, p.text && `  ${p.text}`, ...(p.top ?? []).map((c) => `  - comment: ${c}`)].filter(Boolean).join('\n'))
+    .map((p, i) => [`Source ${i + 1} (engagement ${p.score}, ${p.comments} comments): ${p.title}`, p.text && `  ${p.text}`, ...(p.top ?? []).map((c) => `  - comment: ${c}`)].filter(Boolean).join('\n'))
     .join('\n\n')
   const system = [
     'You help Roamie, a free web app where groups of friends propose destinations, vote with points and spin a wheel to decide their trip, understand what people struggle with when they plan trips together.',
-    'From the posts and comments below, find up to five recurring problems or tensions about deciding and organising a trip as a group (not about a single destination, not solo travel).',
+    'From the videos, posts and comments below, find up to five recurring problems or tensions about deciding and organising a trip as a group (not about a single destination, not solo travel).',
     'For each, return: problem (one sentence, in your own words), context (two sentences on how it shows up, in your own words), linkedin_angle (an angle for a calm, honest LinkedIn post from the Roamie team), video_hook (a short opening line for a vertical video, 20 to 70 characters, informal).',
     'Rules: summarise, never quote; no usernames, no subreddit names, no links, no numbers, no emoji, no long dashes, no quotation marks. Only problems that really appear in the material.',
     'Return JSON {"insights": [{"problem": string, "context": string, "linkedin_angle": string, "video_hook": string}]}.',

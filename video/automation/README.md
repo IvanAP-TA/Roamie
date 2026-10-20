@@ -143,18 +143,21 @@ La pubblicazione segue lo stesso interruttore `SOCIAL_PUBLISH`. Per provare: Act
 
 ## Ricerca settimanale (Ricerca → Idee → Ganci)
 
-Ogni domenica il workflow **Research** (`research/`) legge da Reddit i post più discussi del mese su viaggi tra amici, decisioni di gruppo, budget e date, e i loro commenti principali. Mistral ne ricava fino a cinque problemi ricorrenti; per ognuno un **angolo per LinkedIn** e un **gancio per i video**. Le idee vanno in una banca (`research-bank.json` sul branch `social-history`) e ti arriva un riassunto su Telegram.
+Ogni domenica il workflow **Research** (`research/`) legge i commenti più apprezzati sotto i video YouTube del mese su viaggi con gli amici, organizzazione di gruppo, addii al celibato. Lì la gente racconta dove i viaggi di gruppo si inceppano. Mistral ne ricava fino a cinque problemi ricorrenti; per ognuno un **angolo per LinkedIn** e un **gancio per i video**. Le idee vanno in una banca (`research-bank.json` sul branch `social-history`) e ti arriva un riassunto su Telegram.
 
-- **Sono idee, non fatti.** Il codice scarta le idee che citano qualcuno, contengono nomi utente, link, numeri, trattini lunghi o copiano più di sei parole di fila da un post. I post continuano a costruire i fatti dalle guide.
+- **Sono idee, non fatti.** Il codice scarta le idee che citano qualcuno, contengono nomi utente, link, numeri, trattini lunghi o copiano più di sei parole di fila da un commento. I post continuano a costruire i fatti dalle guide.
 - **Dove finiscono:** il post LinkedIn del martedì usa l'idea più vecchia non ancora usata; i ganci dei video (in inglese) ricevono le ultime idee come ispirazione, da non copiare.
-- **Senza chiavi Reddit** il giro non fa nulla e i bot lavorano come prima.
+- **Senza chiave** il giro non fa nulla e i bot lavorano come prima.
 
-**L'app Reddit (una volta, 2 minuti).** Reddit blocca le letture senza autorizzazione dai server, e i suoi termini chiedono un'app registrata.
+**La chiave YouTube (una volta, 1 minuto).** Nello stesso progetto Google Cloud del caricamento degli Short:
 
-1. Su [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) (con il tuo account Reddit) → **create another app**.
-2. Nome `Roamie research`, tipo **script**, redirect uri `https://roamie.org` (non viene usato).
-3. Copia l'**id** (sotto il nome dell'app) e il **secret**.
-4. **Secrets** su GitHub: `REDDIT_CLIENT_ID` e `REDDIT_CLIENT_SECRET`.
+1. [console.cloud.google.com](https://console.cloud.google.com/) → progetto **Roamie Video** → **API e servizi → Credenziali → Crea credenziali → Chiave API**.
+2. Su **Modifica chiave API → Limitazioni API** scegli **YouTube Data API v3** e salva (la chiave non serve ad altro).
+3. **Secret** su GitHub: `YOUTUBE_API_KEY`.
+
+Un giro usa meno del 6% della quota gratuita giornaliera (5 ricerche da 100 unità, più i commenti a 1 unità a pagina).
+
+**Reddit:** il codice c'è (`research/reddit.mjs`), ma da novembre 2025 Reddit approva le nuove app solo su richiesta (Responsible Builder Policy) e spesso le rifiuta. Se un giorno ottieni l'approvazione, bastano i secret `REDDIT_CLIENT_ID` e `REDDIT_CLIENT_SECRET`: il bot userà entrambe le fonti.
 
 Per provarlo: Actions → Research → Run workflow.
 
