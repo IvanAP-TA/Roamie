@@ -18,6 +18,7 @@
 import { checkLine, monthName, photoCredit, similarity } from '../copy.mjs'
 import { guideUrl } from '../places.mjs'
 import { seeded } from '../plan.mjs'
+import { freshInsight } from '../research/insights.mjs'
 
 const DAY = 86_400_000
 
@@ -112,7 +113,7 @@ function freshCard(preferred, history, rand) {
  * Today's post: { kind, topic, facts, image, link, credit }. `image` is { card } or { photo }; `commits` are the last
  * week's commit subjects (for the Monday post).
  */
-export function makeLinkedInPlan({ places, history, today, commits = [], kind: forced }) {
+export function makeLinkedInPlan({ places, history, today, commits = [], kind: forced, bank = [] }) {
   const rand = seeded(`${today.toISOString().slice(0, 10)}|linkedin|${history.length}`)
   let kind = forced || process.env.LINKEDIN_KIND || SCHEDULE[today.getUTCDay()]
 
@@ -120,6 +121,18 @@ export function makeLinkedInPlan({ places, history, today, commits = [], kind: f
     const facts = buildFacts(commits)
     if (facts.length >= 2) return { kind, topic: today.toISOString().slice(0, 10), facts: facts.map((f) => `- ${f}`).join('\n'), image: { card: freshCard(undefined, history, rand) }, link: 'https://roamie.org/en' }
     kind = 'feature'
+  }
+  // Tuesday's observation comes from the week's research when there is a fresh idea (research/insights.mjs): what
+  // people really struggle with, in our own words; otherwise from the hand-written pool.
+  const idea = kind === 'insight' ? freshInsight(bank, history) : null
+  if (idea) {
+    const facts = [
+      `A tension many groups mention when they plan trips together (seen in travel communities this month, summarised in our words): ${idea.problem}`,
+      idea.context,
+      `Possible angle: ${idea.linkedin_angle}`,
+      'Roamie can be mentioned once, lightly, near the end, or not at all.',
+    ].join('\n')
+    return { kind, topic: `research:${idea.id}`, facts, image: { card: freshCard('places', history, rand) }, link: 'https://roamie.org/en' }
   }
   if (kind === 'feature' || kind === 'insight' || kind === 'lesson') {
     const pool = { feature: FEATURES, insight: INSIGHTS, lesson: LESSONS }[kind]

@@ -36,7 +36,9 @@ What it covers:
   which formats work best. A second bot writes one LinkedIn post a day for the company page (the week's changes, how
   groups decide, a destination, a feature, a lesson learnt) and posts it through a **Make.com** scenario, the only
   route LinkedIn opens to company pages without a partner review. Its texts are rejected if they invent a name that
-  isn't in the facts they were given, repeat an earlier post, or read like AI (emoji, hype, long dashes). See
+  isn't in the facts they were given, repeat an earlier post, or read like AI (emoji, hype, long dashes). A weekly
+  research step reads what people say about planning trips with friends on Reddit (official API) and turns it into
+  angles and hooks for both bots, summarised in our own words, never quoted. See
   [`video/automation`](video/automation).
 - **Measured performance.** Every optimisation was benchmarked on an emulated mid-range Android phone (4× CPU) against
   the previous release: tab-bar feedback 230–370 ms → ~45 ms, home LCP 1.9 s → 0.8 s, guide photos −84% (AVIF),

@@ -71,6 +71,9 @@ async function main() {
 
   const places = loadPlaces()
   const commits = lastWeekCommits()
+  // The week's research ideas (research/run.mjs), when the workflow found the bank.
+  const bankPath = process.env.RESEARCH_BANK || fileURLToPath(new URL('../research/bank.json', import.meta.url))
+  const bank = existsSync(bankPath) ? JSON.parse(readFileSync(bankPath, 'utf8')) : []
   const past = history.map((h) => h.firstLine).filter(Boolean)
   const pastTexts = history.slice(-30).map((h) => h.text).filter(Boolean)
   const ask = (messages) => askMistral(messages, { maxTokens: 900 })
@@ -78,13 +81,13 @@ async function main() {
 
   // The day's kind of post, and if the AI can't write one that passes the checks, a post about a feature (the
   // simplest facts) rather than nothing.
-  let plan = makeLinkedInPlan({ places, history, today, commits })
+  let plan = makeLinkedInPlan({ places, history, today, commits, bank })
   let written = { text: null }
   // The fallbacks skip the kind of the last post, so a failed day doesn't bring the same kind of post twice running.
   const lastKind = history.filter((h) => !h.failed).at(-1)?.kind
   const fallbacks = ['feature', 'insight'].filter((kind) => kind !== lastKind)
   for (const kind of [...new Set([plan.kind, ...fallbacks])]) {
-    if (kind !== plan.kind) plan = makeLinkedInPlan({ places, history, today, commits, kind })
+    if (kind !== plan.kind) plan = makeLinkedInPlan({ places, history, today, commits, kind, bank })
     log(`plan: ${plan.kind} · ${plan.topic}`)
     written = await writeLinkedInPost(plan, past, ask, pastTexts)
     rejected.push(...written.rejected.map((r) => `${plan.kind}: ${r}`))

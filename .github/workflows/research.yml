@@ -1,0 +1,57 @@
+# Every Sunday: what people say about planning trips with friends (the month's most discussed Reddit posts), turned
+# into ideas for the LinkedIn and social bots (video/automation/research). Read-only on Reddit, with an official
+# app token. The ideas are kept on the "social-history" branch as research-bank.json; a summary goes to Telegram.
+name: Research
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: social-history-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Previous ideas
+        run: git fetch origin social-history && git show origin/social-history:research-bank.json > video/automation/research/bank.json 2>/dev/null || echo '[]' > video/automation/research/bank.json
+
+      - name: Read, summarise, keep
+        working-directory: video
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node --experimental-strip-types --no-warnings automation/research/run.mjs
+
+      - name: Save the ideas
+        if: success()
+        run: |
+          cp video/automation/research/bank.json "$RUNNER_TEMP/research-bank.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          if git show-ref --verify --quiet refs/remotes/origin/social-history; then
+            git switch -c social-history origin/social-history
+          else
+            git switch --orphan social-history
+          fi
+          cp "$RUNNER_TEMP/research-bank.json" research-bank.json
+          echo '{ "git": { "deploymentEnabled": false } }' > vercel.json
+          git add research-bank.json vercel.json
+          if git diff --cached --quiet; then echo "Nothing new to save"; exit 0; fi
+          git commit -m "Research of $(date -u +%F)"
+          git push origin social-history

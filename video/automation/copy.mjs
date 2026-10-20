@@ -294,7 +294,7 @@ const FORMAT_BRIEF = {
  * Hook and caption for a plan. `past` holds earlier posts' hooks and captions in this language.
  * Returns { hook, caption, source: 'ai' | 'pool', rejected: [reasons] }.
  */
-export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
+export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspiration = []) {
   const names = plan.places.map((p) => p.name[lang])
   const vars = { month: plan.month ? monthName(plan.month, lang) : '', a: names[0], b: names[1], n: String(names.length), theme: plan.theme ?? '' }
   const key = plan.kind === 'carousel' ? `carousel_${plan.format}` : plan.format
@@ -315,6 +315,8 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral) {
     `Never invent facts. Different every time: here are lines already used, do not repeat their wording or structure:`,
     ...past.slice(-12).map((l) => `  · ${l}`),
     `Style examples (do not copy): ${pool[key].slice(0, 3).map((l) => `"${fill(l, vars)}"`).join(', ')}.`,
+    // Openers from the week's research (research/insights.mjs): what groups really talk about, as inspiration only.
+    ...(inspiration.length ? [`Tensions groups talk about lately, if one fits these destinations use it as inspiration for the hook (do not copy): ${inspiration.map((l) => `"${l}"`).join(', ')}.`] : []),
   ].join('\n')
   const user = `Destinations:\n${facts}${plan.month ? `\nMonth: ${vars.month}` : ''}`
 

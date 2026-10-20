@@ -41,6 +41,10 @@ jobs:
       - name: Previous posts
         run: git show origin/social-history:linkedin-history.json > video/automation/linkedin/history.json 2>/dev/null || echo '[]' > video/automation/linkedin/history.json
 
+      # The week's research ideas (Research workflow), if any: inspiration for the posts.
+      - name: Research ideas
+        run: git show origin/social-history:research-bank.json > video/automation/research/bank.json 2>/dev/null || echo '[]' > video/automation/research/bank.json
+
       - name: Plan, write, publish
         working-directory: video
         env:

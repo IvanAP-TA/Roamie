@@ -31,6 +31,7 @@ import { media } from './publish/media.mjs'
 import { telegram } from './publish/telegram.mjs'
 import { tiktok } from './publish/tiktok.mjs'
 import { youtube } from './publish/youtube.mjs'
+import { recentHooks } from './research/insights.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const lang = process.env.VIDEO_LANG === 'it' ? 'it' : 'en'
@@ -44,6 +45,12 @@ const PLATFORMS = [youtube, instagram, facebook, tiktok]
 /** Tuesdays and Thursdays are for carousels, the other days for videos; POST_KIND overrides it. */
 const kindOf = (today) => (['video', 'carousel'].includes(process.env.POST_KIND) ? process.env.POST_KIND : [2, 4].includes(today.getUTCDay()) ? 'carousel' : 'video')
 const pick = (list, rand) => list[Math.floor(rand() * list.length)]
+
+/** The week's research openers (research/run.mjs), English only like the ideas themselves; none without the bank. */
+function researchHooks() {
+  const path = process.env.RESEARCH_BANK || fileURLToPath(new URL('./research/bank.json', import.meta.url))
+  return lang === 'en' && existsSync(path) ? recentHooks(JSON.parse(readFileSync(path, 'utf8'))) : []
+}
 
 const log = (...args) => console.log('·', ...args)
 const summary = (text) => process.env.GITHUB_STEP_SUMMARY && appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`)
@@ -113,7 +120,7 @@ async function video(history, today) {
   log(`plan: ${plan.format} · ${plan.places.map((p) => p.key).join(', ')}${plan.month ? ` · ${monthName(plan.month, lang)}` : ''}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
-  const copy = await writeCopy(plan, lang, past, rand)
+  const copy = await writeCopy(plan, lang, past, rand, undefined, researchHooks())
   log(`copy (${copy.source}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
 
   const tracks = readdirSync(`${ROOT}/public/music`).filter((f) => f.endsWith('.mp3'))
@@ -232,7 +239,7 @@ async function carousel(history, today) {
   log(`carousel: ${plan.format} · ${plan.guide ?? monthName(plan.month, lang)} · ${plan.places.map((p) => p.key).join(', ')}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
-  const copy = await writeCopy(plan, lang, past, rand)
+  const copy = await writeCopy(plan, lang, past, rand, undefined, researchHooks())
   log(`copy (${copy.source}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
 
   const n = plan.places.length

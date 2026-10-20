@@ -141,6 +141,23 @@ Il bot scrive il testo nel formato di LinkedIn (`littleText` in `publish/make.mj
 
 La pubblicazione segue lo stesso interruttore `SOCIAL_PUBLISH`. Per provare: Actions → LinkedIn → Run workflow (nel campo "kind" puoi forzare il tipo di post). Make tiene lo storico di ogni esecuzione: se LinkedIn rifiuta un post, l'errore è lì. Se il collegamento a LinkedIn scade, Make lo segnala per email e nello scenario: basta ricollegare l'account.
 
+## Ricerca settimanale (Ricerca → Idee → Ganci)
+
+Ogni domenica il workflow **Research** (`research/`) legge da Reddit i post più discussi del mese su viaggi tra amici, decisioni di gruppo, budget e date, e i loro commenti principali. Mistral ne ricava fino a cinque problemi ricorrenti; per ognuno un **angolo per LinkedIn** e un **gancio per i video**. Le idee vanno in una banca (`research-bank.json` sul branch `social-history`) e ti arriva un riassunto su Telegram.
+
+- **Sono idee, non fatti.** Il codice scarta le idee che citano qualcuno, contengono nomi utente, link, numeri, trattini lunghi o copiano più di sei parole di fila da un post. I post continuano a costruire i fatti dalle guide.
+- **Dove finiscono:** il post LinkedIn del martedì usa l'idea più vecchia non ancora usata; i ganci dei video (in inglese) ricevono le ultime idee come ispirazione, da non copiare.
+- **Senza chiavi Reddit** il giro non fa nulla e i bot lavorano come prima.
+
+**L'app Reddit (una volta, 2 minuti).** Reddit blocca le letture senza autorizzazione dai server, e i suoi termini chiedono un'app registrata.
+
+1. Su [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) (con il tuo account Reddit) → **create another app**.
+2. Nome `Roamie research`, tipo **script**, redirect uri `https://roamie.org` (non viene usato).
+3. Copia l'**id** (sotto il nome dell'app) e il **secret**.
+4. **Secrets** su GitHub: `REDDIT_CLIENT_ID` e `REDDIT_CLIENT_SECRET`.
+
+Per provarlo: Actions → Research → Run workflow.
+
 ## Provare a mano
 
 - **Da GitHub:** Actions → Social videos → Run workflow. Nel campo "kind" puoi scrivere `video` o `carousel` per forzare il tipo di post.
