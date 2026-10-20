@@ -44,8 +44,8 @@ export function InviteTicket({ trip, className }: { trip: Trip; className?: stri
   return <InviteCode trip={trip} className={className} />
 }
 
-/** The Roamie bot for Telegram groups (its @username), set at build time; no button without it. */
-const TELEGRAM_BOT: string = import.meta.env.VITE_TELEGRAM_BOT ?? ''
+/** The Roamie bot for Telegram groups (supabase/functions/telegram-bot), by its @username. */
+const TELEGRAM_BOT = 'RoamieTripBot'
 
 function InviteCode({ trip, className }: { trip: Trip; className?: string }) {
   const { t } = useTranslation()
