@@ -32,6 +32,7 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { PassportShareSheet } from '@/components/passport/PassportShareSheet'
 import { PlaceFormSheet } from '@/components/passport/PlaceFormSheet'
 import { Button } from '@/components/ui/button'
+import { CountUp } from '@/components/ui/count-up'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
@@ -225,7 +226,9 @@ export default function PassportPage() {
               {tiles.map(({ label, value, icon: Icon }) => (
                 <div key={label} className="glass rounded-[1.5rem] p-4">
                   <Icon className="size-4 text-primary" />
-                  <p className="mt-2 font-sans text-3xl leading-none font-semibold md:text-4xl">{value}</p>
+                  <p className="mt-2 font-sans text-3xl leading-none font-semibold md:text-4xl">
+                    <CountUp value={value} />
+                  </p>
                   <p className="mt-1 text-xs text-muted-foreground">{label}</p>
                 </div>
               ))}

@@ -81,7 +81,10 @@ export function RouletteWheel({
             const [lx, ly] = point(mid, LABEL_RADIUS)
             const angle = mid < 180 ? mid - 90 : mid + 90
             const arc = ((span * Math.PI) / 180) * LABEL_RADIUS
-            const fontSize = Math.max(11, Math.min(19, arc * 0.42))
+            // As big as the slice allows, then smaller (down to 10) so a long name fits whole ("Isole Lofoten"
+            // rather than "Isole Lof…"); only a name that still doesn't fit is cut.
+            const roomy = Math.max(11, Math.min(19, arc * 0.42))
+            const fontSize = Math.max(10, Math.min(roomy, LABEL_LENGTH / (entry.destination.name.length * 0.56)))
             const maxChars = Math.max(5, Math.floor(LABEL_LENGTH / (fontSize * 0.56)))
             return (
               <g key={entry.destination.id}>
