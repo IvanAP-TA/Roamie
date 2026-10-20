@@ -63,3 +63,12 @@ describe('research ideas', () => {
     expect(system.content).toMatch(/never quote/)
   })
 })
+
+describe('bot entry points', () => {
+  it('all parse (the tests import their modules, not the runners themselves)', async () => {
+    const { execFileSync } = await import('node:child_process')
+    for (const file of ['../run.mjs', '../linkedin/run.mjs', './run.mjs']) {
+      expect(() => execFileSync(process.execPath, ['--check', new URL(file, import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')])).not.toThrow()
+    }
+  })
+})

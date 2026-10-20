@@ -22,8 +22,7 @@ import { youtubeComments } from './youtube.mjs'
 
 const bankPath = process.env.BANK_PATH || fileURLToPath(new URL('./bank.json', import.meta.url))
 const log = (...args) => console.log('·', ...args)
-const summary = (text) => process.env.GITHUB_STEP_SUMMARY && appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}
-`)
+const summary = (text) => process.env.GITHUB_STEP_SUMMARY && appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`)
 const escape = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
 /** Videos with their top comments, from YouTube. */
@@ -58,8 +57,7 @@ async function fromReddit() {
 async function main() {
   if (!youtubeComments.ready() && !reddit.ready()) {
     log('no YOUTUBE_API_KEY (nor Reddit keys): nothing to research')
-    summary('## Skipped: no research keys
-')
+    summary('## Skipped: no research keys\n')
     return
   }
   const bank = existsSync(bankPath) ? JSON.parse(readFileSync(bankPath, 'utf8')) : []
