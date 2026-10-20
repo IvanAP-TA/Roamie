@@ -219,8 +219,8 @@ function ScrollProgress() {
 }
 
 /**
- * From the group chat to the next trip: the picked postcard (Kyoto) grows from a card into the whole screen as you
- * scroll, the chat's bubbles blow away, and the ticket's two ends take turns over it.
+ * From the group chat to the trip: the postcard the hero's wheel picked (Kyoto) grows from a card into the whole
+ * screen as you scroll, the chat's typing bubbles blow away, and the problem gives way to the decision.
  */
 function ZoomThrough() {
   const { t } = useTranslation()
@@ -228,9 +228,9 @@ function ZoomThrough() {
   return (
     <section aria-labelledby="zoom-title" className="zoom-scene mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
       <div className="zoom-sticky">
-        <p className="zoom-from font-display text-[2.4rem] leading-[1] sm:text-6xl md:text-7xl">
-          <span className="mb-2 block font-sans text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">{t('landing.ticket.from')}</span>
-          {t('landing.ticket.fromValue')}
+        <p className="zoom-from mx-auto max-w-4xl font-display text-[2.1rem] leading-[1.02] sm:text-5xl md:text-7xl">
+          <span className="mb-3 block font-sans text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">{t('landing.story.fromLabel')}</span>
+          {t('landing.story.from')}
         </p>
         <div className="zoom-frame relative mt-8 aspect-[4/5] overflow-hidden rounded-[2rem] shadow-lift md:aspect-[16/9]">
           <picture>
@@ -243,8 +243,8 @@ function ZoomThrough() {
           </picture>
           <div className="zoom-shade absolute inset-0 bg-[linear-gradient(180deg,rgb(20_10_5/0.15)_30%,rgb(20_10_5/0.7))]" />
           <h2 id="zoom-title" className="zoom-to absolute inset-x-6 bottom-8 text-white md:inset-x-12 md:bottom-12">
-            <span className="mb-2 block font-sans text-xs font-bold tracking-[0.22em] uppercase opacity-80">{t('landing.ticket.to')}</span>
-            <span className="block font-display text-[2.6rem] leading-[0.95] drop-shadow-lg sm:text-6xl md:text-8xl">{t('landing.ticket.toValue')}</span>
+            <span className="mb-3 block font-sans text-xs font-bold tracking-[0.22em] uppercase opacity-85">{t('landing.story.toLabel')}</span>
+            <span className="block font-display text-[3.2rem] leading-[0.95] drop-shadow-lg sm:text-7xl md:text-9xl">{t('landing.story.to')}</span>
           </h2>
           <AttributionChip raw={kyoto.attribution} compact className="absolute top-3 right-3 z-10" />
         </div>
@@ -260,6 +260,23 @@ function ZoomThrough() {
         </div>
       </div>
     </section>
+  )
+}
+
+/**
+ * The way in, always at hand: a bar at the bottom that slides up once the hero (and its buttons) has scrolled away and
+ * steps aside when the boarding pass at the end, which has its own button, comes into view.
+ */
+function StickyCta({ next, lang }: { next: string; lang: LanguageCode }) {
+  const { t } = useTranslation()
+  return (
+    <div className="sticky-cta">
+      <div className="glass-strong mx-auto flex max-w-3xl items-center gap-2 rounded-full p-1.5 shadow-lift">
+        <p className="hidden min-w-0 flex-1 truncate pl-4 font-display text-lg md:block">{t('landing.sticky.title')}</p>
+        <GoogleButton next={next} label={t('landing.sticky.google')} className="h-11 min-w-0 flex-1 gap-2 px-4 text-sm whitespace-nowrap md:w-auto md:flex-none" />
+        <TryWithoutAccount lang={lang} compact label={t('landing.sticky.guest')} />
+      </div>
+    </div>
   )
 }
 
@@ -335,7 +352,7 @@ function StepsMarquee() {
 function BoardingPass({ next }: { next: string }) {
   const { t } = useTranslation()
   return (
-    <section aria-labelledby="cta-title" className="mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
+    <section aria-labelledby="cta-title" className="ticket-scene mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
       <div className="ticket-in drop-shadow-[0_18px_28px_rgb(150_70_30/0.18)] dark:drop-shadow-[0_18px_28px_rgb(0_0_0/0.45)]">
         <div className="ticket-notch mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-paper [--notch-y:6.5rem] md:[--notch-y:7rem]">
           <div className="flex h-[6.5rem] items-center justify-between gap-4 bg-[linear-gradient(115deg,var(--sun),var(--coral)_55%,var(--dusk))] px-6 text-white md:h-28 md:px-10">
@@ -387,7 +404,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
   if (waitingForSession) return <Splash />
 
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-clip">
+    <div className="landing-root relative flex min-h-dvh flex-col overflow-x-clip">
       <AuroraBackground />
       <ScrollProgress />
 
@@ -489,6 +506,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
 
         <BoardingPass next={next} />
       </main>
+      <StickyCta next={next} lang={lang} />
 
       <nav aria-label={t('common.language')} className="mt-16 flex justify-center gap-2 text-sm">
         {LANGUAGES.map(({ code, label }) => (

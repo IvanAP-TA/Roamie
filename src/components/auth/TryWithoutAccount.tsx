@@ -13,7 +13,7 @@ import { Sheet } from '@/components/ui/sheet'
  * "Prova senza account" on the landing: just a name, then straight into a sample trip to play with. Google comes
  * later, when inviting friends. Shown only while guest sign-ins are enabled in Supabase.
  */
-export function TryWithoutAccount({ lang }: { lang: string }) {
+export function TryWithoutAccount({ lang, compact = false, label }: { lang: string; compact?: boolean; label?: string }) {
   const { t } = useTranslation(undefined, { lng: lang })
   const { signInAsGuest } = useAuth()
   const { data: available } = useGuestAccess()
@@ -42,9 +42,15 @@ export function TryWithoutAccount({ lang }: { lang: string }) {
 
   return (
     <>
-      <Button variant="glass" size="lg" className="w-full" onClick={() => setOpen(true)}>
+      {/* compact: the landing's bottom bar, next to the Google button. */}
+      <Button
+        variant={compact ? 'default' : 'glass'}
+        size="lg"
+        className={compact ? 'h-11 min-w-0 flex-1 rounded-full px-4 text-sm whitespace-nowrap md:flex-none' : 'w-full'}
+        onClick={() => setOpen(true)}
+      >
         <Sparkles />
-        {t('sample.tryNoAccount')}
+        <span className="truncate">{label ?? t('sample.tryNoAccount')}</span>
       </Button>
       <Sheet open={open} onOpenChange={setOpen} title={t('sample.tryNoAccount')} description={t('sample.tryBody')}>
         <form onSubmit={(e) => void submit(e)} className="space-y-3 pb-2">

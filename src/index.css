@@ -453,7 +453,8 @@
    without a line of JavaScript. */
 .scroll-progress,
 .zoom-bubbles,
-.how-progress {
+.how-progress,
+.sticky-cta {
   display: none;
 }
 .how-num {
@@ -479,6 +480,8 @@
   font-size: clamp(3rem, 14vw, 9.5rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
+  /* Room under the second line for the descenders (g, p), which the clip would otherwise cut. */
+  padding-block: 0.05em 0.22em;
 }
 .marquee-line {
   display: flex;
@@ -552,6 +555,14 @@
   from { transform: translateY(45svh) rotate(9deg); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
+@keyframes cta-in {
+  from { transform: translateY(160%); opacity: 0; visibility: hidden; }
+  to { transform: none; opacity: 1; visibility: visible; }
+}
+@keyframes cta-out {
+  from { transform: none; opacity: 1; visibility: visible; }
+  to { transform: translateY(160%); opacity: 0; visibility: hidden; }
+}
 @keyframes reveal-up {
   from { transform: translateY(56px) scale(0.96); opacity: 0; }
   to { transform: none; opacity: 1; }
@@ -575,9 +586,26 @@
       animation-timeline: scroll(root block);
     }
 
-    /* The hero drifts away: the words faster than the postcards. */
+    /* The hero drifts away: the words faster than the postcards. Its timeline (and the boarding pass's) is shared
+       with the bottom bar, which isn't inside either. */
+    .landing-root {
+      timeline-scope: --hero, --ticket;
+    }
     .hero-scene {
       view-timeline: --hero block;
+    }
+    .ticket-scene {
+      view-timeline: --ticket block;
+    }
+    .sticky-cta {
+      display: block;
+      position: fixed;
+      inset-inline: 0.75rem;
+      bottom: max(env(safe-area-inset-bottom), 0.75rem);
+      z-index: 40;
+      animation: cta-in linear both, cta-out linear forwards;
+      animation-timeline: --hero, --ticket;
+      animation-range: exit 45% exit 95%, entry 0% entry 55%;
     }
     .hero-text,
     .hero-fan {
@@ -632,7 +660,9 @@
       animation-timeline: --zoom;
       animation-range: contain 6% contain 30%;
     }
+    /* Above the bottom sign-in bar, which is up by the time the photo fills the screen. */
     .zoom-to {
+      bottom: calc(max(env(safe-area-inset-bottom), 0.75rem) + 5.5rem);
       animation: zoom-to-in linear both;
       animation-timeline: --zoom;
       animation-range: contain 48% contain 72%;

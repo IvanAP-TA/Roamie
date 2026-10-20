@@ -92,6 +92,17 @@
       "to": "A",
       "toValue": "Tu próximo viaje",
       "body": "Gratis, sin anuncios, en el navegador: cread el viaje y mandad el enlace a los amigos."
+    },
+    "story": {
+      "fromLabel": "En el chat del grupo",
+      "from": "Cien mensajes y aún ningún destino.",
+      "toLabel": "Votado por el grupo, elegido por la ruleta",
+      "to": "Kioto, decidido."
+    },
+    "sticky": {
+      "google": "Entrar con Google",
+      "guest": "Pruébalo",
+      "title": "El próximo viaje se decide aquí"
     }
   },
   "seo": {

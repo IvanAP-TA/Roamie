@@ -92,6 +92,17 @@
       "to": "To",
       "toValue": "Your next trip",
       "body": "Free, no ads, right in the browser: create the trip and send your friends the link."
+    },
+    "story": {
+      "fromLabel": "In the group chat",
+      "from": "A hundred messages and still no destination.",
+      "toLabel": "Voted by the group, picked by the wheel",
+      "to": "Kyoto it is."
+    },
+    "sticky": {
+      "google": "Sign in with Google",
+      "guest": "Try it now",
+      "title": "Your next trip gets decided here"
     }
   },
   "seo": {
