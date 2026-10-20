@@ -22,6 +22,8 @@ import { youtubeComments } from './youtube.mjs'
 
 const bankPath = process.env.BANK_PATH || fileURLToPath(new URL('./bank.json', import.meta.url))
 const log = (...args) => console.log('·', ...args)
+// What went wrong along the way (a search refused, a source empty), for the Telegram alert if the run fails.
+const problems = []
 const summary = (text) => process.env.GITHUB_STEP_SUMMARY && appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`)
 const escape = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -33,6 +35,7 @@ async function fromYouTube() {
       posts.push(...(await youtubeComments.search(query)))
     } catch (error) {
       log(`youtube "${query}": ${error.message}`)
+      problems.push(`YouTube "${query}": ${error.message}`)
     }
   }
   return posts
@@ -88,8 +91,13 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
   console.error(error)
   summary(`## ❌ Failed\n\n${error.message}`)
+  // The run's logs need a GitHub login: the reason goes to Telegram too (API errors carry no keys).
+  if (telegram.ready()) {
+    const details = [error.message, ...problems.slice(0, 3)].map((line) => `• ${escape(line.slice(0, 200))}`).join('\n')
+    await telegram.message(`⚠️ <b>Ricerca settimanale non riuscita</b>\n\n${details}`).catch(() => {})
+  }
   process.exit(1)
 })
