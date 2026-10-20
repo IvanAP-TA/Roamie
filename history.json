@@ -66,7 +66,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-19T16:01:11.165Z"
+      "at": "2026-10-20T16:01:23.431Z"
     }
   },
   {
@@ -107,7 +107,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-19T16:01:11.165Z"
+      "at": "2026-10-20T16:01:23.431Z"
     }
   },
   {
@@ -146,7 +146,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-19T16:01:11.165Z"
+      "at": "2026-10-20T16:01:23.431Z"
     }
   },
   {
@@ -217,11 +217,11 @@
       }
     },
     "metrics": {
-      "reach": 7,
+      "reach": 8,
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-19T16:01:11.165Z"
+      "at": "2026-10-20T16:01:23.431Z"
     }
   },
   {
@@ -266,7 +266,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-19T16:01:11.165Z"
+      "at": "2026-10-20T16:01:23.431Z"
     }
   },
   {
@@ -359,6 +359,50 @@
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
+      }
+    },
+    "metrics": {
+      "reach": 12,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-20T16:01:23.431Z"
+    }
+  },
+  {
+    "date": "2026-10-20T16:01:23.431Z",
+    "kind": "carousel",
+    "format": "guide",
+    "lang": "en",
+    "places": [
+      "lagos",
+      "hvar",
+      "budva",
+      "menorca",
+      "paros"
+    ],
+    "guide": "summer-sea",
+    "hook": "Summer by the sea: 5 places to save",
+    "caption": "Lagos, Hvar, Budva, Menorca and Paros: which one would you put to your group?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "78"
+      },
+      "instagram": {
+        "id": "18113451631865553",
+        "url": "https://www.instagram.com/p/DeuN2dDnUN8/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122108247999506337",
+        "url": "https://www.facebook.com/1360561970475478_122108247999506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7698781199065614358",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
       }
     }
   }
