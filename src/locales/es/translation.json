@@ -65,7 +65,7 @@
       },
       "q2": {
         "q": "¿Cómo invito a mis amigos?",
-        "a": "Cada viaje tiene un enlace de invitación y un código de 8 caracteres. Quien lo abre inicia sesión con Google y entra en el grupo; puedes cambiar el código cuando quieras."
+        "a": "Cada viaje tiene un enlace de invitación y un código de 8 caracteres para mandar al chat del grupo. Quien lo abre entra solo con su nombre, sin cuenta ni app que descargar (o con Google, si lo prefiere); puedes cambiar el código cuando quieras."
       },
       "q3": {
         "q": "¿Cómo funciona la ruleta?",
@@ -77,7 +77,7 @@
       },
       "q5": {
         "q": "¿Qué datos recogéis?",
-        "a": "Solo el nombre, el email y la foto de perfil de tu cuenta de Google, para vincularte a tus viajes. Sin rastreadores ni perfiles (contamos las visitas al sitio de forma anónima, sin cookies), y puedes eliminar tu cuenta cuando quieras."
+        "a": "Si entras con Google, solo el nombre, el email y la foto de perfil, para vincularte a tus viajes; si entras sin cuenta, solo el nombre que elijas. Sin rastreadores ni perfiles (contamos las visitas al sitio de forma anónima, sin cookies), y puedes eliminar tu cuenta cuando quieras."
       }
     },
     "cta": {

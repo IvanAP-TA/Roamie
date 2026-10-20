@@ -65,7 +65,7 @@
       },
       "q2": {
         "q": "Come invito i miei amici?",
-        "a": "Ogni viaggio ha un link di invito e un codice di 8 caratteri. Chi lo apre accede con Google ed entra nel gruppo; puoi cambiare il codice quando vuoi."
+        "a": "Ogni viaggio ha un link di invito e un codice di 8 caratteri, da mandare nella chat del gruppo. Chi lo apre entra con il solo nome, senza account né app da scaricare (o con Google, se preferisce); puoi cambiare il codice quando vuoi."
       },
       "q3": {
         "q": "Come funziona la ruota?",
@@ -77,7 +77,7 @@
       },
       "q5": {
         "q": "Quali dati raccogliete?",
-        "a": "Solo nome, email e foto profilo del tuo account Google, per collegarti ai tuoi viaggi. Niente tracker né profilazione (le visite al sito le contiamo in forma anonima, senza cookie), e puoi eliminare l'account in qualsiasi momento."
+        "a": "Se entri con Google, solo nome, email e foto profilo, per collegarti ai tuoi viaggi; se entri senza account, solo il nome che scegli. Niente tracker né profilazione (le visite al sito le contiamo in forma anonima, senza cookie), e puoi eliminare l'account in qualsiasi momento."
       }
     },
     "cta": {

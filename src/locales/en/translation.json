@@ -65,7 +65,7 @@
       },
       "q2": {
         "q": "How do I invite my friends?",
-        "a": "Every trip has an invite link and an 8-character code. Whoever opens it signs in with Google and joins the group, and you can change the code whenever you like."
+        "a": "Every trip has an invite link and an 8-character code to drop in the group chat. Whoever opens it joins with just a name, no account and no app to download (or with Google, if they prefer), and you can change the code whenever you like."
       },
       "q3": {
         "q": "How does the wheel work?",
@@ -77,7 +77,7 @@
       },
       "q5": {
         "q": "What data do you collect?",
-        "a": "Only the name, email and profile picture of your Google account, to link you to your trips. No trackers or profiling (we count site visits anonymously, without cookies), and you can delete your account at any time."
+        "a": "If you sign in with Google, only your name, email and profile picture, to link you to your trips; if you join without an account, only the name you choose. No trackers or profiling (we count site visits anonymously, without cookies), and you can delete your account at any time."
       }
     },
     "cta": {
