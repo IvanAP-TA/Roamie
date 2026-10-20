@@ -8,8 +8,11 @@ import { isSupabaseConfigured } from '@/lib/supabaseEnv'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-/** On an invite: join with just a name, no account. Google can be linked later without losing anything. */
-export function GuestJoinForm({ onJoined }: { onJoined: () => void }) {
+/**
+ * On an invite: join with just a name, no account. Google can be linked later without losing anything.
+ * `primary`: the first way in (the invite page, where friends arrive from the group chat), with Google after it.
+ */
+export function GuestJoinForm({ onJoined, primary = false }: { onJoined: () => void; primary?: boolean }) {
   const { t } = useTranslation()
   const { signInAsGuest } = useAuth()
   const [name, setName] = useState('')
@@ -37,11 +40,7 @@ export function GuestJoinForm({ onJoined }: { onJoined: () => void }) {
 
   return (
     <form onSubmit={(e) => void submit(e)} className="space-y-2.5">
-      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-        <span className="h-px flex-1 bg-border" />
-        {t('guest.or')}
-        <span className="h-px flex-1 bg-border" />
-      </div>
+      {!primary && <Divider label={t('guest.or')} />}
       <Input
         value={name}
         maxLength={60}
@@ -50,11 +49,22 @@ export function GuestJoinForm({ onJoined }: { onJoined: () => void }) {
         aria-label={t('guest.namePlaceholder')}
         autoComplete="given-name"
       />
-      <Button type="submit" variant="glass" size="lg" className="w-full" disabled={!name.trim() || busy}>
+      <Button type="submit" variant={primary ? 'default' : 'glass'} size="lg" className="w-full" disabled={!name.trim() || busy}>
         {busy ? <Loader2 className="animate-spin" /> : <UserRound />}
         {t('guest.join')}
       </Button>
       <p className="text-center text-xs text-muted-foreground">{t('guest.hint')}</p>
+      {primary && <Divider label={t('guest.or')} />}
     </form>
+  )
+}
+
+function Divider({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+      <span className="h-px flex-1 bg-border" />
+      {label}
+      <span className="h-px flex-1 bg-border" />
+    </div>
   )
 }

@@ -132,9 +132,10 @@ export default function JoinPage() {
                 <div className="space-y-3 px-6 pt-5 pb-6">
                   {!session && (
                     <>
+                      {/* Just a name first: friends arrive from the group chat and shouldn't need an account to vote.
+                          Signing in here keeps this page: the ?auto=1 effect then joins the trip. */}
+                      <GuestJoinForm primary onJoined={() => navigate(`/join/${code}?auto=1`, { replace: true })} />
                       <GoogleButton next={`/join/${code}?auto=1`} label={t('join.joinWithGoogle')} className="bg-background" />
-                      {/* Signing in here keeps this page: the ?auto=1 effect then joins the trip. */}
-                      <GuestJoinForm onJoined={() => navigate(`/join/${code}?auto=1`, { replace: true })} />
                     </>
                   )}
                   {session && trip.is_member && (
