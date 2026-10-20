@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import images from './images.json'
 import covers from './covers.json'
 import { GUIDES } from './meta'
-import { firstPlaceImage, guideCoverImage, guidePhotoSrcSet, guidePlaceImage } from './images'
+import { firstPlaceImage, guideCoverImage, guideHeroImage, guidePhotoSrcSet, guidePlaceImage } from './images'
 
 // The AVIF files in public/ (listed, not loaded).
 const files = new Set(Object.keys(import.meta.glob('/public/guides/photos/*.avif')).map((path) => path.replace('/public', '')))
@@ -36,5 +36,15 @@ describe('guide covers (covers.json)', () => {
       if (first) expect(guideCoverImage(guide.id), guide.id).toEqual(first)
     }
     expect(Object.keys(covers).sort()).toEqual(GUIDES.map((g) => g.id).sort())
+  })
+
+  it("tops a guide's page with another place than the first, so the same photo isn't shown twice in a row", () => {
+    for (const guide of GUIDES) {
+      const hero = guideHeroImage(guide.id)
+      expect(hero, guide.id).not.toBeNull()
+      const first = firstPlaceImage(guide.id)
+      if (first && hero!.key !== guideCoverImage(guide.id)!.key) expect(hero!.key, guide.id).not.toBe(first.key)
+    }
+    expect(GUIDES.filter((g) => firstPlaceImage(g.id) && guideHeroImage(g.id)!.key !== firstPlaceImage(g.id)!.key).length).toBeGreaterThan(5)
   })
 })

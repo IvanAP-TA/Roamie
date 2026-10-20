@@ -184,12 +184,13 @@ function PostcardFan() {
         <Postcard key={card.name} card={card} slot={slots[i]} live={live} />
       ))}
 
+      {/* Over the corner on a phone; under the fan on a computer, where it would cover the right card's name. */}
       <button
         type="button"
         onClick={spin}
         aria-label={t('landing.spinAgain')}
         style={{ '--delay': '1.1s' } as React.CSSProperties}
-        className="intro-pop glass-strong pressable absolute right-[2%] bottom-[2%] z-20 flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-sm font-semibold"
+        className="intro-pop glass-strong pressable absolute right-[2%] bottom-[2%] z-20 flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-sm font-semibold whitespace-nowrap md:top-full md:right-auto md:bottom-auto md:left-1/2 md:mt-12 md:-translate-x-1/2"
       >
         <span
           className={cn(
@@ -312,7 +313,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
       <LanguageHint lang={lang} />
 
       <main className="flex-1">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-4 px-5 md:min-h-[calc(100dvh-4.5rem)] md:grid-cols-[1.05fr_1fr] md:gap-12 md:px-8 md:py-10">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-4 px-5 md:min-h-[min(calc(100dvh-4.5rem),44rem)] md:grid-cols-[1.05fr_1fr] md:gap-12 md:px-8 md:py-10">
           <section className="order-1 pt-2 md:order-2">
             <PostcardFan />
           </section>

@@ -4,7 +4,7 @@ import { ArrowLeft, Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { GUIDE_CONTENT, type GuidePlace } from '@/content/guides/content'
 import { EXPLORE_COPY, findExplore, guidePairs, pairPath } from '@/content/guides/explore'
-import { guideCoverImage, guidePhotoSrcSet } from '@/content/guides/images'
+import { guideHeroImage, guidePhotoSrcSet } from '@/content/guides/images'
 import { findGuide, GUIDE_BASE, type GuideMeta } from '@/content/guides/meta'
 import type { LanguageCode } from '@/i18n'
 import { usePageMeta } from '@/hooks/useSeo'
@@ -39,7 +39,7 @@ export function GuideArticle({ guide, lang }: { guide: GuideMeta; lang: Language
   useUrlLanguage(lang)
   usePageMeta(useMemo(() => guideMeta(guide, lang, i18n.getFixedT(lang)), [guide, lang, i18n]))
   const content = GUIDE_CONTENT[guide.id]
-  const cover = guideCoverImage(guide.id)
+  const cover = guideHeroImage(guide.id)
   const [adding, setAdding] = useState<GuidePlace | null>(null)
   const pairs = guidePairs(guide.id)
   // The cover shrinks back into the guide's card on the index.

@@ -22,5 +22,18 @@ export function firstPlaceImage(guideId: string): GuideImage | null {
   return null
 }
 
+/**
+ * The photo at the top of a guide's page: the last place's, so it isn't the same photo the first place card shows
+ * right below it (the guide cards elsewhere keep the cover, the first place's). The cover for a guide without places.
+ */
+export function guideHeroImage(guideId: string): GuideImage | null {
+  const places = GUIDE_CONTENT[guideId]?.places ?? []
+  for (const place of [...places].reverse().slice(0, Math.max(0, places.length - 1))) {
+    const image = guidePlaceImage(place.key)
+    if (image) return image
+  }
+  return guideCover(guideId)
+}
+
 /** The guide's cover (covers.ts). */
 export const guideCoverImage = guideCover
