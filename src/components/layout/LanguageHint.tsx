@@ -27,7 +27,8 @@ function browserLanguage(): LanguageCode | null {
 /**
  * On pages whose URL fixes the language (landings, guides), visitors whose browser speaks another of Roamie's
  * languages get a small offer to switch, written in their language. No automatic redirect: crawlers and shared links
- * keep landing on the page they asked for. Shown after mount only, so the prerendered HTML stays the same.
+ * keep landing on the page they asked for. Shown after mount only, so the prerendered HTML stays the same, and floating,
+ * so it moves nothing on the page.
  */
 export function LanguageHint({ lang }: { lang: LanguageCode }) {
   const location = useLocation()
@@ -66,8 +67,10 @@ export function LanguageHint({ lang }: { lang: LanguageCode }) {
   }
 
   return (
-    <div lang={target} className="mx-auto w-full max-w-6xl px-5 md:px-8">
-      <div className="glass flex items-center gap-3 rounded-2xl px-4 py-2.5 text-sm">
+    // Floating over the bottom of the page, not in its flow: it appears after the page has drawn, and pushing the page
+    // down then was the landing's biggest layout shift.
+    <div lang={target} className="pointer-events-none fixed inset-x-0 bottom-[max(env(safe-area-inset-bottom),1rem)] z-50 flex justify-center px-4">
+      <div className="glass-strong pointer-events-auto flex w-full max-w-md items-center gap-3 rounded-2xl px-4 py-2.5 text-sm shadow-lift">
         <Languages className="size-4 shrink-0 text-primary" />
         <span className="min-w-0 flex-1">{text.text}</span>
         <Link to={path} onClick={dismiss} className="shrink-0 font-semibold text-primary underline-offset-4 hover:underline">

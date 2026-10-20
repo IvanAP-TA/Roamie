@@ -1,4 +1,3 @@
-import '@fontsource-variable/fraunces/full.css'
 import '@fontsource-variable/fraunces/full-italic.css'
 import '@fontsource-variable/instrument-sans/index.css'
 import './index.css'

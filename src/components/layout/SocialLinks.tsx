@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next'
+import { SOCIAL_PROFILES } from '@/lib/social'
 import { cn } from '@/lib/utils'
 
-/** Roamie's social accounts, where the automatic posts go (video/automation). */
+/** Roamie's social accounts (src/lib/social.ts). */
 const NETWORKS = [
-  { name: 'Instagram', href: 'https://www.instagram.com/getroamie/', icon: InstagramIcon },
-  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595190126785', icon: FacebookIcon },
-  { name: 'TikTok', href: 'https://www.tiktok.com/@getroamie', icon: TikTokIcon },
-  { name: 'YouTube', href: 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA', icon: YouTubeIcon },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/getroamie', icon: LinkedInIcon },
+  { name: 'Instagram', href: SOCIAL_PROFILES.Instagram, icon: InstagramIcon },
+  { name: 'Facebook', href: SOCIAL_PROFILES.Facebook, icon: FacebookIcon },
+  { name: 'TikTok', href: SOCIAL_PROFILES.TikTok, icon: TikTokIcon },
+  { name: 'YouTube', href: SOCIAL_PROFILES.YouTube, icon: YouTubeIcon },
+  { name: 'LinkedIn', href: SOCIAL_PROFILES.LinkedIn, icon: LinkedInIcon },
 ] as const
 
 /** Brand marks drawn as plain line icons, so they sit with the rest of the UI instead of shouting in brand colours. */

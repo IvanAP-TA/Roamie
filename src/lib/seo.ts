@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next'
 import { LANGUAGES, type LanguageCode } from '@/i18n'
 import { escapeHtml } from '@/lib/utils'
+import { SOCIAL_PROFILES, SOURCE_REPOSITORY } from './social'
 
 /**
  * Search/social metadata for every page. Used at build time (scripts/prerender.mjs writes it into the
@@ -74,7 +75,16 @@ function landingJsonLd(lang: LanguageCode, t: TFunction, url: string, descriptio
   const home = absolute('/')
   return [
     { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Roamie', url: home, inLanguage: LANGUAGES.map((l) => l.code) },
-    { '@context': 'https://schema.org', '@type': 'Organization', name: 'Roamie', url: home, logo: absolute('/pwa-512x512.png') },
+    // sameAs: the profiles that are this Roamie's, among the many apps and companies with the same name.
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Roamie',
+      alternateName: ['roamie.org', 'Roamie group trip planner'],
+      url: home,
+      logo: absolute('/pwa-512x512.png'),
+      sameAs: [...Object.values(SOCIAL_PROFILES), SOURCE_REPOSITORY],
+    },
     {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',

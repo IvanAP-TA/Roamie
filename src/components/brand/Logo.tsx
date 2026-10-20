@@ -9,7 +9,7 @@ export function Logo({ className, to = '/' }: { className?: string; to?: string 
   return (
     <Link to={to} className={cn('group inline-flex items-center gap-2.5', className)} aria-label="Roamie">
       <LogoMark className="transition-transform duration-500 ease-[var(--ease-spring)] group-hover:-rotate-6 group-active:scale-90" />
-      <span className="font-display text-[1.6rem] leading-none font-medium tracking-tight display-wonk">roamie</span>
+      <span className="font-wordmark text-[1.6rem] leading-none tracking-tight">roamie</span>
     </Link>
   )
 }

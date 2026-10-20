@@ -35,10 +35,14 @@ if (!HEAD.test(template) || !template.includes('<!--app-html-->')) {
 
 // The headline (LCP) and body text use these two faces: fetch them alongside the CSS instead of after it.
 const assets = await readdir(new URL('assets/', dist))
-const fontPreloads = [/^fraunces-latin-full-normal-.+\.woff2$/, /^instrument-sans-latin-wght-normal-.+\.woff2$/]
+// (Vite names a file <name>-<8-character hash>; the latin-ext face, "fraunces-latin-ext-…", doesn't match.)
+// The logo's tiny font (scripts/fonts.py) is in public/, under a fixed name.
+const fontPreloads = [/^fraunces-latin-[\w-]{8}\.woff2$/, /^instrument-sans-latin-wght-normal-.+\.woff2$/]
   .map((pattern) => assets.find((file) => pattern.test(file)))
   .filter(Boolean)
-  .map((file) => `<link rel="preload" href="/assets/${file}" as="font" type="font/woff2" crossorigin />`)
+  .map((file) => `/assets/${file}`)
+  .concat('/fonts/roamie-wordmark.woff2')
+  .map((href) => `<link rel="preload" href="${href}" as="font" type="font/woff2" crossorigin />`)
 
 // Each prerendered page gets the CSS rules its own markup uses inlined, and the full stylesheet moves to the
 // end of <body>, so the first paint doesn't wait for the whole app's CSS. `preload: 'body'` needs no inline
