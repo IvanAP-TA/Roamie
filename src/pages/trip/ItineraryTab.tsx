@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { CalendarDays, CalendarPlus, CalendarRange, Download, Eraser, GripVertical, Link2, ListChecks, Map as MapIcon, Trash2, type LucideIcon } from 'lucide-react'
+import { CalendarDays, CalendarPlus, CalendarRange, Download, Eraser, GripVertical, Link2, ListChecks, Map as MapIcon, Sparkles, Trash2, type LucideIcon } from 'lucide-react'
 import { buildItineraryIcs, fileSlug } from '@/lib/ics'
 import { downloadFile } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +9,7 @@ import { useItinerary, useItineraryMutations } from '@/hooks/useItinerary'
 import { useSlidingPill } from '@/hooks/useSlidingPill'
 import { useTripContext } from '@/hooks/useTripContext'
 import { PageTransition, staggerDelay } from '@/components/layout/PageTransition'
+import { AiItinerarySheet } from '@/components/itinerary/AiItinerarySheet'
 import { DayCard } from '@/components/itinerary/DayCard'
 import { DayFormSheet, ItemFormSheet } from '@/components/itinerary/ItineraryForms'
 import { ChecklistSection } from '@/components/plan/ChecklistSection'
@@ -45,6 +46,7 @@ function ItineraryView() {
   const [itemForm, setItemForm] = useState<{ dayId: string; item?: ItineraryItem } | null>(null)
   const [deletingDay, setDeletingDay] = useState<ItineraryDay | null>(null)
   const [clearing, setClearing] = useState(false)
+  const [aiOpen, setAiOpen] = useState(false)
 
   const onError = () => toast.error(t('errors.generic'))
   const lastDay = days?.at(-1)
@@ -77,6 +79,12 @@ function ItineraryView() {
               {t('itinerary.addDay')}
             </Button>
           )}
+          {canEdit && (
+            <Button size="lg" variant="glass" onClick={() => setAiOpen(true)}>
+              <Sparkles />
+              {t('aiPlan.cta')}
+            </Button>
+          )}
         </EmptyState>
       )}
 
@@ -103,6 +111,12 @@ function ItineraryView() {
               <Button variant="glass" size="sm" onClick={() => setClearing(true)} aria-label={t('itinerary.clear')}>
                 <Eraser />
                 <span className="hidden sm:inline">{t('itinerary.clear')}</span>
+              </Button>
+            )}
+            {canEdit && (
+              <Button variant="glass" size="sm" onClick={() => setAiOpen(true)} aria-label={t('aiPlan.cta')}>
+                <Sparkles className="text-primary" />
+                <span className="hidden sm:inline">{t('aiPlan.short')}</span>
               </Button>
             )}
             {canEdit && (
@@ -146,6 +160,8 @@ function ItineraryView() {
           )}
         </>
       )}
+
+      <AiItinerarySheet open={aiOpen} onOpenChange={setAiOpen} />
 
       <DayFormSheet
         open={dayForm !== null}

@@ -77,7 +77,7 @@ function DrawnRoute({ positions, color, delay }: { positions: [number, number][]
       clearTimeout(timer)
       cleanUp()
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- once, when the map opens
   return <Polyline ref={line} positions={positions} pathOptions={{ color, weight: 3, opacity: 0.8, dashArray: '6 8' }} />
 }
 

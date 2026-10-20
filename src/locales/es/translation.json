@@ -1263,5 +1263,19 @@
     "summaryEmpty": "Aún no has dado puntos a ningún destino.",
     "again": "Empezar de nuevo",
     "close": "Listo"
+  },
+  "aiPlan": {
+    "cta": "Crea el itinerario con IA",
+    "short": "Con IA",
+    "title": "Itinerario con IA",
+    "intro": "Elige el destino y cuántos días: la IA propone un itinerario día a día. Lo ves antes y lo añades solo si os gusta.",
+    "where": "Para qué destino",
+    "noPlaces": "Proponed primero al menos un destino: la IA construye el itinerario a su alrededor.",
+    "privacy": "A Mistral AI solo enviamos el nombre del destino, su país, los días y las opciones de arriba, nunca nombres de personas ni otros datos personales.",
+    "add_one": "Añadir {{count}} día al plan",
+    "add_other": "Añadir {{count}} días al plan",
+    "added_one": "Itinerario de {{place}} añadido: {{count}} día",
+    "added_other": "Itinerario de {{place}} añadido: {{count}} días",
+    "signIn": "Inicia sesión con Google para que la IA prepare el itinerario."
   }
 }

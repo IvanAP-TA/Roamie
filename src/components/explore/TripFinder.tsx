@@ -19,7 +19,6 @@ import {
   type Idea,
   type Itinerary,
 } from '@/hooks/useTripIdeas'
-import { aiErrorCode } from '@/lib/ai'
 import { flagEmoji } from '@/lib/flags'
 import { MOODS, type BudgetLevel, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -29,6 +28,10 @@ import { TripChoiceList } from '@/components/trips/TripChoiceList'
 import { Button } from '@/components/ui/button'
 import { Chip, Skeleton } from '@/components/ui/misc'
 import { Sheet } from '@/components/ui/sheet'
+import { AiErrorNote, PlanSkeleton, PlanView } from './PlanView'
+
+// The preview page (src/dev) shows the plan as TripFinder used to export it.
+export { PlanView }
 import { dateFormat } from '@/lib/intl'
 
 const EMPTY: Criteria = { moods: [], continent: null, budget: null, month: null, length: null, fame: null, distance: null, pace: null }
@@ -423,60 +426,12 @@ export function IdeaCard({ idea, onPlan, onAdd, onShow }: { idea: Idea; onPlan: 
   )
 }
 
-export function PlanView({ plan }: { plan: Itinerary }) {
-  const { t } = useTranslation()
-  return (
-    <ol className="space-y-4">
-      {plan.days.map((day, i) => (
-        <li key={i} className="rounded-[1.5rem] bg-foreground/[0.04] p-4">
-          <p className="text-[0.7rem] font-bold tracking-wide text-primary uppercase">{t('tripFinder.day', { n: i + 1 })}</p>
-          {day.title && <p className="font-display text-lg leading-tight">{day.title}</p>}
-          <ul className="mt-2.5 space-y-2.5">
-            {day.items.map((stop, j) => (
-              <li key={j} className="flex gap-3 text-sm">
-                <span className="w-11 shrink-0 pt-px text-xs font-semibold text-muted-foreground tabular-nums">{stop.time ?? '·'}</span>
-                <span className="min-w-0">
-                  <span className="block font-medium">{stop.title}</span>
-                  {stop.description && <span className="block text-muted-foreground">{stop.description}</span>}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ol>
-  )
-}
-
-function AiErrorNote({ error }: { error: unknown }) {
-  const { t } = useTranslation()
-  return (
-    <p role="alert" className="rounded-2xl bg-destructive/10 px-3 py-2 text-sm">
-      {t(`tripFinder.errors.${aiErrorCode(error)}`)}
-    </p>
-  )
-}
-
 function IdeasSkeleton() {
   return (
     <div className="space-y-3" role="status">
       {[0, 1, 2].map((i) => (
         <Skeleton key={i} className="h-44 rounded-[1.5rem]" />
       ))}
-    </div>
-  )
-}
-
-function PlanSkeleton() {
-  const { t } = useTranslation()
-  return (
-    <div className="space-y-3" role="status">
-      <p className="flex items-center gap-1.5 text-sm font-medium">
-        <Sparkles className="size-4 animate-pulse text-primary" />
-        {t('tripFinder.planning')}
-      </p>
-      <Skeleton className="h-36 rounded-[1.5rem]" />
-      <Skeleton className="h-36 rounded-[1.5rem]" />
     </div>
   )
 }

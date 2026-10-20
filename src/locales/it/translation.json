@@ -1263,5 +1263,19 @@
     "summaryEmpty": "Non hai ancora dato punti a nessuna meta.",
     "again": "Ricomincia",
     "close": "Fatto"
+  },
+  "aiPlan": {
+    "cta": "Crea l’itinerario con l’AI",
+    "short": "Con l’AI",
+    "title": "Itinerario con l’AI",
+    "intro": "Scegli la meta e quanti giorni: l’AI propone un itinerario giorno per giorno. Lo vedi prima e lo aggiungi solo se vi piace.",
+    "where": "Per quale meta",
+    "noPlaces": "Proponete prima almeno una meta: l’AI costruisce l’itinerario intorno a quella.",
+    "privacy": "A Mistral AI inviamo solo il nome della meta, il paese, i giorni e le scelte qui sopra, mai nomi di persone o altri dati personali.",
+    "add_one": "Aggiungi {{count}} giorno al piano",
+    "add_other": "Aggiungi {{count}} giorni al piano",
+    "added_one": "Itinerario di {{place}} aggiunto: {{count}} giorno",
+    "added_other": "Itinerario di {{place}} aggiunto: {{count}} giorni",
+    "signIn": "Accedi con Google per far preparare l’itinerario all’AI."
   }
 }

@@ -1263,5 +1263,19 @@
     "summaryEmpty": "You haven’t given points to any place yet.",
     "again": "Start over",
     "close": "Done"
+  },
+  "aiPlan": {
+    "cta": "Create the itinerary with AI",
+    "short": "With AI",
+    "title": "Itinerary with AI",
+    "intro": "Pick the place and how many days: the AI suggests a day-by-day itinerary. You see it first and add it only if you like it.",
+    "where": "For which place",
+    "noPlaces": "Propose at least one place first: the AI builds the itinerary around it.",
+    "privacy": "We send Mistral AI only the place’s name, its country, the days and the choices above, never people’s names or other personal data.",
+    "add_one": "Add {{count}} day to the plan",
+    "add_other": "Add {{count}} days to the plan",
+    "added_one": "{{place}} itinerary added: {{count}} day",
+    "added_other": "{{place}} itinerary added: {{count}} days",
+    "signIn": "Sign in with Google to have the AI plan the itinerary."
   }
 }

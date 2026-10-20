@@ -44,6 +44,27 @@ export function useIdeaItinerary() {
 }
 
 /**
+ * A day-by-day plan for one of a trip's own destinations (the Plan tab). The place's name was typed by the group, not
+ * suggested by the AI: the function cleans and shortens it, and the plan still has to pass its checks.
+ */
+export function usePlaceItinerary() {
+  const lang = useLang()
+  return useMutation({
+    mutationFn: ({ place, days, criteria }: { place: { name: string; country: string | null }; days: number; criteria: Pick<Criteria, 'moods' | 'budget' | 'month' | 'pace'> }) =>
+      invokeAi<Itinerary>('trip-ideas', { action: 'itinerary', place, days, criteria, lang }),
+  })
+}
+
+/** An AI itinerary added after the trip's last day; stops are pinned when the map finds them near `near`. */
+export function useAddItinerary() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ tripId, itinerary, near }: { tripId: string; itinerary: Itinerary; near: { lat: number; lng: number } | null }) => addItinerary(tripId, itinerary, near),
+    onSuccess: (_data, { tripId }) => qc.invalidateQueries({ queryKey: keys.itinerary(tripId) }),
+  })
+}
+
+/**
  * The suggested place as a destination row: found on the map (same country) for its pin and climate, with a Commons
  * photo when there's a relevant one. Neither is required: a place the map doesn't know is proposed without a pin.
  */

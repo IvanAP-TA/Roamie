@@ -1,7 +1,8 @@
 /**
  * "Trova la meta": what the model is asked and how its answers are checked, apart from the HTTP handler so tests can
  * run it. Everything the user picks is a button (moods, continent, budget…), so the prompt is built only from known
- * values: nothing typed reaches the model except place names it suggested itself.
+ * values. The one exception is the itinerary's place name: one the model suggested, or (from a trip's Plan tab) a
+ * destination the group added, cleaned and cut to 80 characters (clean); either way the answer must pass its checks.
  */
 
 export const LANGS = ['it', 'en', 'es'] as const
