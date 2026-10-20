@@ -82,6 +82,16 @@
     },
     "cta": {
       "title": "¿Listos para salir?"
+    },
+    "picked": "¡Ha salido {{place}}!",
+    "spinAgain": "Girar las postales",
+    "ticket": {
+      "boarding": "Tarjeta de embarque",
+      "from": "De",
+      "fromValue": "El chat del grupo",
+      "to": "A",
+      "toValue": "Tu próximo viaje",
+      "body": "Gratis, sin anuncios, en el navegador: cread el viaje y mandad el enlace a los amigos."
     }
   },
   "seo": {

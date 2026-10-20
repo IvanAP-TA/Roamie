@@ -82,6 +82,16 @@
     },
     "cta": {
       "title": "Pronti a partire?"
+    },
+    "picked": "{{place}} estratta!",
+    "spinAgain": "Gira la ruota delle cartoline",
+    "ticket": {
+      "boarding": "Carta d’imbarco",
+      "from": "Da",
+      "fromValue": "La chat di gruppo",
+      "to": "A",
+      "toValue": "Il prossimo viaggio",
+      "body": "Gratis, senza pubblicità, nel browser: create il viaggio e mandate il link agli amici."
     }
   },
   "seo": {

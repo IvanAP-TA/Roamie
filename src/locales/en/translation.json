@@ -82,6 +82,16 @@
     },
     "cta": {
       "title": "Ready to roam?"
+    },
+    "picked": "{{place}} it is!",
+    "spinAgain": "Spin the postcards",
+    "ticket": {
+      "boarding": "Boarding pass",
+      "from": "From",
+      "fromValue": "The group chat",
+      "to": "To",
+      "toValue": "Your next trip",
+      "body": "Free, no ads, right in the browser: create the trip and send your friends the link."
     }
   },
   "seo": {

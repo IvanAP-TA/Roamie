@@ -386,6 +386,50 @@
 .no-intro .postcard {
   animation: none;
 }
+/* Once the visitor spins the postcards, the deal-in is over: each card glides to its new slot, springing a little. */
+.postcard.postcard-live {
+  animation: none;
+  transition: transform 0.42s cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+/* The headline's hand-drawn underline, drawing itself once the words have risen. */
+.hand-underline path {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  vector-effect: non-scaling-stroke;
+  animation: hand-draw 0.75s cubic-bezier(0.65, 0, 0.35, 1) 0.55s both;
+}
+@keyframes hand-draw {
+  from { stroke-dashoffset: 1; }
+}
+.no-intro .hand-underline path {
+  animation: none;
+}
+/* "How it works" on a phone: a strip of real screens to swipe, without a scrollbar under it. */
+.story-strip {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.story-strip::-webkit-scrollbar {
+  display: none;
+}
+/* Each screen settles into place as it slides into view (scroll-driven, so the compositor plays it). */
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  @supports (animation-timeline: view()) {
+    .story-step img {
+      animation: story-in 1ms linear both;
+      animation-timeline: view(inline);
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+@keyframes story-in {
+  from { transform: scale(0.9) rotate(-2deg); opacity: 0.55; }
+  to { transform: none; opacity: 1; }
+}
 
 /* ─── Page and list entrances (PageTransition.tsx) ─────────────────────────────────────────────────────────
    Opacity and transform only, so the compositor plays them while the main thread renders the page. "backwards"
