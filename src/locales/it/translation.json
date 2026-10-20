@@ -1295,5 +1295,24 @@
     "proposed": "Ho proposto {{place}} per «{{trip}}». Vota anche tu:",
     "voted": "Ho dato i miei 10 punti per «{{trip}}». Tocca a te:",
     "allPoints": "Hai dato tutti i tuoi 10 punti"
+  },
+  "chatImport": {
+    "title": "Incolla la chat del gruppo",
+    "hint": "Le mete ve le siete già scritte su WhatsApp o Telegram? Prendile da lì.",
+    "intro": "Copia i messaggi di WhatsApp o Telegram in cui parlate del viaggio e incollali qui: Roamie trova le mete di cui avete parlato.",
+    "placeholder": "Incolla qui i messaggi della chat…",
+    "privacy": "La chat resta sul tuo telefono: la leggiamo qui, senza mandarla a nessuno. Salviamo solo le mete che scegli.",
+    "find": "Trova le mete",
+    "pick": "Ecco le mete nominate nella chat. Togli la spunta a quelle che non c’entrano.",
+    "none": "Nessuna meta trovata in questi messaggi. Prova a incollarne altri, o aggiungi le mete a mano.",
+    "mentions_one": "nominata {{count}} volta",
+    "mentions_other": "nominata {{count}} volte",
+    "already": "Già nel viaggio",
+    "add_one": "Aggiungi {{count}} meta",
+    "add_other": "Aggiungi {{count}} mete",
+    "added_one": "{{count}} meta aggiunta dalla chat",
+    "added_other": "{{count}} mete aggiunte dalla chat",
+    "tell": "Ho messo su Roamie le mete della chat ({{places}}) per «{{trip}}». Votate qui:",
+    "source": "Nomi delle città: GeoNames (CC BY 4.0)."
   }
 }

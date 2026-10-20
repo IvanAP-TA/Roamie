@@ -1295,5 +1295,24 @@
     "proposed": "I proposed {{place}} for “{{trip}}”. Vote too:",
     "voted": "I gave my 10 points for “{{trip}}”. Your turn:",
     "allPoints": "You gave all your 10 points"
+  },
+  "chatImport": {
+    "title": "Paste the group chat",
+    "hint": "Already named the places on WhatsApp or Telegram? Pick them up from there.",
+    "intro": "Copy the WhatsApp or Telegram messages where you talk about the trip and paste them here: Roamie finds the places you mentioned.",
+    "placeholder": "Paste the chat messages here…",
+    "privacy": "The chat stays on your phone: it’s read here and sent to no one. Only the places you choose are saved.",
+    "find": "Find the places",
+    "pick": "Here are the places named in the chat. Untick the ones that don’t belong.",
+    "none": "No places found in these messages. Try pasting more, or add places by hand.",
+    "mentions_one": "mentioned {{count}} time",
+    "mentions_other": "mentioned {{count}} times",
+    "already": "Already in the trip",
+    "add_one": "Add {{count}} place",
+    "add_other": "Add {{count}} places",
+    "added_one": "{{count}} place added from the chat",
+    "added_other": "{{count}} places added from the chat",
+    "tell": "I put the places from our chat ({{places}}) on Roamie for “{{trip}}”. Vote here:",
+    "source": "City names: GeoNames (CC BY 4.0)."
   }
 }
