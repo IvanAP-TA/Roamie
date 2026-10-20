@@ -32,14 +32,15 @@ import { telegram } from './publish/telegram.mjs'
 import { tiktok } from './publish/tiktok.mjs'
 import { youtube } from './publish/youtube.mjs'
 import { recentHooks } from './research/insights.mjs'
+import { storyTexts } from './stories.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const lang = process.env.VIDEO_LANG === 'it' ? 'it' : 'en'
 const publishing = ['on', 'true', 'yes', '1'].includes((process.env.PUBLISH ?? '').trim().toLowerCase())
 const historyPath = process.env.HISTORY_PATH ?? fileURLToPath(new URL('./history.json', import.meta.url))
 const FPS = 30
-const DURATIONS = { wheel: 390, month: 395, versus: 370 }
-const COMPOSITION = { wheel: 'Wheel', month: 'Month', versus: 'Versus' }
+const DURATIONS = { wheel: 390, month: 395, versus: 370, story: 435 }
+const COMPOSITION = { wheel: 'Wheel', month: 'Month', versus: 'Versus', story: 'Story' }
 const PLATFORMS = [youtube, instagram, facebook, tiktok]
 
 /** Tuesdays and Thursdays are for carousels, the other days for videos; POST_KIND overrides it. */
@@ -90,6 +91,11 @@ async function propsFor(plan, copy, rand, music) {
     }
   }
   if (plan.format === 'month') return { lang, music, hook: copy.hook, places, credits }
+  if (plan.format === 'story') {
+    const { chat, fix, by } = storyTexts(plan.scenario, lang, places.map((p) => p.name))
+    const labels = lang === 'it' ? { proposedBy: 'proposta da', points: 'punti', decided: 'Si parte!' } : { proposedBy: 'proposed by', points: 'points', decided: 'Decided!' }
+    return { lang, music, hook: copy.hook, chat, fix, places, by, points: plan.points, winner: plan.winner, labels, credits }
+  }
   return {
     lang,
     music,
@@ -116,8 +122,9 @@ function checkVideo(file, format) {
 
 async function video(history, today) {
   const plan = makePlan(loadPlaces(), history, today, lang)
+  if (plan.scenario) plan.problem = storyTexts(plan.scenario, lang, []).problem
   const rand = seeded(`${today.toISOString()}|copy`)
-  log(`plan: ${plan.format} · ${plan.places.map((p) => p.key).join(', ')}${plan.month ? ` · ${monthName(plan.month, lang)}` : ''}`)
+  log(`plan: ${plan.format}${plan.scenario ? ` (${plan.scenario})` : ''} · ${plan.places.map((p) => p.key).join(', ')}${plan.month ? ` · ${monthName(plan.month, lang)}` : ''}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
   plan.hookStyle = pickHookStyle(history.filter((h) => h.lang === lang), today, rand)
@@ -154,6 +161,7 @@ async function video(history, today) {
     places: plan.places.map((p) => p.key),
     ...(plan.month && { month: plan.month }),
     ...(plan.pair && { pair: plan.pair }),
+    ...(plan.scenario && { scenario: plan.scenario }),
     hook: copy.hook,
     caption: copy.caption,
     copySource: copy.source,

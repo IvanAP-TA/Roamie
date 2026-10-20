@@ -13,8 +13,9 @@
 
 import { HOOK_STYLES } from './copy.mjs'
 import { formatBonus, formatScores, hookScores } from './metrics.mjs'
+import { pickScenario } from './stories.mjs'
 
-export const FORMATS = ['wheel', 'month', 'versus']
+export const FORMATS = ['wheel', 'month', 'versus', 'story']
 export const CAROUSEL_FORMATS = ['guide', 'month']
 export const RECENT_DAYS = 30
 export const MONTH_GAP_DAYS = 200
@@ -129,6 +130,24 @@ const PLANNERS = {
     return null
   },
 
+  /**
+   * A group chat stuck on a real problem (stories.mjs), then three places from one guide, in different countries,
+   * voted with points: the one with the most wins (never a tie), like in the app.
+   */
+  story(fresh, mine, _today, rand) {
+    const byGuide = new Map()
+    for (const p of fresh) for (const g of p.guides) byGuide.set(g, [...(byGuide.get(g) ?? []), p])
+    for (const guide of shuffle([...byGuide.keys()], rand)) {
+      const three = pickDistinct(byGuide.get(guide), 3, rand)
+      if (!three) continue
+      const points = three.map(() => 4 + Math.floor(rand() * 9))
+      const winner = Math.floor(rand() * 3)
+      points[winner] = Math.max(...points) + 1 + Math.floor(rand() * 3)
+      return { places: three, points, winner, guide, scenario: pickScenario(mine, rand) }
+    }
+    return null
+  },
+
   /** Two places sharing a mood (a real choice, not apples and oranges), never the same pair twice. */
   versus(fresh, mine, _today, rand) {
     const used = new Set(mine.filter((h) => h.format === 'versus').map((h) => h.pair))
@@ -145,11 +164,14 @@ const PLANNERS = {
 }
 
 /**
- * The background track: one of the format's tracks in public/music (named "<format>-…"), never the one its last post
+ * The background track: one of the format's tracks in public/music (named "<format>-…", or any track for a format
+ * without its own), never the one its last post
  * of the same format used, and otherwise the least recently used. Seeded like the plan.
  */
 export function pickMusic(format, tracks, history, rand) {
-  const mine = tracks.filter((t) => t.startsWith(`${format}-`))
+  const own = tracks.filter((t) => t.startsWith(`${format}-`))
+  // A format without tracks of its own (story) borrows from all of them.
+  const mine = own.length ? own : tracks
   if (!mine.length) return undefined
   const lastUse = (t) => history.findLastIndex((h) => h.music === `music/${t}`)
   const order = shuffle(mine, rand).sort((a, b) => lastUse(a) - lastUse(b))

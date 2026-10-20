@@ -5,6 +5,7 @@ import { CROSS_DAYS, makeCarouselPlan, makePlan, pickHookStyle, pickMusic, RECEN
 import { formatBonus, formatScores, hookScores, refreshMetrics, score } from './metrics.mjs'
 import { failureMessage, kitMessages } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
+import { pickScenario, SCENARIOS, storyTexts } from './stories.mjs'
 import { privacyStatus } from './publish/youtube.mjs'
 
 const places = loadPlaces()
@@ -16,7 +17,7 @@ function simulate(posts, lang = 'it', start = new Date('2026-10-12')) {
   for (let i = 0; i < posts; i++) {
     const day = new Date(start.getTime() + i * 2.33 * DAY)
     const plan = makePlan(places, history, day, lang)
-    history.push({ date: day.toISOString(), format: plan.format, lang, places: plan.places.map((p) => p.key), month: plan.month, pair: plan.pair, plan })
+    history.push({ date: day.toISOString(), format: plan.format, lang, places: plan.places.map((p) => p.key), month: plan.month, pair: plan.pair, scenario: plan.scenario, plan })
   }
   return history
 }
@@ -132,10 +133,10 @@ describe('copy checks', () => {
 
   it('every hand-written line passes the same checks the AI must pass', () => {
     for (const lang of ['it', 'en']) {
-      for (const format of ['wheel', 'month', 'versus', 'carousel_guide', 'carousel_month']) {
+      for (const format of ['wheel', 'month', 'versus', 'story', 'carousel_guide', 'carousel_month']) {
         for (const line of POOLS[lang][format]) {
           const theme = guideTheme('long-weekends', lang)
-          const filled = line.replace('{month}', lang === 'it' ? 'novembre' : 'November').replace('{a}', 'Lisbona').replace('{b}', 'Porto').replace('{theme}', theme).replace('{n}', '5')
+          const filled = line.replace('{month}', lang === 'it' ? 'novembre' : 'November').replace('{a}', 'Lisbona').replace('{b}', 'Porto').replace('{theme}', theme).replace('{n}', '5').replace('{problem}', lang === 'it' ? 'La chat del gruppo non decide mai' : 'The group chat never decides')
           expect(checkLine(filled, { min: 15, max: 60, lang, past: [], maxSimilarity: 1, allowedNumbers: ['5'] }), `${lang}/${format}: ${filled}`).toBeNull()
         }
       }
@@ -189,7 +190,9 @@ describe('music', () => {
     expect(pickMusic('month', tracks, [], seeded('m'))).toBe('music/month-1-d.mp3')
     const history = [{ format: 'wheel', music: 'music/wheel-2-b.mp3' }, { format: 'wheel', music: 'music/wheel-1-a.mp3' }]
     expect(pickMusic('wheel', tracks, history, seeded('w'))).toBe('music/wheel-3-c.mp3')
-    expect(pickMusic('quiz', tracks, [], seeded('q'))).toBeUndefined()
+    // A format without tracks of its own borrows the least recently used of all; with no tracks at all, silence.
+    expect(tracks.map((t) => `music/${t}`)).toContain(pickMusic('story', tracks, history, seeded('q')))
+    expect(pickMusic('story', [], [], seeded('q'))).toBeUndefined()
   })
 })
 
@@ -233,6 +236,39 @@ describe('carousels', () => {
 
   it('gives every guide carousel a theme for its cover', () => {
     for (const { plan } of carousels.filter((h) => h.format === 'guide')) expect(guideTheme(plan.guide, 'it')).toBeTruthy()
+  })
+})
+
+describe('story videos', () => {
+  it('every scenario is complete in both languages and its lines pass the copy checks', () => {
+    for (const id of Object.keys(SCENARIOS)) {
+      for (const lang of ['it', 'en']) {
+        const texts = storyTexts(id, lang, ['Lisbona', 'Porto'])
+        expect(texts.chat, `${id}/${lang}`).toHaveLength(5)
+        expect(texts.fix).toHaveLength(2)
+        expect(checkLine(texts.problem, { min: 15, max: 60, lang, past: [], maxSimilarity: 1 }), `${id}/${lang}`).toBeNull()
+        for (const line of [...texts.chat.map((m) => m.text), ...texts.fix]) expect(line, `${id}/${lang}`).not.toMatch(/[—–]|\{|\d/)
+      }
+    }
+  })
+
+  it('plans three places with one clear winner, and rotates the scenarios', () => {
+    const history = simulate(24, 'en')
+    const stories = history.filter((h) => h.format === 'story')
+    expect(stories.length).toBeGreaterThan(3)
+    for (const { plan } of stories) {
+      expect(plan.places).toHaveLength(3)
+      const top = Math.max(...plan.points)
+      expect(plan.points.filter((p) => p === top)).toHaveLength(1)
+      expect(plan.points[plan.winner]).toBe(top)
+      expect(SCENARIOS[plan.scenario]).toBeDefined()
+    }
+    const used = []
+    for (let i = 0; i < 8; i++) {
+      const id = pickScenario(used.map((scenario) => ({ format: 'story', scenario })), seeded(`s${i}`))
+      expect(used.slice(-4)).not.toContain(id)
+      used.push(id)
+    }
   })
 })
 

@@ -36,6 +36,13 @@ export const POOLS = {
       'Una sola tra {a} e {b}. Quale?',
       '{a} o {b}? Nei commenti',
     ],
+    story: [
+      '{problem}',
+      'Ogni gruppo ha questa chat',
+      'Ditemi che non è la vostra chat',
+      'La chat del gruppo, prima di Roamie',
+      'Questa chat la conosciamo tutti',
+    ],
     carousel_guide: [
       '{theme}: {n} mete da salvare',
       '{theme}: dove andare con il gruppo',
@@ -78,6 +85,13 @@ export const POOLS = {
       'The group is split: {a} or {b}?',
       'Only one of {a} and {b}. Which?',
       '{a} or {b}? Tell us below',
+    ],
+    story: [
+      '{problem}',
+      'Every group has this chat',
+      'Tell me this isn’t your group chat',
+      'Your group chat, before Roamie',
+      'We all know this group chat',
     ],
     carousel_guide: [
       '{theme}: {n} places to save',
@@ -320,6 +334,7 @@ const FORMAT_BRIEF = {
   wheel: 'a wheel of fortune spins between four destinations and picks one, like friends deciding their next trip',
   month: 'three destinations at their best in {month}, for a group of friends',
   versus: 'two destinations side by side, asking the viewer which one their group would choose',
+  story: 'a short story: a group chat gets stuck because "{problem}", then the group decides with Roamie: each friend proposes a place, everyone votes with points and {winner} wins',
   carousel_guide: 'a swipeable carousel: a cover, then {n} destinations for a "{theme}" group trip, one per slide, that people save for later',
   carousel_month: 'a swipeable carousel: {n} destinations at their best in {month}, one per slide, for a group of friends, that people save for later',
 }
@@ -331,7 +346,7 @@ const FORMAT_BRIEF = {
  */
 export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspiration = []) {
   const names = plan.places.map((p) => p.name[lang])
-  const vars = { month: plan.month ? monthName(plan.month, lang) : '', a: names[0], b: names[1], n: String(names.length), theme: plan.theme ?? '' }
+  const vars = { month: plan.month ? monthName(plan.month, lang) : '', a: names[0], b: names[1], n: String(names.length), theme: plan.theme ?? '', problem: plan.problem ?? '', winner: names[plan.winner] ?? '' }
   const key = plan.kind === 'carousel' ? `carousel_${plan.format}` : plan.format
   const pool = POOLS[lang]
   const allowedNumbers = [String(plan.places.length)]

@@ -1,6 +1,7 @@
 import { Composition, Folder } from "remotion";
 import { CAROUSEL_HEIGHT, CAROUSEL_WIDTH, CarouselFormat, carouselMetadata } from "./formats/CarouselFormat";
 import { MONTH_DURATION, MonthFormat } from "./formats/MonthFormat";
+import { STORY_DURATION, StoryFormat } from "./formats/StoryFormat";
 import { VERSUS_DURATION, VersusFormat } from "./formats/VersusFormat";
 import { WHEEL_DURATION, WheelFormat } from "./formats/WheelFormat";
 import { LAUNCH_LANDSCAPE_DURATION, LaunchLandscape } from "./LaunchLandscape";
@@ -83,6 +84,37 @@ export const RemotionRoot: React.FC = () => {
             rows: ["Budget", "Quando", "Vibe"] as [string, string, string],
             question: "Voi quale scegliete?",
             credits: ["Lisboa (CC BY 2.0)", "Funchal (CC BY-SA 4.0)"],
+          }}
+        />
+        <Composition
+          id="Story"
+          component={StoryFormat}
+          durationInFrames={STORY_DURATION}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{
+            lang: "it" as const,
+            music: "music/versus-2-vlog-intro.mp3",
+            hook: "POV: la chat del gruppo litiga da una settimana",
+            chat: [
+              { who: "Giulia", text: "Voglio uscire tutte le sere!" },
+              { who: "Marco", text: "Io voglio solo un libro e il sole" },
+              { who: "Sara", text: "E se facessimo Budapest?" },
+              { who: "Luca", text: "A me basta mangiare bene" },
+              { who: "Tu", text: "…quindi nessuno è d’accordo" },
+            ],
+            fix: ["Punti, non discussioni.", "Conta ogni voglia."] as [string, string],
+            places: [
+              { name: "Budapest", country: "Ungheria", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg/1920px-View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg", line: "", moods: ["nightlife", "relax"], budget: 1 as const, months: [4, 5, 6, 9, 10, 12] },
+              { name: "Valencia", country: "Spagna", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Malvarrosa_Beach%2C_Valencia%2C_Spain_%2829812271043%29.jpg/1920px-Malvarrosa_Beach%2C_Valencia%2C_Spain_%2829812271043%29.jpg", line: "", moods: ["relax", "food_wine"], budget: 2 as const, months: [3, 4, 5, 6, 9, 10] },
+              { name: "Cracovia", country: "Polonia", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG/1920px-Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG", line: "", moods: ["culture", "food_wine"], budget: 1 as const, months: [5, 6, 7, 8, 9, 12] },
+            ],
+            by: ["Giulia", "Marco", "Sara"],
+            points: [9, 14, 6],
+            winner: 1,
+            labels: { proposedBy: "proposta da", points: "punti", decided: "Si parte!" },
+            credits: ["Budapest (CC BY 2.0)", "Valencia (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
           }}
         />
         <Composition
