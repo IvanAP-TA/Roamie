@@ -71,13 +71,28 @@ async function main() {
   if (unique.length < 3) throw new Error(`only ${unique.length} sources found`)
 
   const sources = unique.flatMap((p) => [p.title, p.text, ...(p.top ?? [])]).filter(Boolean)
-  const answer = await askMistral(researchPrompt(unique), { maxTokens: 1600 })
-  const insights = (answer?.insights ?? []).filter((insight) => {
-    const problem = checkInsight(insight, sources)
-    if (problem) log(`idea dropped: ${problem}`)
-    return !problem
-  })
-  if (!insights.length) throw new Error('no idea passed the checks')
+  // Up to three tries until at least three ideas pass: each new try is told what was dropped and why, and the ideas
+  // already accepted, so it brings different ones.
+  const insights = []
+  const dropped = []
+  for (let attempt = 0; attempt < 3 && insights.length < 3; attempt++) {
+    const messages = researchPrompt(unique)
+    if (attempt) {
+      messages.push({
+        role: 'user',
+        content: `Some ideas were rejected: ${dropped.slice(-5).join('; ')}. Already accepted (do not repeat): ${insights.map((i) => i.problem).join(' | ') || 'none'}. Return new ideas that follow every rule.`,
+      })
+    }
+    const answer = await askMistral(messages, { maxTokens: 1600 })
+    for (const insight of answer?.insights ?? []) {
+      const problem = checkInsight(insight, sources)
+      if (problem) {
+        log(`idea dropped: ${problem}`)
+        dropped.push(problem)
+      } else if (!insights.some((i) => i.problem === insight.problem)) insights.push(insight)
+    }
+  }
+  if (!insights.length) throw new Error(`no idea passed the checks (${dropped.slice(0, 4).join('; ') || 'no answer from the AI'})`)
 
   const next = mergeBank(bank, insights, new Date())
   writeFileSync(bankPath, `${JSON.stringify(next, null, 2)}\n`)
