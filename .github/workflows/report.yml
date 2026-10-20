@@ -1,0 +1,31 @@
+# Every Monday: the week's numbers on Telegram (video/automation/report.mjs): the funnel from a trip created to three
+# people and a destination picked. Counts only, read from the funnel-report Edge Function with the bot's key.
+# Started by Supabase's pg_cron (public.dispatch_weekly_report, Mondays 07:30 UTC), or by hand.
+name: Weekly report
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-report
+  cancel-in-progress: true
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Send the report
+        working-directory: video
+        env:
+          SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node automation/report.mjs
