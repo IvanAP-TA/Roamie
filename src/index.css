@@ -709,6 +709,17 @@ html.vt-morph::view-transition-group(guide-cover) {
   font-family: var(--font-sans);
   background: var(--muted);
 }
+/* Itinerary stops pop in as the drawn route reaches them (StopsMap); the delay is set per stop. */
+@keyframes roamie-stop-pop {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 1; transform: none; }
+}
+.roamie-stop-pop {
+  animation: roamie-stop-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .roamie-stop-pop { animation: none; }
+}
 .roamie-map .leaflet-tile-pane {
   filter: sepia(0.28) saturate(1.15) hue-rotate(-10deg) brightness(1.02);
 }
