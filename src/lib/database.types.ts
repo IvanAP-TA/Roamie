@@ -999,6 +999,7 @@ export type Database = {
       }
       generate_invite_code: { Args: never; Returns: string }
       get_public_trip: { Args: { p_slug: string }; Returns: Json }
+      group_budget: { Args: { p_trip_id: string }; Returns: Json }
       get_trip_preview: {
         Args: { p_code: string }
         Returns: {
@@ -1042,6 +1043,10 @@ export type Database = {
       }
       set_availability: {
         Args: { p_days: string[]; p_status?: string; p_trip_id: string }
+        Returns: undefined
+      }
+      set_my_budget: {
+        Args: { p_band: number | null; p_trip_id: string }
         Returns: undefined
       }
       set_points: {

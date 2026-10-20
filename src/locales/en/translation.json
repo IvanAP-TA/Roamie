@@ -315,9 +315,21 @@
     "romantic": "Romantic"
   },
   "budget": {
-    "1": "Cheap",
-    "2": "Mid-range",
-    "3": "Pricey"
+    "title": "How much do you want to spend?",
+    "ask": "Answer in secret: the group only sees the shared ceiling.",
+    "waiting_one": "You answered. {{count}} more answer and the group ceiling shows.",
+    "waiting_other": "You answered. {{count}} more answers and the group ceiling shows.",
+    "ceiling": "Group ceiling: {{band}} each",
+    "hidden": "The group ceiling shows once at least 3 have answered.",
+    "answered": "{{answered}} of {{members}} have answered.",
+    "intro": "How much would you spend per person on the whole trip, flights and stay included? Nobody sees your answer: the group only sees the amount that works for everyone.",
+    "privacy": "Your answer stays secret, even from whoever created the trip. Tap it again to take it back.",
+    "bands": {
+      "1": "Up to €300",
+      "2": "€300–700",
+      "3": "€700–1,200",
+      "4": "Over €1,200"
+    }
   },
   "points": {
     "add": "Add a point",

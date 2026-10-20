@@ -23,6 +23,7 @@ import { NextDestinationCard } from '@/components/destinations/NextDestinationCa
 import { ResetPointsButton } from '@/components/destinations/ResetPoints'
 import { SecretVotingControl } from '@/components/destinations/SecretVotingControl'
 import { VoteDeck, VoteDeckButton } from '@/components/destinations/VoteDeck'
+import { BudgetPrompt } from '@/components/plan/BudgetPrompt'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
 import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
@@ -204,6 +205,7 @@ export default function DestinationsTab() {
         <SampleTripBanner />
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
+        <BudgetPrompt />
         <ActivityFeed tripId={trip.id} onOpenDestination={open} />
 
         {/* ── Toolbar ── */}

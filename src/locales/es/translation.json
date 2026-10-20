@@ -315,9 +315,21 @@
     "romantic": "Romántico"
   },
   "budget": {
-    "1": "Económico",
-    "2": "Medio",
-    "3": "Caro"
+    "title": "¿Cuánto queréis gastar?",
+    "ask": "Responde en secreto: el grupo solo ve el tope común.",
+    "waiting_one": "Has respondido. Falta {{count}} respuesta para ver el tope del grupo.",
+    "waiting_other": "Has respondido. Faltan {{count}} respuestas para ver el tope del grupo.",
+    "ceiling": "Tope del grupo: {{band}} por persona",
+    "hidden": "El tope del grupo aparece cuando han respondido al menos 3.",
+    "answered": "Han respondido {{answered}} de {{members}}.",
+    "intro": "¿Cuánto gastarías por persona en todo el viaje, vuelos y alojamiento incluidos? Nadie verá tu respuesta: el grupo solo ve la cifra que va bien a todos.",
+    "privacy": "Tu respuesta es secreta, incluso para quien creó el viaje. Tócala otra vez para quitarla.",
+    "bands": {
+      "1": "Hasta 300 €",
+      "2": "300–700 €",
+      "3": "700–1.200 €",
+      "4": "Más de 1.200 €"
+    }
   },
   "points": {
     "add": "Añadir un punto",
