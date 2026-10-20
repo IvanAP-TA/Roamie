@@ -210,7 +210,9 @@
     "share": "Condividi invito",
     "copy": "Copia link",
     "copied": "Link copiato",
-    "shareText": "Unisciti al viaggio “{{trip}}” su Roamie: proponiamo le mete, votiamo e giriamo la ruota!"
+    "shareText": "Unisciti al viaggio “{{trip}}” su Roamie: proponiamo le mete, votiamo e giriamo la ruota!",
+    "telegram": "Aggiungi Roamie al gruppo Telegram",
+    "telegramHint": "Vi avviso nel gruppo quando arriva una meta, entra qualcuno o gira la ruota."
   },
   "join": {
     "enterCodeTitle": "Hai un codice invito?",

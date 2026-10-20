@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, Copy, Lock, Share2 } from 'lucide-react'
+import { Check, Copy, Lock, Send, Share2 } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -43,6 +43,9 @@ export function InviteTicket({ trip, className }: { trip: Trip; className?: stri
   if (isGuest && trip.owner_id === user?.id) return <LinkToInvite className={className} />
   return <InviteCode trip={trip} className={className} />
 }
+
+/** The Roamie bot for Telegram groups (its @username), set at build time; no button without it. */
+const TELEGRAM_BOT: string = import.meta.env.VITE_TELEGRAM_BOT ?? ''
 
 function InviteCode({ trip, className }: { trip: Trip; className?: string }) {
   const { t } = useTranslation()
@@ -107,6 +110,23 @@ function InviteCode({ trip, className }: { trip: Trip; className?: string }) {
           {t('invite.copy')}
         </Button>
       </div>
+
+      {/* The group's Telegram chat hears about new places, people joining and the wheel (supabase/functions/telegram-bot).
+          Adding the bot from this link links the group to the trip by itself. */}
+      {TELEGRAM_BOT && (
+        <a
+          href={`https://t.me/${TELEGRAM_BOT}?startgroup=${trip.invite_code}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 rounded-2xl bg-[#229ED9]/12 px-4 py-3 text-sm transition hover:bg-[#229ED9]/20"
+        >
+          <Send className="size-5 shrink-0 text-[#229ED9]" />
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold">{t('invite.telegram')}</span>
+            <span className="block text-xs text-muted-foreground">{t('invite.telegramHint')}</span>
+          </span>
+        </a>
+      )}
     </div>
   )
 }

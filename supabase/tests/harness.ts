@@ -24,7 +24,8 @@ const SUPABASE_STUB = /* sql */ `
     id uuid primary key,
     email text,
     raw_user_meta_data jsonb default '{}'::jsonb,
-    is_anonymous boolean not null default false
+    is_anonymous boolean not null default false,
+    created_at timestamptz not null default now()
   );
   create function auth.uid() returns uuid language sql stable as $$
     -- Like Supabase's: after a transaction the setting is left as '' rather than unset.
