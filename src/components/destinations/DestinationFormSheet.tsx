@@ -11,6 +11,8 @@ import { AttributionText } from '@/components/media/Attribution'
 import { PhotoSearch } from '@/components/media/PhotoSearch'
 import { PlaceSearch } from '@/components/places/PlaceSearch'
 import { useCreateDestination, useUpdateDestination, type DestinationInput } from '@/hooks/useDestinations'
+import { useTellTheGroup } from '@/hooks/useTellTheGroup'
+import { useTripContext } from '@/hooks/useTripContext'
 import type { Place } from '@/lib/nominatim'
 import { serializeAttribution, type WikiImage } from '@/lib/wikimedia'
 import { MOODS, type Destination, type Mood } from '@/lib/types'
@@ -30,6 +32,8 @@ export function DestinationFormSheet({
 }) {
   const { t } = useTranslation()
   const create = useCreateDestination(tripId)
+  const { trip } = useTripContext()
+  const tellGroup = useTellTheGroup()
   const update = useUpdateDestination(tripId)
 
   const [picking, setPicking] = useState(false)
@@ -90,9 +94,14 @@ export function DestinationFormSheet({
       expectations: expectations.trim() || null,
     }
     try {
-      if (destination) await update.mutateAsync({ id: destination.id, patch: input })
-      else await create.mutateAsync(input)
-      toast.success(destination ? t('destForm.updated') : t('destForm.created', { name: input.name }))
+      if (destination) {
+        await update.mutateAsync({ id: destination.id, patch: input })
+        toast.success(t('destForm.updated'))
+      } else {
+        await create.mutateAsync(input)
+        // A new proposal is news for the group: offer to tell them in the chat.
+        tellGroup(t('destForm.created', { name: input.name }), t('tellGroup.proposed', { place: input.name, trip: trip.name }))
+      }
       onOpenChange(false)
     } catch {
       toast.error(t('errors.generic'))

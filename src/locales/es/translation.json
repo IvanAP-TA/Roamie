@@ -1288,5 +1288,12 @@
     "added_one": "Itinerario de {{place}} añadido: {{count}} día",
     "added_other": "Itinerario de {{place}} añadido: {{count}} días",
     "signIn": "Inicia sesión con Google para que la IA prepare el itinerario."
+  },
+  "tellGroup": {
+    "action": "Avisa al grupo",
+    "copied": "Mensaje copiado: pégalo en el chat del grupo",
+    "proposed": "He propuesto {{place}} para «{{trip}}». Vota tú también:",
+    "voted": "He dado mis 10 puntos para «{{trip}}». Te toca:",
+    "allPoints": "Has dado todos tus 10 puntos"
   }
 }

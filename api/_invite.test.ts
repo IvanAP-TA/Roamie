@@ -41,10 +41,10 @@ describe('invite previews', () => {
   it('describes the trip in the link preview', () => {
     const meta = inviteMeta(card, 'K7PQ2MXA', 'it')
     expect(meta.title).toBe('Unisciti a «Estate "2027" & <amici>» su Roamie')
-    expect(meta.description).toBe('5 viaggiatori · 7 mete in gara. Si sceglie tra Lisbona, Oslo e Kyoto. Proponi le mete, vota con gli amici e gira la ruota.')
+    expect(meta.description).toBe('5 viaggiatori · 7 mete in gara. Si sceglie tra Lisbona, Oslo e Kyoto. Entri con il solo nome e voti dal telefono, senza app né account.')
     expect(meta.image).toMatch(/^https:\/\/roamie\.org\/api\/og\/invite\?code=K7PQ2MXA&lang=it&v=/)
     expect(inviteMeta({ ...card, member_count: 1, destination_count: 0, destinations: [] }, 'K7PQ2MXA', 'en').description).toBe(
-      '1 traveller. Propose places, vote with friends and spin the wheel.',
+      '1 traveller. Join with just your name and vote from your phone, no app or account needed.',
     )
   })
 

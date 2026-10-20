@@ -34,3 +34,20 @@ export async function copyText(value: string): Promise<boolean> {
     return false
   }
 }
+
+/**
+ * "Tell the group": a message and the trip's link for the group chat, through the phone's share sheet (WhatsApp,
+ * Telegram…) or, on a computer, copied whole to paste there.
+ */
+export async function tellTheGroup(text: string, url: string): Promise<ShareOutcome> {
+  if (canNativeShare()) {
+    try {
+      await navigator.share({ text, url })
+      return 'shared'
+    } catch (err) {
+      if ((err as DOMException).name === 'AbortError') return 'cancelled'
+    }
+  }
+  return (await copyText(`${text}
+${url}`)) ? 'copied' : 'failed'
+}

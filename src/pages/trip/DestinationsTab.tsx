@@ -1,10 +1,12 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/useAuth'
 import { useDestinations } from '@/hooks/useDestinations'
+import { useTellTheGroup } from '@/hooks/useTellTheGroup'
 import { useShowOnScrollUp } from '@/hooks/useShowOnScrollUp'
 import { useSlidingPill } from '@/hooks/useSlidingPill'
 import { usePageSettled } from '@/lib/viewTransition'
@@ -27,13 +29,31 @@ import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
-import { totalPoints } from '@/lib/roulette'
+import { pointsLeft, totalPoints } from '@/lib/roulette'
 import { keepOrder } from '@/lib/stableOrder'
 import { MOODS, type Destination, type DestinationStatus, type Mood } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 const STATUSES: DestinationStatus[] = ['proposed', 'selected', 'visited']
 const MAX_COMPARE = 3
+
+/**
+ * The moment the last of my 10 points goes to a place, offer to tell the group: a vote is done when everyone has
+ * voted, and the chat is where the others are. Only on the change made here, not when the page opens already at 0.
+ */
+function useAllPointsNudge(destinations: Destination[] | undefined, ready: boolean) {
+  const { t } = useTranslation()
+  const { user } = useAuth()
+  const { trip } = useTripContext()
+  const tellGroup = useTellTheGroup()
+  const left = destinations && user ? pointsLeft(destinations, user.id) : null
+  const previous = useRef<number | null>(null)
+  useEffect(() => {
+    if (!ready || left === null) return
+    if (previous.current !== null && previous.current > 0 && left === 0) tellGroup(t('tellGroup.allPoints'), t('tellGroup.voted', { trip: trip.name }))
+    previous.current = left
+  }, [left, ready, tellGroup, t, trip.name])
+}
 
 export default function DestinationsTab() {
   const { t } = useTranslation()
@@ -48,6 +68,7 @@ export default function DestinationsTab() {
   const [sort, setSort] = useState<'votes' | 'recent'>('votes')
   const [adding, setAdding] = useState(false)
   const showFab = useShowOnScrollUp()
+  useAllPointsNudge(destinations, isFetchedAfterMount)
 
   // Compare mode: tapping cards selects up to 3 of them. The ref mirrors the selection so taps that
   // arrive before a re-render still see the latest value.
