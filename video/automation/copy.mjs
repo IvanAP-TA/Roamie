@@ -97,6 +97,40 @@ export const POOLS = {
   },
 }
 
+// ── Hook styles: how the first words on screen open ──
+// One per post (plan.mjs pickHookStyle), so the feed doesn't always open the same way: the AI writes the hook in the
+// style it's given and a style with a `check` must pass it too. Instagram's numbers per style (metrics.mjs hookScores)
+// nudge which styles come up more often, without ever dropping one. The examples are style references, never used.
+export const HOOK_STYLES = {
+  question: {
+    brief: 'a direct question to the viewer about their own group and this choice',
+    examples: { it: 'Il vostro gruppo dove andrebbe davvero?', en: 'Where would your group actually go?' },
+    check: (t) => (t.trim().endsWith('?') ? null : 'not a question'),
+  },
+  pov: {
+    brief: 'a line starting with "POV:" that describes a moment every group of friends lives while planning a trip',
+    examples: { it: 'POV: la chat del gruppo litiga da una settimana', en: 'POV: the group chat has been arguing for a week' },
+    check: (t) => (/^POV:/i.test(t.trim()) ? null : 'no POV opening'),
+  },
+  problem: {
+    brief: 'a relatable problem of planning a trip with friends, said plainly, that this post helps with; not a question',
+    examples: { it: 'Tutti dicono sì al viaggio, nessuno sceglie la meta', en: 'Everyone says yes to the trip, nobody picks a place' },
+    check: (t) => (t.trim().endsWith('?') ? 'a question, not a problem' : null),
+  },
+  challenge: {
+    brief: 'a playful challenge to the viewer: make them pick, or dare them to keep only one',
+    examples: { it: 'Scegline una. Non puoi tenerle tutte', en: 'Pick one. You can’t keep them all' },
+  },
+  opinion: {
+    brief: 'a bold, friendly opinion about trips with friends that people want to agree or argue with (an opinion, never a fact)',
+    examples: { it: 'Opinione impopolare: il viaggio si decide in cinque minuti', en: 'Unpopular opinion: a trip should take five minutes to decide' },
+  },
+  curiosity: {
+    brief: 'a curiosity gap: hint at something about these destinations without saying it, so people watch to the end',
+    examples: { it: 'Una di queste nessuno del gruppo se l’aspetta', en: 'One of these is the place nobody in the group expects' },
+  },
+}
+
 // ── Hashtags: chosen by code, never by the AI ──
 // Ordered from the most specific (the places, their country, the post's theme) to the broad ones people follow, so a
 // platform that only shows the first few (YouTube shows three) still shows the useful ones. Only tags in real use.
@@ -292,7 +326,8 @@ const FORMAT_BRIEF = {
 
 /**
  * Hook and caption for a plan. `past` holds earlier posts' hooks and captions in this language.
- * Returns { hook, caption, source: 'ai' | 'pool', rejected: [reasons] }.
+ * Returns { hook, caption, source: 'ai' | 'pool', rejected: [reasons], hookStyle? }: the style (plan.hookStyle) only when
+ * the AI's hook was accepted in it; a hand-written line has none, so it never counts towards a style's numbers.
  */
 export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspiration = []) {
   const names = plan.places.map((p) => p.name[lang])
@@ -303,6 +338,7 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
   const mustMention = plan.format === 'versus' ? names : []
   const allOrNone = plan.format === 'versus' ? [] : names
   const rejected = []
+  const style = HOOK_STYLES[plan.hookStyle]
 
   const facts = plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
   const system = [
@@ -310,11 +346,11 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
     `Write in ${lang === 'it' ? 'Italian, natural and informal (tu/voi), like a friend' : 'English, natural and informal, like a friend'}.`,
     `The ${plan.kind === 'carousel' ? 'post' : 'video'}: ${fill(FORMAT_BRIEF[key], vars)}.`,
     `Return JSON {"hook": string, "caption": string}.`,
-    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; a question or a playful tension works. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : ' Name all the destinations or none of them, never just some.'}`,
+    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; ${style ? `write it as ${style.brief}, for example "${style.examples[lang]}" (a reference for the style, do not copy it)` : 'a question or a playful tension works'}. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : ' Name all the destinations or none of them, never just some.'}`,
     `caption: two short sentences (80–220 characters), concrete, using only the facts given; end with a question to the viewer. No prices, no numbers, no links, no hashtags, no markdown (no asterisks or underscores), at most one emoji.`,
     `Never invent facts. Different every time: here are lines already used, do not repeat their wording or structure:`,
     ...past.slice(-12).map((l) => `  · ${l}`),
-    `Style examples (do not copy): ${pool[key].slice(0, 3).map((l) => `"${fill(l, vars)}"`).join(', ')}.`,
+    `${style ? 'Lines this format used before, for the tone only (the hook follows its own style)' : 'Style examples'} (do not copy): ${pool[key].slice(0, 3).map((l) => `"${fill(l, vars)}"`).join(', ')}.`,
     // Openers from the week's research (research/insights.mjs): what groups really talk about, as inspiration only.
     ...(inspiration.length ? [`Tensions groups talk about lately, if one fits these destinations use it as inspiration for the hook (do not copy): ${inspiration.map((l) => `"${l}"`).join(', ')}.`] : []),
   ].join('\n')
@@ -326,9 +362,9 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
       { role: 'user', content: rejected.length ? `${user}\n\nYour previous answer was rejected (${rejected.at(-1)}). Try again.` : user },
     ])
     if (!answer) break
-    const hookProblem = checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers })
+    const hookProblem = checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers }) ?? style?.check?.(answer.hook) ?? null
     const captionProblem = checkLine(answer.caption, { min: 60, max: 260, lang, past, maxSimilarity: 0.5, allowedNumbers })
-    if (!hookProblem && !captionProblem) return { hook: answer.hook.trim(), caption: answer.caption.trim(), source: 'ai', rejected }
+    if (!hookProblem && !captionProblem) return { hook: answer.hook.trim(), caption: answer.caption.trim(), source: 'ai', rejected, ...(style && { hookStyle: plan.hookStyle }) }
     rejected.push(hookProblem ? `hook: ${hookProblem}` : `caption: ${captionProblem}`)
   }
 

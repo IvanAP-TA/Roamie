@@ -7,10 +7,12 @@
  *  - no place shown again within RECENT_DAYS days (relaxed only if nothing else fits);
  *  - a "versus" pair is never repeated, in any order;
  *  - a month is suggested at most once per language within MONTH_GAP_DAYS;
- *  - photos that aren't of the place itself (satellite shots, maps, flags, logos) are never used.
+ *  - photos that aren't of the place itself (satellite shots, maps, flags, logos) are never used;
+ *  - the hook's style (copy.mjs HOOK_STYLES) is never one of the last two posts', and the least used lately comes first.
  */
 
-import { formatBonus, formatScores } from './metrics.mjs'
+import { HOOK_STYLES } from './copy.mjs'
+import { formatBonus, formatScores, hookScores } from './metrics.mjs'
 
 export const FORMATS = ['wheel', 'month', 'versus']
 export const CAROUSEL_FORMATS = ['guide', 'month']
@@ -200,4 +202,17 @@ export function makeCarouselPlan(places, history, today, lang) {
     }
   }
   throw new Error('No carousel fits the rules: add places to the guides or wait for the windows to pass.')
+}
+
+/**
+ * The style of the next hook, across videos and carousels of one language: never the style of the last two posts,
+ * otherwise the least used in the last six, nudged by Instagram's numbers per style (except in the exploring share).
+ * `history`: that language's past posts, oldest first. Seeded like the plan.
+ */
+export function pickHookStyle(history, today, rand) {
+  const recent = history.slice(-6).map((h) => h.hookStyle)
+  const uses = (style) => recent.filter((s) => s === style).length
+  const bonus = rand() < EXPLORE_SHARE ? {} : formatBonus(hookScores(history, today))
+  const styles = shuffle(Object.keys(HOOK_STYLES), rand).filter((s) => !recent.slice(-2).includes(s))
+  return styles.sort((a, b) => uses(a) - (bonus[a] ?? 0) - (uses(b) - (bonus[b] ?? 0)))[0]
 }

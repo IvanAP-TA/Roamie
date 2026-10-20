@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { checkLine, hashtags, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
+import { checkLine, hashtags, HOOK_STYLES, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
-import { CROSS_DAYS, makeCarouselPlan, makePlan, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
-import { formatBonus, formatScores, refreshMetrics, score } from './metrics.mjs'
+import { CROSS_DAYS, makeCarouselPlan, makePlan, pickHookStyle, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
+import { formatBonus, formatScores, hookScores, refreshMetrics, score } from './metrics.mjs'
 import { failureMessage, kitMessages } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
 import { privacyStatus } from './publish/youtube.mjs'
@@ -233,6 +233,63 @@ describe('carousels', () => {
 
   it('gives every guide carousel a theme for its cover', () => {
     for (const { plan } of carousels.filter((h) => h.format === 'guide')) expect(guideTheme(plan.guide, 'it')).toBeTruthy()
+  })
+})
+
+describe('hook styles', () => {
+  const now = new Date('2026-12-01T16:00:00Z')
+
+  it('every style example passes the checks the AI must pass, its own included', () => {
+    for (const [name, style] of Object.entries(HOOK_STYLES)) {
+      for (const lang of ['it', 'en']) {
+        const line = style.examples[lang]
+        expect(checkLine(line, { min: 20, max: 60, lang, past: [], maxSimilarity: 1 }), `${name}/${lang}`).toBeNull()
+        expect(style.check?.(line) ?? null, `${name}/${lang}`).toBeNull()
+      }
+    }
+  })
+
+  it('asks the AI for the style and rejects a hook out of it', async () => {
+    const plan = { format: 'month', month: 11, places: places.slice(0, 3), hookStyle: 'pov' }
+    let prompt = ''
+    const plain = async (messages) => ((prompt = messages[0].content), { hook: 'Tre mete per novembre con gli amici', caption: 'Tre posti diversi per un weekend con il gruppo, tra città e natura. Voi quale scegliete?' })
+    const copy = await writeCopy(plan, 'it', [], seeded('s'), plain)
+    expect(prompt).toContain('POV:')
+    expect(copy.source).toBe('pool')
+    expect(copy.rejected[0]).toMatch(/POV/)
+    expect(copy.hookStyle).toBeUndefined()
+    const pov = async () => ({ hook: 'POV: il gruppo vuole partire ma nessuno sceglie', caption: 'Tre posti diversi per un weekend con il gruppo, tra città e natura. Voi quale scegliete?' })
+    const ok = await writeCopy(plan, 'it', [], seeded('s'), pov)
+    expect(ok.source).toBe('ai')
+    expect(ok.hookStyle).toBe('pov')
+  })
+
+  it('never repeats the last two styles, and over a month uses them all', () => {
+    const history = []
+    for (let i = 0; i < 18; i++) {
+      const day = new Date(now.getTime() + i * DAY)
+      const style = pickHookStyle(history, day, seeded(`h${i}`))
+      expect(history.slice(-2).map((h) => h.hookStyle)).not.toContain(style)
+      history.push({ date: day.toISOString(), hookStyle: style })
+    }
+    expect(new Set(history.map((h) => h.hookStyle)).size).toBe(Object.keys(HOOK_STYLES).length)
+  })
+
+  it('favours the styles people respond to, once each has enough scored posts', () => {
+    const good = { reach: 200, saved: 20, shares: 10, interactions: 40, at: now.toISOString() }
+    const poor = { reach: 200, saved: 1, shares: 0, interactions: 5, at: now.toISOString() }
+    const at = (d) => new Date(now.getTime() - d * DAY).toISOString()
+    const history = [9, 11, 13].flatMap((d) => [
+      { date: at(d), hookStyle: 'pov', metrics: good },
+      { date: at(d + 1), hookStyle: 'question', metrics: poor },
+    ])
+    const scores = hookScores(history, now)
+    expect(scores.pov.avg).toBeGreaterThan(scores.question.avg)
+    // Variety first: between two styles equally unused lately, the stronger one comes first more often.
+    const lately = ['problem', 'curiosity', 'problem', 'curiosity', 'challenge', 'opinion'].map((hookStyle, i) => ({ date: at(6 - i), hookStyle }))
+    const older = [...history, ...lately]
+    const picks = Array.from({ length: 40 }, (_, i) => pickHookStyle(older, now, seeded(`b${i}`)))
+    expect(picks.filter((s) => s === 'pov').length).toBeGreaterThan(picks.filter((s) => s === 'question').length)
   })
 })
 

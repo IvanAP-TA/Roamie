@@ -22,9 +22,9 @@ import { spawnSync } from 'node:child_process'
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { hashtags, monthName, photoCredit, pickFromPool, POOLS, writeCopy } from './copy.mjs'
-import { formatScores, refreshMetrics } from './metrics.mjs'
+import { formatScores, hookScores, refreshMetrics } from './metrics.mjs'
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
-import { makeCarouselPlan, makePlan, pickMusic, seeded } from './plan.mjs'
+import { makeCarouselPlan, makePlan, pickHookStyle, pickMusic, seeded } from './plan.mjs'
 import { facebook } from './publish/facebook.mjs'
 import { instagram } from './publish/instagram.mjs'
 import { media } from './publish/media.mjs'
@@ -120,8 +120,9 @@ async function video(history, today) {
   log(`plan: ${plan.format} · ${plan.places.map((p) => p.key).join(', ')}${plan.month ? ` · ${monthName(plan.month, lang)}` : ''}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
+  plan.hookStyle = pickHookStyle(history.filter((h) => h.lang === lang), today, rand)
   const copy = await writeCopy(plan, lang, past, rand, undefined, researchHooks())
-  log(`copy (${copy.source}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
+  log(`copy (${copy.source}, ${copy.hookStyle ?? 'no style'}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
 
   const tracks = readdirSync(`${ROOT}/public/music`).filter((f) => f.endsWith('.mp3'))
   const music = pickMusic(plan.format, tracks, history.filter((h) => h.lang === lang), rand)
@@ -156,6 +157,7 @@ async function video(history, today) {
     hook: copy.hook,
     caption: copy.caption,
     copySource: copy.source,
+    ...(copy.hookStyle && { hookStyle: copy.hookStyle }),
     ...(music && { music }),
     published: publishing,
     results,
@@ -213,7 +215,7 @@ async function deliver(post, method) {
 function report(kind, plan, copy, results) {
   const sent = publishing ? 'Published' : results.telegram && !results.telegram.error ? 'Kit sent to Telegram' : 'Dry run'
   summary(`## ${sent}: ${kind} · ${plan.format}\n`)
-  summary(`**${copy.hook}** (${copy.source})\n\n${copy.caption}\n`)
+  summary(`**${copy.hook}** (${copy.source}${copy.hookStyle ? `, ${copy.hookStyle}` : ''})\n\n${copy.caption}\n`)
   summary(`Places: ${plan.places.map((p) => p.name[lang]).join(', ')}\n`)
   for (const [name, r] of Object.entries(results)) summary(`- ${name}: ${r.error ? `❌ ${r.error}` : `✅ ${r.url ?? r.id}`}`)
 }
@@ -239,8 +241,9 @@ async function carousel(history, today) {
   log(`carousel: ${plan.format} · ${plan.guide ?? monthName(plan.month, lang)} · ${plan.places.map((p) => p.key).join(', ')}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
+  plan.hookStyle = pickHookStyle(history.filter((h) => h.lang === lang), today, rand)
   const copy = await writeCopy(plan, lang, past, rand, undefined, researchHooks())
-  log(`copy (${copy.source}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
+  log(`copy (${copy.source}, ${copy.hookStyle ?? 'no style'}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
 
   const n = plan.places.length
   const month = plan.month ? monthName(plan.month, lang) : ''
@@ -282,6 +285,7 @@ async function carousel(history, today) {
     hook: copy.hook,
     caption: copy.caption,
     copySource: copy.source,
+    ...(copy.hookStyle && { hookStyle: copy.hookStyle }),
     published: publishing,
     results,
   })
@@ -332,6 +336,8 @@ async function main() {
   const scores = formatScores(history.filter((h) => h.lang === lang), kind, today)
   if (Object.keys(scores).length) summary(`Format scores (${kind}): ${Object.entries(scores).map(([f, s]) => `${f} ${s.avg.toFixed(3)} (${s.n})`).join(', ')}
 `)
+  const styles = hookScores(history.filter((h) => h.lang === lang), today)
+  if (Object.keys(styles).length) summary(`Hook style scores: ${Object.entries(styles).map(([s, x]) => `${s} ${x.avg.toFixed(3)} (${x.n})`).join(', ')}\n`)
   await (kind === 'carousel' ? carousel(history, today) : video(history, today))
 }
 

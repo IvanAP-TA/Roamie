@@ -1,6 +1,6 @@
 /**
  * What worked: Instagram's numbers for past posts (the only platform whose API gives them with our keys), turned into
- * a score per format that the planner uses to favour the formats people respond to, without dropping the others.
+ * a score per format (and per hook style) that the planner uses to favour the formats people respond to, without dropping the others.
  *
  * Needs the Page token to carry instagram_manage_insights; without it the numbers are simply not read.
  */
@@ -60,17 +60,24 @@ export function score(post) {
 }
 
 /** Average score per format over the last 90 days, for one kind of post ('video' or 'carousel'). */
-export function formatScores(history, kind, today) {
+export const formatScores = (history, kind, today) => scoresBy(history.filter((post) => (post.kind ?? 'video') === kind), (post) => post.format, today)
+
+/** Average score per hook style (copy.mjs HOOK_STYLES) over the last 90 days, videos and carousels together. */
+export const hookScores = (history, today) => scoresBy(history, (post) => post.hookStyle, today)
+
+/** Average score per group (`groupOf(post)`, posts without one left out) over the last 90 days. */
+function scoresBy(history, groupOf, today) {
   const sums = {}
   for (const post of history) {
-    if ((post.kind ?? 'video') !== kind || today - new Date(post.date) > 90 * DAY) continue
+    const group = groupOf(post)
+    if (!group || today - new Date(post.date) > 90 * DAY) continue
     const s = score(post)
     if (s === null) continue
-    sums[post.format] ??= { total: 0, n: 0 }
-    sums[post.format].total += s
-    sums[post.format].n++
+    sums[group] ??= { total: 0, n: 0 }
+    sums[group].total += s
+    sums[group].n++
   }
-  return Object.fromEntries(Object.entries(sums).map(([format, { total, n }]) => [format, { avg: total / n, n }]))
+  return Object.fromEntries(Object.entries(sums).map(([group, { total, n }]) => [group, { avg: total / n, n }]))
 }
 
 /**
