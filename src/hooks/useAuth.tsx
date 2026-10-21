@@ -16,6 +16,10 @@ interface AuthContextValue {
   isGuest: boolean
   signInWithGoogle: (next?: string) => Promise<void>
   signInAsGuest: (name: string) => Promise<void>
+  /** Email sign-in without a password, step 1: a 6-digit code sent to the address (an account is made on first use) */
+  sendEmailCode: (email: string, name?: string) => Promise<void>
+  /** Step 2: the code from the email signs in */
+  verifyEmailCode: (email: string, code: string) => Promise<void>
   /** Turns a guest into a Google account, keeping the same user */
   linkGoogle: (next?: string) => Promise<void>
   signOut: () => Promise<void>
@@ -144,6 +148,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [listen],
   )
 
+  const sendEmailCode = useCallback(async (email: string, name?: string) => {
+    const supabase = await loadSupabase()
+    // The name, when given, becomes the new account's display name (handle_new_user), as for guests.
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { shouldCreateUser: true, data: name?.trim() ? { full_name: name.trim().slice(0, 60) } : undefined },
+    })
+    if (error) throw error
+  }, [])
+
+  const verifyEmailCode = useCallback(
+    async (email: string, code: string) => {
+      const supabase = await loadSupabase()
+      listen(supabase)
+      const { data, error } = await supabase.auth.verifyOtp({ email: email.trim(), token: code.replace(/\D/g, ''), type: 'email' })
+      if (error) throw error
+      setSession(data.session)
+      setLoading(false)
+    },
+    [listen],
+  )
+
   const linkGoogle = useCallback(async (next?: string) => {
     const supabase = await loadSupabase()
     const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNextPath(next))}`
@@ -177,10 +203,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isGuest: Boolean(session?.user.is_anonymous),
       signInWithGoogle,
       signInAsGuest,
+      sendEmailCode,
+      verifyEmailCode,
       linkGoogle,
       signOut,
     }),
-    [session, profile, loading, signInWithGoogle, signInAsGuest, linkGoogle, signOut],
+    [session, profile, loading, signInWithGoogle, signInAsGuest, sendEmailCode, verifyEmailCode, linkGoogle, signOut],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

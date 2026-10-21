@@ -1344,5 +1344,21 @@
       "title": "Votad",
       "body": "Cada uno tiene 10 puntos para dar a sus destinos favoritos. Luego elige la ruleta."
     }
+  },
+  "emailSignIn": {
+    "link": "Usa tu email",
+    "title": "Entra con tu email",
+    "intro": "Te enviamos un código de 6 cifras: sin contraseñas que recordar.",
+    "email": "Tu email",
+    "send": "Envíame el código",
+    "noPassword": "Solo usamos tu email para que entres. Sin newsletters ni publicidad.",
+    "sent": "Hemos enviado un código a {{email}}. Revisa también el spam.",
+    "code": "Código de 6 cifras",
+    "verify": "Entrar",
+    "change": "Cambiar email",
+    "resend": "Reenviar el código",
+    "badCode": "Código no válido o caducado. Revísalo o pide uno nuevo.",
+    "sendError": "No hemos podido enviar el código. Revisa el email y vuelve a intentarlo.",
+    "wait": "Acabas de pedir un código: espera un minuto antes de pedir otro."
   }
 }

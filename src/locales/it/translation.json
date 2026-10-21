@@ -1344,5 +1344,21 @@
       "title": "Votate",
       "body": "Ognuno ha 10 punti da dare alle mete che preferisce. Poi la ruota sceglie."
     }
+  },
+  "emailSignIn": {
+    "link": "Usa la tua email",
+    "title": "Entra con la tua email",
+    "intro": "Ti mandiamo un codice di 6 cifre: niente password da ricordare.",
+    "email": "La tua email",
+    "send": "Mandami il codice",
+    "noPassword": "Usiamo l’email solo per farti entrare. Niente newsletter, niente pubblicità.",
+    "sent": "Abbiamo mandato un codice a {{email}}. Controlla anche lo spam.",
+    "code": "Codice di 6 cifre",
+    "verify": "Entra",
+    "change": "Cambia email",
+    "resend": "Rimanda il codice",
+    "badCode": "Codice non valido o scaduto. Controlla o fatti mandare un codice nuovo.",
+    "sendError": "Non siamo riusciti a mandare il codice. Controlla l’email e riprova.",
+    "wait": "Hai appena chiesto un codice: aspetta un minuto prima di chiederne un altro."
   }
 }

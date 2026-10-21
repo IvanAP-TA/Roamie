@@ -11,6 +11,7 @@ import { rpcErrorCode } from '@/lib/supabase'
 import { formatInviteCode } from '@/lib/share'
 import { AuroraBackground } from '@/components/brand/AuroraBackground'
 import { Logo } from '@/components/brand/Logo'
+import { EmailSignIn } from '@/components/auth/EmailSignIn'
 import { GoogleButton } from '@/components/auth/GoogleButton'
 import { GuestJoinForm } from '@/components/auth/GuestJoinForm'
 import { CoverImage } from '@/components/media/CoverImage'
@@ -136,6 +137,9 @@ export default function JoinPage() {
                           Signing in here keeps this page: the ?auto=1 effect then joins the trip. */}
                       <GuestJoinForm primary onJoined={() => navigate(`/join/${code}?auto=1`, { replace: true })} />
                       <GoogleButton next={`/join/${code}?auto=1`} label={t('join.joinWithGoogle')} className="bg-background" />
+                      <div className="flex justify-center">
+                        <EmailSignIn onSignedIn={() => navigate(`/join/${code}?auto=1`, { replace: true })} />
+                      </div>
                     </>
                   )}
                   {session && trip.is_member && (

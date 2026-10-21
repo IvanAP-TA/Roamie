@@ -1344,5 +1344,21 @@
       "title": "Vote",
       "body": "Everyone has 10 points to give to the places they like. Then the wheel picks."
     }
+  },
+  "emailSignIn": {
+    "link": "Use your email",
+    "title": "Sign in with your email",
+    "intro": "We’ll send you a 6-digit code: no password to remember.",
+    "email": "Your email",
+    "send": "Send me the code",
+    "noPassword": "We only use your email to sign you in. No newsletters, no ads.",
+    "sent": "We sent a code to {{email}}. Check your spam folder too.",
+    "code": "6-digit code",
+    "verify": "Sign in",
+    "change": "Change email",
+    "resend": "Send it again",
+    "badCode": "Invalid or expired code. Check it or ask for a new one.",
+    "sendError": "We couldn’t send the code. Check the email and try again.",
+    "wait": "You just asked for a code: wait a minute before asking for another."
   }
 }
