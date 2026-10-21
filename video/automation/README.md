@@ -162,6 +162,16 @@ Un giro usa meno del 6% della quota gratuita giornaliera (5 ricerche da 100 unit
 
 Per provarlo: Actions → Research → Run workflow.
 
+## Report del lunedì (i numeri che decidono)
+
+Ogni lunedì alle 07:30 UTC pg_cron avvia il workflow `report.yml` (funzione `public.dispatch_weekly_report`), che manda su Telegram il funnel dei viaggi veri, cioè creati da un account Google o email (`report.mjs`, testo in `funnel.mjs`):
+
+- **stella polare:** viaggi creati negli ultimi 28 giorni con almeno 3 persone e una meta scelta;
+- **dove si perdono:** creati → con 2+ persone → con 3+ → votati da 2+ → con una meta scelta;
+- **ultimi 7 giorni:** nuovi account e ospiti, viaggi creati, amici entrati da un invito, mete proposte, voti, ruote.
+
+I numeri vengono da `public.funnel_report()` (solo conteggi, nessun dato su chi), servita dalla Edge Function `funnel-report` con la chiave `SOCIAL_UPLOAD_SECRET`, la stessa che il bot usa già per le immagini. Si può avviare a mano da Actions → Weekly report.
+
 ## Provare a mano
 
 - **Da GitHub:** Actions → Social videos → Run workflow. Nel campo "kind" puoi scrivere `video` o `carousel` per forzare il tipo di post.

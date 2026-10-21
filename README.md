@@ -25,27 +25,36 @@ What it covers:
 
 - **A complete product in production.** Group trips with invites and roles, point voting (optionally secret), a
   server-side weighted draw shared live with the whole group, date finding from everyone's availability, itinerary,
-  checklist, map, passport of visited places, public trip pages, guest access, push notifications, offline mode.
-- **AI inside the product.** Destination ideas and comparisons from Mistral models (Supabase Edge Functions, free plan
-  with automatic fallback between models). Only public facts reach the model, never what members wrote.
-- **SEO at scale.** 575 prerendered pages in three languages (12 travel guides, 36 "where to go in…" pages, 495
+  checklist, map, passport of visited places, public trip pages, push notifications, offline mode. Three ways in:
+  Google, an email code (no password), or just a name for friends arriving from an invite. Built to live next to the
+  group chat: a WhatsApp or Telegram chat pasted in becomes the trip's proposals (read on the device, never uploaded),
+  a Telegram bot tells the group about new places and the wheel's pick, a secret budget shows only the ceiling everyone
+  is fine with, and new trips walk their creator through invite, places and vote.
+- **AI inside the product.** Destination ideas, comparisons and day-by-day itineraries (on the globe and inside a
+  trip) from Mistral models (Supabase Edge Functions, free plan with automatic fallback between models). Only public
+  facts and place names reach the model, never what members wrote.
+- **SEO at scale.** 578 prerendered pages in three languages (13 travel guides, 36 "where to go in…" pages, 495
   destination comparisons) with hreflang, JSON-LD and a sitemap; React hydrates the prerendered markup.
 - **Marketing automation.** A daily pipeline (Supabase pg_cron → GitHub Actions) plans a post from the guides, writes
-  the copy with an LLM under automatic quality checks, renders a video or carousel with Remotion, publishes it to
-  Instagram, Facebook, TikTok and YouTube, alerts on Telegram when a platform fails, and learns from Instagram insights
-  which formats work best. A second bot writes one LinkedIn post a day for the company page (the week's changes, how
+  the copy with an LLM under automatic quality checks, renders a video (four formats, from a spinning wheel to a
+  group-chat story) or a carousel with Remotion, publishes it to Instagram, Facebook, TikTok and YouTube, alerts on
+  Telegram when a platform fails, and learns from Instagram insights which formats and which hook styles (question,
+  POV, problem, challenge, opinion, curiosity) work best. A second bot writes one LinkedIn post a day for the company page (the week's changes, how
   groups decide, a destination, a feature, a lesson learnt) and posts it through a **Make.com** scenario, the only
   route LinkedIn opens to company pages without a partner review. Its texts are rejected if they invent a name that
   isn't in the facts they were given, repeat an earlier post, or read like AI (emoji, hype, long dashes). A weekly
   research step reads what people say about planning trips with friends (YouTube comments, official API) and turns it into
-  angles and hooks for both bots, summarised in our own words, never quoted. See
+  angles and hooks for both bots, summarised in our own words, never quoted. Every Monday a report on Telegram shows
+  the funnel that decides what to build next: trips created, reaching three people, voted, decided. See
   [`video/automation`](video/automation).
 - **Measured performance.** Every optimisation was benchmarked on an emulated mid-range Android phone (4× CPU) against
   the previous release: tab-bar feedback 230–370 ms → ~45 ms, home LCP 1.9 s → 0.8 s, guide photos −84% (AVIF),
-  initial JavaScript 311 → 190 KB.
+  initial JavaScript 311 → 190 KB, landing Lighthouse score 84 → 94 by cutting the fonts to what the design uses (the
+  logo's font went from 150 KB to 3 KB).
 - **Motion that stays smooth on a mid-range phone.** Page transitions with the View Transitions API (a trip's photo
   grows into the trip's header, moved by transforms only so the compositor plays it), a header and covers driven by
-  CSS scroll-driven animations, micro-interactions with haptics, and a staged reveal of the wheel's winner. Each step
+  CSS scroll-driven animations, a landing told as a scroll story (the picked postcard grows into the screen, the steps
+  slide past a pinned section), micro-interactions with haptics, and a staged reveal of the wheel's winner. Each step
   was measured against the release before it: opening a trip and scrolling cost the same as without the animations.
 - **Security and privacy by design.** Row Level Security on every table, server-side draws, strict Content-Security-
   Policy, no ads, no profiling cookies, account deletion and data export.
@@ -100,6 +109,18 @@ npm install
    - **Scopes:** only `email`, `profile` and `openid`
 3. In Supabase, go to *Authentication → Providers → Google* and paste the client ID and secret.
 
+### 3b. Email sign-in with a code (optional)
+
+"Use your email" sends a 6-digit code (`signInWithOtp` / `verifyOtp`, `src/components/auth/EmailSignIn.tsx`); new
+addresses get an account on first use, with the name typed next to the email.
+
+1. Verify the domain on [Resend](https://resend.com) (its DNS records go in Cloudflare, DNS only).
+2. In Supabase, *Authentication → Emails → SMTP Settings*: host `smtp.resend.com`, port `465`, username `resend`,
+   password the Resend API key, sender `accesso@roamie.org`.
+3. *Authentication → Sign In / Providers → Email*: enable the provider.
+4. *Authentication → Email Templates*: in both **Confirm signup** (first sign-in) and **Magic Link** (the next ones),
+   put `{{ .Token }}` in the body and the subject instead of `{{ .ConfirmationURL }}`, so the email carries the code.
+
 ### 4. Environment
 
 ```bash
@@ -135,6 +156,8 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 | `npm run og-image` | Regenerates the social preview images in `public/og/` |
 | `npm run guide-photos` | Makes the AVIF copies of the guides' photos and covers in `public/guides/photos/` (existing files are kept) |
 | `npm run bump` | Raises the patch version before every push; the version is shown in the footer next to the copyright |
+| `python scripts/fonts.py` | Cuts the display fonts to what the design uses: Fraunces upright with its soft/wonky axes pinned, and the logo's 3 KB wordmark (needs `pip install fonttools brotli`) |
+| `python scripts/chat-places.py` | Builds `public/data/chat-places.json`, the places "Paste the group chat" recognises (GeoNames cities, CC BY) |
 
 ## Architecture notes
 
@@ -167,12 +190,34 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   `animation-timeline: scroll()` (with a one-step fallback where it isn't supported); everything animates transform and
   opacity only, and parallax is off with reduced motion.
 - **Guide covers.** `src/content/guides/covers.json` holds each guide's cover photo (the photo of its first place, kept
-  equal by a test; the how-to guide has its own), small enough for the landing page to show photos without downloading
+  equal by a test; the guides without places have their own; a guide's page opens on its last place instead, so the
+  first place card doesn't repeat the photo above it), small enough for the landing page to show photos without downloading
   the guides. The landing's postcards use their own cropped AVIFs in `public/landing/`, credited like every photo.
 - **Wikimedia images.** Lookup tries the Wikipedia lead image first, resolved on Commons (so only freely licensed files are used), then a Commons file search whose titles must contain the place name. Maps, flags, coats of arms and tiny files are discarded. If nothing relevant remains, the card shows an illustrated scene instead. Attribution (author, licence, source) is stored as JSON and shown on every image.
 - **Passport.** `/passport` collects the visited destinations of all your trips (RLS scopes the query) and places you add yourself (`visited_places`, readable only by their author): countries and continents reached (ISO code from the place search, localized with `Intl.DisplayNames`), a map, and stamps with ratings, filterable by trip. "I wasn't there" (`passport_exclusions`) hides a group visit from your passport only. `visited_at` is kept by the status trigger; members rate visited destinations 1–5 with `set_rating` (0 removes it). The share button draws a 1080×1920 story image on a canvas in the browser (`src/lib/passportCard.ts`) and hands it to the system share sheet, or downloads it.
 - **Public trip page.** Off by default. The owner can publish a read-only page at `/p/:slug` (`set_trip_public`): the slug is the trip name plus 8 random characters, so pages can't be enumerated. `get_public_trip` is the only data `anon` gets besides the invite preview: trip details, destinations with photo and total points, and the itinerary. Members, individual votes, comments, links and the checklist are never included. On Vercel, `api/public-trip.ts` serves the app shell with the trip's own title, description, image, canonical and `TouristTrip` JSON-LD, so link previews and search engines show the trip (CDN cache 60 s, so unpublishing takes previews down quickly).
 - **Climate.** Destinations with coordinates show their average climate from Open-Meteo's historical weather API (free for non-commercial use, CC BY 4.0, credited next to the chart): 5 years of daily data reduced to 12 months, cached for 180 days on a ~25 km grid. The "best time to go" is an estimate from daytime highs (18–28 °C ideal) and rainy days (`src/lib/climate.ts`). Compare mode puts 2–3 destinations side by side (points, best time, budget, mood, comments).
+- **Joining.** An invite link joins with just a name (an anonymous Supabase user, linkable to Google later), Google or
+  an email code. Its link preview (`api/join.ts`, `api/og/invite`) shows the trip, the places in the running and that a
+  name is enough. After a proposal, and after the last of your points, a toast offers to tell the group in the chat with
+  the message ready (`useTellTheGroup`). New trips show their creator three steps (invite, places, vote) that tick
+  themselves off (`FirstSteps`).
+- **Paste the group chat.** `src/lib/chatPlaces.ts` finds the places a pasted WhatsApp or Telegram chat names, on the
+  device: senders' names, links and everyday words that are also place names are skipped, spellings in several
+  languages count as one place (Lisbona, Lisboa). It matches against `public/data/chat-places.json` (fetched only when
+  the sheet opens), the guides' places and the country names. The chat is never sent anywhere; only the places picked
+  are saved.
+- **Telegram groups.** `supabase/functions/telegram-bot` is @RoamieTripBot. Adding it from the invite page
+  (`t.me/RoamieTripBot?startgroup=<code>`) links the group to the trip; triggers queue what happens in the trip
+  (`telegram_outbox`: a place proposed, someone joining, the wheel's pick, dates fixed) and pg_net asks the function to
+  send it. In groups the bot only receives commands (`/mete`, `/collega`, `/scollega`), never the chat. Needs the
+  Edge Function secret `TELEGRAM_GROUP_BOT_TOKEN`; `GET …/telegram-bot?setup` registers the webhook and the menu.
+- **Secret budget.** Each member picks a band privately (`set_my_budget`); `group_budget` returns only the lowest band,
+  and only once three have answered, so no answer can be told apart. Nobody, the owner included, can read
+  `trip_budgets`.
+- **Weekly report.** `public.funnel_report()` counts the funnel (real trips are the ones a Google or email account made);
+  the `funnel-report` Edge Function serves it to the Monday workflow (`report.yml`, started by pg_cron), which posts it
+  on Telegram.
 - **Privacy.** There are no third-party trackers and no consent banner: the only analytics is Cloudflare Web Analytics, cookieless and anonymous. Only strictly necessary storage is used (Supabase session, language, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
 
 ## Deploying (Vercel)
@@ -209,4 +254,5 @@ psql --single-transaction --variable ON_ERROR_STOP=1 --file roles.sql --file sch
 Keep these free-tier limits in mind:
 
 - **OpenStreetMap tiles:** the public tile servers are meant for light use. If traffic grows, switch the `TileLayer` URL to another free or self-hosted provider, and update `img-src`/`connect-src` in `vercel.json`.
-- **Supabase Auth emails:** not used (Google sign-in only).
+- **Supabase Auth emails:** sent through Resend's SMTP (sign-in codes only; see *3b*). Resend's free plan covers
+  3,000 emails a month.
