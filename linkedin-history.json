@@ -116,5 +116,24 @@
         "id": "74"
       }
     }
+  },
+  {
+    "date": "2026-10-21T07:00:09.421Z",
+    "kind": "destination",
+    "topic": "bucharest",
+    "places": [
+      "bucharest"
+    ],
+    "firstLine": "A city where the night stays alive but the day offers quiet warmth.",
+    "text": "A city where the night stays alive but the day offers quiet warmth. \n\nBucharest’s old town is packed with bars that spill into the streets after dark, while a short trip away brings Therme, a sprawling spa where the only thing you’ll be racing is the steam. It’s the kind of balance that works for a group who want to stay up late but still need somewhere to recover the next morning. \n\nThe city is easy on the budget too, which means you could stretch the trip further, maybe with a day trip to explore the countryside or just more time in the bars and pools. It’s not the kind of place that demands a strict itinerary, which can be a relief when you’re planning with friends. \n\nDoes your group need a mix of energy and rest, or do you prefer destinations that lean one way or the other?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "87"
+      }
+    }
   }
 ]
