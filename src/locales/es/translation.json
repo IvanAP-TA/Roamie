@@ -1328,5 +1328,21 @@
     "added_other": "{{count}} destinos añadidos desde el chat",
     "tell": "He puesto en Roamie los destinos de nuestro chat ({{places}}) para «{{trip}}». Votad aquí:",
     "source": "Nombres de ciudades: GeoNames (CC BY 4.0)."
+  },
+  "firstSteps": {
+    "title": "Tres pasos para decidir juntos",
+    "invite": {
+      "title": "Invita al grupo",
+      "body": "Manda el enlace al chat de WhatsApp o Telegram: los amigos entran solo con su nombre.",
+      "cta": "Invitar amigos"
+    },
+    "places": {
+      "title": "Reunid los destinos",
+      "body": "¿Ya los nombrasteis en el chat? Pégalo y Roamie los encuentra. O propónlos uno a uno."
+    },
+    "vote": {
+      "title": "Votad",
+      "body": "Cada uno tiene 10 puntos para dar a sus destinos favoritos. Luego elige la ruleta."
+    }
   }
 }

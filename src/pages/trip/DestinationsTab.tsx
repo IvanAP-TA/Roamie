@@ -26,6 +26,7 @@ import { VoteDeck, VoteDeckButton } from '@/components/destinations/VoteDeck'
 import { BudgetPrompt } from '@/components/plan/BudgetPrompt'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
+import { FirstSteps } from '@/components/trips/FirstSteps'
 import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
@@ -83,6 +84,10 @@ export default function DestinationsTab() {
   // The deck (the second way to vote): the order of the list when it was opened.
   const [deckIds, setDeckIds] = useState<string[]>([])
   const [deckOpen, setDeckOpen] = useState(false)
+  const openDeck = () => {
+    setDeckIds(list.filter((d) => d.status === 'proposed').map((d) => d.id))
+    setDeckOpen(true)
+  }
 
   const open = (id: string) =>
     setParams((p) => {
@@ -203,6 +208,9 @@ export default function DestinationsTab() {
       {settled ? (
       <div className="page-enter space-y-6 px-5 pt-6 md:px-6">
         <SampleTripBanner />
+        {destinations && (
+          <FirstSteps destinations={destinations} onPasteChat={() => setPastingChat(true)} onPropose={() => setAdding(true)} onVote={openDeck} />
+        )}
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
         <BudgetPrompt />
@@ -277,10 +285,7 @@ export default function DestinationsTab() {
                 <>
                   <VoteDeckButton
                     tripId={trip.id}
-                    onOpen={() => {
-                      setDeckIds(list.filter((d) => d.status === 'proposed').map((d) => d.id))
-                      setDeckOpen(true)
-                    }}
+                    onOpen={openDeck}
                   />
                   <ResetPointsButton destinations={destinations ?? []} />
                   <SecretVotingControl />

@@ -1328,5 +1328,21 @@
     "added_other": "{{count}} places added from the chat",
     "tell": "I put the places from our chat ({{places}}) on Roamie for “{{trip}}”. Vote here:",
     "source": "City names: GeoNames (CC BY 4.0)."
+  },
+  "firstSteps": {
+    "title": "Three steps to decide together",
+    "invite": {
+      "title": "Invite the group",
+      "body": "Drop the link in the WhatsApp or Telegram chat: friends join with just a name.",
+      "cta": "Invite friends"
+    },
+    "places": {
+      "title": "Gather the places",
+      "body": "Already named them in the chat? Paste it and Roamie finds them. Or propose them one by one."
+    },
+    "vote": {
+      "title": "Vote",
+      "body": "Everyone has 10 points to give to the places they like. Then the wheel picks."
+    }
   }
 }
