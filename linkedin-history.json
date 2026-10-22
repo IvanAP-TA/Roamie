@@ -135,5 +135,27 @@
         "id": "87"
       }
     }
+  },
+  {
+    "date": "2026-10-22T07:00:09.502Z",
+    "kind": "feature",
+    "topic": "languages",
+    "card": "home",
+    "firstLine": "We didn’t realise how much language could slow down a group trip until we saw it happen. Sometimes the easiest way to decide isn’t the fastest.",
+    "text": "We didn’t realise how much language could slow down a group trip until we saw it happen. Sometimes the easiest way to decide isn’t the fastest.\n\nA conversation about a trip can get stuck when everyone speaks different languages. Maybe one person suggests a place, another replies in their own language, and the rest don’t understand. Or maybe someone shares a link, and it gets lost in translation. By the time everyone’s caught up, the momentum is gone.\n\nWe built Roamie so the app would handle the language barrier for you. Every suggestion, vote, and comment stays in the language it was written, but the app translates it for everyone else. No one gets left out, and no one has to pause to ask what was said.\n\nIt’s not about making decisions faster, it’s about making sure no one feels left behind when the conversation moves on.\n\nHow often do language differences slow down your group’s plans?",
+    "rejected": [
+      "feature: same opening as an earlier post",
+      "feature: paragraphs",
+      "feature: paragraphs"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "93"
+      }
+    }
   }
 ]
