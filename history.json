@@ -65,8 +65,8 @@
       "reach": 6,
       "saved": 0,
       "shares": 0,
-      "interactions": 0,
-      "at": "2026-10-20T16:01:23.431Z"
+      "interactions": 1,
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -106,8 +106,8 @@
       "reach": 6,
       "saved": 0,
       "shares": 0,
-      "interactions": 0,
-      "at": "2026-10-20T16:01:23.431Z"
+      "interactions": 1,
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -145,8 +145,8 @@
       "reach": 9,
       "saved": 0,
       "shares": 0,
-      "interactions": 0,
-      "at": "2026-10-20T16:01:23.431Z"
+      "interactions": 1,
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -221,7 +221,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-20T16:01:23.431Z"
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -266,7 +266,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-20T16:01:23.431Z"
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -362,11 +362,11 @@
       }
     },
     "metrics": {
-      "reach": 12,
+      "reach": 14,
       "saved": 0,
       "shares": 0,
-      "interactions": 0,
-      "at": "2026-10-20T16:01:23.431Z"
+      "interactions": 1,
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -404,6 +404,13 @@
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
       }
+    },
+    "metrics": {
+      "reach": 3,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 1,
+      "at": "2026-10-22T16:01:06.065Z"
     }
   },
   {
@@ -443,6 +450,43 @@
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
+      }
+    }
+  },
+  {
+    "date": "2026-10-22T16:01:06.065Z",
+    "kind": "carousel",
+    "format": "guide",
+    "lang": "en",
+    "places": [
+      "ksamil",
+      "marrakech",
+      "istanbul",
+      "hanoi",
+      "sofia"
+    ],
+    "guide": "budget",
+    "hook": "Budget group trip? Here are 5 ideas for your group",
+    "caption": "Ksamil, Marrakech, Istanbul, Hanoi and Sofia: which one would you put to your group?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "95"
+      },
+      "instagram": {
+        "id": "18118879270799726",
+        "url": "https://www.instagram.com/p/DezXZRqlDFA/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122109296961506337",
+        "url": "https://www.facebook.com/1360561970475478_122109296961506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7699523300754704406",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
       }
     }
   }
