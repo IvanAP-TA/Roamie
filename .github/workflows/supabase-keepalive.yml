@@ -1,7 +1,7 @@
 # Free Supabase projects pause after about a week without database activity.
 # One tiny query a day through the public API keeps the project awake.
-# Needs SUPABASE_URL and SUPABASE_ANON_KEY (both public values) under Settings → Secrets and variables → Actions,
-# as repository variables (or, if you'd rather, as secrets with the same names).
+# The project's URL and publishable key are public (the web app ships them to every browser), so they're written here;
+# nothing to set in the repository.
 name: Supabase keep-alive
 
 on:
@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Run a read-only RPC
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY || secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_URL: https://tvcumfzhnuljngdzuuue.supabase.co
+          SUPABASE_ANON_KEY: sb_publishable_HOZGOo8y8klyVzjzempZng_fMiB3ISV
         run: |
           if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
             echo "::error::Set SUPABASE_URL and SUPABASE_ANON_KEY in Settings → Secrets and variables → Actions (Variables tab)."
