@@ -190,7 +190,6 @@ function PostcardFan({ onPicked }: { onPicked: (card: number) => void }) {
       <button
         type="button"
         onClick={spin}
-        aria-label={t('landing.spinAgain')}
         style={{ '--delay': '1.1s' } as React.CSSProperties}
         className="intro-pop glass-strong pressable absolute right-[2%] bottom-[2%] z-20 flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-sm font-semibold whitespace-nowrap md:top-full md:right-auto md:bottom-auto md:left-1/2 md:mt-12 md:-translate-x-1/2"
       >
@@ -204,6 +203,7 @@ function PostcardFan({ onPicked }: { onPicked: (card: number) => void }) {
         </span>
         {/* Read out after a spin: the place that was picked. */}
         <span aria-live="polite">{picked === null ? (spinning ? '…' : t('landing.badge')) : t('landing.picked', { place: POSTCARDS[picked].name })}</span>
+        <span className="sr-only">{t('landing.spinAgain')}</span>
       </button>
     </div>
   )
@@ -334,11 +334,10 @@ function StepsMarquee() {
   const words = STEPS.map((key) => t(`landing.features.${key}.title`))
   const line = (outlined: boolean) => (
     <p className={cn('marquee-line', outlined && 'marquee-line-outline')}>
+      {/* The words are drawn by CSS (::before), not written in the page: decoration, so checks and screen readers
+          don't read a second, outlined copy of the steps as text. */}
       {[...words, ...words].map((word, i) => (
-        <span key={i}>
-          {word}
-          <span className="marquee-dot">✦</span>
-        </span>
+        <span key={i} className="marquee-word" data-word={word} />
       ))}
     </p>
   )

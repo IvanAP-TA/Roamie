@@ -26,7 +26,8 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   const button = (
     <button
       type="button"
-      aria-label={t('common.language')}
+      // The name starts with what the button shows ("IT"), as voice control users say it.
+      aria-label={`${current.toUpperCase()} · ${t('common.language')}`}
       aria-haspopup="menu"
       onPointerEnter={preloadLanguageMenu}
       onFocus={preloadLanguageMenu}

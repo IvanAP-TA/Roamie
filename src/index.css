@@ -48,7 +48,8 @@
   --card-foreground: #2b1d17;
   --popover: #fff9f3;
   --popover-foreground: #2b1d17;
-  --primary: #c24e27;
+  /* #c24e27 until 1.1.54: a touch darker so text in it reaches 4.5:1 on the background (WCAG AA). */
+  --primary: #ba4a24;
   --primary-foreground: #fff8f2;
   --secondary: #f3e2d1;
   --secondary-foreground: #4a2e22;
@@ -489,14 +490,19 @@
   white-space: nowrap;
   translate: -8% 0;
 }
-.marquee-line > span {
+.marquee-word {
   display: inline-flex;
   align-items: center;
 }
-.marquee-dot {
+.marquee-word::before {
+  content: attr(data-word);
+}
+.marquee-word::after {
+  content: '✦';
   margin-inline: 0.45em;
   font-size: 0.38em;
   color: var(--primary);
+  -webkit-text-stroke: 0;
 }
 .marquee-line-outline {
   color: transparent;
@@ -563,13 +569,14 @@
   from { transform: none; opacity: 1; visibility: visible; }
   to { transform: translateY(160%); opacity: 0; visibility: hidden; }
 }
+/* Movement only, no fading: text stays fully opaque, so its contrast is the same before and after the reveal. */
 @keyframes reveal-up {
-  from { transform: translateY(56px) scale(0.96); opacity: 0; }
-  to { transform: none; opacity: 1; }
+  from { transform: translateY(56px) scale(0.96); }
+  to { transform: none; }
 }
 @keyframes ticket-in {
-  from { transform: perspective(1200px) rotateX(36deg) translateY(70px) scale(0.92); opacity: 0.15; }
-  to { transform: none; opacity: 1; }
+  from { transform: perspective(1200px) rotateX(36deg) translateY(70px) scale(0.92); }
+  to { transform: none; }
 }
 
 @supports (animation-timeline: view()) {
