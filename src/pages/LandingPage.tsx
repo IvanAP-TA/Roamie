@@ -141,7 +141,7 @@ function Postcard({ card, slot, live }: { card: (typeof POSTCARDS)[number]; slot
  * The three postcards, and Roamie's whole idea in one tap: the badge spins them like the wheel, the cards trade
  * places a few times, slowing down, and one lands in front. Before the first tap it is exactly the prerendered fan.
  */
-function PostcardFan() {
+function PostcardFan({ onPicked }: { onPicked: (card: number) => void }) {
   const { t } = useTranslation()
   // slots[card] = the slot that card sits in.
   const [slots, setSlots] = useState([0, 1, 2])
@@ -173,6 +173,7 @@ function PostcardFan() {
       window.setTimeout(() => {
         setSpinning(false)
         setPicked(winner)
+        onPicked(winner)
         haptic('success')
       }, elapsed + 420),
     )
@@ -223,9 +224,9 @@ function ScrollProgress() {
  * From the group chat to the trip: the postcard the hero's wheel picked (Kyoto) grows from a card into the whole
  * screen as you scroll, the chat's typing bubbles blow away, and the problem gives way to the decision.
  */
-function ZoomThrough() {
+function ZoomThrough({ card }: { card: (typeof POSTCARDS)[number] }) {
   const { t } = useTranslation()
-  const kyoto = POSTCARDS[2].photo
+  const { file } = card.photo
   return (
     <section aria-labelledby="zoom-title" className="zoom-scene mx-auto w-full max-w-6xl px-5 pt-20 md:px-8 md:pt-24">
       <div className="zoom-sticky">
@@ -237,17 +238,17 @@ function ZoomThrough() {
           <picture>
             <source
               type="image/avif"
-              srcSet="/landing/kyoto-wide-900.avif 900w, /landing/kyoto-wide-1600.avif 1600w, /landing/kyoto-wide-2400.avif 2400w"
+              srcSet={`/landing/${file}-wide-900.avif 900w, /landing/${file}-wide-1600.avif 1600w, /landing/${file}-wide-2400.avif 2400w`}
               sizes="100vw"
             />
-            <img src="/landing/kyoto-wide-1000.jpg" alt="" width={1000} height={1506} loading="lazy" decoding="async" className="zoom-photo absolute inset-0 size-full object-cover" />
+            <img src={`/landing/${file}-wide-1000.jpg`} alt="" width={1000} height={1500} loading="lazy" decoding="async" className="zoom-photo absolute inset-0 size-full object-cover" />
           </picture>
           <div className="zoom-shade absolute inset-0 bg-[linear-gradient(180deg,rgb(20_10_5/0.15)_30%,rgb(20_10_5/0.7))]" />
           <h2 id="zoom-title" className="zoom-to absolute inset-x-6 bottom-8 text-white md:inset-x-12 md:bottom-12">
             <span className="mb-3 block font-sans text-xs font-bold tracking-[0.22em] uppercase opacity-85">{t('landing.story.toLabel')}</span>
-            <span className="block font-display text-[3.2rem] leading-[0.95] drop-shadow-lg sm:text-7xl md:text-9xl">{t('landing.story.to')}</span>
+            <span className="block font-display text-[3.2rem] leading-[0.95] drop-shadow-lg sm:text-7xl md:text-9xl">{t('landing.story.to', { place: card.name })}</span>
           </h2>
-          <AttributionChip raw={kyoto.attribution} compact className="absolute top-3 right-3 z-10" />
+          <AttributionChip raw={card.photo.attribution} compact className="absolute top-3 right-3 z-10" />
         </div>
         {/* The group chat: typing bubbles around the card, blown away as the trip takes the screen. */}
         <div aria-hidden className="zoom-bubbles">
@@ -395,6 +396,8 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
   // Signed-out visitors (and crawlers) get the page immediately; only a stored session waits for auth.
   const waitingForSession = loading && hasStoredSession()
   useSeo('landing', lang)
+  // The postcard the hero's wheel picked (Kyoto until a spin): the scroll story below zooms into that one.
+  const [picked, setPicked] = useState(2)
 
   // Each landing URL (/, /en, /es) has a fixed language, matching its prerendered HTML and hreflang.
   useEffect(() => {
@@ -418,7 +421,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
       <main className="flex-1">
         <div className="hero-scene mx-auto grid w-full max-w-6xl items-center gap-4 px-5 md:min-h-[min(calc(100dvh-4.5rem),44rem)] md:grid-cols-[1.05fr_1fr] md:gap-12 md:px-8 md:py-10">
           <section className="hero-fan order-1 pt-2 md:order-2">
-            <PostcardFan />
+            <PostcardFan onPicked={setPicked} />
           </section>
 
           <section className="hero-text order-2 flex flex-col gap-5 md:order-1 md:gap-6">
@@ -459,7 +462,7 @@ export default function LandingPage({ lang }: { lang: LanguageCode }) {
           </section>
         </div>
 
-        <ZoomThrough />
+        <ZoomThrough card={POSTCARDS[picked]} />
         <HowItWorks lang={lang} />
         <StepsMarquee />
 

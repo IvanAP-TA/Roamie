@@ -97,7 +97,7 @@
       "fromLabel": "En el chat del grupo",
       "from": "Cien mensajes y aún ningún destino.",
       "toLabel": "Votado por el grupo, elegido por la ruleta",
-      "to": "Kioto, decidido."
+      "to": "{{place}}, decidido."
     },
     "sticky": {
       "google": "Entrar con Google",

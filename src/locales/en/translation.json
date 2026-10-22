@@ -97,7 +97,7 @@
       "fromLabel": "In the group chat",
       "from": "A hundred messages and still no destination.",
       "toLabel": "Voted by the group, picked by the wheel",
-      "to": "Kyoto it is."
+      "to": "{{place}} it is."
     },
     "sticky": {
       "google": "Sign in with Google",

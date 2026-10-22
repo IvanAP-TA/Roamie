@@ -97,7 +97,7 @@
       "fromLabel": "Nella chat del gruppo",
       "from": "Cento messaggi, ancora nessuna meta.",
       "toLabel": "Votata dal gruppo, estratta dalla ruota",
-      "to": "Kyoto, deciso."
+      "to": "{{place}}, deciso."
     },
     "sticky": {
       "google": "Accedi con Google",
