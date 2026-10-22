@@ -16,7 +16,7 @@ import { rpcErrorCode } from '@/lib/supabase'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { OnlineMembers, useLiveTrip } from '@/components/roulette/LiveTrip'
 import { RouletteSchedule } from '@/components/roulette/RouletteSchedule'
-import { RouletteWheel, SLICE_COLORS } from '@/components/roulette/RouletteWheel'
+import { RouletteWheel, sliceColor } from '@/components/roulette/RouletteWheel'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { EmptyState, Skeleton } from '@/components/ui/misc'
@@ -155,13 +155,13 @@ export default function RouletteTab() {
                       onClick={() => openDestination(e.destination.id)}
                       className="flex w-full items-center gap-3 rounded-2xl px-2 py-2 text-left transition hover:bg-foreground/[0.04]"
                     >
-                      <span className="size-3.5 shrink-0 rounded-full" style={{ background: SLICE_COLORS[i % SLICE_COLORS.length] }} />
+                      <span className="size-3.5 shrink-0 rounded-full" style={{ background: sliceColor(i, odds.length) }} />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium">{e.destination.name}</span>
                         <span className="mt-1 block h-1.5 overflow-hidden rounded-full bg-foreground/[0.06]">
                           <motion.span
                             className="block h-full rounded-full"
-                            style={{ background: SLICE_COLORS[i % SLICE_COLORS.length] }}
+                            style={{ background: sliceColor(i, odds.length) }}
                             initial={{ width: 0 }}
                             animate={{ width: `${e.probability * 100}%` }}
                             transition={{ type: 'spring', stiffness: 120, damping: 20, delay: i * 0.05 }}

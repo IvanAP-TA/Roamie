@@ -2,7 +2,7 @@
  * The story image of a group decision (1080×1920): the wheel's pick with the ranking, or the ranking of a secret vote
  * once revealed. Drawn on a canvas in the browser like the passport card; nothing leaves the device.
  */
-import { SLICE_COLORS } from '@/components/roulette/RouletteWheel'
+import { sliceColor } from '@/components/roulette/RouletteWheel'
 import { CARD_HEIGHT, CARD_WIDTH, DISPLAY, INK, SANS, SUN, background, fit, roundedRect } from './passportCard'
 import { safeImageUrl } from './utils'
 import { sizedThumb } from './wikimedia'
@@ -129,7 +129,7 @@ function drawWheel(ctx: CanvasRenderingContext2D, ranking: StoryRankingRow[], wi
     ctx.arc(cx, cy, r, start, end)
     ctx.closePath()
     ctx.globalAlpha = i === winner ? 1 : 0.78
-    ctx.fillStyle = SLICE_COLORS[i % SLICE_COLORS.length]
+    ctx.fillStyle = sliceColor(i, parts.length)
     ctx.fill()
     ctx.globalAlpha = 1
     if (parts.length > 1) {
