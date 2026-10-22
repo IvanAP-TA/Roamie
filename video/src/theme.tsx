@@ -28,6 +28,66 @@ export const C = {
 
 export const SLICES = ["#ff7a5c", "#f4a950", "#6b4a6e", "#c24e27", "#3f7a78"];
 
+// ── The wheel as a sunset dial, the same as the app's (src/components/roulette/RouletteWheel.tsx) ──
+const SUNSET = ["#f4a950", "#ff7a5c", "#c24e27", "#8e3a4c", "#6b4a6e"];
+const PAPER_RGB = [255, 250, 243];
+const rgb = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const toHex = (c: number[]) => `#${c.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`;
+const mix = (a: number[], b: number[], t: number) => a.map((v, i) => v + (b[i] - v) * t);
+
+/** The sunset run once around the wheel, every other slice a lighter tint: as in the app. */
+export function sliceColor(index: number, count: number): string {
+  const t = count > 1 ? (index / count) * (SUNSET.length - 1) : 0;
+  const from = Math.floor(t);
+  const tone = mix(rgb(SUNSET[from]), rgb(SUNSET[Math.min(from + 1, SUNSET.length - 1)]), t - from);
+  return toHex(index % 2 === 1 && count > 1 ? mix(tone, PAPER_RGB, 0.38) : tone);
+}
+
+/** Ink or paper, whichever reads better on a slice. */
+export function labelColor(fill: string): string {
+  const [r, g, b] = rgb(fill).map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.36 ? C.dark : C.ink;
+}
+
+const dialPoint = (cx: number, cy: number, deg: number, radius: number) => {
+  const rad = ((deg - 90) * Math.PI) / 180;
+  return [cx + radius * Math.cos(rad), cy + radius * Math.sin(rad)] as const;
+};
+
+/** The paper bezel's fine ticks, like a compass (inside the turning group, so they turn with the wheel). */
+export const DialTicks: React.FC<{ readonly cx: number; readonly cy: number; readonly r: number }> = ({ cx, cy, r }) => (
+  <>
+    {Array.from({ length: 72 }, (_, i) => {
+      const major = i % 6 === 0;
+      const [x1, y1] = dialPoint(cx, cy, i * 5, r + 6);
+      const [x2, y2] = dialPoint(cx, cy, i * 5, r + (major ? 22 : 15));
+      return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(43,29,23,0.3)" strokeWidth={major ? 3.5 : 1.8} strokeLinecap="round" />;
+    })}
+    <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(43,29,23,0.12)" strokeWidth={2} />
+  </>
+);
+
+/** The needle at the top and the hub with its compass point: the still parts of the dial. */
+export const DialNeedleAndHub: React.FC<{ readonly cx: number; readonly cy: number; readonly r: number }> = ({ cx, cy, r }) => {
+  const tip = cy - r + 40;
+  const top = cy - r - 78;
+  return (
+    <>
+      <circle cx={cx} cy={cy} r={86} fill={C.paper} stroke="rgba(43,29,23,0.12)" strokeWidth={2} />
+      <path d={`M ${cx} ${cy - 46} L ${cx + 14} ${cy} L ${cx} ${cy + 46} L ${cx - 14} ${cy} Z`} fill={C.primary} />
+      <path d={`M ${cx} ${cy - 46} L ${cx + 14} ${cy} L ${cx} ${cy} Z`} fill="rgba(255,255,255,0.25)" />
+      <circle cx={cx} cy={cy} r={8} fill={C.paper} />
+      <path d={`M ${cx} ${tip} L ${cx - 30} ${top + 46} L ${cx} ${top} L ${cx + 30} ${top + 46} Z`} fill={C.dark} />
+      <path d={`M ${cx} ${tip} L ${cx} ${top} L ${cx + 30} ${top + 46} Z`} fill="rgba(255,255,255,0.12)" />
+      <circle cx={cx} cy={top + 46} r={15} fill={C.paper} />
+      <circle cx={cx} cy={top + 46} r={7} fill={C.primary} />
+    </>
+  );
+};
+
 export const FPS = 30;
 export const WIDTH = 1080;
 export const HEIGHT = 1920;

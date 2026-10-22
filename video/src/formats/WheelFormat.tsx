@@ -3,7 +3,7 @@ import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { AbsoluteFill, Easing, Img, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CtaScene } from "../scenes/CtaScene";
-import { C, DISPLAY, ramp, SANS, SLICES, Sky } from "../theme";
+import { C, DialNeedleAndHub, DialTicks, DISPLAY, labelColor, ramp, SANS, sliceColor, Sky } from "../theme";
 import { budgetLabel, Chip, Credits, Hook, monthsLabel, PhotoBackground, Sfx, Soundtrack, useFit, type Lang, type VideoPlace } from "./shared";
 
 export type WheelProps = {
@@ -67,13 +67,13 @@ const slicePath = (from: number, to: number) => {
   return `M ${CX} ${CY} L ${point(from)} A ${R} ${R} 0 ${to - from > 180 ? 1 : 0} 1 ${point(to)} Z`;
 };
 
-const WheelLabel: React.FC<{ readonly name: string; readonly mid: number; readonly flip: boolean; readonly arc: number }> = ({ name, mid, flip, arc }) => {
+const WheelLabel: React.FC<{ readonly name: string; readonly mid: number; readonly flip: boolean; readonly arc: number; readonly color: string }> = ({ name, mid, flip, arc, color }) => {
   // The label runs across its slice: the narrower the slice, the smaller it gets.
   const size = useFit(name, Math.min(R * 0.62, arc), 50);
   const y = CY - R * 0.6;
   return (
     <g transform={`rotate(${mid} ${CX} ${CY})`}>
-      <text x={CX} y={y} fill={C.ink} fontFamily={DISPLAY} fontWeight={600} fontSize={size} textAnchor="middle" dominantBaseline="middle" transform={flip ? `rotate(180 ${CX} ${y})` : undefined}>
+      <text x={CX} y={y} fill={color} fontFamily={DISPLAY} fontWeight={600} fontSize={size} textAnchor="middle" dominantBaseline="middle" transform={flip ? `rotate(180 ${CX} ${y})` : undefined}>
         {name}
       </text>
     </g>
@@ -101,22 +101,21 @@ const Spin: React.FC<WheelProps> = ({ spinTitle, places, points, winner }) => {
       ))}
       <Hook text={spinTitle} top={170} />
       <svg viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
-        <circle cx={CX} cy={CY} r={R + 22} fill="rgba(255,248,241,0.92)" />
+        <circle cx={CX} cy={CY} r={R + 30} fill={C.paper} />
         <g style={{ transform: `rotate(${rotation}deg)`, transformOrigin: `${CX}px ${CY}px` }}>
+          <DialTicks cx={CX} cy={CY} r={R} />
           {slices.map((s, i) => (
-            <path key={i} d={slicePath(s.from, s.to)} fill={SLICES[i]} stroke={C.paper} strokeWidth={8} opacity={i !== winner ? 1 - 0.35 * landed : 1} />
+            <path key={i} d={slicePath(s.from, s.to)} fill={sliceColor(i, slices.length)} stroke={C.paper} strokeWidth={6} opacity={i !== winner ? 1 - 0.35 * landed : 1} />
           ))}
           {slices.map((s, i) => {
             const mid = (s.from + s.to) / 2;
             const rest = (((mid + end) % 360) + 360) % 360;
             // Chord at the label's radius, so the name never crosses into the next slice.
             const arc = 2 * R * 0.6 * Math.sin(((s.to - s.from) * Math.PI) / 360) * 0.9;
-            return <WheelLabel key={i} name={places[i].name} mid={mid} flip={rest > 90 && rest < 270} arc={Math.max(arc, 160)} />;
+            return <WheelLabel key={i} name={places[i].name} mid={mid} flip={rest > 90 && rest < 270} arc={Math.max(arc, 160)} color={labelColor(sliceColor(i, slices.length))} />;
           })}
         </g>
-        <circle cx={CX} cy={CY} r={74} fill={C.paper} />
-        <circle cx={CX} cy={CY} r={28} fill={C.sun} />
-        <path d={`M ${CX - 50} ${CY - R - 70} L ${CX + 50} ${CY - R - 70} L ${CX} ${CY - R + 26} Z`} fill={C.sun} stroke={C.paper} strokeWidth={8} />
+        <DialNeedleAndHub cx={CX} cy={CY} r={R} />
       </svg>
     </Sky>
   );

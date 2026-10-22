@@ -1,6 +1,6 @@
 import { Easing, interpolate, useCurrentFrame } from "remotion";
 import { COPY, type SceneProps } from "../copy";
-import { C, DISPLAY, ramp, SLICES, Sky, Title } from "../theme";
+import { C, DialNeedleAndHub, DialTicks, DISPLAY, labelColor, ramp, sliceColor, Sky, Title } from "../theme";
 import { POINTS } from "./PointsScene";
 
 const R = 400;
@@ -43,10 +43,11 @@ export const WheelScene: React.FC<SceneProps> = ({ lang }) => {
         <span style={{ fontStyle: "italic", color: C.sun }}>{copy.wheel[1]}</span>
       </Title>
       <svg viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
-        <circle cx={CX} cy={CY} r={R + 22} fill="rgba(255,248,241,0.92)" />
+        <circle cx={CX} cy={CY} r={R + 30} fill={C.paper} />
         <g style={{ transform: `rotate(${rotation}deg)`, transformOrigin: `${CX}px ${CY}px` }}>
+          <DialTicks cx={CX} cy={CY} r={R} />
           {slices.map((s, i) => (
-            <path key={i} d={slicePath(s.from, s.to)} fill={SLICES[i]} stroke={C.paper} strokeWidth={8} opacity={landed > 0 && i !== WINNER ? 1 - 0.35 * landed : 1} />
+            <path key={i} d={slicePath(s.from, s.to)} fill={sliceColor(i, slices.length)} stroke={C.paper} strokeWidth={6} opacity={landed > 0 && i !== WINNER ? 1 - 0.35 * landed : 1} />
           ))}
           {slices.map((s, i) => {
             const mid = (s.from + s.to) / 2;
@@ -59,7 +60,7 @@ export const WheelScene: React.FC<SceneProps> = ({ lang }) => {
                 <text
                   x={CX}
                   y={y}
-                  fill={C.ink}
+                  fill={labelColor(sliceColor(i, slices.length))}
                   fontFamily={DISPLAY}
                   fontWeight={600}
                   fontSize={52}
@@ -73,9 +74,7 @@ export const WheelScene: React.FC<SceneProps> = ({ lang }) => {
             );
           })}
         </g>
-        <circle cx={CX} cy={CY} r={78} fill={C.paper} />
-        <circle cx={CX} cy={CY} r={30} fill={C.sun} />
-        <path d={`M ${CX - 50} ${CY - R - 70} L ${CX + 50} ${CY - R - 70} L ${CX} ${CY - R + 26} Z`} fill={C.sun} stroke={C.paper} strokeWidth={8} />
+        <DialNeedleAndHub cx={CX} cy={CY} r={R} />
       </svg>
       <div
         style={{
