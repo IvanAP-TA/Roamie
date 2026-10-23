@@ -1,5 +1,7 @@
 # Every Monday: the week's numbers on Telegram (video/automation/report.mjs): the funnel from a trip created to three
 # people and a destination picked. Counts only, read from the funnel-report Edge Function with the bot's key.
+# Before that, a page check (video/automation/qa.mjs) on a local build of main; then funnel, posts and page check go
+# to the private brain repo (roamie-brain, with BRAIN_TOKEN), where the Capo agent reads them at 09:00 UTC.
 # Started by Supabase's pg_cron (public.dispatch_weekly_report, Mondays 07:30 UTC), or by hand.
 name: Weekly report
 
@@ -16,16 +18,43 @@ concurrency:
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      # The page check runs on a build of main served locally (the live site's bot protection may stop a headless
+      # browser), with the same public Supabase settings as production.
+      - name: Build the site
+        id: build
+        continue-on-error: true
+        env:
+          VITE_SUPABASE_URL: https://tvcumfzhnuljngdzuuue.supabase.co
+          VITE_SUPABASE_ANON_KEY: sb_publishable_HOZGOo8y8klyVzjzempZng_fMiB3ISV
+          VITE_PUBLIC_APP_URL: https://roamie.org
+        run: npm ci && npm run build
+
+      - name: Check the pages
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # taste-skill's inspect.mjs (MIT), pinned to a reviewed commit.
+          git clone -q https://github.com/Leonxlnx/taste-skill.git "$RUNNER_TEMP/taste"
+          git -C "$RUNNER_TEMP/taste" checkout -q 6010f91a9935f1c167dfc500fb1a475681892e6b
+          npx vite preview --port 4173 --strictPort > "$RUNNER_TEMP/preview.log" 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:4173/ > /dev/null && break; sleep 1; done
+          INSPECT="$RUNNER_TEMP/taste/skills/taste-skill/scripts/inspect.mjs" BASE_URL=http://localhost:4173 \
+            QA_OUT="$RUNNER_TEMP/qa.json" node video/automation/qa.mjs
+
       - name: Send the report
         working-directory: video
         env:
           SOCIAL_UPLOAD_SECRET: ${{ secrets.SOCIAL_UPLOAD_SECRET }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BRAIN_TOKEN: ${{ secrets.BRAIN_TOKEN }}
+          QA_OUT: ${{ runner.temp }}/qa.json
         run: node automation/report.mjs

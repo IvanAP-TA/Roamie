@@ -7,6 +7,8 @@ import { failureMessage, kitMessages } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
 import { pickScenario, SCENARIOS, storyTexts } from './stories.mjs'
 import { forgetOldUploads, privacyStatus } from './publish/youtube.mjs'
+import { isoWeek, numbersPage, qaCount } from './brain.mjs'
+import { objectiveFindings } from './qa.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -420,5 +422,42 @@ describe('YouTube data retention', () => {
     expect(forgetOldUploads(history, today)).toBe(1)
     expect(history[0]).toEqual({ date: '2026-10-01T10:00:00Z', hook: 'old', results: { instagram: { id: 'i' } } })
     expect(history[1].results.youtube.id).toBe('b')
+  })
+})
+
+describe('The brain', () => {
+  it('names weeks the ISO way, across the new year', () => {
+    expect(isoWeek(new Date('2026-10-26T07:30:00Z'))).toBe('2026-W44')
+    expect(isoWeek(new Date('2027-01-01T12:00:00Z'))).toBe('2026-W53')
+    expect(isoWeek(new Date('2027-01-04T12:00:00Z'))).toBe('2027-W01')
+  })
+
+  it("writes funnel, the week's posts and the page check, without the old posts", () => {
+    const today = new Date('2026-10-26T07:30:00Z')
+    const funnel = {
+      week: { google_users: 2, guests: 1, trips: 3, joins: 1, proposals: 9, votes: 4, spins: 1 },
+      cohort: { trips: 7, two_members: 4, three_members: 2, two_voters: 2, decided: 1, north_star: 1 },
+      total: { users: 20, trips: 9 },
+    }
+    const social = [
+      { date: '2026-10-10T16:00:00Z', format: 'wheel', results: {} },
+      { date: '2026-10-23T16:00:00Z', format: 'story', hookStyle: 'question', results: { instagram: { id: '1' }, youtube: { error: 'quota' } } },
+    ]
+    const qa = { pages: [{ path: '/', findings: [{ level: 'WARN', id: 'blank-gap', width: 768, message: 'A 452px stretch holds nothing.' }] }, { path: '/join', findings: [] }] }
+    const page = numbersPage({ today, funnel, social, linkedin: [], qa })
+    expect(page).toContain('# Numeri 2026-W44')
+    expect(page).toContain('| con 3+ persone | 2 | 29% |')
+    expect(page).toContain('ok: instagram · errori: youtube (quota)')
+    expect(page).not.toContain('wheel')
+    expect(page).toContain('linkedin: nessun post negli ultimi 7 giorni')
+    expect(page).toContain('`/` · WARN · blank-gap · 768px')
+    expect(page).toContain('`/join`: nessun problema')
+    expect(qaCount(qa)).toBe(1)
+    expect(numbersPage({ today, funnel: null })).toContain('Non disponibile questa settimana')
+  })
+
+  it("keeps only the page check's objective findings, not the taste rules", () => {
+    const report = { findings: [{ level: 'FAIL', id: 'palette-claude', message: 'x' }, { level: 'WARN', id: 'off-centre', width: 768, message: 'y', alsoAt: [] }] }
+    expect(objectiveFindings(report)).toEqual([{ level: 'WARN', id: 'off-centre', width: 768, message: 'y' }])
   })
 })
