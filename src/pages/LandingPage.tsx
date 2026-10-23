@@ -124,7 +124,7 @@ function Postcard({ card, slot, live }: { card: (typeof POSTCARDS)[number]; slot
           <div className="flex items-end justify-between gap-2 px-1.5 pt-2 pb-1">
             <div className="min-w-0">
               <p className="truncate font-display text-base leading-tight sm:text-lg">{card.name}</p>
-              <p className="truncate text-[0.7rem] text-muted-foreground">{card.country}</p>
+              <p className="truncate text-xs text-muted-foreground">{card.country}</p>
             </div>
             <span className="inline-flex items-center gap-0.5 rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-accent-foreground tabular-nums">
               <ArrowBigUp className="size-3.5" />
@@ -358,19 +358,19 @@ function BoardingPass({ next }: { next: string }) {
         <div className="ticket-notch mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-paper [--notch-y:6.5rem] md:[--notch-y:7rem]">
           <div className="flex h-[6.5rem] items-center justify-between gap-4 bg-[linear-gradient(115deg,var(--sun),var(--coral)_55%,var(--dusk))] px-6 text-white md:h-28 md:px-10">
             <div className="min-w-0">
-              <p className="text-[0.62rem] font-bold tracking-[0.22em] uppercase opacity-80">{t('landing.ticket.from')}</p>
+              <p className="text-xs font-bold tracking-[0.16em] uppercase opacity-80">{t('landing.ticket.from')}</p>
               <p className="line-clamp-2 font-display text-base leading-tight md:text-2xl">{t('landing.ticket.fromValue')}</p>
             </div>
             <Plane aria-hidden className="size-6 shrink-0 opacity-90" />
             <div className="min-w-0 text-right">
-              <p className="text-[0.62rem] font-bold tracking-[0.22em] uppercase opacity-80">{t('landing.ticket.to')}</p>
+              <p className="text-xs font-bold tracking-[0.16em] uppercase opacity-80">{t('landing.ticket.to')}</p>
               <p className="line-clamp-2 font-display text-base leading-tight md:text-2xl">{t('landing.ticket.toValue')}</p>
             </div>
           </div>
           <div className="mx-6 border-t-2 border-dashed border-foreground/10 md:mx-10" />
           <div className="grid gap-5 px-6 pt-5 pb-7 md:grid-cols-[1fr_auto] md:items-end md:gap-10 md:px-10 md:pt-7 md:pb-9">
             <div>
-              <p className="text-[0.62rem] font-bold tracking-[0.22em] text-muted-foreground uppercase">{t('landing.ticket.boarding')}</p>
+              <p className="text-xs font-bold tracking-[0.16em] text-muted-foreground uppercase">{t('landing.ticket.boarding')}</p>
               <h2 id="cta-title" className="mt-1 text-3xl leading-tight md:text-4xl">
                 {t('landing.cta.title')}
               </h2>

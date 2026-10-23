@@ -115,7 +115,7 @@ export default function JoinPage() {
                 >
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_45%,rgb(0_0_0/0.45))]" />
                   <div className="absolute bottom-4 left-5 text-white">
-                    <p className="text-[0.65rem] font-bold tracking-[0.24em] uppercase opacity-85">{t('join.invitedTo')}</p>
+                    <p className="text-xs font-bold tracking-[0.16em] uppercase opacity-85">{t('join.invitedTo')}</p>
                     <h1 className="text-3xl leading-tight drop-shadow">{trip.name}</h1>
                   </div>
                 </CoverImage>

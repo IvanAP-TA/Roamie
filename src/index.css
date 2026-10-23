@@ -3,6 +3,9 @@
 
 /* Looping decorations as CSS animations: they run on the compositor, not as a JavaScript update every frame. */
 @theme {
+  /* The smallest text step is 13px, not Tailwind's 12px: below 13px it gets hard to read on a phone. */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: calc(1.125 / 0.8125);
   --animate-float: float-y 5s ease-in-out infinite;
   --animate-breathe: breathe 1.6s ease-in-out infinite;
   --animate-spin-slow: spin 8s linear infinite;

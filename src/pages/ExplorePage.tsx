@@ -165,7 +165,7 @@ export default function ExplorePage() {
             <span>{t('explore.hint')}</span>
           </p>
         </div>
-        <p className="mt-3 text-[0.65rem] leading-relaxed text-muted-foreground">{t('explore.sources')}</p>
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{t('explore.sources')}</p>
       </PageTransition>
 
       <TripFinder open={finding} onOpenChange={setFinding} onShowCountry={select} />

@@ -30,7 +30,7 @@ export function AttributionChip({ raw, className, compact = false }: { raw: stri
       aria-haspopup="dialog"
       className={cn(
         // A larger invisible touch area around the small chip (::after), without moving anything.
-        'relative inline-flex h-6 items-center gap-1 rounded-full bg-black/35 after:absolute after:-inset-2 after:content-[\'\'] text-[0.62rem] font-semibold text-white/90 backdrop-blur-md transition hover:bg-black/50',
+        'relative inline-flex h-6 items-center gap-1 rounded-full bg-black/35 after:absolute after:-inset-2 after:content-[\'\'] text-xs font-semibold text-white/90 backdrop-blur-md transition hover:bg-black/50',
         compact ? 'w-6 justify-center' : 'px-2',
         className,
       )}
