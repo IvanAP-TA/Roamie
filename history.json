@@ -451,6 +451,13 @@
         "draft": true,
         "status": "PROCESSING_UPLOAD"
       }
+    },
+    "metrics": {
+      "reach": 7,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 1,
+      "at": "2026-10-23T16:00:19.300Z"
     }
   },
   {
@@ -487,6 +494,46 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    }
+  },
+  {
+    "date": "2026-10-23T16:00:19.300Z",
+    "kind": "video",
+    "format": "month",
+    "lang": "en",
+    "places": [
+      "vienna",
+      "seville",
+      "cappadocia"
+    ],
+    "month": 11,
+    "hook": "In November, the group goes here",
+    "caption": "Vienna, Seville and Cappadocia: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/month-3-sunny-travel-diary.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "108"
+      },
+      "youtube": {
+        "id": "7Wvns45kke8",
+        "url": "https://youtube.com/shorts/7Wvns45kke8"
+      },
+      "instagram": {
+        "id": "18118629209516790",
+        "url": "https://www.instagram.com/reel/De18FBBDmBv/"
+      },
+      "facebook": {
+        "id": "1424400216551711",
+        "url": "https://www.facebook.com/reel/1424400216551711"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7699894240545376279",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
