@@ -56,7 +56,7 @@ export function numbersPage({ today, funnel, social = [], linkedin = [], qa }) {
   lines.push('', '## Controllo delle pagine', '')
   if (!qa) lines.push('Non eseguito questa settimana.')
   else {
-    lines.push('Build di `main` a 1440, 768 e 390 px; solo problemi oggettivi (spazi vuoti, margini, testo tagliato o coperto, scroll orizzontale, immagini rotte, contrasto, testo piccolo, titoli troppo lunghi).', '')
+    lines.push('Build di `main` a 1440, 768 e 390 px; solo problemi oggettivi (testo tagliato o coperto, scroll orizzontale, immagini rotte, contrasto, testo piccolo, font mancanti).', '')
     for (const page of qa.pages) {
       if (page.error) lines.push(`- \`${page.path}\`: controllo non riuscito (${page.error})`)
       else if (!page.findings.length) lines.push(`- \`${page.path}\`: nessun problema`)

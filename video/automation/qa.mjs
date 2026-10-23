@@ -14,11 +14,16 @@ import { join } from 'node:path'
 
 export const PAGES = ['/', '/en', '/en/guides', '/en/guides/how-to-plan-a-group-trip', '/explore', '/join']
 
-/** The inspect.mjs rules that are facts about the layout, not about taste. */
+/**
+ * The inspect.mjs rules that are facts about the layout, not about taste. Left out after checking them on the live
+ * site (2026-10-23): off-centre measures the header's logo and language button, not the centred content;
+ * blank-gap can't see the marquee's words, drawn by CSS; late-title is the language hint a visitor whose browser
+ * speaks another language gets on purpose; headline-lines flags the big display titles, a design choice.
+ */
 export const OBJECTIVE = new Set([
-  'blank-gap', 'off-centre', 'lopsided', 'one-sided-bleed', 'overflow', 'side-scroll', 'broken-image', 'contrast',
-  'clipped-text', 'covered-text', 'edge-text', 'tiny-text', 'small-text', 'headline-lines', 'empty-screens',
-  'no-title', 'late-title', 'many-h1', 'font-fallback', 'reduced-hidden',
+  'lopsided', 'one-sided-bleed', 'overflow', 'side-scroll', 'broken-image', 'contrast', 'clipped-text',
+  'covered-text', 'edge-text', 'tiny-text', 'small-text', 'empty-screens', 'no-title', 'many-h1', 'font-fallback',
+  'reduced-hidden',
 ])
 
 /** A report's objective findings, in a compact shape. */

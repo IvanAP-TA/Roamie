@@ -457,7 +457,7 @@ describe('The brain', () => {
   })
 
   it("keeps only the page check's objective findings, not the taste rules", () => {
-    const report = { findings: [{ level: 'FAIL', id: 'palette-claude', message: 'x' }, { level: 'WARN', id: 'off-centre', width: 768, message: 'y', alsoAt: [] }] }
-    expect(objectiveFindings(report)).toEqual([{ level: 'WARN', id: 'off-centre', width: 768, message: 'y' }])
+    const report = { findings: [{ level: 'FAIL', id: 'palette-claude', message: 'x' }, { level: 'WARN', id: 'off-centre', message: 'z' }, { level: 'WARN', id: 'small-text', width: 768, message: 'y', alsoAt: [] }] }
+    expect(objectiveFindings(report)).toEqual([{ level: 'WARN', id: 'small-text', width: 768, message: 'y' }])
   })
 })
