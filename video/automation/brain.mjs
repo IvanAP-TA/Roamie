@@ -25,7 +25,7 @@ export function postLines(history, today, label) {
     const results = Object.entries(p.results ?? {})
     const ok = results.filter(([, r]) => !r?.error).map(([name]) => name)
     const failed = results.filter(([, r]) => r?.error).map(([name, r]) => `${name} (${String(r.error).slice(0, 80)})`)
-    const what = [p.kind ?? 'video', p.format, p.hookStyle && `hook ${p.hookStyle}`, p.metrics && `IG ${JSON.stringify(p.metrics).slice(0, 80)}`].filter(Boolean).join(' · ')
+    const what = [p.kind ?? 'video', p.format, p.hookStyle && `hook ${p.hookStyle}`, p.metrics && `Instagram: copertura ${p.metrics.reach ?? '–'}, interazioni ${p.metrics.interactions ?? '–'}, salvataggi ${p.metrics.saved ?? '–'}, condivisioni ${p.metrics.shares ?? '–'}`].filter(Boolean).join(' · ')
     return `- ${p.date.slice(0, 10)} · ${label} · ${what} · ok: ${ok.join(', ') || 'nessuna'}${failed.length ? ` · errori: ${failed.join('; ')}` : ''}`
   })
 }
