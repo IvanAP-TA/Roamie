@@ -31,6 +31,21 @@ export const privacyStatus = (value = process.env.YOUTUBE_PRIVACY) => {
   return ['public', 'unlisted', 'private'].includes(v) ? v : 'public'
 }
 
+/**
+ * The id and link YouTube gave back for an upload are API data, kept at most 30 days (YouTube API Services Developer
+ * Policies III.E.4): older posts in the history lose them. Changes `history` in place and returns how many it cleared.
+ */
+export function forgetOldUploads(history, today, days = 30) {
+  let cleared = 0
+  for (const post of history) {
+    if (post.results?.youtube && today - new Date(post.date) > days * 86_400_000) {
+      delete post.results.youtube
+      cleared++
+    }
+  }
+  return cleared
+}
+
 export const youtube = {
   name: 'youtube',
   ready: () => Boolean(process.env.YOUTUBE_CLIENT_ID && process.env.YOUTUBE_CLIENT_SECRET && process.env.YOUTUBE_REFRESH_TOKEN),

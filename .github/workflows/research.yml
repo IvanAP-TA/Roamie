@@ -32,7 +32,8 @@ jobs:
       - name: Read, summarise, keep
         working-directory: video
         env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          # No YOUTUBE_API_KEY: the YouTube API project is used only to upload our own Shorts (the use case in its
+          # compliance review), so the research doesn't read YouTube comments. It runs only if Reddit approves an app.
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}

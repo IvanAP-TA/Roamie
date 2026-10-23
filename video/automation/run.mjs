@@ -30,7 +30,7 @@ import { instagram } from './publish/instagram.mjs'
 import { media } from './publish/media.mjs'
 import { telegram } from './publish/telegram.mjs'
 import { tiktok } from './publish/tiktok.mjs'
-import { youtube } from './publish/youtube.mjs'
+import { forgetOldUploads, youtube } from './publish/youtube.mjs'
 import { recentHooks } from './research/insights.mjs'
 import { storyTexts } from './stories.mjs'
 
@@ -331,6 +331,7 @@ async function main() {
   if (process.env.POST_KIND === 'check') return checkKeys()
   const history = existsSync(historyPath) ? JSON.parse(readFileSync(historyPath, 'utf8')) : []
   const today = new Date()
+  if (forgetOldUploads(history, today)) log('history: YouTube ids older than 30 days removed')
   // The daily start can come twice (Supabase, then GitHub's backup schedule): one post a day.
   if (process.env.AUTO === 'true' && history.some((h) => h.lang === lang && h.date.slice(0, 10) === today.toISOString().slice(0, 10))) {
     log('already posted today: nothing to do')

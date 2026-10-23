@@ -6,7 +6,7 @@ import { formatBonus, formatScores, hookScores, refreshMetrics, score } from './
 import { failureMessage, kitMessages } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
 import { pickScenario, SCENARIOS, storyTexts } from './stories.mjs'
-import { privacyStatus } from './publish/youtube.mjs'
+import { forgetOldUploads, privacyStatus } from './publish/youtube.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -407,5 +407,18 @@ describe('YouTube visibility', () => {
     expect(privacyStatus(' Unlisted ')).toBe('unlisted')
     expect(privacyStatus('private')).toBe('private')
     expect(privacyStatus('secret')).toBe('public')
+  })
+})
+
+describe('YouTube data retention', () => {
+  it('drops the ids of uploads older than 30 days and keeps the rest of the post', () => {
+    const today = new Date('2026-11-30T12:00:00Z')
+    const history = [
+      { date: '2026-10-01T10:00:00Z', hook: 'old', results: { youtube: { id: 'a', url: 'u' }, instagram: { id: 'i' } } },
+      { date: '2026-11-20T10:00:00Z', hook: 'new', results: { youtube: { id: 'b', url: 'v' } } },
+    ]
+    expect(forgetOldUploads(history, today)).toBe(1)
+    expect(history[0]).toEqual({ date: '2026-10-01T10:00:00Z', hook: 'old', results: { instagram: { id: 'i' } } })
+    expect(history[1].results.youtube.id).toBe('b')
   })
 })
