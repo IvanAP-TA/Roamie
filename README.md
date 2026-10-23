@@ -43,10 +43,17 @@ What it covers:
   groups decide, a destination, a feature, a lesson learnt) and posts it through a **Make.com** scenario, the only
   route LinkedIn opens to company pages without a partner review. Its texts are rejected if they invent a name that
   isn't in the facts they were given, repeat an earlier post, or read like AI (emoji, hype, long dashes). A weekly
-  research step reads what people say about planning trips with friends (YouTube comments, official API) and turns it into
-  angles and hooks for both bots, summarised in our own words, never quoted. Every Monday a report on Telegram shows
-  the funnel that decides what to build next: trips created, reaching three people, voted, decided. See
-  [`video/automation`](video/automation).
+  research step can turn what people say about planning trips with friends into angles for both bots, summarised in
+  our own words, never quoted; it is paused until it has a source allowed by the platforms' API terms. Every Monday a
+  report on Telegram shows the funnel that decides what to build next: trips created, reaching three people, voted,
+  decided. See [`video/automation`](video/automation).
+- **An AI team lead with a shared brain.** The project's memory lives in an **Obsidian** vault kept in a private
+  repository: strategy, rules, a decision log, the backlog and every week's numbers, in plain Markdown that people
+  and agents both read and write. Every Monday the report also checks the public pages in a real browser at three
+  widths (objective layout problems only) and files the numbers in the vault; then **Capo**, a scheduled Claude Code
+  agent in the cloud, reads them against the strategy, picks the one thing worth doing that week, writes the plan
+  (its summary arrives on Telegram) and, when code is the answer, opens a small pull request for me to approve. Its
+  job description and the rules it can't break are notes in the vault, so changing its behaviour means editing a note.
 - **Measured performance.** Every optimisation was benchmarked on an emulated mid-range Android phone (4× CPU) against
   the previous release: tab-bar feedback 230–370 ms → ~45 ms, home LCP 1.9 s → 0.8 s, guide photos −84% (AVIF),
   initial JavaScript 311 → 190 KB, landing Lighthouse score 84 → 94 by cutting the fonts to what the design uses (the
@@ -78,6 +85,7 @@ The rest of this file is the technical documentation.
 | Extras | canvas-confetti, dnd-kit (itinerary reordering), vite-plugin-pwa, i18next |
 | Motion | View Transitions API, CSS scroll-driven animations, Web Animations; Framer Motion where a spring is needed |
 | Automation | GitHub Actions started by Supabase pg_cron, Remotion (videos and carousels), Mistral (copy), Make.com (LinkedIn), Telegram (alerts and hand-posting kit) |
+| Team memory | Obsidian vault in a private repository, read and written by a weekly Claude Code agent |
 | Fonts | Fraunces + Instrument Sans, **self-hosted** via Fontsource (no Google Fonts requests) |
 
 ## Getting started
@@ -217,7 +225,15 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   `trip_budgets`.
 - **Weekly report.** `public.funnel_report()` counts the funnel (real trips are the ones a Google or email account made);
   the `funnel-report` Edge Function serves it to the Monday workflow (`report.yml`, started by pg_cron), which posts it
-  on Telegram.
+  on Telegram. The same workflow builds `main`, runs taste-skill's `inspect.mjs` (pinned commit) on six public pages
+  keeping only objective layout rules (`video/automation/qa.mjs`), and writes funnel, the week's posts and the page
+  check to the private brain repository as `Numeri/<ISO week>.md` (`brain.mjs`, secret `BRAIN_TOKEN`). Funnel numbers
+  never land in this public repository.
+- **Capo (weekly agent).** A Claude Code routine runs on Mondays at 09:00 UTC with the brain and this repository checked
+  out. It follows `Agenti/Capo.md` and `Regole.md` from the vault: compare the week's numbers, choose one action, write
+  `Piani/<ISO week>.md` (a workflow in the brain repository sends its summary to Telegram) and, if needed, open one
+  pull request here from a `capo/…` branch after lint, typecheck and tests. It never pushes to `main`, holds no
+  secrets and has no connectors.
 - **Privacy.** There are no third-party trackers and no consent banner: the only analytics is Cloudflare Web Analytics, cookieless and anonymous. Only strictly necessary storage is used (Supabase session, language, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
 
 ## Deploying (Vercel)
