@@ -157,5 +157,29 @@
         "id": "93"
       }
     }
+  },
+  {
+    "date": "2026-10-23T07:00:13.401Z",
+    "kind": "insight",
+    "topic": "research:2026-10-20-1",
+    "card": "plan",
+    "firstLine": "The moment you assume everyone shares your excitement for a trip is the moment it starts to unravel.",
+    "text": "The moment you assume everyone shares your excitement for a trip is the moment it starts to unravel.\n\nThere’s a quiet tension in many group trips: the person who spent hours researching flights and activities, only to be met with half-hearted replies. Or the one who’s already counting down the days, while others are still debating whether to go at all. It’s not that enthusiasm is the problem, it’s the mismatch between what you assume and what’s actually there.\n\nThe trip isn’t just about the destination. It’s about the energy of the people in it. If one person is dragging their feet, or another feels unheard, the whole experience shifts. The best trips don’t just balance excitement, they balance effort, too. Someone might not be as hyped as you, but they could be the one who keeps things running smoothly. Someone else might seem disengaged, but they could be the reason the group stays together at all.\n\nHow do you talk about the trip without letting the planning become another source of frustration?",
+    "rejected": [
+      "month: length 1442",
+      "month: length 1381",
+      "month: length 1748",
+      "month: paragraphs",
+      "month: first line too long"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "103"
+      }
+    }
   }
 ]
