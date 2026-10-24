@@ -181,5 +181,25 @@
         "id": "103"
       }
     }
+  },
+  {
+    "date": "2026-10-24T07:00:09.392Z",
+    "kind": "lesson",
+    "topic": "phones",
+    "card": "map",
+    "firstLine": "We used to assume speed was the same everywhere. It wasn’t.",
+    "text": "We used to assume speed was the same everywhere. It wasn’t.\n\nWhen we tested features on our laptops, they felt instant. But on a mid-range phone, even small interactions could stutter. We learned the hard way that what works for one device doesn’t work for all.\n\nNow, we simulate a mid-range phone before every release. We slow the processor, measure the lag, and fix it before users notice. It’s a small habit, but it saved us from shipping half-measures.\n\nHow often do you test on the devices your users actually have?",
+    "rejected": [
+      "lesson: paragraphs"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "112"
+      }
+    }
   }
 ]
