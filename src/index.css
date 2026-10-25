@@ -1107,9 +1107,17 @@ html.vt-morph::view-transition-group(guide-cover) {
 .roamie-map .leaflet-tile-pane {
   filter: sepia(0.28) saturate(1.15) hue-rotate(-10deg) brightness(1.02);
 }
+/* Where the tiles end (above the poles on a wide map) the container shows: paint it the sea's colour through the
+   same filter (OSM's #aad3df), so it reads as more sea. Two classes to win over leaflet.css, loaded after this. */
+.leaflet-container.roamie-map {
+  background: #c7e0d6;
+}
 @media (prefers-color-scheme: dark) {
   .roamie-map .leaflet-tile-pane {
     filter: invert(1) hue-rotate(185deg) sepia(0.35) saturate(0.9) brightness(0.85) contrast(0.9);
+  }
+  .leaflet-container.roamie-map {
+    background: #2a393d;
   }
 }
 .leaflet-control-attribution {
