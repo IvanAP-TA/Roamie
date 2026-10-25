@@ -201,5 +201,24 @@
         "id": "112"
       }
     }
+  },
+  {
+    "date": "2026-10-25T07:00:12.153Z",
+    "kind": "destination",
+    "topic": "dolomites",
+    "places": [
+      "dolomites"
+    ],
+    "firstLine": "A trip that doesn’t need a packed itinerary.",
+    "text": "A trip that doesn’t need a packed itinerary. \n\nThe Dolomites offer a different kind of adventure. Instead of rushing from one place to another, there’s time to pause at mountain huts for lunch, where the views of Seceda or Tre Cime di Lavaredo unfold slowly over a shared meal. The trails here suit everyone, from those who want a steady climb to those who prefer a gentler walk. \n\nVal Gardena and Alta Badia make good bases for a group. They’re close enough to explore without feeling scattered, with enough small villages and quiet spots to unwind between hikes. It’s the kind of place where the trip feels light, even when the budget isn’t extravagant. \n\nWe’ve seen groups here who came for the scenery but stayed for the rhythm, no need to fill every hour. It’s not about doing everything, but about the moments that stick. \n\nWhat’s the one place you’d revisit just to slow down?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "114"
+      }
+    }
   }
 ]
