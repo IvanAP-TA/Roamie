@@ -1310,25 +1310,6 @@
     "voted": "He dado mis 10 puntos para «{{trip}}». Te toca:",
     "allPoints": "Has dado todos tus 10 puntos"
   },
-  "chatImport": {
-    "title": "Pega el chat del grupo",
-    "hint": "¿Ya os escribisteis los destinos por WhatsApp o Telegram? Sácalos de ahí.",
-    "intro": "Copia los mensajes de WhatsApp o Telegram donde habláis del viaje y pégalos aquí: Roamie encuentra los destinos que nombrasteis.",
-    "placeholder": "Pega aquí los mensajes del chat…",
-    "privacy": "El chat se queda en tu móvil: lo leemos aquí, sin enviarlo a nadie. Solo guardamos los destinos que elijas.",
-    "find": "Encontrar los destinos",
-    "pick": "Estos son los destinos nombrados en el chat. Desmarca los que no van.",
-    "none": "No hemos encontrado destinos en estos mensajes. Prueba a pegar más o añádelos a mano.",
-    "mentions_one": "nombrado {{count}} vez",
-    "mentions_other": "nombrado {{count}} veces",
-    "already": "Ya está en el viaje",
-    "add_one": "Añadir {{count}} destino",
-    "add_other": "Añadir {{count}} destinos",
-    "added_one": "{{count}} destino añadido desde el chat",
-    "added_other": "{{count}} destinos añadidos desde el chat",
-    "tell": "He puesto en Roamie los destinos de nuestro chat ({{places}}) para «{{trip}}». Votad aquí:",
-    "source": "Nombres de ciudades: GeoNames (CC BY 4.0)."
-  },
   "firstSteps": {
     "title": "Tres pasos para decidir juntos",
     "invite": {
@@ -1338,7 +1319,7 @@
     },
     "places": {
       "title": "Reunid los destinos",
-      "body": "¿Ya los nombrasteis en el chat? Pégalo y Roamie los encuentra. O propónlos uno a uno."
+      "body": "Cada uno propone los sitios que sueña: con dos destinos ya podéis empezar a votar."
     },
     "vote": {
       "title": "Votad",

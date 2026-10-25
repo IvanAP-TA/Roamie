@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Check, ImageOff, Images, Loader2, LocateFixed, MessagesSquare, X } from 'lucide-react'
+import { Check, ImageOff, Images, Loader2, LocateFixed, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Sheet } from '@/components/ui/sheet'
@@ -24,14 +24,11 @@ export function DestinationFormSheet({
   onOpenChange,
   tripId,
   destination,
-  onPasteChat,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   tripId: string
   destination?: Destination
-  /** New proposals only: the way to "Paste the group chat" instead, for places already named there. */
-  onPasteChat?: () => void
 }) {
   const { t } = useTranslation()
   const create = useCreateDestination(tripId)
@@ -125,19 +122,6 @@ export function DestinationFormSheet({
       }
     >
       <form id="destination-form" onSubmit={submit} className="space-y-6">
-        {!destination && onPasteChat && (
-          <button
-            type="button"
-            onClick={onPasteChat}
-            className="flex w-full items-center gap-3 rounded-2xl bg-foreground/[0.04] px-4 py-3 text-left text-sm transition hover:bg-foreground/[0.07]"
-          >
-            <MessagesSquare className="size-5 shrink-0 text-primary" />
-            <span className="min-w-0 flex-1">
-              <span className="block font-semibold">{t('chatImport.title')}</span>
-              <span className="block text-xs text-muted-foreground">{t('chatImport.hint')}</span>
-            </span>
-          </button>
-        )}
         {/* ── Where ── */}
         <section>
           <Label htmlFor="place-search">{t('destForm.where')}</Label>

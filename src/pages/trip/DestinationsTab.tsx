@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, MessagesSquare, Plus, X } from 'lucide-react'
+import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -14,7 +14,6 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { Floating } from '@/components/layout/Floating'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { CoverImage } from '@/components/media/CoverImage'
-import { ChatImportSheet } from '@/components/destinations/ChatImportSheet'
 import { CompareSheet } from '@/components/destinations/CompareSheet'
 import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
@@ -70,7 +69,6 @@ export default function DestinationsTab() {
   const [moodFilter, setMoodFilter] = useState<Mood | null>(null)
   const [sort, setSort] = useState<'votes' | 'recent'>('votes')
   const [adding, setAdding] = useState(false)
-  const [pastingChat, setPastingChat] = useState(false)
   const showFab = useShowOnScrollUp()
   useAllPointsNudge(destinations, isFetchedAfterMount)
 
@@ -209,7 +207,7 @@ export default function DestinationsTab() {
       <div className="page-enter space-y-6 px-5 pt-6 md:px-6">
         <SampleTripBanner />
         {destinations && (
-          <FirstSteps destinations={destinations} onPasteChat={() => setPastingChat(true)} onPropose={() => setAdding(true)} onVote={openDeck} />
+          <FirstSteps destinations={destinations} onPropose={() => setAdding(true)} onVote={openDeck} />
         )}
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
@@ -329,12 +327,6 @@ export default function DestinationsTab() {
                 {t('destination.add')}
               </Button>
             )}
-            {status === 'proposed' && canEdit && (
-              <Button size="lg" variant="glass" onClick={() => setPastingChat(true)}>
-                <MessagesSquare />
-                {t('chatImport.title')}
-              </Button>
-            )}
             {status === 'proposed' && <GuidesLinkButton size="lg" variant="glass" />}
           </EmptyState>
         )}
@@ -411,12 +403,7 @@ export default function DestinationsTab() {
         open={adding}
         onOpenChange={setAdding}
         tripId={trip.id}
-        onPasteChat={() => {
-          setAdding(false)
-          setPastingChat(true)
-        }}
       />
-      <ChatImportSheet open={pastingChat} onOpenChange={setPastingChat} />
 
       <CompareSheet
         open={comparing && compared.length >= 2}

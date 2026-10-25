@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Check, Layers, MessagesSquare, Plus, UserPlus, X } from 'lucide-react'
+import { Check, Layers, Plus, UserPlus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { isSampleTrip } from '@/hooks/useAddGuidePlace'
@@ -19,12 +19,10 @@ const dismissedKey = (tripId: string) => `roamie.firstSteps.${tripId}`
  */
 export function FirstSteps({
   destinations,
-  onPasteChat,
   onPropose,
   onVote,
 }: {
   destinations: Destination[]
-  onPasteChat: () => void
   onPropose: () => void
   onVote: () => void
 }) {
@@ -91,16 +89,10 @@ export function FirstSteps({
                       </Button>
                     )}
                     {step.key === 'places' && (
-                      <>
-                        <Button size="sm" onClick={onPasteChat}>
-                          <MessagesSquare />
-                          {t('chatImport.title')}
-                        </Button>
-                        <Button size="sm" variant="glass" onClick={onPropose}>
-                          <Plus />
-                          {t('destination.add')}
-                        </Button>
-                      </>
+                      <Button size="sm" onClick={onPropose}>
+                        <Plus />
+                        {t('destination.add')}
+                      </Button>
                     )}
                     {step.key === 'vote' && (
                       <Button size="sm" onClick={onVote}>

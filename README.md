@@ -27,8 +27,7 @@ What it covers:
   server-side weighted draw shared live with the whole group, date finding from everyone's availability, itinerary,
   checklist, map, passport of visited places, public trip pages, push notifications, offline mode. Three ways in:
   Google, an email code (no password), or just a name for friends arriving from an invite. Built to live next to the
-  group chat: a WhatsApp or Telegram chat pasted in becomes the trip's proposals (read on the device, never uploaded),
-  a Telegram bot tells the group about new places and the wheel's pick, a secret budget shows only the ceiling everyone
+  group chat: an invite link made to be pasted in WhatsApp or Telegram, a Telegram bot tells the group about new places and the wheel's pick, a secret budget shows only the ceiling everyone
   is fine with, and new trips walk their creator through invite, places and vote.
 - **AI inside the product.** Destination ideas, comparisons and day-by-day itineraries (on the globe and inside a
   trip) from Mistral models (Supabase Edge Functions, free plan with automatic fallback between models). Only public
@@ -165,7 +164,6 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
 | `npm run guide-photos` | Makes the AVIF copies of the guides' photos and covers in `public/guides/photos/` (existing files are kept) |
 | `npm run bump` | Raises the patch version before every push; the version is shown in the footer next to the copyright |
 | `python scripts/fonts.py` | Cuts the display fonts to what the design uses: Fraunces upright with its soft/wonky axes pinned, and the logo's 3 KB wordmark (needs `pip install fonttools brotli`) |
-| `python scripts/chat-places.py` | Builds `public/data/chat-places.json`, the places "Paste the group chat" recognises (GeoNames cities, CC BY) |
 
 ## Architecture notes
 
@@ -210,11 +208,6 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   name is enough. After a proposal, and after the last of your points, a toast offers to tell the group in the chat with
   the message ready (`useTellTheGroup`). New trips show their creator three steps (invite, places, vote) that tick
   themselves off (`FirstSteps`).
-- **Paste the group chat.** `src/lib/chatPlaces.ts` finds the places a pasted WhatsApp or Telegram chat names, on the
-  device: senders' names, links and everyday words that are also place names are skipped, spellings in several
-  languages count as one place (Lisbona, Lisboa). It matches against `public/data/chat-places.json` (fetched only when
-  the sheet opens), the guides' places and the country names. The chat is never sent anywhere; only the places picked
-  are saved.
 - **Telegram groups.** `supabase/functions/telegram-bot` is @RoamieTripBot. Adding it from the invite page
   (`t.me/RoamieTripBot?startgroup=<code>`) links the group to the trip; triggers queue what happens in the trip
   (`telegram_outbox`: a place proposed, someone joining, the wheel's pick, dates fixed) and pg_net asks the function to
