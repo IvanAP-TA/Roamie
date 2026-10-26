@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { SOCIAL_PROFILES } from '@/lib/social'
+import { SOCIAL_PROFILES, SOURCE_REPOSITORY } from '@/lib/social'
 import { cn } from '@/lib/utils'
 
 /** Roamie's social accounts (src/lib/social.ts). */
@@ -9,6 +9,8 @@ const NETWORKS = [
   { name: 'TikTok', href: SOCIAL_PROFILES.TikTok, icon: TikTokIcon },
   { name: 'YouTube', href: SOCIAL_PROFILES.YouTube, icon: YouTubeIcon, size: 'h-5 w-7' },
   { name: 'LinkedIn', href: SOCIAL_PROFILES.LinkedIn, icon: LinkedInIcon },
+  { name: 'X', href: SOCIAL_PROFILES.X, icon: XIcon, size: 'size-4' },
+  { name: 'GitHub', href: SOURCE_REPOSITORY, icon: GitHubIcon, size: 'size-4' },
 ] as const
 
 /** Brand marks drawn as plain line icons, so they sit with the rest of the UI instead of shouting in brand colours. */
@@ -65,6 +67,26 @@ function LinkedInIcon(props: React.SVGProps<SVGSVGElement>) {
       <circle cx="8" cy="7.6" r="0.6" fill="currentColor" stroke="none" />
       <path d="M11.5 16v-5.5" />
       <path d="M11.5 13a2.5 2.5 0 0 1 5 0v3" />
+    </svg>
+  )
+}
+
+/**
+ * X's and GitHub's own marks, in the text colour: their brand guidelines ask for the logo unchanged (one colour is
+ * allowed), so these two are not redrawn as line icons like the others.
+ */
+function XIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 1200 1227" fill="currentColor" aria-hidden {...props}>
+      <path d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z" />
+    </svg>
+  )
+}
+
+function GitHubIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57l-.02-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.21.69.82.57A12 12 0 0 0 12 .3" />
     </svg>
   )
 }

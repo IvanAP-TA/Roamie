@@ -8,7 +8,8 @@ export const SOCIAL_PROFILES = {
   TikTok: 'https://www.tiktok.com/@getroamie',
   YouTube: 'https://www.youtube.com/channel/UC2yIT9xqetihpyU04NPpfvA',
   LinkedIn: 'https://www.linkedin.com/company/getroamie',
+  X: 'https://x.com/getroamie1',
 } as const
 
-/** The open-source repository, also a sameAs of the Organization. */
+/** The public source repository (readable, not open source: see LICENSE): a footer link and a sameAs. */
 export const SOURCE_REPOSITORY = 'https://github.com/IvanAP-TA/Roamie'
