@@ -310,7 +310,7 @@ export function CompareSheet({
           </tbody>
         </table>
       </div>
-      {ai.data && <p className="mt-2 text-[0.65rem] text-muted-foreground">{t('aiCompare.disclaimer')}</p>}
+      {ai.data && <p className="mt-2 text-xs text-muted-foreground">{t('aiCompare.disclaimer')}</p>}
       {hasClimate && (
         <p className="mt-2 text-[0.65rem] text-muted-foreground">
           {t('climate.estimate')} ·{' '}

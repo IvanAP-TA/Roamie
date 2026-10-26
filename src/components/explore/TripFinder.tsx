@@ -369,7 +369,7 @@ export function CriteriaForm({ criteria, onChange }: { criteria: Criteria; onCha
       <Section title={t('tripFinder.sections.pace')}>
         <OneOf values={PACES} value={criteria.pace} onChange={(v) => set('pace', v)} label={(v) => t(`tripFinder.paces.${v}`)} anyLabel={any} />
       </Section>
-      <p className="text-[0.7rem] leading-relaxed text-muted-foreground">{t('tripFinder.privacy')}</p>
+      <p className="text-xs leading-relaxed text-muted-foreground">{t('tripFinder.privacy')}</p>
     </div>
   )
 }
