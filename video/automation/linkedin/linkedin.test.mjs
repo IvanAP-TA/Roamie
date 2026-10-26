@@ -212,21 +212,19 @@ describe('LinkedIn weekly changes', () => {
 describe('X drafts', () => {
   const plan = { kind: 'lesson', facts: 'We cut the fonts to what the design uses. The landing score went from 84 to 94.' }
   const linkedIn = 'We cut the fonts to what the design uses, and the landing score went from 84 to 94.'
-  const good = 'I cut my app fonts down to what the design actually uses. The landing page score went from 84 to 94. Small files, big difference.'
+  const good = 'We cut our fonts down to what the design actually uses. The landing page score went from 84 to 94. Small files, big difference.'
 
-  it('only for the posts about building Roamie, not for places', () => {
-    expect(X_KINDS).toEqual(['build', 'insight', 'feature', 'lesson'])
-    expect(X_KINDS).not.toContain('destination')
+  it('every day, places included: it is the brand account', () => {
+    expect(X_KINDS).toEqual(['build', 'insight', 'feature', 'lesson', 'destination', 'month'])
   })
 
-  it('takes a first-person draft built from the facts', () => {
+  it('takes a draft built from the facts, in the team voice', () => {
     expect(checkX(good, plan, linkedIn)).toBeNull()
   })
 
-  it('rejects links, hashtags, "we", invented numbers and names, and anything over 280 characters', () => {
+  it('rejects links, hashtags, invented numbers and names, and anything over 280 characters', () => {
     expect(checkX(`${good} roamie.org`, plan, linkedIn)).toBe('link')
     expect(checkX(`${good} #buildinpublic`, plan, linkedIn)).toBe('prices, hashtags or handles')
-    expect(checkX(good.replace('I cut my', 'We cut our'), plan, linkedIn)).toBe('not first person')
     expect(checkX(good.replace('94', '99'), plan, linkedIn)).toBe('number 99')
     expect(checkX(`${good} Next stop, Paris.`, plan, linkedIn)).toMatch(/names not in the facts/)
     expect(checkX(`${good} ${'a'.repeat(200)}`, plan, linkedIn)).toMatch(/^length/)

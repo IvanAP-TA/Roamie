@@ -143,7 +143,7 @@ async function main() {
       results.telegram = { error: error.message.slice(0, 300) }
     }
   }
-  // The X draft for Ivan's own account: never stops the day's post if it fails.
+  // The X draft for Roamie's account: never stops the day's post if it fails.
   let x = null
   if (X_KINDS.includes(plan.kind) && telegram.ready()) {
     try {
