@@ -40,11 +40,37 @@ export function failureMessage(results) {
   return `⚠️ <b>Non pubblicato su ${failed.map(([name]) => escape(name)).join(', ')}</b>\n\n${lines.join('\n')}`
 }
 
-async function call(method, body) {
-  const response = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${method}`, { method: 'POST', body })
-  const data = await response.json().catch(() => ({}))
-  if (!data.ok) throw new Error(`Telegram ${method}: ${data.description ?? response.status}`)
-  return data.result
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
+/**
+ * One Bot API call. Telegram's own hiccups (a 5xx such as "Gateway Timeout" on a big video, too many requests, a
+ * dropped connection) are tried again, up to three times; a refusal (4xx) is not.
+ */
+export async function call(method, body, { tries = 3, wait = 5_000 } = {}) {
+  for (let attempt = 1; ; attempt++) {
+    let response, data
+    try {
+      response = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${method}`, { method: 'POST', body, signal: AbortSignal.timeout(120_000) })
+      data = await response.json().catch(() => ({}))
+    } catch (error) {
+      if (attempt >= tries) throw new Error(`Telegram ${method}: ${error.message}`)
+      await sleep(wait * attempt)
+      continue
+    }
+    if (data.ok) return data.result
+    const passing = response.status >= 500 || response.status === 429
+    if (!passing || attempt >= tries) throw new Error(`Telegram ${method}: ${data.description ?? response.status}`)
+    await sleep(Math.max(wait * attempt, (data.parameters?.retry_after ?? 0) * 1000))
+  }
+}
+
+/** The kit's texts after the media; if the media didn't get through, they still go, with a note on where it is. */
+async function sendTexts(chat, texts, mediaError) {
+  const messages = kitMessages(texts)
+  if (mediaError) messages.unshift(`⚠️ Il file non è arrivato su Telegram (${escape(mediaError.message.slice(0, 120))}). Lo scarichi dagli Artifacts dell'esecuzione su GitHub; i testi sono qui sotto.`)
+  for (const text of messages) {
+    await call('sendMessage', new URLSearchParams({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
+  }
 }
 
 export const telegram = {
@@ -60,11 +86,9 @@ export const telegram = {
     video.set('width', '1080')
     video.set('height', '1920')
     video.set('video', new Blob([readFileSync(file)], { type: 'video/mp4' }), 'roamie.mp4')
-    const sent = await call('sendVideo', video)
-
-    for (const text of kitMessages(texts)) {
-      await call('sendMessage', new URLSearchParams({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
-    }
+    const sent = await call('sendVideo', video).catch((error) => error)
+    await sendTexts(chat, texts, sent instanceof Error ? sent : null)
+    if (sent instanceof Error) throw sent
     return { id: String(sent.message_id) }
   },
 
@@ -85,11 +109,9 @@ export const telegram = {
       ),
     )
     slides.forEach((file, i) => album.set(`slide${i}`, new Blob([readFileSync(file)], { type: 'image/jpeg' }), `slide-${i + 1}.jpg`))
-    const sent = await call('sendMediaGroup', album)
-
-    for (const text of kitMessages({ caption })) {
-      await call('sendMessage', new URLSearchParams({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
-    }
+    const sent = await call('sendMediaGroup', album).catch((error) => error)
+    await sendTexts(chat, { caption }, sent instanceof Error ? sent : null)
+    if (sent instanceof Error) throw sent
     return { id: String(sent[0]?.message_id ?? '') }
   },
 

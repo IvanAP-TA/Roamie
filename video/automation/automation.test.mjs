@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { checkLine, hashtags, HOOK_STYLES, looksLike, photoCredit, pickFromPool, POOLS, similarity, writeCopy } from './copy.mjs'
 import { guideTheme, guideUrl, loadPlaces } from './places.mjs'
 import { CROSS_DAYS, makeCarouselPlan, makePlan, pickHookStyle, pickMusic, RECENT_DAYS, seeded } from './plan.mjs'
 import { formatBonus, formatScores, hookScores, refreshMetrics, score } from './metrics.mjs'
-import { failureMessage, kitMessages } from './publish/telegram.mjs'
+import { call, failureMessage, kitMessages, telegram } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
 import { pickScenario, SCENARIOS, storyTexts } from './stories.mjs'
 import { forgetOldUploads, privacyStatus } from './publish/youtube.mjs'
@@ -460,4 +460,40 @@ describe('The brain', () => {
     const report = { findings: [{ level: 'FAIL', id: 'palette-claude', message: 'x' }, { level: 'WARN', id: 'off-centre', message: 'z' }, { level: 'WARN', id: 'small-text', width: 768, message: 'y', alsoAt: [] }] }
     expect(objectiveFindings(report)).toEqual([{ level: 'WARN', id: 'small-text', width: 768, message: 'y' }])
   })
+})
+
+describe('Telegram hiccups', () => {
+  const answer = (status, body) => Promise.resolve({ status, json: () => Promise.resolve(body) })
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('tries again after a server error, and stops at a refusal', async () => {
+    const fetch = vi.fn().mockReturnValueOnce(answer(504, { ok: false, description: 'Gateway Timeout' })).mockReturnValueOnce(answer(200, { ok: true, result: { message_id: 7 } }))
+    vi.stubGlobal('fetch', fetch)
+    expect(await call('sendMessage', new URLSearchParams(), { wait: 1 })).toEqual({ message_id: 7 })
+    expect(fetch).toHaveBeenCalledTimes(2)
+
+    const refused = vi.fn().mockReturnValue(answer(400, { ok: false, description: 'Bad Request: chat not found' }))
+    vi.stubGlobal('fetch', refused)
+    await expect(call('sendMessage', new URLSearchParams(), { wait: 1 })).rejects.toThrow('chat not found')
+    expect(refused).toHaveBeenCalledTimes(1)
+  })
+
+  it('sends the texts even when the video never gets through', async () => {
+    const { mkdtempSync, writeFileSync } = await import('node:fs')
+    const { tmpdir } = await import('node:os')
+    const file = `${mkdtempSync(`${tmpdir()}/tg-`)}/v.mp4`
+    writeFileSync(file, 'x')
+    const sent = []
+    vi.stubGlobal('fetch', vi.fn((url, { body }) => {
+      if (url.endsWith('/sendVideo')) return answer(504, { ok: false, description: 'Gateway Timeout' })
+      sent.push(body.get('text'))
+      return answer(200, { ok: true, result: { message_id: 1 } })
+    }))
+    vi.useFakeTimers({ shouldAdvanceTime: true, advanceTimeDelta: 1000 })
+    await expect(telegram.publish({ file, summary: 'Valencia, Bologna', caption: 'c', title: 't', description: 'd' })).rejects.toThrow('Gateway Timeout')
+    vi.useRealTimers()
+    expect(sent[0]).toContain('Il file non è arrivato')
+    expect(sent.slice(1).join(' ')).toContain('<code>c</code>')
+    expect(sent).toHaveLength(4)
+  }, 60_000)
 })
