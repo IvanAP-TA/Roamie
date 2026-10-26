@@ -227,7 +227,7 @@ In development, **`/__preview`** renders the trip screens with mock data, so you
   `Piani/<ISO week>.md` (a workflow in the brain repository sends its summary to Telegram) and, if needed, open one
   pull request here from a `capo/…` branch after lint, typecheck and tests. It never pushes to `main`, holds no
   secrets and has no connectors.
-- **Privacy.** There are no third-party trackers and no consent banner: the only analytics is Cloudflare Web Analytics, cookieless and anonymous. Only strictly necessary storage is used (Supabase session, language, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
+- **Privacy.** There are no third-party trackers and no consent banner: the only analytics is Cloudflare Web Analytics, cookieless and anonymous. Only strictly necessary storage is used (Supabase session, language, theme, sound preference, API caches), and all of it is disclosed in the Privacy Policy. Users can export their data as JSON and delete their account from the Profile page.
 
 ## Deploying (Vercel)
 

@@ -293,6 +293,12 @@
     "saved": "Name updated",
     "preferences": "Preferences",
     "sound": "Wheel sounds",
+    "theme": "Theme",
+    "themes": {
+      "system": "Auto",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "privacy": "Privacy & data",
     "export": "Download my data",
     "signOut": "Sign out",
@@ -1140,7 +1146,7 @@
           "body": "Roamie uses no profiling cookies and no tracking tools (no Google Analytics, no social pixels). To know how many visits the site gets we use Cloudflare Web Analytics, which counts them in aggregate without cookies or personal identifiers. We only use strictly necessary technical storage, which therefore needs no consent:",
           "items": [
             "Sign-in session (localStorage, managed by Supabase Auth) to keep you logged in",
-            "Preferred language and wheel sound preference (localStorage)",
+            "Preferred language, light or dark theme and wheel sound preference (localStorage)",
             "Cache of place and image searches, to avoid repeated requests to external services (localStorage)",
             "Copy of your trips on this device (IndexedDB), to read them without a connection; deleted when you sign out"
           ]

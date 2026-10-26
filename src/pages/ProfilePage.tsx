@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ChevronRight, Download, FileText, Loader2, Lock, LogOut, Plane, ShieldCheck, Trash2, Volume2 } from 'lucide-react'
+import { ChevronRight, Download, FileText, Loader2, Lock, LogOut, Plane, ShieldCheck, SunMoon, Trash2, Volume2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { keys, unwrap } from '@/hooks/useTrips'
 import { supabase } from '@/lib/supabase'
 import { useSoundEnabled } from '@/lib/sound'
+import { THEMES, useTheme } from '@/lib/theme'
+import { cn } from '@/lib/utils'
 import { Logo } from '@/components/brand/Logo'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
@@ -98,6 +100,7 @@ export default function ProfilePage() {
   const qc = useQueryClient()
   const navigate = useNavigate()
   const [soundOn, setSoundOn] = useSoundEnabled()
+  const [theme, setTheme] = useTheme()
   const [name, setName] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [confirmGuestSignOut, setConfirmGuestSignOut] = useState(false)
@@ -171,6 +174,27 @@ export default function ProfilePage() {
             <div className="flex items-center gap-3 px-5 py-3.5">
               <span className="flex-1 font-medium">{t('common.language')}</span>
               <LanguageSwitcher />
+            </div>
+            <div className="flex flex-wrap items-center gap-3 px-5 py-3.5">
+              <SunMoon className="size-5 text-primary" />
+              <span className="flex-1 font-medium">{t('profile.theme')}</span>
+              <div role="radiogroup" aria-label={t('profile.theme')} className="flex gap-1 rounded-full bg-foreground/[0.05] p-1">
+                {THEMES.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    role="radio"
+                    aria-checked={theme === option}
+                    onClick={() => setTheme(option)}
+                    className={cn(
+                      'min-h-9 rounded-full px-3 text-sm font-semibold transition-colors',
+                      theme === option ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground',
+                    )}
+                  >
+                    {t(`profile.themes.${option}`)}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="flex items-center gap-3 px-5 py-3.5">
               <Volume2 className="size-5 text-primary" />

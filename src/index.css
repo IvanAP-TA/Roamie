@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* dark: follows the theme on <html> (system, or the one picked in Profile), not only the device's setting. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 /* Looping decorations as CSS animations: they run on the compositor, not as a JavaScript update every frame. */
 @theme {
   /* The smallest text step is 13px, not Tailwind's 12px: below 13px it gets hard to read on a phone. */
@@ -94,52 +97,52 @@
   --aurora-4: #d99ab8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1216;
-    --foreground: #f7e9de;
-    --card: #261a1f;
-    --card-foreground: #f7e9de;
-    --popover: #2a1d23;
-    --popover-foreground: #f7e9de;
-    --primary: #f07a4f;
-    --primary-foreground: #24120b;
-    --secondary: #33242a;
-    --secondary-foreground: #f3dccd;
-    --muted: #2b1f24;
-    --muted-foreground: #c2a898;
-    --accent: #4a2c2a;
-    --accent-foreground: #ffd6c0;
-    --destructive: #ef6a5e;
-    --destructive-foreground: #1a1216;
-    --border: rgb(255 220 200 / 0.1);
-    --input: rgb(255 220 200 / 0.14);
-    --ring: #f08a60;
+/* Dark: set on <html> by the inline script in index.html and shell.html, from the choice in Profile or, by default,
+   the device's setting. */
+:root[data-theme='dark'] {
+  --background: #1a1216;
+  --foreground: #f7e9de;
+  --card: #261a1f;
+  --card-foreground: #f7e9de;
+  --popover: #2a1d23;
+  --popover-foreground: #f7e9de;
+  --primary: #f07a4f;
+  --primary-foreground: #24120b;
+  --secondary: #33242a;
+  --secondary-foreground: #f3dccd;
+  --muted: #2b1f24;
+  --muted-foreground: #c2a898;
+  --accent: #4a2c2a;
+  --accent-foreground: #ffd6c0;
+  --destructive: #ef6a5e;
+  --destructive-foreground: #1a1216;
+  --border: rgb(255 220 200 / 0.1);
+  --input: rgb(255 220 200 / 0.14);
+  --ring: #f08a60;
 
-    --coral: #ff8a6e;
-    --sun: #f6b86a;
-    --dusk: #b08ab4;
-    --sage: #8fbf98;
-    --paper: #2a1d22;
+  --coral: #ff8a6e;
+  --sun: #f6b86a;
+  --dusk: #b08ab4;
+  --sage: #8fbf98;
+  --paper: #2a1d22;
 
-    --chart-temp: #e0673c;
-    --chart-rain: #4a8fd6;
+  --chart-temp: #e0673c;
+  --chart-rain: #4a8fd6;
 
-    --glass: rgb(44 29 35 / 0.55);
-    --glass-solid: rgb(44 29 35 / 0.9);
-    --glass-strong: rgb(40 27 32 / 0.86);
-    --glass-border: rgb(255 225 205 / 0.1);
-    --glass-highlight: rgb(255 230 210 / 0.08);
+  --glass: rgb(44 29 35 / 0.55);
+  --glass-solid: rgb(44 29 35 / 0.9);
+  --glass-strong: rgb(40 27 32 / 0.86);
+  --glass-border: rgb(255 225 205 / 0.1);
+  --glass-highlight: rgb(255 230 210 / 0.08);
 
-    --elev-soft: 0 1px 2px rgb(0 0 0 / 0.2), 0 12px 30px -10px rgb(0 0 0 / 0.45);
-    --elev-lift: 0 2px 4px rgb(0 0 0 / 0.25), 0 20px 50px -12px rgb(0 0 0 / 0.55);
-    --elev-glow: 0 10px 30px -8px rgb(240 122 79 / 0.45);
+  --elev-soft: 0 1px 2px rgb(0 0 0 / 0.2), 0 12px 30px -10px rgb(0 0 0 / 0.45);
+  --elev-lift: 0 2px 4px rgb(0 0 0 / 0.25), 0 20px 50px -12px rgb(0 0 0 / 0.55);
+  --elev-glow: 0 10px 30px -8px rgb(240 122 79 / 0.45);
 
-    --aurora-1: #7a3a2c;
-    --aurora-2: #8c3b43;
-    --aurora-3: #6b4a2a;
-    --aurora-4: #4e2f55;
-  }
+  --aurora-1: #7a3a2c;
+  --aurora-2: #8c3b43;
+  --aurora-3: #6b4a2a;
+  --aurora-4: #4e2f55;
 }
 
 @theme inline {
@@ -1112,13 +1115,11 @@ html.vt-morph::view-transition-group(guide-cover) {
 .leaflet-container.roamie-map {
   background: #c7e0d6;
 }
-@media (prefers-color-scheme: dark) {
-  .roamie-map .leaflet-tile-pane {
-    filter: invert(1) hue-rotate(185deg) sepia(0.35) saturate(0.9) brightness(0.85) contrast(0.9);
-  }
-  .leaflet-container.roamie-map {
-    background: #2a393d;
-  }
+[data-theme='dark'] .roamie-map .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(185deg) sepia(0.35) saturate(0.9) brightness(0.85) contrast(0.9);
+}
+[data-theme='dark'] .leaflet-container.roamie-map {
+  background: #2a393d;
 }
 .leaflet-control-attribution {
   font-size: 10px;

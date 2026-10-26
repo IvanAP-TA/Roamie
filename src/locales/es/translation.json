@@ -293,6 +293,12 @@
     "saved": "Nombre actualizado",
     "preferences": "Preferencias",
     "sound": "Sonidos de la ruleta",
+    "theme": "Tema",
+    "themes": {
+      "system": "Auto",
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
     "privacy": "Privacidad y datos",
     "export": "Descargar mis datos",
     "signOut": "Cerrar sesión",
@@ -1140,7 +1146,7 @@
           "body": "Roamie no usa cookies de perfilado ni herramientas de seguimiento (ni Google Analytics, ni píxeles sociales). Para saber cuántas visitas recibe el sitio usamos Cloudflare Web Analytics, que las cuenta de forma agregada sin cookies ni identificadores personales. Solo usamos almacenamiento técnico estrictamente necesario, que por ello no requiere consentimiento:",
           "items": [
             "Sesión de acceso (localStorage, gestionada por Supabase Auth) para mantenerte conectado",
-            "Idioma preferido y preferencia de sonido de la ruleta (localStorage)",
+            "Idioma preferido, tema claro u oscuro y preferencia de sonido de la ruleta (localStorage)",
             "Caché de búsquedas de lugares e imágenes, para evitar peticiones repetidas a servicios externos (localStorage)",
             "Copia de tus viajes en este dispositivo (IndexedDB), para consultarlos sin conexión; se borra al cerrar sesión"
           ]

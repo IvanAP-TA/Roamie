@@ -8,6 +8,9 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
     <meta name="theme-color" content="#fbf4ec" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1a1216" media="(prefers-color-scheme: dark)" />
+    <!-- The theme (Profile → Appearance, or the device's), set before the first paint. Allowed by its hash in
+         vercel.json's Content-Security-Policy: keep both in sync (src/lib/theme.test.ts checks). -->
+    <script>(function(){var d=document.documentElement,m=matchMedia('(prefers-color-scheme: dark)');function a(){var p;try{p=localStorage.getItem('roamie.theme')}catch(e){}var t=p==='light'||p==='dark'?p:m.matches?'dark':'light';d.dataset.theme=t;d.style.colorScheme=t;var c=t==='dark'?'#1a1216':'#fbf4ec';document.querySelectorAll('meta[name="theme-color"]').forEach(function(e){e.content=c})}window.roamieApplyTheme=a;a();m.addEventListener('change',a)})()</script>
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />

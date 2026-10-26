@@ -293,6 +293,12 @@
     "saved": "Nome aggiornato",
     "preferences": "Preferenze",
     "sound": "Suoni della ruota",
+    "theme": "Tema",
+    "themes": {
+      "system": "Auto",
+      "light": "Chiaro",
+      "dark": "Scuro"
+    },
     "privacy": "Privacy e dati",
     "export": "Scarica i miei dati",
     "signOut": "Esci",
@@ -1140,7 +1146,7 @@
           "body": "Roamie non usa cookie di profilazione né strumenti di tracciamento (niente Google Analytics, niente pixel social). Per sapere quante visite riceve il sito usiamo Cloudflare Web Analytics, che le conta in forma aggregata senza cookie né identificativi personali. Usiamo solo archiviazione tecnica strettamente necessaria, che per questo non richiede consenso:",
           "items": [
             "Sessione di accesso (localStorage, gestita da Supabase Auth) per mantenerti autenticato",
-            "Lingua preferita e preferenza audio della ruota (localStorage)",
+            "Lingua preferita, tema chiaro o scuro e preferenza audio della ruota (localStorage)",
             "Cache delle ricerche di luoghi e immagini, per evitare richieste ripetute ai servizi esterni (localStorage)",
             "Copia dei tuoi viaggi su questo dispositivo (IndexedDB), per consultarli anche senza connessione; viene cancellata quando esci dall'account"
           ]
