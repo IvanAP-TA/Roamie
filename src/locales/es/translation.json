@@ -854,7 +854,7 @@
     "headline": "En breve",
     "bestFor": "Ideal para",
     "watchOut": "Ojo con",
-    "disclaimer": "Comparación generada por IA (Mistral): puede contener errores, comprueba lo importante.",
+    "disclaimer": "Comparación generada por IA (Mistral): puede contener errores, comprueba lo importante. A Mistral solo le enviamos los nombres de los destinos y, en el plan gratuito que usamos, puede usarlos para mejorar sus modelos.",
     "aspects": {
       "cost": "Coste",
       "weather": "Clima",
@@ -925,7 +925,7 @@
       "balanced": "Equilibrado",
       "intense": "Intenso"
     },
-    "privacy": "A Mistral AI solo enviamos estas opciones y tu país de salida, nunca nombres ni otros datos personales.",
+    "privacy": "A Mistral AI solo enviamos estas opciones y tu país de salida, nunca nombres ni otros datos personales. En el plan gratuito que usamos, Mistral puede usar estos textos para mejorar sus modelos.",
     "find": "Encontrar 3 destinos",
     "finding": "Buscando destinos…",
     "change": "Cambiar opciones",
@@ -1296,7 +1296,7 @@
     "intro": "Elige el destino y cuántos días: la IA propone un itinerario día a día. Lo ves antes y lo añades solo si os gusta.",
     "where": "Para qué destino",
     "noPlaces": "Proponed primero al menos un destino: la IA construye el itinerario a su alrededor.",
-    "privacy": "A Mistral AI solo enviamos el nombre del destino, su país, los días y las opciones de arriba, nunca nombres de personas ni otros datos personales.",
+    "privacy": "A Mistral AI solo enviamos el nombre del destino, su país, los días y las opciones de arriba, nunca nombres de personas ni otros datos personales. En el plan gratuito que usamos, Mistral puede usar estos textos para mejorar sus modelos.",
     "add_one": "Añadir {{count}} día al plan",
     "add_other": "Añadir {{count}} días al plan",
     "added_one": "Itinerario de {{place}} añadido: {{count}} día",
