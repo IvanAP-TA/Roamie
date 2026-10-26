@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { loadPlaces } from '../places.mjs'
 import { littleText } from '../publish/make.mjs'
+import { checkX, writeXPost, X_KINDS } from './x.mjs'
 import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, unknownNames, withoutLongDashes, writeLinkedInPost } from './posts.mjs'
 
 const places = loadPlaces()
@@ -205,5 +206,38 @@ describe('LinkedIn weekly changes', () => {
         'Animations, phase 3: a header that follows the scroll (1.1.7)',
       ]),
     ).toEqual(["City photos on the landing's postcards", 'Animations, phase 3: a header that follows the scroll'])
+  })
+})
+
+describe('X drafts', () => {
+  const plan = { kind: 'lesson', facts: 'We cut the fonts to what the design uses. The landing score went from 84 to 94.' }
+  const linkedIn = 'We cut the fonts to what the design uses, and the landing score went from 84 to 94.'
+  const good = 'I cut my app fonts down to what the design actually uses. The landing page score went from 84 to 94. Small files, big difference.'
+
+  it('only for the posts about building Roamie, not for places', () => {
+    expect(X_KINDS).toEqual(['build', 'insight', 'feature', 'lesson'])
+    expect(X_KINDS).not.toContain('destination')
+  })
+
+  it('takes a first-person draft built from the facts', () => {
+    expect(checkX(good, plan, linkedIn)).toBeNull()
+  })
+
+  it('rejects links, hashtags, "we", invented numbers and names, and anything over 280 characters', () => {
+    expect(checkX(`${good} roamie.org`, plan, linkedIn)).toBe('link')
+    expect(checkX(`${good} #buildinpublic`, plan, linkedIn)).toBe('prices, hashtags or handles')
+    expect(checkX(good.replace('I cut my', 'We cut our'), plan, linkedIn)).toBe('not first person')
+    expect(checkX(good.replace('94', '99'), plan, linkedIn)).toBe('number 99')
+    expect(checkX(`${good} Next stop, Paris.`, plan, linkedIn)).toMatch(/names not in the facts/)
+    expect(checkX(`${good} ${'a'.repeat(200)}`, plan, linkedIn)).toMatch(/^length/)
+  })
+
+  it('tries again when a draft is rejected, and gives up after three', async () => {
+    const answers = [{ post: `${good} Great!` }, { post: good }]
+    const result = await writeXPost(plan, linkedIn, async () => answers.shift())
+    expect(result).toEqual({ text: good, rejected: ['exclamation'] })
+    const never = await writeXPost(plan, linkedIn, async () => ({ post: 'We did it.' }))
+    expect(never.text).toBeNull()
+    expect(never.rejected).toHaveLength(3)
   })
 })

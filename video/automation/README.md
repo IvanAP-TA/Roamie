@@ -142,6 +142,10 @@ Il bot scrive il testo nel formato di LinkedIn (`littleText` in `publish/make.mj
 
 La pubblicazione segue lo stesso interruttore `SOCIAL_PUBLISH`. Per provare: Actions → LinkedIn → Run workflow (nel campo "kind" puoi forzare il tipo di post). Make tiene lo storico di ogni esecuzione: se LinkedIn rifiuta un post, l'errore è lì. Se il collegamento a LinkedIn scade, Make lo segnala per email e nello scenario: basta ricollegare l'account.
 
+### Bozza per X (account personale)
+
+Nei giorni in cui il post parla di come si costruisce Roamie (lunedì, martedì, giovedì, sabato: aggiornamento, osservazione, funzione, lezione), lo stesso giro scrive anche una versione per X in prima persona, per l'account personale di Ivan, e la manda su Telegram pronta da copiare (`linkedin/x.mjs`). Non si pubblica in automatico: le API di X sono a pagamento dal 2026, e su X racconta meglio una persona che un brand. La bozza passa controlli come quelli di LinkedIn (massimo 280 caratteri, prima persona, niente link, hashtag, numeri o nomi che non siano nei fatti) e non somiglia alle bozze precedenti; se non ne passa nessuna, quel giorno niente bozza, senza fermare il post di LinkedIn.
+
 ## Ricerca settimanale (Ricerca → Idee → Ganci)
 
 Ogni domenica il workflow **Research** (`research/`) legge i commenti più apprezzati sotto i video YouTube del mese su viaggi con gli amici, organizzazione di gruppo, addii al celibato. Lì la gente racconta dove i viaggi di gruppo si inceppano. Mistral ne ricava fino a cinque problemi ricorrenti; per ognuno un **angolo per LinkedIn** e un **gancio per i video**. Le idee vanno in una banca (`research-bank.json` sul branch `social-history`) e ti arriva un riassunto su Telegram.

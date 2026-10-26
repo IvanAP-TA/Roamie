@@ -112,6 +112,13 @@ Copialo dal messaggio qui sotto e pubblicalo sulla pagina Roamie con questa imma
     return { id: String(sent.message_id) }
   },
 
+  /** The day's draft for Ivan's own X account (linkedin/x.mjs), one tap to copy. */
+  async xDraft(text) {
+    await call('sendMessage', new URLSearchParams({ chat_id: process.env.TELEGRAM_CHAT_ID, text: `<b>X</b> · bozza per il tuo account (${text.length} caratteri)
+
+<code>${escape(text)}</code>`, parse_mode: 'HTML', disable_web_page_preview: 'true' }))
+  },
+
   /** A plain HTML message to the owner. */
   async message(text) {
     await call('sendMessage', new URLSearchParams({ chat_id: process.env.TELEGRAM_CHAT_ID, text, parse_mode: 'HTML', disable_web_page_preview: 'true' }))

@@ -23,6 +23,7 @@ import { make } from '../publish/make.mjs'
 import { media } from '../publish/media.mjs'
 import { telegram } from '../publish/telegram.mjs'
 import { assemblePost, makeLinkedInPlan, postFirstLine, writeLinkedInPost } from './posts.mjs'
+import { X_KINDS, writeXPost } from './x.mjs'
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url))
 const publishing = ['on', 'true', 'yes', '1'].includes((process.env.PUBLISH ?? '').trim().toLowerCase())
@@ -142,6 +143,17 @@ async function main() {
       results.telegram = { error: error.message.slice(0, 300) }
     }
   }
+  // The X draft for Ivan's own account: never stops the day's post if it fails.
+  let x = null
+  if (X_KINDS.includes(plan.kind) && telegram.ready()) {
+    try {
+      x = await writeXPost(plan, written.text, ask, history.map((h) => h.x).filter(Boolean).slice(-20))
+      if (x.text) await telegram.xDraft(x.text)
+      log(x.text ? `x: draft sent (${x.text.length} characters)` : `x: no draft (${x.rejected.join('; ')})`)
+    } catch (error) {
+      log(`x: FAILED ${error.message}`)
+    }
+  }
   const delivered = Object.values(results).some((r) => !r.error)
   if (!delivered && Object.keys(results).length) throw new Error('the post reached neither LinkedIn nor Telegram')
 
@@ -153,6 +165,7 @@ async function main() {
     ...(shownCard && { card: shownCard }),
     firstLine: postFirstLine(written.text),
     text: written.text,
+    ...(x?.text && { x: x.text }),
     ...(rejected.length && { rejected: rejected.slice(-12) }),
     published: Boolean(results.linkedin && !results.linkedin.error),
     results,
