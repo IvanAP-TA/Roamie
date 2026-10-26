@@ -66,7 +66,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -107,7 +107,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -146,7 +146,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -221,7 +221,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -266,7 +266,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -362,11 +362,11 @@
       }
     },
     "metrics": {
-      "reach": 14,
+      "reach": 15,
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -410,7 +410,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-22T16:01:06.065Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -457,7 +457,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-23T16:00:19.300Z"
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -495,6 +495,13 @@
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
       }
+    },
+    "metrics": {
+      "reach": 7,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 2,
+      "at": "2026-10-26T16:00:18.655Z"
     }
   },
   {
@@ -531,6 +538,52 @@
       },
       "tiktok": {
         "id": "v_inbox_file~v2.7699894240545376279",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
+      }
+    },
+    "metrics": {
+      "reach": 37,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-26T16:00:18.655Z"
+    }
+  },
+  {
+    "date": "2026-10-26T16:00:18.655Z",
+    "kind": "video",
+    "format": "versus",
+    "lang": "en",
+    "places": [
+      "valencia",
+      "bologna"
+    ],
+    "pair": "bologna+valencia",
+    "hook": "Weekend with friends: Valencia or Bologna?",
+    "caption": "Valencia and Bologna: which one would you pick?",
+    "copySource": "pool",
+    "music": "music/versus-1-lofi-vlog-beats.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "error": "Telegram sendVideo: Gateway Timeout"
+      },
+      "youtube": {
+        "id": "aB2IRnd6dV8",
+        "url": "https://youtube.com/shorts/aB2IRnd6dV8"
+      },
+      "instagram": {
+        "id": "17918215299259107",
+        "url": "https://www.instagram.com/reel/De9qqIMjveY/"
+      },
+      "facebook": {
+        "id": "1136002669385584",
+        "url": "https://www.facebook.com/reel/1136002669385584"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7701007896213161986",
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
