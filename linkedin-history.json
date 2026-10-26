@@ -220,5 +220,22 @@
         "id": "114"
       }
     }
+  },
+  {
+    "date": "2026-10-26T07:00:10.304Z",
+    "kind": "build",
+    "topic": "2026-10-26",
+    "card": "wheel",
+    "firstLine": "The way people use Roamie changes how it feels.",
+    "text": "The way people use Roamie changes how it feels.\n\nThis week, we made the first step simpler. The screen you see when you open Roamie now starts with a clear action: proposing a place. The old button that asked you to paste a group chat link is gone. It was never the right way to begin.\n\nThe map looks different too. On wide screens, the grey strip above the poles is gone, replaced by the same filtered sea colour as the rest of the world. The wheel has changed as well, trading its bright rim lights for a softer sunset dial and a compass bezel. It’s more like a quiet moment of decision than a game.\n\nSmall text is easier to read now. The smallest size has grown, and the labels on the landing page, ticket prices, country names, photo credits, the invite note, have moved up to match. The scroll story on the landing page also zooms into the postcard the hero wheel picks, making the connection between the decision and the destination clearer.\n\nWe’re still working on a few things behind the scenes, like a simpler way to sign in. For now, we’ve made the steps you take every day a little more direct.\n\nWhat’s the one thing that still feels awkward when you use Roamie?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "116"
+      }
+    }
   }
 ]
