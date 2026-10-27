@@ -237,5 +237,23 @@
         "id": "116"
       }
     }
+  },
+  {
+    "date": "2026-10-27T07:00:10.853Z",
+    "kind": "insight",
+    "topic": "research:2026-10-20-2",
+    "card": "places",
+    "firstLine": "Money complicates trips more than most of us admit.",
+    "text": "Money complicates trips more than most of us admit.\n\nThe conversation about who’s paying for what often starts with silence. Someone assumes others will cover flights, another expects meals to be split evenly, and no one mentions it until the receipts arrive. By then, the trip has already become a source of tension, not just a shared memory.\n\nIt’s not about who pays more or less. It’s about avoiding the moment when a friendly group turns into a room of people calculating who owes what. That silence, the one where no one wants to bring up money, is where the real problem begins.\n\nHow do you and your friends handle trip costs before the first expense comes up?",
+    "x": "Money questions before the trip save friendships after it. Who’s paying for flights, who’s splitting meals, who’s bringing the snacks. The silence around these details is where the awkwardness starts. Better to clarify early than argue after the Uber ride.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "121"
+      }
+    }
   }
 ]
