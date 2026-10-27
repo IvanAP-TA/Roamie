@@ -2,8 +2,11 @@ import { CanvasImage, interpolate, staticFile, useCurrentFrame, useVideoConfig }
 import { COPY, type SceneProps } from "../copy";
 import { C, DISPLAY, ramp, Sky } from "../theme";
 
-/** The ending: the logo, the promise and where to go. */
-export const CtaScene: React.FC<SceneProps> = ({ lang }) => {
+/**
+ * The ending: the logo, the promise and where to go. `share` (the social videos) swaps the promise for an invitation to
+ * send the video to the group chat: a share in a private message is what the feeds reward most, and it's word of mouth.
+ */
+export const CtaScene: React.FC<SceneProps & { readonly share?: boolean }> = ({ lang, share = false }) => {
   const frame = useCurrentFrame();
   const copy = COPY[lang];
   const { fps } = useVideoConfig();
@@ -29,9 +32,9 @@ export const CtaScene: React.FC<SceneProps> = ({ lang }) => {
             translate: `0px ${interpolate(ramp(frame, 18, 36), [0, 1], [30, 0])}px`,
           }}
         >
-          {copy.tagline[0]}
+          {(share ? copy.share : copy.tagline)[0]}
           <br />
-          {copy.tagline[1]}
+          {(share ? copy.share : copy.tagline)[1]}
         </div>
         <div
           style={{

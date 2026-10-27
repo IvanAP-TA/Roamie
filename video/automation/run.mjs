@@ -32,6 +32,7 @@ import { telegram } from './publish/telegram.mjs'
 import { tiktok } from './publish/tiktok.mjs'
 import { forgetOldUploads, youtube } from './publish/youtube.mjs'
 import { recentHooks } from './research/insights.mjs'
+import { signTexts } from './signs.mjs'
 import { storyTexts } from './stories.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
@@ -39,7 +40,7 @@ const lang = process.env.VIDEO_LANG === 'it' ? 'it' : 'en'
 const publishing = ['on', 'true', 'yes', '1'].includes((process.env.PUBLISH ?? '').trim().toLowerCase())
 const historyPath = process.env.HISTORY_PATH ?? fileURLToPath(new URL('./history.json', import.meta.url))
 const FPS = 30
-const DURATIONS = { wheel: 390, month: 395, versus: 370, story: 435 }
+const DURATIONS = { wheel: 390, month: 395, versus: 370, story: 515 }
 const COMPOSITION = { wheel: 'Wheel', month: 'Month', versus: 'Versus', story: 'Story' }
 const PLATFORMS = [youtube, instagram, facebook, tiktok]
 
@@ -93,8 +94,9 @@ async function propsFor(plan, copy, rand, music) {
   if (plan.format === 'month') return { lang, music, hook: copy.hook, places, credits }
   if (plan.format === 'story') {
     const { chat, fix, by } = storyTexts(plan.scenario, lang, places.map((p) => p.name))
-    const labels = lang === 'it' ? { proposedBy: 'proposta da', points: 'punti', decided: 'Si parte!' } : { proposedBy: 'proposed by', points: 'points', decided: 'Decided!' }
-    return { lang, music, hook: copy.hook, chat, fix, places, by, points: plan.points, winner: plan.winner, labels, credits }
+    const labels = lang === 'it' ? { proposedBy: 'proposta da', points: 'punti' } : { proposedBy: 'proposed by', points: 'points' }
+    const spinTitle = pool.spin[Math.floor(rand() * pool.spin.length)]
+    return { lang, music, hook: copy.hook, chat, fix, places, by, points: plan.points, winner: plan.winner, labels, spinTitle, credits }
   }
   return {
     lang,
@@ -245,8 +247,10 @@ function checkSlides(dir, expected) {
 async function carousel(history, today) {
   const plan = makeCarouselPlan(loadPlaces(), history, today, lang)
   plan.theme = plan.guide ? guideTheme(plan.guide, lang) : undefined
+  const signs = plan.signs ? signTexts(plan.signs, lang) : null
+  if (signs) Object.assign(plan, { problem: signs.title, signLines: signs.signs })
   const rand = seeded(`${today.toISOString()}|copy`)
-  log(`carousel: ${plan.format} · ${plan.guide ?? monthName(plan.month, lang)} · ${plan.places.map((p) => p.key).join(', ')}`)
+  log(`carousel: ${plan.format} · ${plan.signs ?? plan.guide ?? monthName(plan.month, lang)} · ${plan.places.map((p) => p.key).join(', ')}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
   plan.hookStyle = pickHookStyle(history.filter((h) => h.lang === lang), today, rand)
@@ -258,9 +262,10 @@ async function carousel(history, today) {
   const props = {
     lang,
     hook: copy.hook,
-    kicker: `${plan.theme ?? month.charAt(0).toUpperCase() + month.slice(1)} · ${n} ${lang === 'it' ? 'mete' : 'places'}`,
+    kicker: signs ? (lang === 'it' ? 'Viaggi di gruppo' : 'Group trips') : `${plan.theme ?? month.charAt(0).toUpperCase() + month.slice(1)} · ${n} ${lang === 'it' ? 'mete' : 'places'}`,
     places: await Promise.all(plan.places.map(videoPlace)),
-    question: pick(lang === 'it' ? ['Quale proponete al vostro gruppo?', 'Voi dove andreste?', 'Salvalo per il prossimo viaggio'] : ['Which one would your group pick?', 'Where would you go?', 'Save it for your next trip'], rand),
+    ...(signs && { signs: signs.signs, fix: signs.fix }),
+    question: pick(POOLS[lang].question, rand),
     bestTime: lang === 'it' ? 'Periodo migliore' : 'Best time',
     credits: plan.places.map(credit),
   }
@@ -290,6 +295,7 @@ async function carousel(history, today) {
     places: plan.places.map((p) => p.key),
     ...(plan.month && { month: plan.month }),
     ...(plan.guide && { guide: plan.guide }),
+    ...(plan.signs && { signs: plan.signs }),
     hook: copy.hook,
     caption: copy.caption,
     copySource: copy.source,

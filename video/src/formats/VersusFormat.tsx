@@ -129,7 +129,7 @@ export const VersusFormat: React.FC<VersusProps> = (props) => {
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition presentation={fade()} timing={linearTiming({ durationInFrames: 10 })} />
       <TransitionSeries.Sequence name="End" durationInFrames={105} premountFor={fps}>
-        <CtaScene lang={props.lang} />
+        <CtaScene lang={props.lang} share />
         <Credits credits={props.credits} lang={props.lang} />
       </TransitionSeries.Sequence>
       </TransitionSeries>

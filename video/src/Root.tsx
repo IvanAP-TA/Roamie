@@ -113,7 +113,8 @@ export const RemotionRoot: React.FC = () => {
             by: ["Giulia", "Marco", "Sara"],
             points: [9, 14, 6],
             winner: 1,
-            labels: { proposedBy: "proposta da", points: "punti", decided: "Si parte!" },
+            labels: { proposedBy: "proposta da", points: "punti" },
+            spinTitle: "Decide la ruota.",
             credits: ["Budapest (CC BY 2.0)", "Valencia (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
           }}
         />

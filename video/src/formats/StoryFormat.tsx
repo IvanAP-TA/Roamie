@@ -5,6 +5,7 @@ import { AbsoluteFill, Img, interpolate, useCurrentFrame, useVideoConfig } from 
 import { CtaScene } from "../scenes/CtaScene";
 import { C, DISPLAY, ramp, SANS, Sky, Title } from "../theme";
 import { Credits, Hook, Sfx, Soundtrack, useFit, type Lang, type VideoPlace } from "./shared";
+import { Spin } from "./WheelFormat";
 
 export type StoryProps = {
   readonly lang: Lang;
@@ -17,16 +18,21 @@ export type StoryProps = {
   readonly places: readonly VideoPlace[];
   readonly by: readonly string[];
   readonly points: readonly number[];
-  /** The place with the most points. */
+  /** The place with the most points, where the wheel lands. */
   readonly winner: number;
-  readonly labels: { readonly proposedBy: string; readonly points: string; readonly decided: string };
+  readonly labels: { readonly proposedBy: string; readonly points: string };
+  /** The title over the wheel, e.g. "The wheel decides." */
+  readonly spinTitle: string;
   readonly credits: readonly string[];
   /** Background track in public/music; none = silent */
   readonly music?: string;
 };
 
-/** Chat, the way out, the vote, end card. 150 + 60 + 150 + 105 − 3 × 10 = 435 frames (14.5 s). */
-export const STORY_DURATION = 435;
+/**
+ * Chat, the way out, the vote, the wheel (the app's own, as in the Wheel format: Roamie in action), end card.
+ * 150 + 60 + 100 + 140 + 105 − 4 × 10 = 515 frames (about 17 s).
+ */
+export const STORY_DURATION = 515;
 
 /** When each message pops in, in frames from the start of the chat. */
 const AT = [22, 42, 60, 78, 100];
@@ -84,25 +90,22 @@ const Fix: React.FC<Pick<StoryProps, "fix">> = ({ fix }) => {
   );
 };
 
-/** When the points start counting, and when the winner is called. */
-const COUNT = [36, 80];
-const DECIDED = 96;
+/** When the points count up. */
+const COUNT = [30, 80];
 
-/** One proposal: photo, name, who proposed it, its points counting up, then the winner called. */
-const ProposalCard: React.FC<{ readonly place: VideoPlace; readonly by: string; readonly points: number; readonly max: number; readonly index: number; readonly win: boolean; readonly labels: StoryProps["labels"] }> = ({
+/** One proposal: photo, name, who proposed it, its points counting up. The wheel calls the winner, not this. */
+const ProposalCard: React.FC<{ readonly place: VideoPlace; readonly by: string; readonly points: number; readonly max: number; readonly index: number; readonly labels: StoryProps["labels"] }> = ({
   place,
   by,
   points,
   max,
   index,
-  win,
   labels,
 }) => {
   const frame = useCurrentFrame();
   const nameSize = useFit(place.name, 640, 84);
   const enter = ramp(frame, index * 8, index * 8 + 16);
   const counted = interpolate(frame, COUNT, [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const called = ramp(frame, DECIDED, DECIDED + 12);
   return (
     <div
       style={{
@@ -110,10 +113,8 @@ const ProposalCard: React.FC<{ readonly place: VideoPlace; readonly by: string; 
         height: 430,
         borderRadius: 44,
         overflow: "hidden",
-        opacity: enter * (win ? 1 : interpolate(called, [0, 1], [1, 0.42])),
+        opacity: enter,
         translate: `${interpolate(enter, [0, 1], [140, 0])}px 0px`,
-        scale: win ? interpolate(called, [0, 1], [1, 1.04]) : 1,
-        boxShadow: win ? `0 0 0 ${Math.round(called * 8)}px ${C.coral}, 0 30px 80px rgba(20,8,12,${0.5 * called})` : "none",
       }}
     >
       <Img src={place.photo} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -124,47 +125,25 @@ const ProposalCard: React.FC<{ readonly place: VideoPlace; readonly by: string; 
           {place.country} · {labels.proposedBy} {by}
         </div>
         <div style={{ marginTop: 22, height: 14, borderRadius: 999, background: "rgba(255,248,241,0.2)", overflow: "hidden" }}>
-          <div style={{ width: `${(100 * counted * points) / max}%`, height: "100%", borderRadius: 999, background: win ? C.coral : C.sun }} />
+          <div style={{ width: `${(100 * counted * points) / max}%`, height: "100%", borderRadius: 999, background: C.sun }} />
         </div>
       </div>
       <div style={{ position: "absolute", top: 34, right: 34, fontFamily: SANS, fontSize: 40, fontWeight: 700, background: C.paper, color: C.dark, borderRadius: 999, padding: "10px 28px" }}>
         {Math.round(counted * points)} {labels.points}
       </div>
-      {win && (
-        <div
-          style={{
-            position: "absolute",
-            top: 34,
-            left: 34,
-            fontFamily: SANS,
-            fontSize: 40,
-            fontWeight: 700,
-            background: C.coral,
-            color: C.ink,
-            borderRadius: 999,
-            padding: "10px 30px",
-            opacity: called,
-            scale: interpolate(called, [0, 1], [1.6, 1]),
-            rotate: "-4deg",
-          }}
-        >
-          {labels.decided}
-        </div>
-      )}
     </div>
   );
 };
 
-/** The group proposes, votes with points, and the most voted place wins. */
-const Vote: React.FC<Pick<StoryProps, "places" | "by" | "points" | "winner" | "labels">> = ({ places, by, points, winner, labels }) => {
+/** The group proposes and votes with points; then the wheel, weighted by them, picks. */
+const Vote: React.FC<Pick<StoryProps, "places" | "by" | "points" | "labels">> = ({ places, by, points, labels }) => {
   const max = Math.max(...points);
   return (
     <Sky>
       <Sfx sound="whoosh" />
-      <Sfx sound="ding" at={DECIDED} />
       <div style={{ position: "absolute", top: 230, left: 70, right: 70, display: "flex", flexDirection: "column", gap: 34 }}>
         {places.slice(0, 3).map((place, i) => (
-          <ProposalCard key={place.name} place={place} by={by[i]} points={points[i]} max={max} index={i} win={i === winner} labels={labels} />
+          <ProposalCard key={place.name} place={place} by={by[i]} points={points[i]} max={max} index={i} labels={labels} />
         ))}
       </div>
     </Sky>
@@ -185,12 +164,17 @@ export const StoryFormat: React.FC<StoryProps> = (props) => {
           <Fix fix={props.fix} />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: "from-bottom" })} timing={linearTiming({ durationInFrames: 10 })} />
-        <TransitionSeries.Sequence name="Vote" durationInFrames={150} premountFor={fps}>
-          <Vote places={props.places} by={props.by} points={props.points} winner={props.winner} labels={props.labels} />
+        <TransitionSeries.Sequence name="Vote" durationInFrames={100} premountFor={fps}>
+          <Vote places={props.places} by={props.by} points={props.points} labels={props.labels} />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={fade()} timing={linearTiming({ durationInFrames: 10 })} />
+        <TransitionSeries.Sequence name="Spin" durationInFrames={140} premountFor={fps}>
+          <Spin spinTitle={props.spinTitle} places={props.places} points={props.points} winner={props.winner} />
+          <Sfx sound="ding" at={122} />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={fade()} timing={linearTiming({ durationInFrames: 10 })} />
         <TransitionSeries.Sequence name="End" durationInFrames={105} premountFor={fps}>
-          <CtaScene lang={props.lang} />
+          <CtaScene lang={props.lang} share />
           <Credits credits={props.credits} lang={props.lang} />
         </TransitionSeries.Sequence>
       </TransitionSeries>

@@ -6,6 +6,7 @@ import { formatBonus, formatScores, hookScores, refreshMetrics, score } from './
 import { call, failureMessage, kitMessages, telegram } from './publish/telegram.mjs'
 import { uploadChunks } from './publish/tiktok.mjs'
 import { pickScenario, SCENARIOS, storyTexts } from './stories.mjs'
+import { pickSignList, SIGN_LISTS, signTexts } from './signs.mjs'
 import { forgetOldUploads, privacyStatus } from './publish/youtube.mjs'
 import { isoWeek, numbersPage, qaCount } from './brain.mjs'
 import { objectiveFindings } from './qa.mjs'
@@ -39,8 +40,15 @@ describe('places', () => {
 describe('plan', () => {
   const history = simulate(60)
 
-  it('never repeats a format twice in a row', () => {
-    for (let i = 1; i < history.length; i++) expect(history[i].format).not.toBe(history[i - 1].format)
+  it('leads with the story, about two videos in three, never three in a row; the others never twice in a row', () => {
+    for (let i = 1; i < history.length; i++) {
+      if (history[i].format !== 'story') expect(history[i].format).not.toBe(history[i - 1].format)
+      if (i >= 2) expect([history[i - 2], history[i - 1], history[i]].every((h) => h.format === 'story')).toBe(false)
+    }
+    const share = history.filter((h) => h.format === 'story').length / history.length
+    expect(share).toBeGreaterThan(0.55)
+    expect(share).toBeLessThan(0.75)
+    expect(history.some((h) => h.format === 'month')).toBe(false)
   })
 
   it("doesn't show a place again within three weeks, and usually not within the full window", () => {
@@ -496,4 +504,75 @@ describe('Telegram hiccups', () => {
     expect(sent.slice(1).join(' ')).toContain('<code>c</code>')
     expect(sent).toHaveLength(4)
   }, 60_000)
+})
+
+describe('signs carousels', () => {
+  const weeks = (n) => {
+    const history = []
+    for (let d = 0; d < n * 7; d++) {
+      const day = new Date(Date.UTC(2026, 10, 2 + d, 16))
+      const weekday = day.getUTCDay()
+      if (weekday === 0 || weekday === 6) continue
+      const kind = weekday === 2 || weekday === 4 ? 'carousel' : 'video'
+      const plan = kind === 'carousel' ? makeCarouselPlan(places, history, day, 'en') : makePlan(places, history, day, 'en')
+      history.push({ date: day.toISOString(), kind, format: plan.format, lang: 'en', places: plan.places.map((p) => p.key), month: plan.month, guide: plan.guide, signs: plan.signs, plan })
+    }
+    return history.filter((h) => h.kind === 'carousel')
+  }
+  const carousels = weeks(20)
+
+  it('lead the carousels, about two in three, never three in a row, five places each', () => {
+    const signs = carousels.filter((h) => h.format === 'signs')
+    expect(signs.length / carousels.length).toBeGreaterThan(0.55)
+    expect(signs.length / carousels.length).toBeLessThan(0.75)
+    for (let i = 2; i < carousels.length; i++) expect(carousels.slice(i - 2, i + 1).every((h) => h.format === 'signs')).toBe(false)
+    for (const { plan } of signs) {
+      expect(plan.places).toHaveLength(5)
+      expect(SIGN_LISTS[plan.signs]).toBeDefined()
+    }
+  })
+
+  it('rotate the lists', () => {
+    const used = []
+    for (let i = 0; i < 9; i++) {
+      const id = pickSignList(used.map((signs) => ({ format: 'signs', signs })), seeded(`l${i}`))
+      expect(used.slice(-3)).not.toContain(id)
+      used.push(id)
+    }
+  })
+
+  it('every list is complete in both languages, five signs each, with no long dashes', () => {
+    for (const id of Object.keys(SIGN_LISTS)) {
+      for (const lang of ['it', 'en']) {
+        const { title, signs, fix } = signTexts(id, lang)
+        expect(signs, `${id}/${lang}`).toHaveLength(5)
+        for (const line of [title, ...signs, fix]) {
+          expect(line, `${id}/${lang}`).not.toMatch(/[—–{]/)
+          expect(line.length, `${id}/${lang}: ${line}`).toBeLessThanOrEqual(90)
+        }
+      }
+    }
+  })
+
+  it('keeps the hand-written title as the hook; the AI writes the caption, about the signs', async () => {
+    const { title, signs } = signTexts('never-leaves-chat', 'en')
+    const plan = { kind: 'carousel', format: 'signs', places: places.slice(0, 5), problem: title, signLines: signs, hookStyle: 'pov' }
+    let prompt = ''
+    const ask = async (messages) => ((prompt = messages[1].content), { hook: 'Anything the AI says here is ignored', caption: 'Every group chat has a few of these. Which one sounds like yours, and who in your group is the organiser?' })
+    const copy = await writeCopy(plan, 'en', [], seeded('s'), ask)
+    expect(copy.hook).toBe(title)
+    expect(copy.source).toBe('ai')
+    expect(copy.hookStyle).toBeUndefined()
+    expect(prompt).toContain(signs[0])
+    const failing = await writeCopy(plan, 'en', [], seeded('s'), async () => null)
+    expect(failing.hook).toBe(title)
+    expect(failing.caption).toMatch(/group chat/)
+  })
+
+  it('tags the group chat, not the places', () => {
+    const tags = hashtags({ format: 'signs', places: places.slice(0, 5) }, 'en', seeded('t'))
+    expect(tags).toContain('#groupchat')
+    expect(tags.length).toBeLessThanOrEqual(8)
+    for (const p of places.slice(0, 5)) expect(tags).not.toContain(`#${p.key}`)
+  })
 })

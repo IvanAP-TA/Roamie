@@ -3,20 +3,27 @@
  * varied. Pure and seeded (same history and day → same plan), so it's testable and a failed run can be retried.
  *
  * The rules ("barriere"):
- *  - never the same format twice in a row, and no format more than twice in the last four posts;
+ *  - the story (a group chat stuck, then the vote and the wheel: the problem Roamie solves) comes first: at most twice in
+ *    a row and three times in the last four posts, so about two videos in three are stories (decided 2026-10-27,
+ *    Contenuti/Analisi virale in the brain); the others never twice in a row, nor more than twice in the last four;
  *  - no place shown again within RECENT_DAYS days (relaxed only if nothing else fits);
  *  - a "versus" pair is never repeated, in any order;
- *  - a month is suggested at most once per language within MONTH_GAP_DAYS;
+ *  - a month carousel comes back at most once per language within MONTH_GAP_DAYS;
  *  - photos that aren't of the place itself (satellite shots, maps, flags, logos) are never used;
  *  - the hook's style (copy.mjs HOOK_STYLES) is never one of the last two posts', and the least used lately comes first.
  */
 
 import { HOOK_STYLES } from './copy.mjs'
 import { formatBonus, formatScores, hookScores } from './metrics.mjs'
+import { pickSignList } from './signs.mjs'
 import { pickScenario } from './stories.mjs'
 
-export const FORMATS = ['wheel', 'month', 'versus', 'story']
-export const CAROUSEL_FORMATS = ['guide', 'month']
+export const FORMATS = ['wheel', 'versus', 'story']
+/** The format the feed is about: first whenever its own limits allow. */
+export const LEAD_FORMAT = 'story'
+export const CAROUSEL_FORMATS = ['signs', 'guide', 'month']
+/** The carousel that tells the problem (signs.mjs): first whenever the last two carousels weren't both signs. */
+export const LEAD_CAROUSEL = 'signs'
 export const RECENT_DAYS = 30
 export const MONTH_GAP_DAYS = 200
 /** Videos and carousels keep their own freshness window; across the two, a place only waits this long. */
@@ -74,16 +81,18 @@ export function makePlan(places, history, today, lang) {
   const recentKeys = (days) =>
     new Set([...mine.filter((h) => today - new Date(h.date) < days * DAY), ...carousels.filter((h) => today - new Date(h.date) < CROSS_DAYS * DAY)].flatMap((h) => h.places))
 
-  // Formats: the least used lately first (ties broken at random). Strictly: not the last one and at most twice in the
-  // last four; if no format can be planned that way, only "not the last one" still holds.
+  // Formats: the story first while its limits allow, then the others, least used lately first (ties broken at random,
+  // nudged by what worked on Instagram, see metrics.mjs, except in the exploring share of posts). Strictly: the others
+  // not the last one and at most twice in the last four; if no format can be planned that way, only the "in a row"
+  // limits still hold.
   const last = mine.slice(-4).map((h) => h.format)
   const uses = (f) => last.filter((x) => x === f).length
-  // What worked on Instagram nudges the order (see metrics.mjs), except in the exploring share of posts.
   const bonus = rand() < EXPLORE_SHARE ? {} : formatBonus(formatScores(mine, 'video', today))
-  const weight = (f) => uses(f) - (bonus[f] ?? 0)
+  const weight = (f) => (f === LEAD_FORMAT ? -100 : uses(f) - (bonus[f] ?? 0))
   const ordered = shuffle(FORMATS, rand).sort((a, b) => weight(a) - weight(b))
-  const notLast = ordered.filter((f) => f !== last[last.length - 1])
-  const strict = notLast.filter((f) => uses(f) < 2)
+  const leadTwice = last.length >= 2 && last.slice(-2).every((f) => f === LEAD_FORMAT)
+  const notLast = ordered.filter((f) => (f === LEAD_FORMAT ? !leadTwice : f !== last[last.length - 1]))
+  const strict = notLast.filter((f) => uses(f) < (f === LEAD_FORMAT ? 3 : 2))
 
   // Strict freshness first; each step relaxes the least important rule, never the "never twice in a row".
   for (const [days, formats] of [
@@ -114,18 +123,6 @@ const PLANNERS = {
       let ticket = rand() * total
       const winner = points.findIndex((p) => (ticket -= p) < 0)
       return { places: four, points, winner, guide }
-    }
-    return null
-  },
-
-  /** Three places at their best next month (people plan a few weeks ahead), else the one after. */
-  month(fresh, mine, today, rand) {
-    for (const ahead of [30, 60]) {
-      const month = new Date(today.getTime() + ahead * DAY).getMonth() + 1
-      const usedLately = mine.some((h) => h.format === 'month' && h.month === month && today - new Date(h.date) < MONTH_GAP_DAYS * DAY)
-      if (usedLately) continue
-      const three = pickDistinct(fresh.filter((p) => p.months.includes(month)), 3, rand)
-      if (three) return { places: three, month }
     }
     return null
   },
@@ -179,9 +176,10 @@ export function pickMusic(format, tracks, history, rand) {
 }
 
 /**
- * A carousel: five places (four if the rules leave fewer) from one guide, or at their best in a month a few weeks
- * ahead. Never the same format as the previous carousel; a place waits RECENT_DAYS before another carousel and
- * CROSS_DAYS after a video; a guide waits GUIDE_GAP_DAYS, a month MONTH_GAP_DAYS.
+ * A carousel: the "signs" of a trip stuck in the group chat over five places' photos (signs.mjs), first unless the
+ * last two carousels were signs; otherwise five places (four if the rules leave fewer) from one guide, or at their
+ * best in a month a few weeks ahead, never the same of these two as the previous carousel. A place waits RECENT_DAYS
+ * before another carousel and CROSS_DAYS after a video; a guide waits GUIDE_GAP_DAYS, a month MONTH_GAP_DAYS.
  */
 export const GUIDE_GAP_DAYS = 35
 
@@ -192,20 +190,25 @@ export function makeCarouselPlan(places, history, today, lang) {
   const videos = history.filter((h) => h.lang === lang && h.kind !== 'carousel')
   const within = (h, days) => today - new Date(h.date) < days * DAY
   const last = mine[mine.length - 1]?.format
+  const leadTwice = mine.length >= 2 && mine.slice(-2).every((h) => h.format === LEAD_CAROUSEL)
   const bonus = rand() < EXPLORE_SHARE ? {} : formatBonus(formatScores(mine, 'carousel', today))
-  const formats = [
-    ...shuffle(CAROUSEL_FORMATS, rand)
-      .filter((f) => f !== last)
-      .sort((a, b) => (bonus[b] ?? 0) - (bonus[a] ?? 0)),
-    ...(last ? [last] : []),
-  ]
+  const others = shuffle(CAROUSEL_FORMATS.filter((f) => f !== LEAD_CAROUSEL), rand)
+    .filter((f) => f !== last)
+    .sort((a, b) => (bonus[b] ?? 0) - (bonus[a] ?? 0))
+  // The last resorts, in order: the other format just used, then (only once the windows are at their shortest) the
+  // signs even after two in a row.
+  const formatsFor = (lastTry) => [...new Set([...(leadTwice ? [] : [LEAD_CAROUSEL]), ...others, ...(last && last !== LEAD_CAROUSEL ? [last] : []), ...(lastTry ? [LEAD_CAROUSEL] : [])])]
 
   for (const days of [RECENT_DAYS, 21, 14]) {
     const recent = new Set([...mine.filter((h) => within(h, days)), ...videos.filter((h) => within(h, CROSS_DAYS))].flatMap((h) => h.places))
     const fresh = usable.filter((p) => !recent.has(p.key))
     for (const count of [5, 4]) {
-      for (const format of formats) {
-        if (format === 'guide') {
+      for (const format of formatsFor(days === 14)) {
+        if (format === LEAD_CAROUSEL) {
+          // One sign per place: a list has five, so only five places will do.
+          const picked = count === 5 && pickDistinct(fresh, 5, rand)
+          if (picked) return { kind: 'carousel', format, lang, signs: pickSignList(mine, rand), places: picked }
+        } else if (format === 'guide') {
           const usedGuides = new Set(mine.filter((h) => h.guide && within(h, Math.min(days, GUIDE_GAP_DAYS))).map((h) => h.guide))
           const guides = shuffle([...new Set(fresh.flatMap((p) => p.guides))], rand).filter((g) => !usedGuides.has(g))
           for (const guide of guides) {

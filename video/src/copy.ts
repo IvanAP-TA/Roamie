@@ -31,6 +31,7 @@ export const COPY = {
     extras: ["Date di tutti", "Checklist", "Mappa", "Confronto con l’AI"],
     tagline: ["Il prossimo viaggio", "si decide insieme."],
     perks: "Gratis · Senza pubblicità · Anche senza account",
+    share: ["Mandalo alla chat", "che non decide mai."],
   },
   en: {
     chat: [
@@ -61,6 +62,7 @@ export const COPY = {
     extras: ["Everyone’s dates", "Checklist", "Map", "AI comparison"],
     tagline: ["Your next trip,", "decided together."],
     perks: "Free · No ads · No account needed",
+    share: ["Send this to the group chat", "that never decides."],
   },
 } as const;
 

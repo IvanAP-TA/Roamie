@@ -56,8 +56,15 @@ export const POOLS = {
       'Salva queste {n} mete per {month}',
     ],
     spin: ['Decide la ruota.', 'Si gira.', 'Ruota, pensaci tu.', 'Tre, due, uno…'],
-    question: ['Voi quale scegliete?', 'Da che parte state?', 'Il vostro gruppo dove va?', 'Votate nei commenti'],
-    cta: ['Decidete il prossimo viaggio insieme su roamie.org', 'Proponete, votate, girate la ruota: roamie.org', 'Il vostro gruppo decide su roamie.org, gratis'],
+    carousel_signs: ['Riconoscete la vostra chat?', 'Ogni gruppo ha questi segnali', 'Il viaggio è ancora nella chat?', 'Mandatelo al vostro gruppo'],
+    // The end of a versus and of a carousel: an invitation to send it on, the strongest signal for the feeds (a share in
+    // a private message) and real word of mouth (Contenuti/Analisi virale in the brain, 2026-10-27).
+    question: ['Mandalo al gruppo con cui partiresti', 'Mandalo alla chat che non decide mai', 'Taggate il vostro gruppo di viaggio', 'Il vostro gruppo quale sceglie?'],
+    cta: [
+      'Mandalo alla chat del gruppo che non decide mai. Poi decidete su roamie.org',
+      'Tagga l’amico che dice sempre "decidete voi". Il viaggio si decide su roamie.org',
+      'Giralo al gruppo di viaggio e lasciate scegliere la ruota: roamie.org',
+    ],
   },
   en: {
     wheel: [
@@ -106,8 +113,13 @@ export const POOLS = {
       'Save these {n} places for {month}',
     ],
     spin: ['The wheel decides.', 'Spin it.', 'Over to you, wheel.', 'Three, two, one…'],
-    question: ['Which one would you pick?', 'Whose side are you on?', 'Where is your group going?', 'Vote in the comments'],
-    cta: ['Decide your next trip together at roamie.org/en', 'Propose, vote, spin the wheel: roamie.org/en', 'Your group decides at roamie.org/en, for free'],
+    carousel_signs: ['Sound like your group chat?', 'Every group has these signs', 'Is your trip still in the chat?', 'Send this to your group'],
+    question: ['Send this to the friend you’d go with', 'Send this to the group chat that never decides', 'Tag your travel group', 'Which one would your group pick?'],
+    cta: [
+      'Send this to the group chat that never decides. Then decide at roamie.org/en',
+      'Tag the friend who always says "you guys decide". Plan it at roamie.org/en',
+      'Share it with your travel group and let the wheel pick: roamie.org/en',
+    ],
   },
 }
 
@@ -294,8 +306,15 @@ export function photoCredit(photo) {
  * Hashtags for a plan, at most 8, most specific first: the places, their countries, the guide's theme or the month,
  * the region when they share one, then two broad tags in rotation. All lowercase and deduplicated.
  */
+const SIGN_TAGS = {
+  it: ['#chatdigruppo', '#viaggiconamici', '#viaggiodigruppo', '#amici', '#relatable'],
+  en: ['#groupchat', '#grouptrip', '#travelwithfriends', '#friendgroup', '#relatable'],
+}
+
 export function hashtags(plan, lang, rand) {
   const set = HASHTAGS[lang]
+  // The signs carousel is about the group chat, not the places behind the signs.
+  if (plan.format === 'signs') return [...SIGN_TAGS[lang], ...[...set.broad].sort(() => rand() - 0.5).slice(0, 3)].filter((t, i, all) => all.indexOf(t) === i).slice(0, 8)
   const places = plan.places.slice(0, 3).map((p) => placeTag(p.name[lang === 'it' ? 'it' : 'en']))
   const countries = [...new Set(plan.places.map((p) => p.countryCode))].slice(0, 2).map((code) => countryTag(code, lang))
   const theme = plan.guide ? (set.guide[plan.guide] ?? []) : plan.month ? [set.month(plan.month)] : []
@@ -334,9 +353,10 @@ const FORMAT_BRIEF = {
   wheel: 'a wheel of fortune spins between four destinations and picks one, like friends deciding their next trip',
   month: 'three destinations at their best in {month}, for a group of friends',
   versus: 'two destinations side by side, asking the viewer which one their group would choose',
-  story: 'a short story: a group chat gets stuck because "{problem}", then the group decides with Roamie: each friend proposes a place, everyone votes with points and {winner} wins',
+  story: 'a short story: a group chat gets stuck because "{problem}", then the group decides with Roamie: each friend proposes a place, everyone votes with points and the wheel lands on {winner}',
   carousel_guide: 'a swipeable carousel: a cover, then {n} destinations for a "{theme}" group trip, one per slide, that people save for later',
   carousel_month: 'a swipeable carousel: {n} destinations at their best in {month}, one per slide, for a group of friends, that people save for later',
+  carousel_signs: 'a swipeable carousel titled "{problem}": signs that a group trip is stuck in the group chat, one per slide, then how a group gets out of it with Roamie (everyone proposes, votes with points, the wheel decides); people send it to their friends',
 }
 
 /**
@@ -349,19 +369,22 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
   const vars = { month: plan.month ? monthName(plan.month, lang) : '', a: names[0], b: names[1], n: String(names.length), theme: plan.theme ?? '', problem: plan.problem ?? '', winner: names[plan.winner] ?? '' }
   const key = plan.kind === 'carousel' ? `carousel_${plan.format}` : plan.format
   const pool = POOLS[lang]
-  const allowedNumbers = [String(plan.places.length)]
+  // The signs carousel's title is hand-written (signs.mjs) and is the hook as it is: the AI only writes its caption,
+  // about the signs, never about the places behind them.
+  const signs = plan.format === 'signs'
+  const allowedNumbers = [String(plan.places.length), ...(signs ? (`${plan.problem} ${plan.signLines.join(' ')}`.match(/\d+/g) ?? []) : [])]
   const mustMention = plan.format === 'versus' ? names : []
-  const allOrNone = plan.format === 'versus' ? [] : names
+  const allOrNone = plan.format === 'versus' || signs ? [] : names
   const rejected = []
   const style = HOOK_STYLES[plan.hookStyle]
 
-  const facts = plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
+  const facts = signs ? plan.signLines.map((l) => `- ${l}`).join('\n') : plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
   const system = [
     `You write short-form social media copy for Roamie, a free web app where groups of friends propose destinations, vote with points and spin a wheel to decide their trip.`,
     `Write in ${lang === 'it' ? 'Italian, natural and informal (tu/voi), like a friend' : 'English, natural and informal, like a friend'}.`,
     `The ${plan.kind === 'carousel' ? 'post' : 'video'}: ${fill(FORMAT_BRIEF[key], vars)}.`,
     `Return JSON {"hook": string, "caption": string}.`,
-    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; ${style ? `write it as ${style.brief}, for example "${style.examples[lang]}" (a reference for the style, do not copy it)` : 'a question or a playful tension works'}. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : ' Name all the destinations or none of them, never just some.'}`,
+    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; ${style ? `write it as ${style.brief}, for example "${style.examples[lang]}" (a reference for the style, do not copy it)` : 'a question or a playful tension works'}. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : signs ? ' Do not name any destination.' : ' Name all the destinations or none of them, never just some.'}`,
     `caption: two short sentences (80–220 characters), concrete, using only the facts given; end with a question to the viewer. No prices, no numbers, no links, no hashtags, no markdown (no asterisks or underscores), at most one emoji.`,
     `Never invent facts. Different every time: here are lines already used, do not repeat their wording or structure:`,
     ...past.slice(-12).map((l) => `  · ${l}`),
@@ -369,7 +392,7 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
     // Openers from the week's research (research/insights.mjs): what groups really talk about, as inspiration only.
     ...(inspiration.length ? [`Tensions groups talk about lately, if one fits these destinations use it as inspiration for the hook (do not copy): ${inspiration.map((l) => `"${l}"`).join(', ')}.`] : []),
   ].join('\n')
-  const user = `Destinations:\n${facts}${plan.month ? `\nMonth: ${vars.month}` : ''}`
+  const user = signs ? `The signs, one per slide:\n${facts}` : `Destinations:\n${facts}${plan.month ? `\nMonth: ${vars.month}` : ''}`
 
   for (let attempt = 0; attempt < 3; attempt++) {
     const answer = await ask([
@@ -377,12 +400,13 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
       { role: 'user', content: rejected.length ? `${user}\n\nYour previous answer was rejected (${rejected.at(-1)}). Try again.` : user },
     ])
     if (!answer) break
-    const hookProblem = checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers }) ?? style?.check?.(answer.hook) ?? null
+    const hookProblem = signs ? null : (checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers }) ?? style?.check?.(answer.hook) ?? null)
     const captionProblem = checkLine(answer.caption, { min: 60, max: 260, lang, past, maxSimilarity: 0.5, allowedNumbers })
-    if (!hookProblem && !captionProblem) return { hook: answer.hook.trim(), caption: answer.caption.trim(), source: 'ai', rejected, ...(style && { hookStyle: plan.hookStyle }) }
+    if (!hookProblem && !captionProblem) return { hook: signs ? plan.problem : answer.hook.trim(), caption: answer.caption.trim(), source: 'ai', rejected, ...(style && !signs && { hookStyle: plan.hookStyle }) }
     rejected.push(hookProblem ? `hook: ${hookProblem}` : `caption: ${captionProblem}`)
   }
 
+  if (signs) return { hook: plan.problem, caption: lang === 'it' ? 'Quale di questi succede nella vostra chat di gruppo?' : 'Which of these happens in your group chat?', source: 'pool', rejected }
   const hook = pickFromPool(pool[key], vars, past, rand)
   const caption =
     lang === 'it'

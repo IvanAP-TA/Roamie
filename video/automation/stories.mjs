@@ -58,10 +58,42 @@ export const SCENARIOS = {
     },
     fix: { it: ['Voto segreto.', 'Niente imbarazzi sui soldi.'], en: ['Secret voting.', 'No awkward money talk.'] },
   },
+  dates: {
+    problem: { it: 'Nessuno riesce a trovare le date', en: 'Nobody can agree on the dates' },
+    chat: {
+      it: ['Partiamo a maggio?', 'Io posso solo a giugno', 'A giugno ho gli esami', '{a} a luglio allora?', '…quindi mai?'],
+      en: ['Trip in May?', 'I can only do June', 'June is exams for me', '{a} in July then?', '…so never?'],
+    },
+    fix: { it: ['Ognuno segna i giorni liberi.', 'Roamie trova il periodo.'], en: ['Everyone marks their free days.', 'Roamie finds the window.'] },
+  },
+  organiser: {
+    problem: { it: 'Una persona sola organizza tutto', en: 'One person ends up organising everything' },
+    chat: {
+      it: ['Ho fatto una lista di posti', '{a} sembra bella', '👍', 'Scegli tu, ci sai fare', '…perché tocca sempre a me?'],
+      en: ['I made a list of places', '{a} looks cool', '👍', 'You pick, you’re good at this', '…why is it always me?'],
+    },
+    fix: { it: ['Ognuno propone.', 'Decide il gruppo.'], en: ['Everyone proposes.', 'The group decides.'] },
+  },
+  loudest: {
+    problem: { it: 'Sceglie sempre chi scrive di più', en: 'The loudest friend always picks' },
+    chat: {
+      it: ['{a}. Fidatevi.', 'Io pensavo a {b}…', '{a} è meglio, ho visto i video', 'ok…', '…abbiamo appena deciso {a}?'],
+      en: ['{a}. Trust me.', 'I was thinking {b}…', '{a} is better, I’ve seen videos', 'ok…', '…did we just agree to {a}?'],
+    },
+    fix: { it: ['Dieci punti a testa.', 'Ogni voto pesa uguale.'], en: ['Ten points each.', 'Every vote weighs the same.'] },
+  },
+  ghosted: {
+    problem: { it: 'Metà gruppo ha smesso di rispondere', en: 'Half the group stopped replying' },
+    chat: {
+      it: ['Chi viene a {a}?', 'Io!', '…', 'Ci siete??', '…c’è ancora qualcuno?'],
+      en: ['Who’s in for {a}?', 'Me!', '…', 'Hello??', '…is anyone still here?'],
+    },
+    fix: { it: ['Un link, si entra col nome.', 'Si vota in un minuto.'], en: ['One link, join with a name.', 'Everyone votes in a minute.'] },
+  },
 }
 
 /** Story posts look this far back to avoid repeating a scenario. */
-export const SCENARIO_MEMORY = 4
+export const SCENARIO_MEMORY = 6
 
 /** A scenario not used by the last few story posts (`history`: that language's posts), least recently used first. */
 export function pickScenario(history, rand) {

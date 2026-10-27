@@ -17,6 +17,10 @@ export type CarouselProps = {
   readonly question: string;
   readonly bestTime: string;
   readonly credits: readonly string[];
+  /** The "signs" carousel (automation/signs.mjs): one sign per place slide instead of the place's details */
+  readonly signs?: readonly string[];
+  /** …and how a group gets out of it, on the end slide */
+  readonly fix?: string;
 };
 
 export const CAROUSEL_WIDTH = 1080;
@@ -89,11 +93,27 @@ const PlaceSlide: React.FC<{ readonly place: VideoPlace; readonly index: number;
   );
 };
 
-const EndSlide: React.FC<CarouselProps> = ({ question, credits, lang }) => (
+/** A sign of a trip stuck in the chat, over a place's photo: the place is only the backdrop, named small. */
+const SignSlide: React.FC<{ readonly sign: string; readonly place: VideoPlace; readonly index: number; readonly total: number }> = ({ sign, place, index, total }) => (
+  <AbsoluteFill style={{ background: C.night, fontFamily: SANS }}>
+    <Img src={place.photo} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 760, objectFit: "cover" }} />
+    <div style={{ position: "absolute", top: 600, left: 0, right: 0, height: 160, background: `linear-gradient(180deg, rgba(31,20,24,0), ${C.night})` }} />
+    <Counter index={index + 1} total={total} />
+    <div style={{ position: "absolute", top: 700, left: 70, right: 70 }}>
+      <span style={{ fontFamily: DISPLAY, fontStyle: "italic", fontWeight: 600, fontSize: 96, color: C.sun }}>{index}</span>
+      <div style={{ marginTop: 12, fontFamily: DISPLAY, fontWeight: 600, fontSize: 74, lineHeight: 1.1, color: C.ink }}>{sign}</div>
+    </div>
+    <div style={{ position: "absolute", left: 70, bottom: 56, fontSize: 28, fontWeight: 600, color: "rgba(255,248,241,0.6)" }}>
+      {place.name} · {place.country}
+    </div>
+  </AbsoluteFill>
+);
+
+const EndSlide: React.FC<CarouselProps> = ({ question, credits, lang, fix }) => (
   <AbsoluteFill style={{ background: `linear-gradient(170deg, ${C.coral} 0%, ${C.primary} 55%, #6e2c44 100%)`, fontFamily: SANS, color: C.ink, alignItems: "center", justifyContent: "center", textAlign: "center", paddingBottom: 60 }}>
     <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 92, lineHeight: 1.06, padding: "0 90px" }}>{question}</div>
     <div style={{ marginTop: 60, fontSize: 42, lineHeight: 1.35, padding: "0 110px", color: "rgba(255,248,241,0.92)" }}>
-      {lang === "it" ? "Proponete le mete, votatele con i punti e lasciate scegliere la ruota." : "Propose places, vote with points and let the wheel pick."}
+      {fix ?? (lang === "it" ? "Proponete le mete, votatele con i punti e lasciate scegliere la ruota." : "Propose places, vote with points and let the wheel pick.")}
     </div>
     <div style={{ marginTop: 70, fontSize: 56, fontWeight: 700, background: C.paper, color: C.primary, borderRadius: 999, padding: "22px 60px" }}>roamie.org</div>
     <div style={{ marginTop: 26, fontSize: 32, fontWeight: 600, color: "rgba(255,248,241,0.85)" }}>{lang === "it" ? "Gratis, senza app da installare" : "Free, no app to install"}</div>
@@ -107,6 +127,10 @@ export const CarouselFormat: React.FC<CarouselProps> = (props) => {
   const frame = useCurrentFrame();
   const total = props.places.length + 2;
   if (frame === 0) return <Cover {...props} />;
-  if (frame <= props.places.length) return <PlaceSlide place={props.places[frame - 1]} index={frame} total={total} lang={props.lang} bestTime={props.bestTime} />;
+  if (frame <= props.places.length) {
+    const sign = props.signs?.[frame - 1];
+    if (sign) return <SignSlide sign={sign} place={props.places[frame - 1]} index={frame} total={total} />;
+    return <PlaceSlide place={props.places[frame - 1]} index={frame} total={total} lang={props.lang} bestTime={props.bestTime} />;
+  }
   return <EndSlide {...props} />;
 };

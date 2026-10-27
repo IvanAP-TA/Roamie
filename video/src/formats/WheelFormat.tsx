@@ -80,8 +80,8 @@ const WheelLabel: React.FC<{ readonly name: string; readonly mid: number; readon
   );
 };
 
-/** The wheel: slices sized by points, five turns, the winner under the pointer. */
-const Spin: React.FC<WheelProps> = ({ spinTitle, places, points, winner }) => {
+/** The wheel: slices sized by points, five turns, the winner under the pointer. Also the story's last word (StoryFormat). */
+export const Spin: React.FC<Pick<WheelProps, "spinTitle" | "places" | "points" | "winner">> = ({ spinTitle, places, points, winner }) => {
   const frame = useCurrentFrame();
   const total = points.reduce((a, b) => a + b, 0);
   const slices = points.reduce<{ from: number; to: number }[]>((acc, p) => {
@@ -164,7 +164,7 @@ export const WheelFormat: React.FC<WheelProps> = (props) => {
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition presentation={fade()} timing={linearTiming({ durationInFrames: 10 })} />
       <TransitionSeries.Sequence name="End" durationInFrames={105} premountFor={fps}>
-        <CtaScene lang={props.lang} />
+        <CtaScene lang={props.lang} share />
         <Credits credits={props.credits} lang={props.lang} />
       </TransitionSeries.Sequence>
       </TransitionSeries>
