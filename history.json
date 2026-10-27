@@ -107,7 +107,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -146,7 +146,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -221,7 +221,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -266,7 +266,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -366,7 +366,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -410,7 +410,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -457,7 +457,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -501,7 +501,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 2,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -548,7 +548,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-26T16:00:18.655Z"
+      "at": "2026-10-27T16:00:25.871Z"
     }
   },
   {
@@ -587,6 +587,50 @@
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
+      }
+    },
+    "metrics": {
+      "reach": 14,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-27T16:00:25.871Z"
+    }
+  },
+  {
+    "date": "2026-10-27T16:00:25.871Z",
+    "kind": "carousel",
+    "format": "signs",
+    "lang": "en",
+    "places": [
+      "riga",
+      "tromso",
+      "lyon",
+      "vilnius",
+      "st-julians"
+    ],
+    "signs": "never-leaves-chat",
+    "hook": "5 signs your trip will never leave the group chat",
+    "caption": "Your chat’s full of ‘I’m in’s but no actual plans. Everyone’s stuck in the same loop, and the best ideas get lost in the noise. How do you turn ‘maybe’ into a real trip?",
+    "copySource": "ai",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "124"
+      },
+      "instagram": {
+        "id": "17978884052935277",
+        "url": "https://www.instagram.com/p/DfAPUExFSZA/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122111468703506337",
+        "url": "https://www.facebook.com/1360561970475478_122111468703506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7701378513920346134",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
       }
     }
   }
