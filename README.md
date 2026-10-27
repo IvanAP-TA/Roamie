@@ -65,6 +65,77 @@ What it covers:
 - **Security and privacy by design.** Row Level Security on every table, server-side draws, strict Content-Security-
   Policy, no ads, no profiling cookies, account deletion and data export.
 
+## How I built it with AI
+
+Roamie is a working example of how I use AI to ship real software: one person, six weeks from the first commit
+(13 September 2026), **199 commits**, about **36,000 lines** of TypeScript, **39 database migrations**, **6 Edge
+Functions**, **6 GitHub Actions workflows** and **256 automated tests**. Almost every commit was written together with
+[Claude Code](https://claude.com/claude-code), Anthropic's coding agent, and says so in its message. The git history
+is the evidence: every change is small, explained and versioned.
+
+### The loop
+
+1. **I decide what to build and why**: from the weekly numbers, from what real groups do, or from something that felt
+   wrong on my phone. I set the constraints too: privacy first, fast on a mid-range phone, no visual change without my
+   approval.
+2. **The agent reads the code, proposes a plan and implements it**, then runs the checks: types, lint, translations,
+   unit tests and database tests (every migration runs on [PGlite](supabase/tests), an in-process Postgres).
+3. **It verifies the result in a real browser** (Chrome driven through the DevTools protocol, Lighthouse, screenshots
+   at phone and desktop widths) and shows me the proof; I test on a real Android phone.
+4. **Every change ships as one small commit** with a bumped version (shown in the footer) and goes live on Vercel.
+
+### Guardrails that make AI output reliable
+
+- **Measure, don't guess.** Performance work is benchmarked on an emulated mid-range Android (4× slower CPU) against
+  the previous build, and checked against Core Web Vitals from real visitors. Example: the landing's Lighthouse score
+  went from 84 to 94 by cutting the fonts to what the design uses.
+- **Tests and CI on every push** ([`ci.yml`](.github/workflows/ci.yml)), including small tests that guard decisions,
+  like the one that keeps the inline theme script and its Content-Security-Policy hash in sync.
+- **Security reviews**: Supabase's security advisors, a scan of the whole git history for leaked keys, Row Level
+  Security on every table, privileged functions locked to the roles that need them.
+- **Compliance done properly**: the YouTube API Services audit was passed after fixing what Google asked (official
+  branding, 30-day retention of API data, an accurate privacy policy).
+- **Cutting what doesn't work**: features are removed when real use says so ("paste the group chat" was clumsy on a
+  phone), and false alarms in automated checks are verified by hand before they are silenced.
+
+### LLMs in production, on a short leash
+
+- **In the app**, Mistral models write destination comparisons, ideas and itineraries. They receive only place names
+  and choices made with buttons, never what people wrote; every user has a daily quota and there is a global cap.
+- **In the content bots**, the model writes only a hook and two sentences; the code owns every fact. Each line is
+  checked before it ships: numbers or names that aren't in the facts, banned wording, the wrong language, long dashes,
+  similarity to earlier posts. After a few rejected tries a hand-written line is used instead. See
+  [`video/automation/copy.mjs`](video/automation/copy.mjs) and
+  [`video/automation/linkedin/posts.mjs`](video/automation/linkedin/posts.mjs).
+
+### Automation and agents
+
+- **A daily social pipeline** ([`video/automation`](video/automation)): Postgres cron (pg_cron) starts a GitHub
+  Actions workflow that plans a post from the travel guides, has the LLM write the copy, renders a video or a
+  carousel with [Remotion](https://www.remotion.dev) (React), checks the output and publishes it to YouTube Shorts,
+  Instagram, Facebook and TikTok, with a Telegram alert when a platform fails. It reads Instagram's numbers to favour
+  the formats that work, without ever dropping the rules that keep the feed varied.
+- **A daily LinkedIn post** through a Make scenario (built from Claude Code through Make's MCP server), plus a short
+  draft for X sent to Telegram to post by hand.
+- **A weekly report**: the funnel from Postgres, a page check in a headless browser, and the numbers filed in a private
+  Obsidian vault, the project's shared memory.
+- **Capo, a scheduled AI agent.** Every Monday a Claude Code routine in the cloud reads that vault (strategy, rules,
+  decision log, backlog and the week's numbers), writes the week's plan, sends its summary to Telegram and may open
+  one small pull request. Its job description and the rules it may never break are notes in the vault, so changing
+  its behaviour means editing a note.
+
+### Tooling
+
+Claude Code with MCP servers (Supabase for migrations, SQL and advisors; Vercel for deployments; Make for the
+LinkedIn scenario), agent skills (Remotion, marketing and directory submissions, design review), memory that persists
+across sessions, and a built-in browser to check every visible change.
+
+### What stays human
+
+The product decisions and the priorities, what to cut, every account and every secret (the AI never handles keys or
+passwords), testing on real devices, and the decision log. The AI writes most of the code; I decide which code is
+worth writing.
+
 *© 2026 Ivan Pace. All rights reserved: the source is published so it can be read, not reused (see
 [LICENSE](LICENSE)).*
 
