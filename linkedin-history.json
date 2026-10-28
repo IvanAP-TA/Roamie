@@ -255,5 +255,28 @@
         "id": "121"
       }
     }
+  },
+  {
+    "date": "2026-10-28T07:00:09.628Z",
+    "kind": "destination",
+    "topic": "naples",
+    "places": [
+      "naples"
+    ],
+    "firstLine": "Pizza, coffee and alleys where Vesuvius watches over the city.",
+    "text": "Pizza, coffee and alleys where Vesuvius watches over the city. \n\nNaples has a way of making food feel like a shared ritual. The cafés stay busy long after dinner, and every corner offers something that tastes like it’s been perfected over generations. It’s the kind of place where you don’t need a plan, just an appetite and the willingness to wander. \n\nIf the group splits between history and scenery, an extra day could take you to Pompeii’s quiet streets or the quiet charm of Procida. Both are close enough to keep the trip simple, without the rush of a longer journey. \n\nIt’s one of those destinations where the budget stretches further than you’d expect. The real cost is in the time you’ll spend deciding what to try next. \n\nHave you been somewhere where the food alone made the trip feel worth it?",
+    "x": "Naples lets you fill a trip with pizza, coffee and wandering alleys without overthinking the plan. The budget lasts longer than the indecision over what to eat next.",
+    "rejected": [
+      "destination: first line too long"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "132"
+      }
+    }
   }
 ]
