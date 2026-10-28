@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { EXPLORE_COPY, MONTHS, monthName, monthPath } from '@/content/guides/explore'
+import { BRIDGE_COPY } from '@/content/guides/bridges'
+import { BRIDGES, bridgePath, EXPLORE_COPY, MONTHS, monthName, monthPath } from '@/content/guides/explore'
 import type { LanguageCode } from '@/i18n'
 import { usePageMeta } from '@/hooks/useSeo'
 import { guidesIndexMeta } from '@/lib/guideSeo'
@@ -41,6 +42,23 @@ export default function GuidesIndexPage({ lang }: { lang: LanguageCode }) {
             ))}
           </ul>
         </nav>
+        {/* The ponti are Italian holidays: their pages exist only in Italian. */}
+        {lang === 'it' && (
+          <nav className="mt-14" aria-labelledby="by-bridge">
+            <h2 id="by-bridge" className="text-3xl">
+              {BRIDGE_COPY.eyebrow}
+            </h2>
+            <ul className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+              {BRIDGES.map((bridge) => (
+                <li key={bridge.id}>
+                  <Link to={bridgePath(bridge)} className="glass flex min-h-12 items-center rounded-2xl px-4 text-sm font-medium transition hover:text-primary">
+                    Ponte {bridge.of}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
         <GuideCta lang={lang} />
       </PageTransition>
     </GuideShell>

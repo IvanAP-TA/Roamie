@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import indexHtml from '../../index.html?raw'
 import shellHtml from '../../shell.html?raw'
 import vercelJson from '../../vercel.json?raw'
+// oxlint-disable-next-line import/default -- Vite's ?raw gives the file's text as the default export
 import themeSource from './theme.ts?raw'
 
 const inlineScript = (html: string) => html.match(/<script>([\s\S]*?)<\/script>/)?.[1]

@@ -2,9 +2,11 @@ import type { LanguageCode } from '@/i18n'
 import type { Mood } from '@/lib/types'
 import { GUIDE_CONTENT, type GuidePlace } from './content'
 import { GUIDE_BASE, GUIDES, type Localized } from './meta'
+import { BRIDGES, type Bridge } from './bridges'
 import { MONTHS, monthName, monthPath, monthSlug, slugify } from './months'
 
 export { MONTHS, monthName, monthPath, monthSlug, slugify }
+export { BRIDGES, type Bridge }
 
 /**
  * Pages built from the guides' places, for the searches people actually make: "where to go in November with friends"
@@ -71,18 +73,44 @@ export const relatedPairs = (pair: Pair, limit = 6) =>
 /** The pairs from one guide, for the links at the end of that guide. */
 export const guidePairs = (guideId: string) => PAIRS.filter((p) => p.guide === guideId)
 
-export type ExploreTarget = { kind: 'month'; month: number } | { kind: 'pair'; pair: Pair }
+// ── Ponti (Italian only) ────────────────────────────────────────────────────────────────────────────────────────
+
+/** Roughly Rome to Lisbon: a place a group can reach and enjoy in three or four days. */
+const BRIDGE_RADIUS_KM = 2300
+const ROME = { lat: 41.9, lng: 12.5 }
+
+function kmFrom(from: { lat: number; lng: number }, to: { lat: number; lng: number }) {
+  const rad = Math.PI / 180
+  const dLat = (to.lat - from.lat) * rad
+  const dLng = (to.lng - from.lng) * rad
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(from.lat * rad) * Math.cos(to.lat * rad) * Math.sin(dLng / 2) ** 2
+  return 2 * 6371 * Math.asin(Math.sqrt(a))
+}
+
+/** The places for a ponte: at their best that month and within a short flight of Italy, at most eight. */
+export function placesForBridge(bridge: Bridge, year = new Date().getFullYear()): ExplorePlace[] {
+  const { month } = bridge.date(year)
+  return placesForMonth(month)
+    .filter((p) => kmFrom(ROME, p) <= BRIDGE_RADIUS_KM)
+    .slice(0, 8)
+}
+
+export const bridgePath = (bridge: Bridge) => `${GUIDE_BASE.it}/${bridge.slug}`
+
+export type ExploreTarget = { kind: 'month'; month: number } | { kind: 'pair'; pair: Pair } | { kind: 'bridge'; bridge: Bridge }
 
 const SLUGS: Localized<Map<string, ExploreTarget>> = { it: new Map(), en: new Map(), es: new Map() }
 for (const lang of Object.keys(SLUGS) as LanguageCode[]) {
   for (const month of MONTHS) SLUGS[lang].set(monthSlug(month, lang), { kind: 'month', month })
   for (const pair of PAIRS) SLUGS[lang].set(pairSlug(pair, lang), { kind: 'pair', pair })
 }
+for (const bridge of BRIDGES) SLUGS.it.set(bridge.slug, { kind: 'bridge', bridge })
 
 /** The month or comparison page behind a slug under the guides, if any. */
 export const findExplore = (lang: LanguageCode, slug: string | undefined): ExploreTarget | null => (slug ? (SLUGS[lang].get(slug) ?? null) : null)
 
-export const explorePath = (target: ExploreTarget, lang: LanguageCode) => (target.kind === 'month' ? monthPath(target.month, lang) : pairPath(target.pair, lang))
+export const explorePath = (target: ExploreTarget, lang: LanguageCode) =>
+  target.kind === 'month' ? monthPath(target.month, lang) : target.kind === 'pair' ? pairPath(target.pair, lang) : bridgePath(target.bridge)
 
 // ── Words for the pages ─────────────────────────────────────────────────────────────────────────────────────────
 

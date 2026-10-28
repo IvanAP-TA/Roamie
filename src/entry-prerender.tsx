@@ -11,22 +11,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from '@/App'
 import { OfflineBanner } from '@/components/layout/OfflineBanner'
 import { Toaster } from '@/components/ui/toaster'
-import { MONTHS, monthPath, PAIRS, pairPath, type Pair } from '@/content/guides/explore'
+import { BRIDGES, bridgePath, MONTHS, monthPath, PAIRS, pairPath, type Bridge, type Pair } from '@/content/guides/explore'
 import { GUIDE_BASE, GUIDES, guidePath, type GuideMeta } from '@/content/guides/meta'
 import i18n, { LANGUAGES, type LanguageCode } from '@/i18n'
 import { AuthProvider } from '@/hooks/useAuth'
-import { guideMeta, guidesIndexMeta, monthMeta, pairMeta } from '@/lib/guideSeo'
+import { bridgeMeta, guideMeta, guidesIndexMeta, monthMeta, pairMeta } from '@/lib/guideSeo'
 import { headTags, LANDING_PATHS, pageMeta, SITE_URL, type SeoPage } from '@/lib/seo'
 
 export interface PrerenderRoute {
   path: string
   /** Output file in dist/. Vercel's cleanUrls serves `en/guides.html` at `/en/guides`. */
   file: string
-  page: SeoPage | 'guides' | 'guide' | 'month' | 'pair'
+  page: SeoPage | 'guides' | 'guide' | 'month' | 'pair' | 'bridge'
   lang: LanguageCode
   guide?: GuideMeta
   month?: number
   pair?: Pair
+  bridge?: Bridge
   /** hreflang → path of the same page, for the sitemap */
   alternates?: Record<string, string>
 }
@@ -85,6 +86,15 @@ export const ROUTES: PrerenderRoute[] = [
       alternates: everyLanguage((l) => pairPath(pair, l)),
     })),
   ),
+  // The ponti are Italian holidays: one page each, in Italian only.
+  ...BRIDGES.map((bridge): PrerenderRoute => ({
+    path: bridgePath(bridge),
+    file: htmlFile(bridgePath(bridge)),
+    page: 'bridge',
+    lang: 'it',
+    bridge,
+    alternates: { it: bridgePath(bridge) },
+  })),
 ]
 
 /**
@@ -119,6 +129,8 @@ export async function render(route: PrerenderRoute): Promise<{ html: string; hea
         ? monthMeta(route.month!, route.lang, t)
         : route.page === 'pair'
           ? pairMeta(route.pair!, route.lang, t)
+          : route.page === 'bridge'
+            ? bridgeMeta(route.bridge!, t)
           : route.page === 'guides'
             ? guidesIndexMeta(route.lang, t)
             : pageMeta(route.page, route.lang, t)

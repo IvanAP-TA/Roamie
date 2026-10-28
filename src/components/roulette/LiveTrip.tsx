@@ -17,6 +17,8 @@ import { renderDecisionCard, storyPhotoUrl } from '@/lib/storyCard'
 import { supabase } from '@/lib/supabase'
 import type { Destination } from '@/lib/types'
 import { appUrl, cn } from '@/lib/utils'
+import { dateFormat } from '@/lib/intl'
+import { NextSteps } from '@/components/plan/NextSteps'
 import { Floating } from '@/components/layout/Floating'
 import { CoverImage } from '@/components/media/CoverImage'
 import { ShareStoryButton } from '@/components/media/ShareStoryButton'
@@ -228,7 +230,8 @@ function Overlay({ children, onClose, closable }: { children: ReactNode; onClose
         )}
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-5">{children}</div>
+      {/* Centred while it fits, from the top once it doesn't (a plain justify-center would cut the top off). */}
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center-safe overflow-x-hidden overflow-y-auto px-5 py-2">{children}</div>
 
       <div className="pb-safe flex justify-center gap-1.5 px-4 pt-2" aria-label={t('live.react')}>
         {REACTIONS.map((emoji) => (
@@ -394,7 +397,7 @@ function WinnerName({ name, className }: { name: string; className?: string }) {
 }
 
 function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { trip, members } = useTripContext()
   const { data: destinations } = useDestinations(spin.trip_id)
   const [, setParams] = useSearchParams()
@@ -560,6 +563,21 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
           </Button>
           <ShareStoryButton render={story} fileName="roamie-ruota.png" title={t('story.shareTitle')} />
         </div>
+        {/* Drawn by the database, not by anyone's phone: when, and how likely this place was. */}
+        {winnerSlice && (
+          <p className="winner-in max-w-sm text-center text-xs text-white/80" style={{ '--delay': '1.15s' } as React.CSSProperties}>
+            {t('live.drawProof', {
+              time: dateFormat(i18n.resolvedLanguage, { hour: '2-digit', minute: '2-digit' }).format(new Date(spin.created_at)),
+              place: winnerName,
+              percent: Math.round(winnerSlice.probability * 100),
+            })}
+          </p>
+        )}
+        {winner && (
+          <div className="winner-in w-full max-w-sm" style={{ '--delay': '1.25s' } as React.CSSProperties}>
+            <NextSteps onDone={onClose} className="glass" />
+          </div>
+        )}
         </div>
       )}
     </Overlay>

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Backpack, CalendarCheck, Eye, Plus, UserPlus, X, type LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useDestinations } from '@/hooks/useDestinations'
 import { useChecklist, useChecklistMutations } from '@/hooks/usePlan'
 import { useTripContext } from '@/hooks/useTripContext'
 import { UserAvatar } from '@/components/ui/avatar'
@@ -10,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/misc'
+import { NextSteps } from './NextSteps'
 import { CHECKLIST_KINDS, type ChecklistItem, type ChecklistKind } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { haptic } from '@/lib/haptics'
@@ -174,6 +176,7 @@ export function ChecklistSection() {
   const { t } = useTranslation()
   const { trip, canEdit } = useTripContext()
   const { data: items, isLoading } = useChecklist(trip.id)
+  const { data: destinations } = useDestinations(trip.id)
 
   if (isLoading) {
     return (
@@ -207,6 +210,8 @@ export function ChecklistSection() {
           {t('checklist.viewerHint')}
         </p>
       )}
+      {/* The place is chosen and nothing is booked yet: the week after the wheel, ready to add. */}
+      {canEdit && destinations?.some((d) => d.status === 'selected') && !items?.some((i) => i.kind === 'book') && <NextSteps className="glass" />}
       {CHECKLIST_KINDS.map((kind) => (
         <ChecklistGroup key={kind} kind={kind} items={items?.filter((i) => i.kind === kind) ?? []} />
       ))}

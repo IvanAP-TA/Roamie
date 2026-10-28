@@ -15,7 +15,7 @@ import { AddToTripSheet } from '@/components/guides/AddToTripSheet'
 import { UseGuideTrip } from '@/components/guides/UseGuideTrip'
 import { guideCardPhoto } from '@/components/guides/GuideCardPhoto'
 import { GuidePlaceCard } from '@/components/guides/GuidePlaceCard'
-import { MonthArticle, PairArticle } from '@/pages/guides/ExplorePages'
+import { BridgeArticle, MonthArticle, PairArticle } from '@/pages/guides/ExplorePages'
 import { GuideCards } from '@/components/guides/GuideCards'
 import { GuideCta, GuideShell, useUrlLanguage } from '@/components/guides/GuideLayout'
 import { PageTransition } from '@/components/layout/PageTransition'
@@ -29,6 +29,7 @@ export default function GuidePage({ lang }: { lang: LanguageCode }) {
   // The month and comparison pages share the guides' URLs.
   const target = findExplore(lang, slug)
   if (target?.kind === 'month') return <MonthArticle key={target.month} month={target.month} lang={lang} />
+  if (target?.kind === 'bridge') return <BridgeArticle key={target.bridge.id} bridge={target.bridge} />
   if (target?.kind === 'pair') return <PairArticle key={`${target.pair.a.key}+${target.pair.b.key}`} pair={target.pair} lang={lang} />
   return <NotFoundPage />
 }

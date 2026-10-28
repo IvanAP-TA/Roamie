@@ -330,6 +330,9 @@
     "answered": "Hanno risposto {{answered}} su {{members}}.",
     "intro": "Quanto spenderesti a testa per tutto il viaggio, voli e alloggio compresi? Nessuno vedrà la tua risposta: il gruppo vede solo la cifra che va bene a tutti.",
     "privacy": "La tua risposta resta segreta, anche per chi ha creato il viaggio. Toccala di nuovo per toglierla.",
+    "1": "Economico",
+    "2": "Medio",
+    "3": "Caro",
     "bands": {
       "1": "Fino a 300 €",
       "2": "300–700 €",
@@ -590,7 +593,16 @@
     "online_other": "{{count}} collegati",
     "react": "Manda una reazione",
     "dueIn": "La ruota gira tra {{time}}",
-    "dueNow": "La ruota sta per girare…"
+    "dueNow": "La ruota sta per girare…",
+    "drawProof": "Estratta dal server alle {{time}}: {{place}} aveva il {{percent}}% di probabilità, in base ai punti."
+  },
+  "nextSteps": {
+    "title": "Nei prossimi 7 giorni",
+    "dates": "Fissare le date",
+    "travel": "Guardare i voli o come arrivare",
+    "stay": "Trovare l'alloggio",
+    "hint": "Mettetele in checklist e date a ognuna un nome: chi se ne occupa.",
+    "add": "Mettili nella checklist"
   },
   "trending": {
     "title": "Le mete del momento",

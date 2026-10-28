@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next'
 import { GUIDE_CONTENT } from '@/content/guides/content'
-import { EXPLORE_COPY, monthName, monthPath, pairPath, placesForMonth, type ExplorePlace, type Pair } from '@/content/guides/explore'
+import { BRIDGE_COPY } from '@/content/guides/bridges'
+import { bridgePath, EXPLORE_COPY, monthName, monthPath, pairPath, placesForBridge, placesForMonth, type Bridge, type ExplorePlace, type Pair } from '@/content/guides/explore'
 import { GUIDE_BASE, GUIDES, GUIDES_PUBLISHED, guidePath, type GuideMeta } from '@/content/guides/meta'
 import { LANGUAGES, type LanguageCode } from '@/i18n'
 import { LANDING_PATHS, OG_LOCALES, SITE_URL, type PageMeta } from '@/lib/seo'
@@ -173,4 +174,17 @@ export function pairMeta(pair: Pair, lang: LanguageCode, t: TFunction): PageMeta
   const title = EXPLORE_COPY.pairTitle[lang](a, b)
   const meta = baseMeta(lang, t, `${title} · Roamie`, EXPLORE_COPY.pairDescription[lang](a, b), (l) => pairPath(pair, l))
   return { ...meta, jsonLd: [exploreArticle(meta, lang, title, [pair.a, pair.b]), breadcrumbs(lang, t, [{ name: title, path: pairPath(pair, lang) }])] }
+}
+
+/** "Dove andare per il ponte del 25 aprile": Italian only, so its one alternate is itself. */
+export function bridgeMeta(bridge: Bridge, t: TFunction): PageMeta {
+  const places = placesForBridge(bridge)
+  const title = BRIDGE_COPY.title(bridge)
+  const meta = baseMeta('it', t, `${title} · Roamie`, BRIDGE_COPY.description(bridge, places.length), () => bridgePath(bridge))
+  return {
+    ...meta,
+    alternates: [{ hreflang: 'it', href: meta.canonical }],
+    ogLocaleAlternates: [],
+    jsonLd: [exploreArticle(meta, 'it', title, places), breadcrumbs('it', t, [{ name: title, path: bridgePath(bridge) }])],
+  }
 }

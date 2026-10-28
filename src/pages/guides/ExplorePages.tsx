@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, BookOpen, Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { GuidePlace } from '@/content/guides/content'
-import { EXPLORE_COPY, MONTHS, monthName, monthPath, pairPath, placesForMonth, relatedPairs, verdict, type ExplorePlace, type Pair } from '@/content/guides/explore'
+import { BRIDGE_COPY, bridgeTip } from '@/content/guides/bridges'
+import { BRIDGES, bridgePath, EXPLORE_COPY, MONTHS, monthName, monthPath, pairPath, placesForBridge, placesForMonth, type Bridge, relatedPairs, verdict, type ExplorePlace, type Pair } from '@/content/guides/explore'
 import { bestMonthsLabel } from '@/content/guides/format'
 import { guidePhotoSrcSet, guidePlaceImage } from '@/content/guides/images'
 import { GUIDE_BASE, GUIDES, guidePath } from '@/content/guides/meta'
 import type { LanguageCode } from '@/i18n'
 import { usePageMeta } from '@/hooks/useSeo'
 import { flagEmoji } from '@/lib/flags'
-import { monthMeta, pairMeta } from '@/lib/guideSeo'
+import { bridgeMeta, monthMeta, pairMeta } from '@/lib/guideSeo'
 import { cn } from '@/lib/utils'
 import { serializeAttribution } from '@/lib/wikimedia'
 import { BudgetIndicator, MoodTag } from '@/components/destinations/moods'
@@ -116,9 +117,76 @@ export function MonthArticle({ month, lang }: { month: number; lang: LanguageCod
           <Chips items={MONTHS.map((m) => ({ to: monthPath(m, lang), label: capitalize(monthName(m, lang)), current: m === month }))} />
         </nav>
 
+        {lang === 'it' && BRIDGES.some((b) => b.date(new Date().getFullYear()).month === month) && (
+          <nav className="mt-10" aria-labelledby="month-bridges">
+            <h2 id="month-bridges" className="text-2xl">
+              {BRIDGE_COPY.eyebrow}
+            </h2>
+            <Chips items={BRIDGES.filter((b) => b.date(new Date().getFullYear()).month === month).map((b) => ({ to: bridgePath(b), label: `Ponte ${b.of}` }))} />
+          </nav>
+        )}
+
         <GuideCta lang={lang} />
       </PageTransition>
       <AddToTripSheet place={adding} lang={lang} onClose={() => setAdding(null)} />
+    </GuideShell>
+  )
+}
+
+/** "Dove andare per il ponte del 25 aprile": Italian only, the month's places within a short flight, and how it falls. */
+export function BridgeArticle({ bridge }: { bridge: Bridge }) {
+  const { t, i18n } = useTranslation(undefined, { lng: 'it' })
+  useUrlLanguage('it')
+  usePageMeta(useMemo(() => bridgeMeta(bridge, i18n.getFixedT('it')), [bridge, i18n]))
+  const places = placesForBridge(bridge)
+  const cover = guidePlaceImage(places[0]?.key ?? '')
+  const [adding, setAdding] = useState<GuidePlace | null>(null)
+
+  return (
+    <GuideShell>
+      <PageTransition className="mx-auto w-full max-w-4xl px-5 md:px-8">
+        <BackToGuides lang="it" />
+        <article>
+          <header>
+            <CoverImage
+              url={cover?.url}
+              attribution={cover ? serializeAttribution(cover.attribution) : null}
+              seed={`bridge-${bridge.id}`}
+              sizes="(min-width: 896px) 832px, 100vw"
+              avif={cover ? guidePhotoSrcSet(cover) : undefined}
+              dimensions={cover ?? undefined}
+              priority
+              className="mt-2 h-44 rounded-[2rem] shadow-soft md:h-60"
+            />
+            <p className="mt-8 text-sm font-semibold tracking-wide text-primary uppercase">{BRIDGE_COPY.eyebrow}</p>
+            <h1 className="mt-2 text-[2.3rem] leading-[1.04] md:text-6xl">{BRIDGE_COPY.title(bridge)}</h1>
+            <p className="mt-5 text-lg leading-relaxed text-foreground/80">{BRIDGE_COPY.lead(places.length)}</p>
+            <p className="mt-3 leading-relaxed text-muted-foreground">{bridge.intro}</p>
+            <p className="mt-3 leading-relaxed font-medium">{bridgeTip(bridge, new Date())}</p>
+          </header>
+
+          <p className="glass mt-8 flex items-start gap-3 rounded-[1.5rem] p-4 text-sm leading-relaxed">
+            <Sparkles className="mt-0.5 size-4 shrink-0 text-primary" />
+            {t('guides.howToUse')}
+          </p>
+          <ol className="mt-8 space-y-5">
+            {places.map((place, index) => (
+              <GuidePlaceCard key={place.key} place={place} index={index} lang="it" onAdd={setAdding} footer={<FromGuide place={place} lang="it" />} />
+            ))}
+          </ol>
+          <p className="mt-8 text-xs leading-relaxed text-muted-foreground">{t('guides.disclaimer')}</p>
+        </article>
+
+        <nav className="mt-12" aria-labelledby="other-bridges">
+          <h2 id="other-bridges" className="text-2xl">
+            {BRIDGE_COPY.others}
+          </h2>
+          <Chips items={BRIDGES.map((b) => ({ to: bridgePath(b), label: `Ponte ${b.of}`, current: b === bridge }))} />
+        </nav>
+
+        <GuideCta lang="it" />
+      </PageTransition>
+      <AddToTripSheet place={adding} lang="it" onClose={() => setAdding(null)} />
     </GuideShell>
   )
 }

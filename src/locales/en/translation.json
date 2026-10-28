@@ -330,6 +330,9 @@
     "answered": "{{answered}} of {{members}} have answered.",
     "intro": "How much would you spend per person on the whole trip, flights and stay included? Nobody sees your answer: the group only sees the amount that works for everyone.",
     "privacy": "Your answer stays secret, even from whoever created the trip. Tap it again to take it back.",
+    "1": "Cheap",
+    "2": "Mid-range",
+    "3": "Pricey",
     "bands": {
       "1": "Up to €300",
       "2": "€300–700",
@@ -590,7 +593,16 @@
     "online_other": "{{count}} online",
     "react": "Send a reaction",
     "dueIn": "The wheel spins in {{time}}",
-    "dueNow": "The wheel is about to spin…"
+    "dueNow": "The wheel is about to spin…",
+    "drawProof": "Drawn by the server at {{time}}: {{place}} had a {{percent}}% chance, based on the points."
+  },
+  "nextSteps": {
+    "title": "In the next 7 days",
+    "dates": "Fix the dates",
+    "travel": "Look at flights or how to get there",
+    "stay": "Find a place to stay",
+    "hint": "Put them in the checklist and give each one a name: who takes care of it.",
+    "add": "Add them to the checklist"
   },
   "trending": {
     "title": "Trending destinations",
