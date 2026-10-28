@@ -146,7 +146,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -221,7 +221,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -266,7 +266,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -366,7 +366,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -410,7 +410,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -457,7 +457,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -501,7 +501,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 2,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -548,7 +548,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -594,7 +594,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-27T16:00:25.871Z"
+      "at": "2026-10-28T16:00:26.010Z"
     }
   },
   {
@@ -631,6 +631,53 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 3,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-28T16:00:26.010Z"
+    }
+  },
+  {
+    "date": "2026-10-28T16:00:26.010Z",
+    "kind": "video",
+    "format": "story",
+    "lang": "en",
+    "places": [
+      "osaka",
+      "tbilisi",
+      "oaxaca"
+    ],
+    "scenario": "organiser",
+    "hook": "Tell me this isn’t your group chat",
+    "caption": "Osaka, Tbilisi and Oaxaca: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/month-2-tropical-house.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "135"
+      },
+      "youtube": {
+        "id": "ITxFuGPwdNQ",
+        "url": "https://youtube.com/shorts/ITxFuGPwdNQ"
+      },
+      "instagram": {
+        "id": "18493541704107580",
+        "url": "https://www.instagram.com/reel/DfC0DkomNUZ/"
+      },
+      "facebook": {
+        "id": "1142778694875638",
+        "url": "https://www.facebook.com/reel/1142778694875638"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7701749644220958742",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
