@@ -278,5 +278,30 @@
         "id": "132"
       }
     }
+  },
+  {
+    "date": "2026-10-29T07:00:08.995Z",
+    "kind": "insight",
+    "topic": "anchoring",
+    "card": "home",
+    "firstLine": "The first idea in a group doesn’t always belong to the person who had it longest. Sometimes it’s just the one who spoke up first.",
+    "text": "The first idea in a group doesn’t always belong to the person who had it longest. Sometimes it’s just the one who spoke up first.\n\nThere’s a quiet cost to letting opinions settle around whoever starts the conversation. The loudest voice rarely represents the group’s actual balance of enthusiasm, memory or practicality. It’s just who happened to go first.\n\nWhen decisions are made in silence, before anyone else speaks, the group gets closer to what it truly wants. That’s when the quieter voices, who might have held back out of habit or hesitation, finally share what matters to them.\n\nWe’ve seen it happen in small ways: a suggestion that wouldn’t have surfaced otherwise, a preference that changes the whole direction. It’s not about fairness in the strictest sense. It’s about giving the conversation room to breathe before it’s over.\n\nHow often do you realise, after the fact, that the trip you ended up taking wasn’t the one the group actually wanted?",
+    "x": "The first idea isn’t always the best one. It’s often just the first one spoken. Quieter voices matter just as much. Let everyone vote first, before the loudest opinion takes over.",
+    "rejected": [
+      "feature: paragraphs",
+      "feature: paragraphs",
+      "feature: paragraphs",
+      "feature: formatting",
+      "feature: same opening as an earlier post"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "139"
+      }
+    }
   }
 ]
