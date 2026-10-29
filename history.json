@@ -680,5 +680,42 @@
         "status": "PROCESSING_UPLOAD"
       }
     }
+  },
+  {
+    "date": "2026-10-29T16:00:19.563Z",
+    "kind": "carousel",
+    "format": "signs",
+    "lang": "en",
+    "places": [
+      "bled",
+      "prague",
+      "ios",
+      "lloret",
+      "naples"
+    ],
+    "signs": "quiet-friend",
+    "hook": "5 things the quiet friend in the group chat is thinking",
+    "caption": "Ever notice how the quiet ones in your chat have a plan but never say it? They’re the ones who’d pick the perfect spot if the group just stopped debating and let the wheel decide. What’s your group too scared to admit?",
+    "copySource": "ai",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "142"
+      },
+      "instagram": {
+        "id": "18013122600005262",
+        "url": "https://www.instagram.com/p/DfFY3hcDrab/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122112273825506337",
+        "url": "https://www.facebook.com/1360561970475478_122112273825506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7702120585924528150",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
   }
 ]
