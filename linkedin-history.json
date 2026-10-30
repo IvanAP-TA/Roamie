@@ -303,5 +303,30 @@
         "id": "139"
       }
     }
+  },
+  {
+    "date": "2026-10-30T07:00:10.423Z",
+    "kind": "month",
+    "topic": "month-11",
+    "places": [
+      "istanbul",
+      "marrakech",
+      "cappadocia"
+    ],
+    "firstLine": "Some trips feel like a race to see everything. Others are about lingering.",
+    "text": "Some trips feel like a race to see everything. Others are about lingering.\n\nNovember brings destinations where the pace slows naturally. In Istanbul, the bazaars and mosques hold their own weight, while the Bosphorus ferries glide past without haste. The bars in Karaköy stay open late, but the city doesn’t rush you. A month where history and food share the same tables, and the budget stretches further than the walk between them.\n\nMarrakech in November means the square at Jemaa el-Fna settles into its evening rhythm, the riads feel like private retreats, and the desert or mountains don’t demand a full day’s attention. It’s a place where the trip unfolds in layers, some chosen, some discovered along the way.\n\nCappadocia in late autumn turns the fairy chimneys into something softer, the cave hotels into cosy nooks, and the valleys into quiet spaces where snow lingers. The hot-air balloons still rise at dawn, but the rest of the day belongs to whoever wants to stay in or wander without a plan.\n\nWhat’s the kind of trip your group needs most right now, the one that feels like a checklist, or the one that feels like a pause?",
+    "x": "November’s best for trips that slow down. Istanbul’s bazaars and Bosphorus ferries let you linger. Marrakech’s riads and desert trips unfold at your own pace. Cappadocia’s fairy chimneys and cave hotels feel like a quiet pause. Where’s your group’s next pause needed most?",
+    "rejected": [
+      "month: length 1473"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "150"
+      }
+    }
   }
 ]
