@@ -221,7 +221,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -266,7 +266,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -366,7 +366,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -410,7 +410,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -457,7 +457,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -501,7 +501,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 2,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -548,7 +548,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -594,7 +594,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -634,11 +634,11 @@
       }
     },
     "metrics": {
-      "reach": 3,
+      "reach": 4,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-10-28T16:00:26.010Z"
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -679,6 +679,13 @@
         "draft": true,
         "status": "PROCESSING_UPLOAD"
       }
+    },
+    "metrics": {
+      "reach": 5,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-10-30T16:00:20.361Z"
     }
   },
   {
@@ -715,6 +722,53 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 3,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 1,
+      "at": "2026-10-30T16:00:20.361Z"
+    }
+  },
+  {
+    "date": "2026-10-30T16:00:20.361Z",
+    "kind": "video",
+    "format": "story",
+    "lang": "en",
+    "places": [
+      "provence",
+      "douro",
+      "amalfi"
+    ],
+    "scenario": "hype",
+    "hook": "Not everyone is equally hyped",
+    "caption": "Provence (Luberon), Douro Valley and Amalfi Coast: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/wheel-1-vlog-v2.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "153"
+      },
+      "youtube": {
+        "id": "xnOHTtcJWTs",
+        "url": "https://youtube.com/shorts/xnOHTtcJWTs"
+      },
+      "instagram": {
+        "id": "17918242344265879",
+        "url": "https://www.instagram.com/reel/DfH9o5BAW2t/"
+      },
+      "facebook": {
+        "id": "1619572656534830",
+        "url": "https://www.facebook.com/reel/1619572656534830"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7702491811625093142",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
