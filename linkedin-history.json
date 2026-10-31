@@ -328,5 +328,23 @@
         "id": "150"
       }
     }
+  },
+  {
+    "date": "2026-10-31T07:00:12.831Z",
+    "kind": "lesson",
+    "topic": "feedback",
+    "card": "places",
+    "firstLine": "We thought we knew what people needed until we saw how they actually used the app.",
+    "text": "We thought we knew what people needed until we saw how they actually used the app.\n\nOur first version had a way to add destinations, vote and pick one. It worked, but it didn’t quite fit how groups really decided. The best changes, like letting people add ideas without voting first or adjusting how the wheel worked, came from watching real conversations unfold. We didn’t notice these things ourselves.\n\nThe quiet feedback mattered more than our own assumptions. A few sentences from someone testing it could reveal what wasn’t obvious in our own minds. It’s easy to assume you understand how people will use something, but the details often surprise you.\n\nWhat’s something you’ve built that only made sense after seeing real people use it?",
+    "x": "We assumed we knew what people needed. Turns out, the best fixes came from watching real groups use it. Like letting everyone add ideas before voting. Small notes from testers showed us what we missed. What’s one thing your product only learned after real use?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "157"
+      }
+    }
   }
 ]
