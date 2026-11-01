@@ -346,5 +346,25 @@
         "id": "157"
       }
     }
+  },
+  {
+    "date": "2026-11-01T07:00:10.289Z",
+    "kind": "destination",
+    "topic": "ios",
+    "places": [
+      "ios"
+    ],
+    "firstLine": "A place where the day and night feel like different worlds.",
+    "text": "A place where the day and night feel like different worlds. \n\nThe island starts quiet, with a long stretch of sand to walk along or just lie on. It’s easy to imagine days spent reading, napping or doing nothing much at all. Then, as evening comes, the village fills with music and conversation. No one has to decide what to do next, it just happens. \n\nSome trips need a plan. Others need a rhythm. This one does neither. It’s more about the shift from stillness to movement, from solitude to company, than about checking off sights. \n\nHave you ever gone somewhere where the pace of the place matched the mood of the group?",
+    "x": "Ios lets your group drift between beach silence and village noise without planning. The island does the switching for you. Some trips need a schedule. This one just needs a rhythm.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "160"
+      }
+    }
   }
 ]
