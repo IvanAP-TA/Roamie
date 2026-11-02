@@ -366,5 +366,23 @@
         "id": "160"
       }
     }
+  },
+  {
+    "date": "2026-11-02T07:00:09.865Z",
+    "kind": "build",
+    "topic": "2026-11-02",
+    "card": "plan",
+    "firstLine": "Some trips need a wheel more than others.",
+    "text": "Some trips need a wheel more than others.\n\nWe added a new wheel for Italian holidays, showing nearby places and how the long weekend falls this year. It’s there if it helps, and gone if it doesn’t.\n\nAfter a spin, you’ll see the odds that were used to pick the winner. It’s a small thing, but it makes it clearer how the wheel works.\n\nThe checklist now shows flights and stays for the next seven days with one tap. We also brought back the budget labels that were accidentally lost a while ago.\n\nYou can now choose between Auto, Light or Dark theme for your profile. It applies instantly, and we’ve made sure the smallest text, like privacy notices, is still easy to read.\n\nDo you ever find yourself overthinking the odds of a spin?",
+    "x": "The wheel picks a destination. Now it shows the odds that made it happen. No mystery, just clarity. Sometimes that’s all it takes to move forward.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "163"
+      }
+    }
   }
 ]
