@@ -25,7 +25,7 @@ export function Footer({ className }: { className?: string }) {
   }
 
   return (
-    <footer className={cn('flex flex-col items-center gap-2 py-8 text-xs text-muted-foreground', className)}>
+    <footer className={cn('flex flex-col items-center gap-2 px-4 py-8 text-xs text-muted-foreground', className)}>
       <SocialLinks />
       <p className="inline-flex items-center gap-1.5">
         <ShieldCheck className="size-3.5 text-sage" />

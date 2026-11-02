@@ -115,6 +115,7 @@ export default function PreviewTrip() {
     qc.setQueryDefaults(['trip', TRIP.id], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryDefaults(['comments'], { staleTime: Infinity, refetchOnWindowFocus: false })
     qc.setQueryData(keys.destinations(TRIP.id), DESTINATIONS)
+    qc.setQueryData(['trip', TRIP.id, 'missing-voters'], ['u2', 'u3'])
     qc.setQueryData(
       ['passport', undefined, 'visits'],
       DESTINATIONS.filter((d) => d.status === 'visited').map((d) => ({ ...d, trip: { id: TRIP.id, name: TRIP.name } })),

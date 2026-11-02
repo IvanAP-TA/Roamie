@@ -1328,6 +1328,15 @@
     "voted": "I gave my 10 points for “{{trip}}”. Your turn:",
     "allPoints": "You gave all your 10 points"
   },
+  "missingVotes": {
+    "title": "Still waiting on {{names}}",
+    "body": "Once everyone has voted, the wheel can spin.",
+    "remind": "Remind them",
+    "message": "Still missing points from {{names}} for “{{trip}}”: give your 10 points and let's spin the wheel 🎡",
+    "andMore": "{{names}} and {{count}} more",
+    "allTitle": "Everyone has voted",
+    "allBody": "Time to spin the wheel."
+  },
   "firstSteps": {
     "title": "Three steps to decide together",
     "invite": {

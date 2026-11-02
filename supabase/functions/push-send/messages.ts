@@ -1,6 +1,6 @@
 /** The text of each notification, in the language the device was subscribed in. */
 
-export type PushKind = 'destination' | 'roulette' | 'dates_open' | 'dates_fixed' | 'member' | 'comment' | 'mention'
+export type PushKind = 'destination' | 'roulette' | 'dates_open' | 'dates_fixed' | 'member' | 'comment' | 'mention' | 'vote_reminder'
 export type PushLang = 'it' | 'en' | 'es'
 
 export interface PushData {
@@ -12,6 +12,8 @@ export interface PushData {
   excerpt?: string
   /** A mention of the whole group (@all) */
   all?: boolean
+  /** Places still open to vote on (vote_reminder) */
+  places?: number
 }
 
 export interface PushMessage {
@@ -35,6 +37,7 @@ const TEXT: Record<
     comment: (actor: string, destination: string, excerpt: string) => string
     mention: (actor: string, destination: string, excerpt: string) => string
     mentionAll: (actor: string, destination: string, excerpt: string) => string
+    voteReminder: (places: number) => string
   }
 > = {
   it: {
@@ -47,6 +50,7 @@ const TEXT: Record<
     comment: (actor, destination, excerpt) => `${actor} su ${destination}: “${excerpt}”`,
     mention: (actor, destination, excerpt) => `${actor} ti ha menzionato su ${destination}: “${excerpt}”`,
     mentionAll: (actor, destination, excerpt) => `${actor} a tutto il gruppo su ${destination}: “${excerpt}”`,
+    voteReminder: (places) => `Mancano i tuoi punti: ${places} mete in gara. Dai i tuoi 10 punti e si può girare la ruota 🎡`,
   },
   en: {
     someone: 'Someone',
@@ -58,6 +62,7 @@ const TEXT: Record<
     comment: (actor, destination, excerpt) => `${actor} on ${destination}: “${excerpt}”`,
     mention: (actor, destination, excerpt) => `${actor} mentioned you on ${destination}: “${excerpt}”`,
     mentionAll: (actor, destination, excerpt) => `${actor} to everyone on ${destination}: “${excerpt}”`,
+    voteReminder: (places) => `Your points are missing: ${places} places in the running. Give your 10 points and the wheel can spin 🎡`,
   },
   es: {
     someone: 'Alguien',
@@ -69,6 +74,7 @@ const TEXT: Record<
     comment: (actor, destination, excerpt) => `${actor} en ${destination}: «${excerpt}»`,
     mention: (actor, destination, excerpt) => `${actor} te ha mencionado en ${destination}: «${excerpt}»`,
     mentionAll: (actor, destination, excerpt) => `${actor} a todo el grupo en ${destination}: «${excerpt}»`,
+    voteReminder: (places) => `Faltan tus puntos: ${places} destinos en juego. Da tus 10 puntos y se puede girar la ruleta 🎡`,
   },
 }
 
@@ -102,6 +108,8 @@ export function renderPush(kind: PushKind, lang: string, data: PushData, tripId:
         return [text.comment(actor, destination, data.excerpt ?? ''), destinationUrl, data.destination_id ?? trip]
       case 'mention':
         return [(data.all ? text.mentionAll : text.mention)(actor, destination, data.excerpt ?? ''), destinationUrl, data.destination_id ?? trip]
+      case 'vote_reminder':
+        return [text.voteReminder(data.places ?? 2), trip, trip]
     }
   })()
 

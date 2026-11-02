@@ -118,6 +118,11 @@ describe('notification texts', () => {
       body: 'Alguien ha abierto la elección de fechas: marca cuándo estás libre',
       url: '/trips/t1/itinerary?view=dates',
     })
+    expect(renderPush('vote_reminder', 'it', { places: 4 }, 't1', 'Estate 2027')).toMatchObject({
+      body: 'Mancano i tuoi punti: 4 mete in gara. Dai i tuoi 10 punti e si può girare la ruota 🎡',
+      url: '/trips/t1',
+      tag: 'vote_reminder:/trips/t1',
+    })
     expect(renderPush('member', 'fr', { actor: 'Sam' }, 't1', null)).toMatchObject({ title: 'Roamie', body: 'Sam è entrato nel gruppo', url: '/trips/t1/group' })
     expect(
       renderPush('mention', 'it', { actor: 'Vera', destination: 'Oslo', destination_id: 'd2', excerpt: '@Olivia ci sei?', all: false }, 't1', 'Nord'),

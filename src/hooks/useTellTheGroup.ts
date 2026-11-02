@@ -12,21 +12,27 @@ import { appUrl } from '@/lib/utils'
  */
 export function useTellTheGroup() {
   const { t } = useTranslation()
+  const tell = useTellGroupNow()
+
+  /** A success toast with the "Tell the group" action. */
+  return useCallback(
+    (message: string, text: string) => toast.success(message, { action: { label: t('tellGroup.action'), onClick: () => void tell(text) }, duration: 8000 }),
+    [t, tell],
+  )
+}
+
+/** Straight to the group chat (share sheet, or copied on a computer), with the trip's invite link. */
+export function useTellGroupNow() {
+  const { t } = useTranslation()
   const { trip } = useTripContext()
   const url = trip.invite_code ? inviteLink(trip.invite_code) : `${appUrl()}/trips/${trip.id}`
 
-  const tell = useCallback(
+  return useCallback(
     async (text: string) => {
       const outcome = await tellTheGroup(text, url)
       if (outcome === 'copied') toast.success(t('tellGroup.copied'))
       else if (outcome === 'failed') toast.error(t('errors.generic'))
     },
     [t, url],
-  )
-
-  /** A success toast with the "Tell the group" action. */
-  return useCallback(
-    (message: string, text: string) => toast.success(message, { action: { label: t('tellGroup.action'), onClick: () => void tell(text) }, duration: 8000 }),
-    [t, tell],
   )
 }

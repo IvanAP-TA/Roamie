@@ -1328,6 +1328,15 @@
     "voted": "He dado mis 10 puntos para «{{trip}}». Te toca:",
     "allPoints": "Has dado todos tus 10 puntos"
   },
+  "missingVotes": {
+    "title": "Faltan los puntos de {{names}}",
+    "body": "Cuando hayan votado todos se podrá girar la ruleta.",
+    "remind": "Avisar a quien falta",
+    "message": "Faltan los puntos de {{names}} para «{{trip}}»: dad vuestros 10 puntos y giramos la ruleta 🎡",
+    "andMore": "{{names}} y {{count}} más",
+    "allTitle": "Habéis votado todos",
+    "allBody": "Ya se puede girar la ruleta."
+  },
   "firstSteps": {
     "title": "Tres pasos para decidir juntos",
     "invite": {

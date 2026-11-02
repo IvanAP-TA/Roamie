@@ -26,6 +26,7 @@ import { BudgetPrompt } from '@/components/plan/BudgetPrompt'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
 import { FirstSteps } from '@/components/trips/FirstSteps'
+import { MissingVotes } from '@/components/destinations/MissingVotes'
 import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
 import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
@@ -209,6 +210,7 @@ export default function DestinationsTab() {
         {destinations && (
           <FirstSteps destinations={destinations} onPropose={() => setAdding(true)} onVote={openDeck} />
         )}
+        {destinations && <MissingVotes destinations={destinations} />}
         {next && <NextDestinationCard destination={next} onOpen={() => open(next.id)} />}
         <DatesPrompt />
         <BudgetPrompt />

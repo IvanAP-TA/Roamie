@@ -27,6 +27,19 @@ export function useVoteProgress(tripId: string, enabled: boolean) {
   })
 }
 
+/**
+ * Members who haven't given a single point yet (whether, never what: it works in a secret round too). Other members'
+ * votes may be hidden, so it's polled like the progress rather than derived from the list.
+ */
+export function useMissingVoters(tripId: string, enabled: boolean) {
+  return useQuery({
+    queryKey: ['trip', tripId, 'missing-voters'] as const,
+    enabled,
+    refetchInterval: enabled ? 30_000 : false,
+    queryFn: async (): Promise<string[]> => unwrap<string[]>(await supabase.rpc('missing_voters', { p_trip_id: tripId })),
+  })
+}
+
 function useRefreshVoting(tripId: string) {
   const qc = useQueryClient()
   return () =>

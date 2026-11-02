@@ -398,6 +398,16 @@ describe('secret voting and the live wheel', () => {
     expect(progress).toEqual({ voted: 2, done: 0, members: 3 })
     await rejects(as(db, STRANGER, (q) => q(`select * from public.vote_progress($1)`, [trip])), /forbidden/)
 
+    // Who is missing (never what the others gave), for the reminder card; and the hourly reminder, once per member.
+    const missing = await as(db, VIEWER, (q) => q<{ missing_voters: string }>(`select * from public.missing_voters($1)`, [trip]))
+    expect(missing.map((r) => r.missing_voters)).toEqual([EDITOR])
+    await rejects(as(db, STRANGER, (q) => q(`select * from public.missing_voters($1)`, [trip])), /forbidden/)
+    await db.query(`update public.trip_members set joined_at = now() - interval '2 days' where trip_id = $1`, [trip])
+    await db.query(`select public.queue_vote_reminders()`)
+    await db.query(`select public.queue_vote_reminders()`)
+    const reminded = await db.query<{ user_id: string }>(`select user_id from public.vote_reminders where trip_id = $1`, [trip])
+    expect(reminded.rows.map((r) => r.user_id)).toEqual([EDITOR])
+
     await rejects(as(db, VIEWER, (q) => q(`select public.reveal_votes($1)`, [trip])), /forbidden/)
     await as(db, EDITOR, (q) => q(`select public.reveal_votes($1)`, [trip]))
     expect(await revealedAt()).not.toBeNull()

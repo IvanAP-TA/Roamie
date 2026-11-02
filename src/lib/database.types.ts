@@ -1033,6 +1033,10 @@ export type Database = {
         Args: { p_secret: boolean; p_trip_id: string }
         Returns: undefined
       }
+      missing_voters: {
+        Args: { p_trip_id: string }
+        Returns: string[]
+      }
       vote_progress: {
         Args: { p_trip_id: string }
         Returns: { done: number; members: number; voted: number }[]
