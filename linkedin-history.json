@@ -384,5 +384,29 @@
         "id": "163"
       }
     }
+  },
+  {
+    "date": "2026-11-03T07:00:11.415Z",
+    "kind": "insight",
+    "topic": "chat",
+    "card": "home",
+    "firstLine": "Deciding a trip with friends isn’t about the destination. It’s about the way the conversation gets stuck.",
+    "text": "Deciding a trip with friends isn’t about the destination. It’s about the way the conversation gets stuck.\n\nGroup chats don’t help. A suggestion lands, then gets lost under replies about work or dinner plans. Someone mentions an idea again, but no one’s sure if it’s new or just brought up before. The decision drifts to next week, then the week after, until the energy fades.\n\nThe problem isn’t the back-and-forth. It’s that the options aren’t in one place. When they are, the conversation shifts. People can see what’s been suggested, react to it, and move forward without wondering if they’ve already agreed, or forgotten.\n\nWe’ve seen this happen enough to know it’s not about the tool. It’s about giving the conversation room to breathe.\n\nWhat usually stops your group from settling on a plan?",
+    "x": "Group chats bury trip ideas under new messages. The decision never lands because the options aren’t in one place. Put them there first. The conversation changes.",
+    "rejected": [
+      "insight: paragraphs",
+      "insight: paragraphs",
+      "insight: paragraphs",
+      "insight: first line too long"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "174"
+      }
+    }
   }
 ]
