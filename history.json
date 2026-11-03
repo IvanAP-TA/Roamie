@@ -818,5 +818,42 @@
         "status": "PROCESSING_UPLOAD"
       }
     }
+  },
+  {
+    "date": "2026-11-03T16:00:57.494Z",
+    "kind": "carousel",
+    "format": "guide",
+    "lang": "en",
+    "places": [
+      "valencia",
+      "krakow",
+      "lisbon",
+      "budapest",
+      "copenhagen"
+    ],
+    "guide": "long-weekends",
+    "hook": "Long weekend in Europe: 5 places to save",
+    "caption": "Valencia, Kraków, Lisbon, Budapest and Copenhagen: which one would you put to your group?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "177"
+      },
+      "instagram": {
+        "id": "17943998106373736",
+        "url": "https://www.instagram.com/p/DfSQ88Dgav4/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122114192085506337",
+        "url": "https://www.facebook.com/1360561970475478_122114192085506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7703976309182269462",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
   }
 ]
