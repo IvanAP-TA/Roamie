@@ -1,5 +1,6 @@
 import { Composition, Folder } from "remotion";
 import { CAROUSEL_HEIGHT, CAROUSEL_WIDTH, CarouselFormat, carouselMetadata } from "./formats/CarouselFormat";
+import { CHAT_SLIDES, ChatCarousel, chatCarouselMetadata } from "./formats/ChatCarousel";
 import { MONTH_DURATION, MonthFormat } from "./formats/MonthFormat";
 import { STORY_DURATION, StoryFormat } from "./formats/StoryFormat";
 import { VERSUS_DURATION, VersusFormat } from "./formats/VersusFormat";
@@ -115,6 +116,38 @@ export const RemotionRoot: React.FC = () => {
             winner: 1,
             labels: { proposedBy: "proposta da", points: "punti" },
             spinTitle: "Decide la ruota.",
+            credits: ["Budapest (CC BY 2.0)", "Valencia (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
+          }}
+        />
+        <Composition
+          id="ChatCarousel"
+          component={ChatCarousel}
+          calculateMetadata={chatCarouselMetadata}
+          durationInFrames={CHAT_SLIDES}
+          fps={30}
+          width={1080}
+          height={1350}
+          defaultProps={{
+            lang: "en" as const,
+            hook: "POV: that one friend who says yes to every trip and books none of them",
+            chat: [
+              { who: "Emma", text: "Trip next month? I’m so in!!" },
+              { who: "Jake", text: "Maybe Budapest" },
+              { who: "Sophie", text: "Anything works" },
+              { who: "Liam", text: "👍" },
+              { who: "You", text: "…so who’s actually voting?" },
+            ],
+            days: [1, 9, 23] as [number, number, number],
+            fix: ["Ten points each.", "You see who really cares."] as [string, string],
+            places: [
+              { name: "Budapest", country: "Hungary", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg/1920px-View_from_Gell%C3%A9rt_Hill_to_the_Danube%2C_Hungary_-_Budapest_%2828493220635%29.jpg", line: "", moods: ["nightlife"], budget: 1 as const, months: [5] },
+              { name: "Valencia", country: "Spain", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Malvarrosa_Beach%2C_Valencia%2C_Spain_%2829812271043%29.jpg/1920px-Malvarrosa_Beach%2C_Valencia%2C_Spain_%2829812271043%29.jpg", line: "", moods: ["relax"], budget: 2 as const, months: [5] },
+              { name: "Kraków", country: "Poland", photo: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG/1920px-Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG", line: "", moods: ["culture"], budget: 1 as const, months: [5] },
+            ],
+            by: ["Emma", "Jake", "Sophie"],
+            points: [9, 14, 6],
+            winner: 1,
+            question: "Send this to the group chat that never decides",
             credits: ["Budapest (CC BY 2.0)", "Valencia (CC BY 2.0)", "Kraków (CC BY-SA 3.0)"],
           }}
         />

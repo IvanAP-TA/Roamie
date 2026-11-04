@@ -224,10 +224,11 @@ describe('carousels', () => {
   const history = week(20)
   const carousels = history.filter((h) => h.kind === 'carousel')
 
-  it('plans every day of a mixed schedule, with 4 or 5 places from different countries', () => {
+  it('plans every day of a mixed schedule, with 3 places for a chat and 4 or 5 otherwise, from different countries', () => {
     expect(carousels.length).toBe(40)
     for (const { plan } of carousels) {
-      expect(plan.places.length).toBeGreaterThanOrEqual(4)
+      if (plan.format === 'chat') expect(plan.places).toHaveLength(3)
+      else expect(plan.places.length).toBeGreaterThanOrEqual(4)
       expect(new Set(plan.places.map((p) => p.countryCode)).size).toBe(plan.places.length)
     }
   })
@@ -318,7 +319,9 @@ describe('hook styles', () => {
       expect(history.slice(-2).map((h) => h.hookStyle)).not.toContain(style)
       history.push({ date: day.toISOString(), hookStyle: style })
     }
-    expect(new Set(history.map((h) => h.hookStyle)).size).toBe(Object.keys(HOOK_STYLES).length)
+    // All but "person", which only the chat carousel uses.
+    expect(new Set(history.map((h) => h.hookStyle)).size).toBe(Object.keys(HOOK_STYLES).length - 1)
+    expect(history.map((h) => h.hookStyle)).not.toContain('person')
   })
 
   it('favours the styles people respond to, once each has enough scored posts', () => {
@@ -521,14 +524,26 @@ describe('signs carousels', () => {
   }
   const carousels = weeks(20)
 
-  it('lead the carousels, about two in three, never three in a row, five places each', () => {
+  it('come back among the other carousels, five places each, now that the chat leads', () => {
     const signs = carousels.filter((h) => h.format === 'signs')
-    expect(signs.length / carousels.length).toBeGreaterThan(0.55)
-    expect(signs.length / carousels.length).toBeLessThan(0.75)
-    for (let i = 2; i < carousels.length; i++) expect(carousels.slice(i - 2, i + 1).every((h) => h.format === 'signs')).toBe(false)
+    expect(signs.length).toBeGreaterThan(0)
     for (const { plan } of signs) {
       expect(plan.places).toHaveLength(5)
       expect(SIGN_LISTS[plan.signs]).toBeDefined()
+    }
+  })
+
+  it('chat carousels lead, about two in three, never three in a row, with a scenario and a winner by points', () => {
+    const chats = carousels.filter((h) => h.format === 'chat')
+    expect(chats.length / carousels.length).toBeGreaterThan(0.55)
+    expect(chats.length / carousels.length).toBeLessThan(0.75)
+    for (let i = 2; i < carousels.length; i++) expect(carousels.slice(i - 2, i + 1).every((h) => h.format === 'chat')).toBe(false)
+    for (const { plan } of chats) {
+      expect(SCENARIOS[plan.scenario]).toBeDefined()
+      expect(plan.points[plan.winner]).toBe(Math.max(...plan.points))
+      expect(plan.points.filter((p) => p === Math.max(...plan.points))).toHaveLength(1)
+      expect(plan.days[0]).toBeLessThan(plan.days[1])
+      expect(plan.days[1]).toBeLessThan(plan.days[2])
     }
   })
 
@@ -574,5 +589,16 @@ describe('signs carousels', () => {
     expect(tags).toContain('#groupchat')
     expect(tags.length).toBeLessThanOrEqual(8)
     for (const p of places.slice(0, 5)) expect(tags).not.toContain(`#${p.key}`)
+  })
+})
+
+describe('chat carousel hooks', () => {
+  it('open on a person in the chat, never as a testimony', () => {
+    const { check } = HOOK_STYLES.person
+    expect(check('POV: that one friend who says yes and never books')).toBeNull()
+    expect(check('L’amico che risponde solo con un pollice')).toBeNull()
+    expect(check('My friend vetoed every trip for three weeks')).toBe('first person')
+    expect(check('POV: we finally booked it')).toBe('first person')
+    expect(check('Il mio amico dice sempre di sì')).toBe('first person')
   })
 })

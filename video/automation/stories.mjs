@@ -95,9 +95,12 @@ export const SCENARIOS = {
 /** Story posts look this far back to avoid repeating a scenario. */
 export const SCENARIO_MEMORY = 6
 
-/** A scenario not used by the last few story posts (`history`: that language's posts), least recently used first. */
-export function pickScenario(history, rand) {
-  const used = history.filter((h) => h.format === 'story').map((h) => h.scenario)
+/**
+ * A scenario not used by the last few posts of a format (`history`: that language's posts; the story video and the
+ * chat carousel keep their own memory), least recently used first.
+ */
+export function pickScenario(history, rand, format = 'story') {
+  const used = history.filter((h) => h.format === format).map((h) => h.scenario)
   const lastUse = (id) => used.lastIndexOf(id)
   const ids = Object.keys(SCENARIOS)
   const fresh = ids.filter((id) => !used.slice(-SCENARIO_MEMORY).includes(id))

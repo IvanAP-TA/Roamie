@@ -111,8 +111,12 @@ export const tiktok = {
     return settle(token, init.data.publish_id)
   },
 
-  /** A photo post (2–35 images) as a draft: TikTok shows it in the app's inbox, where a sound is added before posting. */
-  async publishCarousel({ imageUrls, caption }) {
+  /**
+   * A photo post (2–35 images) as a draft: TikTok shows it in the app's inbox, where a sound is added before posting.
+   * The 9:16 slides when the carousel has them (`tallImageUrls`): TikTok shows anything shorter with bars.
+   */
+  async publishCarousel({ imageUrls: square, tallImageUrls, caption }) {
+    const imageUrls = tallImageUrls?.length ? tallImageUrls : square
     if (!imageUrls?.length) throw new Error('slides not hosted (SOCIAL_UPLOAD_SECRET missing)')
     const token = await accessToken()
     const [title, ...rest] = caption.split('\n\n')

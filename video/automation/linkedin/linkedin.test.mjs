@@ -94,11 +94,11 @@ describe('LinkedIn checks', () => {
     expect(checkPost(GOOD.replace('A week later', 'From 1 MB to 200 KB, and a week later'), lesson, [])).toBeNull()
   })
 
-  it('adds the link, the photo credit and the hashtags itself', () => {
+  it('adds the photo credit and the hashtags itself, and no link', () => {
     const destination = makeLinkedInPlan({ places, history: [], today: on(2) })
     const post = assemblePost(GOOD, destination)
     expect(post.startsWith(GOOD)).toBe(true)
-    expect(post).toContain(`The guide: ${destination.link}`)
+    expect(post).not.toMatch(/https?:\/\//)
     expect(post).toContain(destination.credit)
     expect(post.trim().split('\n').at(-1)).toMatch(/^(#\w+ ?){3}$/)
   })

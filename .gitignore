@@ -11,3 +11,6 @@ dev-dist
 .claude/settings.local.json
 supabase/.temp
 supabase/.branches
+
+# graphify (local code map)
+graphify-out/

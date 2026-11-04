@@ -1,6 +1,6 @@
 /**
- * One automatic post: plan → words → render → checks → publish → history. On Tuesdays and Thursdays it's a carousel
- * (slides for Instagram and TikTok), on the other days a video.
+ * One automatic post: plan → words → render → checks → publish → history. From Tuesday to Thursday it's a carousel
+ * (slides for Instagram and TikTok, which reach further than our videos), on Mondays and Fridays a video.
  *
  *   node --experimental-strip-types automation/run.mjs
  *
@@ -44,8 +44,8 @@ const DURATIONS = { wheel: 390, month: 395, versus: 370, story: 515 }
 const COMPOSITION = { wheel: 'Wheel', month: 'Month', versus: 'Versus', story: 'Story' }
 const PLATFORMS = [youtube, instagram, facebook, tiktok]
 
-/** Tuesdays and Thursdays are for carousels, the other days for videos; POST_KIND overrides it. */
-const kindOf = (today) => (['video', 'carousel'].includes(process.env.POST_KIND) ? process.env.POST_KIND : [2, 4].includes(today.getUTCDay()) ? 'carousel' : 'video')
+/** Tuesday to Thursday are for carousels, the other days for videos; POST_KIND overrides it. */
+const kindOf = (today) => (['video', 'carousel'].includes(process.env.POST_KIND) ? process.env.POST_KIND : [2, 3, 4].includes(today.getUTCDay()) ? 'carousel' : 'video')
 const pick = (list, rand) => list[Math.floor(rand() * list.length)]
 
 /** The week's research openers (research/run.mjs), English only like the ideas themselves; none without the bank. */
@@ -249,13 +249,18 @@ async function carousel(history, today) {
   plan.theme = plan.guide ? guideTheme(plan.guide, lang) : undefined
   const signs = plan.signs ? signTexts(plan.signs, lang) : null
   if (signs) Object.assign(plan, { problem: signs.title, signLines: signs.signs })
+  const story = plan.format === 'chat' ? storyTexts(plan.scenario, lang, plan.places.map((p) => p.name[lang])) : null
+  if (story) Object.assign(plan, { problem: story.problem, chatLines: story.chat })
   const rand = seeded(`${today.toISOString()}|copy`)
-  log(`carousel: ${plan.format} · ${plan.signs ?? plan.guide ?? monthName(plan.month, lang)} · ${plan.places.map((p) => p.key).join(', ')}`)
+  log(`carousel: ${plan.format} · ${plan.scenario ?? plan.signs ?? plan.guide ?? monthName(plan.month, lang)} · ${plan.places.map((p) => p.key).join(', ')}`)
 
   const past = history.filter((h) => h.lang === lang).flatMap((h) => [h.hook, h.caption]).filter(Boolean)
-  plan.hookStyle = pickHookStyle(history.filter((h) => h.lang === lang), today, rand)
+  // The chat carousel always opens on a person in the chat (copy.mjs HOOK_STYLES.person).
+  plan.hookStyle = story ? 'person' : pickHookStyle(history.filter((h) => h.lang === lang), today, rand)
   const copy = await writeCopy(plan, lang, past, rand, undefined, researchHooks())
   log(`copy (${copy.source}, ${copy.hookStyle ?? 'no style'}): ${copy.hook}`, copy.rejected.length ? `· rejected: ${copy.rejected.join('; ')}` : '')
+
+  if (story) return chatCarousel(plan, story, copy, history, today, rand)
 
   const n = plan.places.length
   const month = plan.month ? monthName(plan.month, lang) : ''
@@ -296,6 +301,68 @@ async function carousel(history, today) {
     ...(plan.month && { month: plan.month }),
     ...(plan.guide && { guide: plan.guide }),
     ...(plan.signs && { signs: plan.signs }),
+    hook: copy.hook,
+    caption: copy.caption,
+    copySource: copy.source,
+    ...(copy.hookStyle && { hookStyle: copy.hookStyle }),
+    published: publishing,
+    results,
+  })
+  writeFileSync(historyPath, `${JSON.stringify(history, null, 2)}\n`)
+  report('carousel', plan, copy, results)
+}
+
+/** Renders one carousel composition as numbered JPEG slides in `dir`, checked. */
+function renderSlides(composition, props, dir, count) {
+  writeFileSync(`${ROOT}/out/props.json`, JSON.stringify(props))
+  rmSync(dir, { recursive: true, force: true })
+  const render = spawnSync('npx', ['remotion', 'render', composition, dir, '--sequence', '--image-format=jpeg', '--jpeg-quality=88', '--props=out/props.json'], { cwd: ROOT, stdio: 'inherit', shell: true })
+  if (render.status !== 0) throw new Error('render failed')
+  return checkSlides(dir, count)
+}
+
+/**
+ * The chat carousel (ChatCarousel.tsx): six slides, rendered twice, 4:5 for Instagram and Facebook and 9:16 for
+ * TikTok's photo mode, which shows anything shorter with bars.
+ */
+async function chatCarousel(plan, story, copy, history, today, rand) {
+  const props = {
+    lang,
+    hook: copy.hook,
+    chat: story.chat,
+    days: plan.days,
+    fix: story.fix,
+    places: await Promise.all(plan.places.map(videoPlace)),
+    by: story.by,
+    points: plan.points,
+    winner: plan.winner,
+    // A send, not a tag: a post sent in a private message is what the feeds reward most.
+    question: pick(POOLS[lang].question.filter((q) => /^(Send|Manda)/.test(q)), rand),
+    credits: plan.places.map(credit),
+  }
+  mkdirSync(`${ROOT}/out`, { recursive: true })
+  const files = renderSlides('ChatCarousel', props, `${ROOT}/out/carousel`, 6)
+  const tall = renderSlides('ChatCarousel', { ...props, tall: true }, `${ROOT}/out/carousel-tall`, 6)
+  log(`slides: ${files.length} + ${tall.length} (9:16)`)
+
+  const tags = hashtags(plan, lang, rand)
+  const photos = `${lang === 'it' ? 'Foto' : 'Photos'}: ${plan.places.map(credit).join(', ')} · Wikimedia Commons`
+  const post = { files, caption: `${copy.caption}\n\n${tags.join(' ')}\n\n${photos}`, summary: plan.places.map((p) => p.name[lang]).join(', ') }
+  if (publishing && media.ready()) {
+    const id = `${today.toISOString().slice(0, 10)}-${Math.floor(rand() * 36 ** 6).toString(36).padStart(6, '0')}`
+    post.imageUrls = await media.upload(files, id)
+    post.tallImageUrls = await media.upload(tall, `${id}t`) // the folder name is letters and digits only
+  } else if (publishing) log('slides not hosted (no SOCIAL_UPLOAD_SECRET): only the Telegram kit carries this carousel')
+
+  const results = await deliver(post, 'publishCarousel')
+  history.push({
+    date: today.toISOString(),
+    kind: 'carousel',
+    format: plan.format,
+    lang,
+    places: plan.places.map((p) => p.key),
+    guide: plan.guide,
+    scenario: plan.scenario,
     hook: copy.hook,
     caption: copy.caption,
     copySource: copy.source,

@@ -57,6 +57,7 @@ export const POOLS = {
     ],
     spin: ['Decide la ruota.', 'Si gira.', 'Ruota, pensaci tu.', 'Tre, due, uno…'],
     carousel_signs: ['Riconoscete la vostra chat?', 'Ogni gruppo ha questi segnali', 'Il viaggio è ancora nella chat?', 'Mandatelo al vostro gruppo'],
+    carousel_chat: ['POV: l’amico che dice sì a tutto e non prenota mai', 'Quell’amico che risponde solo con un pollice', 'POV: sei l’unico che scrive nella chat del viaggio', 'Quando nel gruppo nessuno vuole dire di no'],
     // The end of a versus and of a carousel: an invitation to send it on, the strongest signal for the feeds (a share in
     // a private message) and real word of mouth (Contenuti/Analisi virale in the brain, 2026-10-27).
     question: ['Mandalo al gruppo con cui partiresti', 'Mandalo alla chat che non decide mai', 'Taggate il vostro gruppo di viaggio', 'Il vostro gruppo quale sceglie?'],
@@ -114,6 +115,7 @@ export const POOLS = {
     ],
     spin: ['The wheel decides.', 'Spin it.', 'Over to you, wheel.', 'Three, two, one…'],
     carousel_signs: ['Sound like your group chat?', 'Every group has these signs', 'Is your trip still in the chat?', 'Send this to your group'],
+    carousel_chat: ['POV: that friend who says yes and never books', 'That one friend who only replies with a thumbs up', 'POV: you’re the only one planning the trip', 'When nobody in the group wants to say no'],
     question: ['Send this to the friend you’d go with', 'Send this to the group chat that never decides', 'Tag your travel group', 'Which one would your group pick?'],
     cta: [
       'Send this to the group chat that never decides. Then decide at roamie.org/en',
@@ -150,6 +152,14 @@ export const HOOK_STYLES = {
   opinion: {
     brief: 'a bold, friendly opinion about trips with friends that people want to agree or argue with (an opinion, never a fact)',
     examples: { it: 'Opinione impopolare: il viaggio si decide in cinque minuti', en: 'Unpopular opinion: a trip should take five minutes to decide' },
+  },
+  // The chat carousel's own style (never picked for the other formats): slideshows about another person and a small
+  // conflict get far more views than slideshows about the app (Contenuti/Analisi virale in the brain, 2026-11-04). A
+  // scene everyone recognises, never a testimony: no "I", "we" or "my", nothing that claims it really happened.
+  person: {
+    brief: 'one kind of friend in a group chat and what they keep doing while the trip gets planned, starting with "POV:" or "That one friend who" (or a natural equivalent); a scene everyone recognises, never in the first person (no I, we, my, our) and never claiming it really happened',
+    examples: { it: 'POV: l’amico che dice sì a tutto e non prenota mai', en: 'That one friend who says yes to every trip and books none' },
+    check: (t) => (/(^|[^\p{L}])(I|I'm|I’m|we|we're|my|our|us|io|noi|mio|mia|miei|mie|nostro|nostra|abbiamo|ho)(?![\p{L}])/iu.test(t.replace(/^POV:\s*/i, '')) ? 'first person' : null),
   },
   curiosity: {
     brief: 'a curiosity gap: hint at something about these destinations without saying it, so people watch to the end',
@@ -314,6 +324,8 @@ const SIGN_TAGS = {
 export function hashtags(plan, lang, rand) {
   const set = HASHTAGS[lang]
   // The signs carousel is about the group chat, not the places behind the signs.
+  // The chat carousel too, with five tags at most: fewer, relevant tags are what the feeds read now.
+  if (plan.format === 'chat') return SIGN_TAGS[lang].slice(0, 5)
   if (plan.format === 'signs') return [...SIGN_TAGS[lang], ...[...set.broad].sort(() => rand() - 0.5).slice(0, 3)].filter((t, i, all) => all.indexOf(t) === i).slice(0, 8)
   const places = plan.places.slice(0, 3).map((p) => placeTag(p.name[lang === 'it' ? 'it' : 'en']))
   const countries = [...new Set(plan.places.map((p) => p.countryCode))].slice(0, 2).map((code) => countryTag(code, lang))
@@ -356,6 +368,7 @@ const FORMAT_BRIEF = {
   story: 'a short story: a group chat gets stuck because "{problem}", then the group decides with Roamie: each friend proposes a place, everyone votes with points and the wheel lands on {winner}',
   carousel_guide: 'a swipeable carousel: a cover, then {n} destinations for a "{theme}" group trip, one per slide, that people save for later',
   carousel_month: 'a swipeable carousel: {n} destinations at their best in {month}, one per slide, for a group of friends, that people save for later',
+  carousel_chat: 'a swipeable carousel: a group chat stuck because "{problem}", over three slides, then how the group decides on Roamie (everyone proposes, votes with points, the wheel picks {winner}), then a slide asking to send it to their own group chat; people send it to the friend who does exactly this',
   carousel_signs: 'a swipeable carousel titled "{problem}": signs that a group trip is stuck in the group chat, one per slide, then how a group gets out of it with Roamie (everyone proposes, votes with points, the wheel decides); people send it to their friends',
 }
 
@@ -372,19 +385,21 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
   // The signs carousel's title is hand-written (signs.mjs) and is the hook as it is: the AI only writes its caption,
   // about the signs, never about the places behind them.
   const signs = plan.format === 'signs'
+  // The chat carousel's hook is about a person in the chat, never about the places (they only show up at the vote).
+  const chat = plan.format === 'chat'
   const allowedNumbers = [String(plan.places.length), ...(signs ? (`${plan.problem} ${plan.signLines.join(' ')}`.match(/\d+/g) ?? []) : [])]
   const mustMention = plan.format === 'versus' ? names : []
-  const allOrNone = plan.format === 'versus' || signs ? [] : names
+  const allOrNone = plan.format === 'versus' || signs || chat ? [] : names
   const rejected = []
   const style = HOOK_STYLES[plan.hookStyle]
 
-  const facts = signs ? plan.signLines.map((l) => `- ${l}`).join('\n') : plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
+  const facts = chat ? plan.chatLines.map((m) => `- ${m.who}: ${m.text}`).join('\n') : signs ? plan.signLines.map((l) => `- ${l}`).join('\n') : plan.places.map((p) => `- ${p.name[lang]} (${p.country[lang]}): ${p.line[lang]}`).join('\n')
   const system = [
     `You write short-form social media copy for Roamie, a free web app where groups of friends propose destinations, vote with points and spin a wheel to decide their trip.`,
     `Write in ${lang === 'it' ? 'Italian, natural and informal (tu/voi), like a friend' : 'English, natural and informal, like a friend'}.`,
     `The ${plan.kind === 'carousel' ? 'post' : 'video'}: ${fill(FORMAT_BRIEF[key], vars)}.`,
     `Return JSON {"hook": string, "caption": string}.`,
-    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; ${style ? `write it as ${style.brief}, for example "${style.examples[lang]}" (a reference for the style, do not copy it)` : 'a question or a playful tension works'}. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : signs ? ' Do not name any destination.' : ' Name all the destinations or none of them, never just some.'}`,
+    `hook: the first words on screen, 25–55 characters, makes people stop scrolling; ${style ? `write it as ${style.brief}, for example "${style.examples[lang]}" (a reference for the style, do not copy it)` : 'a question or a playful tension works'}. No emoji, no hashtags.${plan.format === 'versus' ? ' Name both destinations.' : signs || chat ? ' Do not name any destination.' : ' Name all the destinations or none of them, never just some.'}`,
     `caption: two short sentences (80–220 characters), concrete, using only the facts given; end with a question to the viewer. No prices, no numbers, no links, no hashtags, no markdown (no asterisks or underscores), at most one emoji.`,
     `Never invent facts. Different every time: here are lines already used, do not repeat their wording or structure:`,
     ...past.slice(-12).map((l) => `  · ${l}`),
@@ -392,7 +407,7 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
     // Openers from the week's research (research/insights.mjs): what groups really talk about, as inspiration only.
     ...(inspiration.length ? [`Tensions groups talk about lately, if one fits these destinations use it as inspiration for the hook (do not copy): ${inspiration.map((l) => `"${l}"`).join(', ')}.`] : []),
   ].join('\n')
-  const user = signs ? `The signs, one per slide:\n${facts}` : `Destinations:\n${facts}${plan.month ? `\nMonth: ${vars.month}` : ''}`
+  const user = chat ? `The chat (a scene, not real people):\n${facts}\nThe place picked at the end: ${vars.winner}` : signs ? `The signs, one per slide:\n${facts}` : `Destinations:\n${facts}${plan.month ? `\nMonth: ${vars.month}` : ''}`
 
   for (let attempt = 0; attempt < 3; attempt++) {
     const answer = await ask([
@@ -400,7 +415,8 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
       { role: 'user', content: rejected.length ? `${user}\n\nYour previous answer was rejected (${rejected.at(-1)}). Try again.` : user },
     ])
     if (!answer) break
-    const hookProblem = signs ? null : (checkLine(answer.hook, { min: 20, max: 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers }) ?? style?.check?.(answer.hook) ?? null)
+    const named = chat && typeof answer.hook === 'string' && names.some((n) => answer.hook.toLowerCase().includes(n.toLowerCase())) ? 'names a destination' : null
+    const hookProblem = signs ? null : (named ?? checkLine(answer.hook, { min: 20, max: chat ? 72 : 60, lang, past, maxSimilarity: 0.4, mustMention, allOrNone, allowedNumbers }) ?? style?.check?.(answer.hook) ?? null)
     const captionProblem = checkLine(answer.caption, { min: 60, max: 260, lang, past, maxSimilarity: 0.5, allowedNumbers })
     if (!hookProblem && !captionProblem) return { hook: signs ? plan.problem : answer.hook.trim(), caption: answer.caption.trim(), source: 'ai', rejected, ...(style && !signs && { hookStyle: plan.hookStyle }) }
     rejected.push(hookProblem ? `hook: ${hookProblem}` : `caption: ${captionProblem}`)
@@ -408,6 +424,8 @@ export async function writeCopy(plan, lang, past, rand, ask = askMistral, inspir
 
   if (signs) return { hook: plan.problem, caption: lang === 'it' ? 'Quale di questi succede nella vostra chat di gruppo?' : 'Which of these happens in your group chat?', source: 'pool', rejected }
   const hook = pickFromPool(pool[key], vars, past, rand)
+  // Without the AI the chat carousel opens on its scenario's own problem, so the cover always matches the chat.
+  if (chat) return { hook: plan.problem, caption: lang === 'it' ? 'Ce l’avete anche voi uno così nel gruppo?' : 'Is there one of these in your group too?', source: 'pool', rejected }
   const caption =
     lang === 'it'
       ? `${names.join(', ').replace(/, ([^,]*)$/, ' e $1')}: ${plan.format === 'versus' ? 'voi quale scegliete?' : 'quale proporreste al vostro gruppo?'}`

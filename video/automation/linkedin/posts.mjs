@@ -298,10 +298,12 @@ const HASHTAGS = {
   month: ['#grouptravel', '#travel', '#travelinspiration'],
 }
 
-/** The post as published: the AI's text, then the link, the photo credit and the hashtags (never AI). */
+/**
+ * The post as published: the AI's text, the photo credit and the hashtags (never AI). No link: LinkedIn shows posts
+ * with an outside link to far fewer people (2026), and the page itself links to roamie.org.
+ */
 export function assemblePost(text, plan) {
-  const link = plan.kind === 'destination' ? `The guide: ${plan.link}` : plan.kind === 'month' ? `More places for this month: ${plan.link}` : `Roamie is free: ${plan.link}`
-  return [text.trim(), link, ...(plan.credit ? [plan.credit] : []), HASHTAGS[plan.kind].join(' ')].join('\n\n')
+  return [text.trim(), ...(plan.credit ? [plan.credit] : []), HASHTAGS[plan.kind].join(' ')].join('\n\n')
 }
 
 /**

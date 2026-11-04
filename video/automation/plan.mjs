@@ -21,9 +21,13 @@ import { pickScenario } from './stories.mjs'
 export const FORMATS = ['wheel', 'versus', 'story']
 /** The format the feed is about: first whenever its own limits allow. */
 export const LEAD_FORMAT = 'story'
-export const CAROUSEL_FORMATS = ['signs', 'guide', 'month']
-/** The carousel that tells the problem (signs.mjs): first whenever the last two carousels weren't both signs. */
-export const LEAD_CAROUSEL = 'signs'
+export const CAROUSEL_FORMATS = ['chat', 'signs', 'guide', 'month']
+/**
+ * The carousel the feed is about: a group chat stuck, then the vote on Roamie (ChatCarousel.tsx), first whenever the
+ * last two carousels weren't both chats. Since 2026-11-04 (Contenuti/Analisi virale in the brain): one fixed format
+ * about a person and a conflict, real photos, slides people send to their group.
+ */
+export const LEAD_CAROUSEL = 'chat'
 export const RECENT_DAYS = 30
 export const MONTH_GAP_DAYS = 200
 /** Videos and carousels keep their own freshness window; across the two, a place only waits this long. */
@@ -204,7 +208,21 @@ export function makeCarouselPlan(places, history, today, lang) {
     const fresh = usable.filter((p) => !recent.has(p.key))
     for (const count of [5, 4]) {
       for (const format of formatsFor(days === 14)) {
-        if (format === LEAD_CAROUSEL) {
+        if (format === 'chat') {
+          // Three places from one guide, voted with points as in the story video: the one with the most wins.
+          const byGuide = new Map()
+          for (const p of fresh) for (const g of p.guides) byGuide.set(g, [...(byGuide.get(g) ?? []), p])
+          for (const guide of shuffle([...byGuide.keys()], rand)) {
+            const three = pickDistinct(byGuide.get(guide), 3, rand)
+            if (!three) continue
+            const points = three.map(() => 4 + Math.floor(rand() * 9))
+            const winner = Math.floor(rand() * 3)
+            points[winner] = Math.max(...points) + 1 + Math.floor(rand() * 3)
+            const day = 2 + Math.floor(rand() * 5)
+            const days = [1, day + Math.floor(rand() * 4), day * 2 + 8 + Math.floor(rand() * 10)]
+            return { kind: 'carousel', format, lang, guide, places: three, points, winner, days, scenario: pickScenario(mine, rand, 'chat') }
+          }
+        } else if (format === 'signs') {
           // One sign per place: a list has five, so only five places will do.
           const picked = count === 5 && pickDistinct(fresh, 5, rand)
           if (picked) return { kind: 'carousel', format, lang, signs: pickSignList(mine, rand), places: picked }
@@ -238,6 +256,7 @@ export function pickHookStyle(history, today, rand) {
   const recent = history.slice(-6).map((h) => h.hookStyle)
   const uses = (style) => recent.filter((s) => s === style).length
   const bonus = rand() < EXPLORE_SHARE ? {} : formatBonus(hookScores(history, today))
-  const styles = shuffle(Object.keys(HOOK_STYLES), rand).filter((s) => !recent.slice(-2).includes(s))
+  // "person" belongs to the chat carousel alone (run.mjs sets it there).
+  const styles = shuffle(Object.keys(HOOK_STYLES), rand).filter((s) => s !== 'person' && !recent.slice(-2).includes(s))
   return styles.sort((a, b) => uses(a) - (bonus[a] ?? 0) - (uses(b) - (bonus[b] ?? 0)))[0]
 }
