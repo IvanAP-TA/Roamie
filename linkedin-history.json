@@ -408,5 +408,19 @@
         "id": "174"
       }
     }
+  },
+  {
+    "date": "2026-11-04T07:00:09.482Z",
+    "kind": "feature",
+    "topic": "itinerary",
+    "failed": true,
+    "rejected": [
+      "destination: paragraphs",
+      "destination: paragraphs",
+      "destination: paragraphs",
+      "destination: paragraphs",
+      "destination: paragraphs",
+      "feature: length 303"
+    ]
   }
 ]
