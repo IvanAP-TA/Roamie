@@ -36,6 +36,14 @@ beforeAll(async () => {
 })
 
 describe('profiles & trips', () => {
+  it('keeps the city you leave from to yourself, even from the members of your trips', async () => {
+    await as(db, EDITOR, (q) => q(`insert into public.profile_private (home_city) values ('Torino')`))
+    const [mine] = await as(db, EDITOR, (q) => q<{ home_city: string }>(`select home_city from public.profile_private`))
+    expect(mine.home_city).toBe('Torino')
+    expect(await as(db, OWNER, (q) => q(`select * from public.profile_private`))).toHaveLength(0)
+    await rejects(as(db, OWNER, (q) => q(`insert into public.profile_private (user_id, home_city) values ($1, 'Roma')`, [EDITOR])), /row-level security/)
+  })
+
   it('creates a profile from Google metadata', async () => {
     const { rows } = await db.query<{ display_name: string; avatar_url: string }>(
       `select display_name, avatar_url from public.profiles where id = $1`,

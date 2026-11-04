@@ -5,6 +5,8 @@ import { toast } from 'sonner'
 import { useChecklist, useChecklistMutations } from '@/hooks/usePlan'
 import { useTripContext } from '@/hooks/useTripContext'
 import { Button } from '@/components/ui/button'
+import { BookingLinks } from '@/components/booking/BookingLinks'
+import type { BookingPlace } from '@/lib/booking'
 import { cn } from '@/lib/utils'
 
 const STEPS = ['dates', 'travel', 'stay'] as const
@@ -12,12 +14,12 @@ const STEPS = ['dates', 'travel', 'stay'] as const
 /**
  * What a group does in the week after the wheel, while the decision is still warm: fix the dates, someone on the
  * flights, someone on the place to stay. One tap puts them in the checklist ("to book"), where each gets a name.
- * Steps already in the list (same title) aren't added twice.
+ * Steps already in the list (same title) aren't added twice. With the chosen `place`, flights and stays are a tap away.
  */
-export function NextSteps({ onDone, className }: { onDone?: () => void; className?: string }) {
+export function NextSteps({ onDone, place, className }: { onDone?: () => void; place?: BookingPlace; className?: string }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { trip, canEdit } = useTripContext()
+  const { trip, members, canEdit } = useTripContext()
   const { data: items } = useChecklist(trip.id)
   const { add } = useChecklistMutations(trip.id)
   const titles = STEPS.map((step) => t(`nextSteps.${step}`))
@@ -44,6 +46,7 @@ export function NextSteps({ onDone, className }: { onDone?: () => void; classNam
           </li>
         ))}
       </ol>
+      {place && <BookingLinks place={place} trip={{ start: trip.start_date, end: trip.end_date, people: members.length }} className="mt-3" />}
       {canEdit && missing.length > 0 && <p className="mt-2 text-xs opacity-75">{t('nextSteps.hint')}</p>}
       {canEdit && missing.length > 0 && (
         <Button size="sm" className="mt-3" onClick={() => void save()} disabled={add.isPending}>

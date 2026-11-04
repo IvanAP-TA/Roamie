@@ -10,6 +10,7 @@ import { serializeAttribution } from '@/lib/wikimedia'
 import { BudgetIndicator, MoodTag } from '@/components/destinations/moods'
 import { CoverImage } from '@/components/media/CoverImage'
 import { Button } from '@/components/ui/button'
+import { BookingLinks } from '@/components/booking/BookingLinks'
 
 /** A place of the guides as a card: photo with its number, country, the guide's text, best time, budget, moods. */
 export function GuidePlaceCard({
@@ -86,6 +87,7 @@ export function GuidePlaceCard({
           <Plus />
           {t('guides.addToTrip')}
         </Button>
+        <BookingLinks place={{ name: place.name[lang], country: regionNames?.of(place.countryCode), countryCode: place.countryCode }} lang={lang} />
         {footer}
       </div>
     </li>

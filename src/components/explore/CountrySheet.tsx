@@ -15,6 +15,7 @@ import { serializeAttribution } from '@/lib/wikimedia'
 import { ClimateCard } from '@/components/destinations/ClimateCard'
 import { OriginSelect } from '@/components/destinations/OriginSelect'
 import { AddToTripSheet } from '@/components/guides/AddToTripSheet'
+import { BookingLinks } from '@/components/booking/BookingLinks'
 import { CoverImage } from '@/components/media/CoverImage'
 import { Button } from '@/components/ui/button'
 import { Sheet } from '@/components/ui/sheet'
@@ -153,6 +154,11 @@ export function CountrySheet({ code, facts, onClose }: { code: string | null; fa
               )}
             </ul>
             <p className="mt-3 text-[0.65rem] leading-relaxed text-muted-foreground">{t('explore.costsNote')}</p>
+          </section>
+
+          <section className="space-y-2 rounded-[1.5rem] bg-foreground/[0.03] p-4">
+            <h3 className="font-sans text-xs font-bold tracking-wide text-primary uppercase">{t('booking.title')}</h3>
+            <BookingLinks place={{ name, countryCode: country }} />
           </section>
 
           {/* The capital's climate: a whole country can't have one, and the card says so. */}

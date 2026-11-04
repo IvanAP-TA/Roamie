@@ -177,6 +177,7 @@ export function ChecklistSection() {
   const { trip, canEdit } = useTripContext()
   const { data: items, isLoading } = useChecklist(trip.id)
   const { data: destinations } = useDestinations(trip.id)
+  const chosen = destinations?.find((d) => d.status === 'selected')
 
   if (isLoading) {
     return (
@@ -211,7 +212,9 @@ export function ChecklistSection() {
         </p>
       )}
       {/* The place is chosen and nothing is booked yet: the week after the wheel, ready to add. */}
-      {canEdit && destinations?.some((d) => d.status === 'selected') && !items?.some((i) => i.kind === 'book') && <NextSteps className="glass" />}
+      {canEdit && chosen && !items?.some((i) => i.kind === 'book') && (
+        <NextSteps place={{ name: chosen.name, country: chosen.country, countryCode: chosen.country_code }} className="glass" />
+      )}
       {CHECKLIST_KINDS.map((kind) => (
         <ChecklistGroup key={kind} kind={kind} items={items?.filter((i) => i.kind === kind) ?? []} />
       ))}

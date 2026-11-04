@@ -596,6 +596,19 @@
     "dueNow": "La ruota sta per girare…",
     "drawProof": "Estratta dal server alle {{time}}: {{place}} aveva il {{percent}}% di probabilità, in base ai punti."
   },
+  "booking": {
+    "title": "Prenota",
+    "flights": "Voli",
+    "stays": "Alloggi",
+    "activities": "Cosa fare",
+    "fromTitle": "Da dove parti?",
+    "fromPlaceholder": "Es. Milano",
+    "fromNote": "La ricordiamo per la prossima volta. La vedi solo tu.",
+    "searchFlights": "Cerca voli",
+    "from": "Da {{city}} ·",
+    "note": "Si aprono Google Voli, Booking e Viator con la ricerca già compilata.",
+    "noteTripCom": "Qui si prenota soprattutto su Trip.com: alloggi e attività si aprono lì."
+  },
   "nextSteps": {
     "title": "Nei prossimi 7 giorni",
     "dates": "Fissare le date",
@@ -1142,7 +1155,8 @@
             "Immagine del profilo Google: visibile ai membri dei viaggi di cui fai parte",
             "I contenuti che crei: viaggi, mete, punti, commenti, disponibilità per le date, tappe dell'itinerario, link utili, voci della checklist, valutazioni delle mete visitate e luoghi aggiunti al tuo passaporto (visibili solo a te)",
             "Se attivi le notifiche: l'indirizzo di recapito che il browser assegna al dispositivo, le chiavi per cifrare i messaggi, la lingua e le categorie che scegli; li eliminiamo quando disattivi le notifiche, esci dall'account o lo elimini",
-            "Se entri in un viaggio come ospite, senza account: solo il nome che scegli, visibile ai membri dei viaggi di cui fai parte. Se poi colleghi Google valgono le voci precedenti"
+            "Se entri in un viaggio come ospite, senza account: solo il nome che scegli, visibile ai membri dei viaggi di cui fai parte. Se poi colleghi Google valgono le voci precedenti",
+            "Se la indichi, la città da cui parti di solito: visibile solo a te, usata solo per compilare la ricerca dei voli quando tocchi «Voli»"
           ]
         },
         {
@@ -1175,7 +1189,8 @@
             "Open-Meteo: clima medio delle mete; i loro server ricevono le coordinate approssimative della meta e il tuo indirizzo IP",
             "Mistral AI (Francia): genera i confronti tra mete, le idee di viaggio e gli itinerari; riceve solo i nomi dei luoghi e le scelte fatte con i pulsanti (periodo, budget, gusti, paese di partenza, numero di persone), mai nomi, commenti o altri dati personali. Con il piano gratuito che usiamo, Mistral può usare questi testi per migliorare i propri modelli",
             "Servizi push dei browser (Google Firebase Cloud Messaging per Chrome e Android, Apple Push Notification service, Mozilla Push Service): recapitano le notifiche che attivi; ricevono i messaggi cifrati, che non possono leggere, e l'indirizzo di recapito del dispositivo",
-            "Cloudflare Web Analytics: statistiche anonime e aggregate su visite e velocità del sito, senza cookie; i suoi server ricevono l'indirizzo della pagina, il tipo di browser e il tuo indirizzo IP, che non viene conservato né usato per identificarti"
+            "Cloudflare Web Analytics: statistiche anonime e aggregate su visite e velocità del sito, senza cookie; i suoi server ricevono l'indirizzo della pagina, il tipo di browser e il tuo indirizzo IP, che non viene conservato né usato per identificarti",
+            "Siti di prenotazione (Google Voli, Booking.com, Viator, Trip.com): solo quando tocchi uno dei pulsanti di prenotazione si apre il loro sito con la ricerca già compilata (meta, date del viaggio, numero di persone e, per i voli, la città da cui parti); da lì valgono le loro informative sulla privacy. Roamie non riceve nulla da loro"
           ]
         },
         {

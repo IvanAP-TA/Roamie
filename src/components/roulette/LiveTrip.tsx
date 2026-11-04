@@ -575,7 +575,7 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
         )}
         {winner && (
           <div className="winner-in w-full max-w-sm" style={{ '--delay': '1.25s' } as React.CSSProperties}>
-            <NextSteps onDone={onClose} className="glass" />
+            <NextSteps onDone={onClose} place={{ name: winner.name, country: winner.country, countryCode: winner.country_code }} className="glass" />
           </div>
         )}
         </div>

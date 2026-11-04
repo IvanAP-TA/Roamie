@@ -596,6 +596,19 @@
     "dueNow": "The wheel is about to spin…",
     "drawProof": "Drawn by the server at {{time}}: {{place}} had a {{percent}}% chance, based on the points."
   },
+  "booking": {
+    "title": "Book it",
+    "flights": "Flights",
+    "stays": "Stays",
+    "activities": "Things to do",
+    "fromTitle": "Where do you leave from?",
+    "fromPlaceholder": "E.g. London",
+    "fromNote": "We remember it for next time. Only you can see it.",
+    "searchFlights": "Search flights",
+    "from": "From {{city}} ·",
+    "note": "Google Flights, Booking and Viator open with the search already filled in.",
+    "noteTripCom": "Here people mostly book on Trip.com: stays and things to do open there."
+  },
   "nextSteps": {
     "title": "In the next 7 days",
     "dates": "Fix the dates",
@@ -1142,7 +1155,8 @@
             "Google profile picture: visible to members of the trips you belong to",
             "Content you create: trips, destinations, points, comments, date availability, itinerary stops, useful links, checklist items, ratings of visited places and places added to your passport (visible only to you)",
             "If you turn on notifications: the delivery address your browser assigns to the device, the keys to encrypt messages, the language and the categories you choose; we delete them when you turn notifications off, sign out or delete your account",
-            "If you join a trip as a guest, without an account: only the name you choose, visible to the members of your trips. If you later link Google, the items above apply"
+            "If you join a trip as a guest, without an account: only the name you choose, visible to the members of your trips. If you later link Google, the items above apply",
+            "If you give it, the city you usually leave from: visible only to you, used only to fill in the flight search when you tap “Flights”"
           ]
         },
         {
@@ -1175,7 +1189,8 @@
             "Open-Meteo: average climate of destinations; their servers receive the destination's approximate coordinates and your IP address",
             "Mistral AI (France): writes the destination comparisons, trip ideas and itineraries; it receives only place names and the choices made with buttons (dates, budget, tastes, country you travel from, group size), never names, comments or other personal data. On the free plan we use, Mistral may use these texts to improve its models",
             "Browser push services (Google Firebase Cloud Messaging for Chrome and Android, Apple Push Notification service, Mozilla Push Service): they deliver the notifications you turn on; they receive encrypted messages, which they can't read, and the device's delivery address",
-            "Cloudflare Web Analytics: anonymous, aggregate statistics on visits and site speed, without cookies; its servers receive the page address, the browser type and your IP address, which is not stored or used to identify you"
+            "Cloudflare Web Analytics: anonymous, aggregate statistics on visits and site speed, without cookies; its servers receive the page address, the browser type and your IP address, which is not stored or used to identify you",
+            "Booking sites (Google Flights, Booking.com, Viator, Trip.com): only when you tap one of the booking buttons, their site opens with the search already filled in (place, trip dates, number of people and, for flights, the city you leave from); from there their own privacy policies apply. Roamie receives nothing from them"
           ]
         },
         {

@@ -23,6 +23,7 @@ import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl, PointsLeftBadge } from './PointsControl'
 import { ClimateCard } from './ClimateCard'
 import { CostEstimate } from './CostEstimate'
+import { BookingLinks } from '@/components/booking/BookingLinks'
 import { RatingSection } from './RatingSection'
 import { ReasonsSection } from './ReasonsSection'
 import { CommentComposer, CommentsThread } from './CommentsThread'
@@ -71,6 +72,14 @@ export function DestinationDetailSheet() {
   const canDelete = isOwner || (canEdit && d.created_by === user?.id)
   const budget = estimatedBudgetLevel(d, origin)
   const hiddenVotes = votesHidden(trip)
+  // Flights, stays and things to do, filled in with the trip's dates and the group's size. First thing after the photo
+  // once the place is chosen, when booking is what comes next; lower down while it's only a proposal.
+  const booking = (
+    <section className="mx-2 space-y-2 rounded-[1.5rem] bg-foreground/[0.04] p-4">
+      <h3 className="font-sans text-xs font-bold tracking-wide text-primary uppercase">{t('booking.title')}</h3>
+      <BookingLinks place={{ name: d.name, country: d.country, countryCode: d.country_code }} trip={{ start: trip.start_date, end: trip.end_date, people: members.length }} />
+    </section>
+  )
 
   const setStatus = (status: DestinationStatus) =>
     update.mutate(
@@ -212,6 +221,8 @@ export function DestinationDetailSheet() {
 
           {d.status === 'visited' && <RatingSection destination={d} className="mx-2" />}
 
+          {d.status === 'selected' && booking}
+
           {d.lat != null && d.lng != null && (
             <ClimateCard
               lat={d.lat}
@@ -223,6 +234,8 @@ export function DestinationDetailSheet() {
           )}
 
           <CostEstimate destination={d} className="mx-2" />
+
+          {d.status === 'proposed' && booking}
 
           {d.expectations && (
             <section className="relative mx-2 rounded-[1.5rem] bg-[linear-gradient(135deg,color-mix(in_oklab,var(--sun)_18%,transparent),color-mix(in_oklab,var(--coral)_10%,transparent))] px-5 pt-5 pb-4">

@@ -632,6 +632,24 @@ export type Database = {
           },
         ]
       }
+      profile_private: {
+        Row: {
+          home_city: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          home_city?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          home_city?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
