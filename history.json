@@ -366,7 +366,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -410,7 +410,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -457,7 +457,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -501,7 +501,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 2,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -548,7 +548,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -594,7 +594,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -638,7 +638,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -685,7 +685,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -729,7 +729,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -776,7 +776,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-02T16:01:01.035Z"
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -817,6 +817,13 @@
         "draft": true,
         "status": "PROCESSING_UPLOAD"
       }
+    },
+    "metrics": {
+      "reach": 6,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-04T16:00:48.005Z"
     }
   },
   {
@@ -850,6 +857,42 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7703976309182269462",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
+  },
+  {
+    "date": "2026-11-04T16:00:48.005Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "madeira",
+      "skye",
+      "dolomites"
+    ],
+    "guide": "nature",
+    "scenario": "no-one-says-no",
+    "hook": "Nobody wants to be the one who says no",
+    "caption": "Is there one of these in your group too?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "186"
+      },
+      "instagram": {
+        "id": "18111509813268745",
+        "url": "https://www.instagram.com/p/DfU1rxaDWoK/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122114514507506337",
+        "url": "https://www.facebook.com/1360561970475478_122114514507506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7704347235102361623",
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
