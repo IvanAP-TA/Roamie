@@ -239,3 +239,11 @@ describe('X drafts', () => {
     expect(never.rejected).toHaveLength(3)
   })
 })
+
+describe('line breaks', () => {
+  it('turns single line breaks into paragraphs, and leaves blank lines alone', async () => {
+    const { withBlankLines } = await import('./posts.mjs')
+    expect(withBlankLines('One.\nTwo.\n\nThree?')).toBe('One.\nTwo.\n\nThree?')
+    expect(withBlankLines('One.\nTwo.\n Three?')).toBe('One.\n\nTwo.\n\nThree?')
+  })
+})

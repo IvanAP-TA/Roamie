@@ -304,15 +304,30 @@ export function assemblePost(text, plan) {
   return [text.trim(), link, ...(plan.credit ? [plan.credit] : []), HASHTAGS[plan.kind].join(' ')].join('\n\n')
 }
 
+/**
+ * Paragraphs on single line breaks, as the model often writes them: each line its own paragraph. Text that already
+ * has blank lines keeps its shape.
+ */
+export const withBlankLines = (text) => (/\n\s*\n/.test(text) ? text : text.split(/\n+/).map((l) => l.trim()).filter(Boolean).join('\n\n'))
+
+/** What to tell the model after a rejection: the reason, and how to fix the ones it keeps getting wrong. */
+function retryHint(problem) {
+  if (problem === 'paragraphs') return 'Write 3 to 5 short paragraphs, each separated by an empty line.'
+  if (problem.startsWith('length')) return 'The post must be between 600 and 1100 characters.'
+  return ''
+}
+
 /** Writes the post: up to five tries with the AI. Returns { text, rejected } or { text: null, rejected }. */
 export async function writeLinkedInPost(plan, past, ask, pastTexts = []) {
   const rejected = []
   const messages = linkedInPrompt(plan, past)
   for (let attempt = 0; attempt < 5; attempt++) {
-    const answer = await ask(rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). Try again.` }] : messages)
+    const answer = await ask(
+      rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). ${retryHint(rejected.at(-1))} Try again.` }] : messages,
+    )
     if (!answer) break
     // Some answers come wrapped in quotation marks, sometimes only on one side.
-    const post = typeof answer.post === 'string' ? withoutLongDashes(answer.post.trim().replace(/^["“”]+|["“”]+$/g, '').trim()) : answer.post
+    const post = typeof answer.post === 'string' ? withBlankLines(withoutLongDashes(answer.post.trim().replace(/^["“”]+|["“”]+$/g, '').trim())) : answer.post
     const problem = checkPost(post, plan, past, pastTexts)
     if (!problem) return { text: post, rejected }
     rejected.push(problem)
