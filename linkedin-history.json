@@ -422,5 +422,25 @@
       "destination: paragraphs",
       "feature: length 303"
     ]
+  },
+  {
+    "date": "2026-11-04T16:35:16.855Z",
+    "kind": "destination",
+    "topic": "madeira",
+    "places": [
+      "madeira"
+    ],
+    "firstLine": "A walk where the path unfolds alongside water, not on top of it.",
+    "text": "A walk where the path unfolds alongside water, not on top of it.\n\nThe levadas on this island are quiet, shaded by trees that stay green year-round. They wind through valleys and up to viewpoints where the sun rises over cliffs before the rest of the world wakes up. There’s no rush to choose a route, just a steady climb or descent, the sound of water beside you, and the occasional glimpse of a distant village.\n\nIt’s the kind of place where you’d pack a picnic and spend the afternoon sitting on a bench that overlooks the sea. Or where you’d rent a car and drive until you found a spot no one else had thought of. The weather stays mild enough that layers work in any season, and the budget lets you stay in guesthouses or small hotels without feeling like you’re skimping.\n\nWe’ve seen groups use Roamie to balance adventure with stillness, like hiking one day and then taking the next to read, nap, or just watch the light change over the water. It’s not a trip that demands a plan, just one that rewards being there.\n\nHave you ever chosen a destination because of the way it made you want to slow down?",
+    "x": "Levadas in Madeira let you walk beside water, not over it. The pace is set by the path, not the clock. Where do you need a trip that moves as slowly as it should?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "193"
+      }
+    }
   }
 ]
