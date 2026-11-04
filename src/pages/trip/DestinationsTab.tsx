@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowDownWideNarrow, Clock, Columns3, Eye, MapPinPlus, Plus, X } from 'lucide-react'
+import { Columns3, Eye, MapPinPlus, Plus, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -19,19 +19,17 @@ import { DestinationCard } from '@/components/destinations/DestinationCard'
 import { DestinationFormSheet } from '@/components/destinations/DestinationFormSheet'
 import { GuidesLinkButton } from '@/components/guides/GuidesLink'
 import { NextDestinationCard } from '@/components/destinations/NextDestinationCard'
-import { ResetPointsButton } from '@/components/destinations/ResetPoints'
-import { SecretVotingControl } from '@/components/destinations/SecretVotingControl'
-import { VoteDeck, VoteDeckButton } from '@/components/destinations/VoteDeck'
+import { ListOptions } from '@/components/destinations/ListOptions'
+import { VoteDeck, VoteDeckHero } from '@/components/destinations/VoteDeck'
 import { BudgetPrompt } from '@/components/plan/BudgetPrompt'
 import { DatesPrompt } from '@/components/plan/DatesPrompt'
 import { ActivityFeed } from '@/components/trips/ActivityFeed'
 import { FirstSteps } from '@/components/trips/FirstSteps'
 import { MissingVotes } from '@/components/destinations/MissingVotes'
 import { SampleTripBanner } from '@/components/trips/SampleTripBanner'
-import { MOOD_META } from '@/components/destinations/moods'
 import { AvatarStack } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Chip, EmptyState, Skeleton } from '@/components/ui/misc'
+import { EmptyState, Skeleton } from '@/components/ui/misc'
 import { pointsLeft, totalPoints } from '@/lib/roulette'
 import { keepOrder } from '@/lib/stableOrder'
 import { MOODS, type Destination, type DestinationStatus, type Mood } from '@/lib/types'
@@ -166,15 +164,16 @@ export default function DestinationsTab() {
           {selecting ? t('common.cancel') : t('compare.cta')}
         </Button>
       )}
-      <Button
-        variant="glass"
-        size="icon"
-        onClick={() => setSort(sort === 'votes' ? 'recent' : 'votes')}
-        aria-label={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
-        title={sort === 'votes' ? t('destination.sortVotes') : t('destination.sortRecent')}
-      >
-        {sort === 'votes' ? <ArrowDownWideNarrow /> : <Clock />}
-      </Button>
+      {/* Order, moods and the vote's settings: in a sheet, so the toolbar stays short. */}
+      <ListOptions
+        sort={sort}
+        onSort={setSort}
+        moods={usedMoods}
+        mood={moodFilter}
+        onMood={setMoodFilter}
+        voting={status === 'proposed' && counts.proposed > 0}
+        destinations={destinations ?? []}
+      />
     </>
   )
 
@@ -256,22 +255,6 @@ export default function DestinationsTab() {
           {/* Phones and small tablets: the status tabs fill the row above, so compare & sort sit here. */}
           <div className="flex justify-end gap-2 md:hidden">{viewTools}</div>
 
-          {usedMoods.length > 1 && (
-            <div className="scrollbar-none -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:px-0">
-              <Chip size="sm" active={moodFilter === null} onClick={() => setMoodFilter(null)}>
-                {t('destination.allMoods')}
-              </Chip>
-              {usedMoods.map((m) => {
-                const Icon = MOOD_META[m].icon
-                return (
-                  <Chip key={m} size="sm" active={moodFilter === m} onClick={() => setMoodFilter(moodFilter === m ? null : m)}>
-                    <Icon className={cn(moodFilter !== m && MOOD_META[m].tint)} />
-                    {t(`moods.${m}`)}
-                  </Chip>
-                )
-              })}
-            </div>
-          )}
 
           <div className="flex flex-wrap items-center gap-2">
             {selecting ? (
@@ -282,14 +265,7 @@ export default function DestinationsTab() {
             ) : (
               status === 'proposed' &&
               counts.proposed > 0 && (
-                <>
-                  <VoteDeckButton
-                    tripId={trip.id}
-                    onOpen={openDeck}
-                  />
-                  <ResetPointsButton destinations={destinations ?? []} />
-                  <SecretVotingControl />
-                </>
+                <VoteDeckHero tripId={trip.id} onOpen={openDeck} />
               )
             )}
             {!canEdit && (

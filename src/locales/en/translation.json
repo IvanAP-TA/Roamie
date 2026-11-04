@@ -609,6 +609,14 @@
     "note": "Google Flights, Booking and Viator open with the search already filled in.",
     "noteTripCom": "Here people mostly book on Trip.com: stays and things to do open there."
   },
+  "listOptions": {
+    "button": "Filters",
+    "title": "Filters and options",
+    "sort": "Order",
+    "moods": "Vibe",
+    "voting": "Voting",
+    "done": "Done"
+  },
   "nextSteps": {
     "title": "In the next 7 days",
     "dates": "Fix the dates",
@@ -1310,6 +1318,9 @@
     "deleteBody": "Its places, points and itinerary will be deleted."
   },
   "deck": {
+    "heroLeft_one": "{{count}} point left to give",
+    "heroLeft_other": "{{count}} points left to give",
+    "heroDone": "All your points are in: you can still change them",
     "open": "Swipe to vote",
     "title": "Swipe to vote",
     "hint": "One place at a time: swipe to move to the next.",

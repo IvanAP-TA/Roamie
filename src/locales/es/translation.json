@@ -609,6 +609,14 @@
     "note": "Se abren Google Vuelos, Booking y Viator con la búsqueda ya rellenada.",
     "noteTripCom": "Aquí se reserva sobre todo en Trip.com: alojamiento y actividades se abren allí."
   },
+  "listOptions": {
+    "button": "Filtros",
+    "title": "Filtros y opciones",
+    "sort": "Orden",
+    "moods": "Ambiente",
+    "voting": "Votación",
+    "done": "Hecho"
+  },
   "nextSteps": {
     "title": "En los próximos 7 días",
     "dates": "Fijar las fechas",
@@ -1310,6 +1318,9 @@
     "deleteBody": "Se borrarán sus destinos, puntos e itinerario."
   },
   "deck": {
+    "heroLeft_one": "Te queda {{count}} punto por dar",
+    "heroLeft_other": "Te quedan {{count}} puntos por dar",
+    "heroDone": "Has dado todos tus puntos: aún puedes cambiarlos",
     "open": "Vota deslizando",
     "title": "Vota deslizando",
     "hint": "Un destino a la vez: desliza para pasar al siguiente.",

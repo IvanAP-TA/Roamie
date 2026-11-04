@@ -3,6 +3,10 @@ import { AnimatePresence, motion, useReducedMotion, type PanInfo } from 'framer-
 import { ArrowLeft, ArrowRight, ChevronRight, Coins, Layers, RotateCcw, ThumbsUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
+import { useDestinations } from '@/hooks/useDestinations'
+import { useVoteProgress } from '@/hooks/useSecretVoting'
+import { useTripContext } from '@/hooks/useTripContext'
+import { votesHidden } from '@/lib/secretVoting'
 import { CoverImage } from '@/components/media/CoverImage'
 import { Button } from '@/components/ui/button'
 import { Sheet } from '@/components/ui/sheet'
@@ -21,26 +25,37 @@ const SWIPE_DISTANCE = 80
 const SWIPE_SPEED = 400
 
 /**
- * The points left, and the way into the deck: one pill where the "points left" badge used to be, so the toolbar
- * doesn't grow a new button.
+ * The main thing to do on the list, so it reads as one: a wide card into the deck, with the points still to give and,
+ * in a secret round, how many have voted.
  */
-export function VoteDeckButton({ tripId, onOpen, className }: { tripId: string; onOpen: () => void; className?: string }) {
+export function VoteDeckHero({ tripId, onOpen, className }: { tripId: string; onOpen: () => void; className?: string }) {
   const { t } = useTranslation()
+  const { user } = useAuth()
+  const { trip } = useTripContext()
+  const { data: destinations } = useDestinations(tripId)
+  const left = Math.max(0, pointsLeft(destinations ?? [], user?.id))
+  const hidden = votesHidden(trip)
+  const progress = useVoteProgress(tripId, hidden)
   return (
     <button
       type="button"
       onClick={onOpen}
-      title={t('points.hint')}
       className={cn(
-        'group inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] py-1.5 pr-2 pl-3 text-xs text-muted-foreground transition hover:bg-foreground/[0.09] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+        'group flex w-full items-center gap-3 rounded-[1.5rem] bg-primary/10 p-3 pr-4 text-left ring-1 ring-primary/25 transition hover:bg-primary/15 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
         className,
       )}
     >
-      <PointsLeftBadge tripId={tripId} short className="bg-transparent p-0" />
-      <span aria-hidden className="size-1 rounded-full bg-foreground/25" />
-      <Layers className="size-3.5 text-primary" />
-      <span className="font-semibold text-foreground">{t('deck.open')}</span>
-      <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+        <Layers className="size-5" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-semibold">{t('deck.open')}</span>
+        <span className="block text-sm text-muted-foreground">
+          {left > 0 ? t('deck.heroLeft', { count: left }) : t('deck.heroDone')}
+          {hidden && progress.data && ` · ${t('secret.chip', { voted: progress.data.voted, members: progress.data.members })}`}
+        </span>
+      </span>
+      <ChevronRight className="size-5 shrink-0 text-primary transition-transform group-hover:translate-x-0.5" />
     </button>
   )
 }
