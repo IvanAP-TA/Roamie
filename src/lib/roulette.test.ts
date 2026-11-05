@@ -5,6 +5,7 @@ import type { Destination } from './types'
 const dest = (id: string, points: number[], status: Destination['status'] = 'proposed'): Destination => ({
   id,
   trip_id: 't',
+  vetoes: 0,
   name: id,
   country: null,
   lat: null,
@@ -41,6 +42,12 @@ describe('roulette', () => {
   it('keeps only proposed destinations with at least one point', () => {
     const entries = eligibleEntries([dest('a', [3]), dest('b', [1]), dest('none', []), dest('picked', [2], 'selected')])
     expect(entries.map((e) => e.destination.id)).toEqual(['a', 'b'])
+  })
+
+  it('leaves a place with a veto off the wheel, and the others share the whole circle', () => {
+    const entries = eligibleEntries([{ ...dest('a', [9]), vetoes: 1 }, dest('b', [3]), dest('c', [1])])
+    expect(entries.map((e) => e.destination.id)).toEqual(['b', 'c'])
+    expect(entries.reduce((sum, e) => sum + e.probability, 0)).toBeCloseTo(1)
   })
 
   it('sizes slices proportionally to the points and covers the full circle', () => {

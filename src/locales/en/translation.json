@@ -606,7 +606,6 @@
     "fromNote": "We remember it for next time. Only you can see it.",
     "searchFlights": "Search flights",
     "from": "From {{city}} ·",
-    "note": "Google Flights, Booking and Viator open with the search already filled in.",
     "noteTripCom": "Here people mostly book on Trip.com: stays and things to do open there."
   },
   "listOptions": {
@@ -617,12 +616,24 @@
     "voting": "Voting",
     "done": "Done"
   },
+  "veto": {
+    "button": "Veto",
+    "undo": "Undo",
+    "offWheel": "Off the wheel",
+    "chip": "Veto",
+    "confirmTitle": "Veto {{name}}?",
+    "confirmBody_one": "It leaves the wheel for the whole group and nobody will see it was you. You have {{count}} veto left this year.",
+    "confirmBody_other": "It leaves the wheel for the whole group and nobody will see it was you. You have {{count}} vetoes left this year.",
+    "hasPoints": "You gave points to this place: take them off first.",
+    "tooFew": "At least two places have to stay in the running.",
+    "noneLeft": "You've used this year's vetoes.",
+    "setting": "Vetoes per person per year"
+  },
   "nextSteps": {
     "title": "In the next 7 days",
     "dates": "Fix the dates",
     "travel": "Look at flights or how to get there",
     "stay": "Find a place to stay",
-    "hint": "Put them in the checklist and give each one a name: who takes care of it.",
     "add": "Add them to the checklist"
   },
   "trending": {
@@ -1002,7 +1013,6 @@
     "title": "Average climate",
     "best": "Best time to go: {{months}}",
     "noBest": "No month with a mild climate: check temperatures and rain below.",
-    "hint": "Tap a month for details",
     "sun": "{{hours}} h of sun a day",
     "legendTemp": "Temperatures (low–high)",
     "legendRain": "Rainfall (mm)",
@@ -1356,7 +1366,6 @@
   },
   "missingVotes": {
     "title": "Still waiting on {{names}}",
-    "body": "Once everyone has voted, the wheel can spin.",
     "remind": "Remind them",
     "message": "Still missing points from {{names}} for “{{trip}}”: give your 10 points and let's spin the wheel 🎡",
     "andMore": "{{names}} and {{count}} more",

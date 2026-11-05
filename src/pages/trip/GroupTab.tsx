@@ -7,6 +7,7 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { useDeleteTrip, useRegenerateInvite, useRemoveMember, useUpdateMemberRole } from '@/hooks/useTrips'
 import { PageTransition, staggerDelay } from '@/components/layout/PageTransition'
 import { InviteTicket } from '@/components/trips/InviteTicket'
+import { VetoSetting } from '@/components/trips/VetoSetting'
 import { PublicPageSection } from '@/components/trips/PublicPageSection'
 import { TripFormSheet } from '@/components/trips/TripFormSheet'
 import { UserAvatar } from '@/components/ui/avatar'
@@ -191,6 +192,7 @@ export default function GroupTab() {
               <span className="flex-1 font-medium">{t('group.editDetails')}</span>
             </button>
           )}
+          <VetoSetting trip={trip} isOwner={isOwner} />
           {isOwner ? (
             <button type="button" onClick={() => setPending({ kind: 'delete' })} className="flex w-full items-center gap-3 px-5 py-4 text-left text-destructive transition hover:bg-destructive/5">
               <Trash2 className="size-5" />

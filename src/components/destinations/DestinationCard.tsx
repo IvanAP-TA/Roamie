@@ -6,7 +6,10 @@ import { CoverImage } from '@/components/media/CoverImage'
 import { UserAvatar } from '@/components/ui/avatar'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl } from './PointsControl'
+import { useTripContext } from '@/hooks/useTripContext'
 import { sortReasons } from '@/lib/reasons'
+import { totalPoints } from '@/lib/roulette'
+import { votesHidden } from '@/lib/secretVoting'
 import { useOrigin } from '@/lib/origin'
 import { estimatedBudgetLevel } from '@/lib/tripCost'
 import type { Destination } from '@/lib/types'
@@ -30,6 +33,9 @@ export const DestinationCard = forwardRef<
   const [origin] = useOrigin()
   const budget = estimatedBudgetLevel(d, origin)
   const reasons = d.reasons?.length ?? 0
+  const { trip } = useTripContext()
+  const hidden = votesHidden(trip)
+  const total = totalPoints(d)
   const topReason = reasons > 0 ? sortReasons(d.reasons, false)[0] : null
 
   return (
@@ -70,6 +76,12 @@ export const DestinationCard = forwardRef<
               {d.status === 'selected' ? <Sparkles className="size-3.5 text-primary" /> : <CheckCheck className="size-3.5 text-sage" />}
               {t(`status.${d.status}`)}
             </span>
+          )}
+          {d.status === 'proposed' && d.vetoes > 0 && (
+            <span className="absolute top-3 left-3 rounded-full bg-[var(--glass-strong)] px-2.5 py-1 text-xs font-semibold backdrop-blur-md">{t('veto.chip')}</span>
+          )}
+          {d.status === 'proposed' && d.vetoes === 0 && !hidden && total > 0 && (
+            <span className="absolute top-3 left-3 rounded-full bg-[var(--glass-strong)] px-2.5 py-1 text-xs font-semibold tabular-nums backdrop-blur-md">{t('points.score', { count: total })}</span>
           )}
           {selectable && (
             <span

@@ -36,6 +36,8 @@ export interface Trip {
   roulette_spin_at: string | null
   /** Secret voting: members see only their own points until votes_revealed_at is set */
   secret_voting: boolean
+  /** Vetoes each member has per year in this trip */
+  vetoes_per_year: number
   votes_revealed_at: string | null
   /** Final dates, once fixed */
   start_date: string | null
@@ -106,6 +108,8 @@ export interface Destination {
   budget_level: BudgetLevel | null
   expectations: string | null
   status: DestinationStatus
+  /** How many members took it off the wheel (anonymous) */
+  vetoes: number
   selected_at: string | null
   created_by: string | null
   created_at: string

@@ -1295,3 +1295,68 @@ describe('trip activity feed', () => {
     expect(rows).toHaveLength(0)
   })
 })
+
+describe('vetoes', () => {
+  // Their own members: the tests above end by deleting accounts.
+  const OWNER = 'a1111111-1111-4111-8111-111111111111'
+  const EDITOR = 'a2222222-2222-4222-8222-222222222222'
+  const VIEWER = 'a3333333-3333-4333-8333-333333333333'
+  const STRANGER = 'a4444444-4444-4444-8444-444444444444'
+  let trip: string
+  let ids: Record<string, string>
+  const give = (user: string, destination: string, points: number) => as(db, user, (q) => q(`select public.set_points($1, $2)`, [destination, points]))
+  const veto = (user: string, name: string) => as(db, user, (q) => q(`select public.cast_veto($1)`, [ids[name]]))
+  const vetoesOf = async (name: string) => (await db.query<{ vetoes: number }>(`select vetoes from public.destinations where id = $1`, [ids[name]])).rows[0].vetoes
+
+  beforeAll(async () => {
+    for (const [id, name] of [[OWNER, 'Olivia'], [EDITOR, 'Enzo'], [VIEWER, 'Vera'], [STRANGER, 'Sam']]) await createUser(db, id, name)
+    const [t] = await as(db, OWNER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Veti') returning id`))
+    trip = t.id
+    await db.query(`insert into public.trip_members (trip_id, user_id, role) values ($1, $2, 'editor'), ($1, $3, 'viewer')`, [trip, EDITOR, VIEWER])
+    const rows = await as(db, OWNER, (q) =>
+      q<{ id: string; name: string }>(`insert into public.destinations (trip_id, name) values ($1, 'A'), ($1, 'B'), ($1, 'C'), ($1, 'D') returning id, name`, [trip]),
+    )
+    ids = Object.fromEntries(rows.map((r) => [r.name, r.id]))
+  })
+
+  it('takes a place off the wheel, anonymously, one veto a year by default', async () => {
+    await veto(EDITOR, 'A')
+    expect(await vetoesOf('A')).toBe(1)
+    // The others can't see whose it is, nor that there is one beyond the count.
+    expect(await as(db, OWNER, (q) => q(`select * from public.destination_vetoes`))).toHaveLength(0)
+    expect(await as(db, EDITOR, (q) => q(`select * from public.destination_vetoes`))).toHaveLength(1)
+    // The same one again is a no-op; a second place is over the limit.
+    await veto(EDITOR, 'A')
+    expect(await vetoesOf('A')).toBe(1)
+    await rejects(veto(EDITOR, 'B'), /no_vetoes_left/)
+    await rejects(as(db, STRANGER, (q) => q(`select public.cast_veto($1)`, [ids.B])), /forbidden/)
+  })
+
+  it('keeps the vetoed place off the wheel', async () => {
+    await give(OWNER, ids.A, 8)
+    await give(OWNER, ids.B, 2)
+    for (let i = 0; i < 20; i++) {
+      const [{ draw_roulette: winner }] = await db.query<{ draw_roulette: string }>(`select public.draw_roulette($1)`, [trip]).then((r) => r.rows)
+      expect(winner).toBe(ids.B)
+      await db.query(`update public.destinations set status = 'proposed' where id = $1`, [winner])
+    }
+  })
+
+  it('returns the veto when it is taken back, and the owner sets how many there are', async () => {
+    await as(db, EDITOR, (q) => q(`select public.remove_veto($1)`, [ids.A]))
+    expect(await vetoesOf('A')).toBe(0)
+    await rejects(as(db, EDITOR, (q) => q(`select public.set_vetoes_per_year($1, 2)`, [trip])), /forbidden/)
+    await as(db, OWNER, (q) => q(`select public.set_vetoes_per_year($1, 2)`, [trip]))
+    await veto(EDITOR, 'A')
+    await veto(EDITOR, 'B')
+    expect(await vetoesOf('B')).toBe(1)
+  })
+
+  it('refuses a veto on a place you gave points to, or when fewer than two places would be left', async () => {
+    await give(VIEWER, ids.C, 3)
+    await rejects(veto(VIEWER, 'C'), /veto_has_points/)
+    // A and B are out; C and D are all that is left, so no more vetoes.
+    await as(db, OWNER, (q) => q(`select public.set_vetoes_per_year($1, 5)`, [trip]))
+    await rejects(veto(OWNER, 'D'), /veto_too_few/)
+  })
+})

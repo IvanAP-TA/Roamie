@@ -130,7 +130,7 @@ export function ClimateCard({
       )}
 
       <p className="mt-1.5 min-h-4 text-xs text-muted-foreground" aria-live="polite">
-        {active != null ? readout(active) : t('climate.hint')}
+        {active != null ? readout(active) : null}
       </p>
 
       <div className="mt-2 grid grid-cols-12 gap-0.5" onPointerLeave={() => setActive(null)}>

@@ -248,6 +248,7 @@ export type Database = {
           selected_at: string | null
           status: string
           trip_id: string
+          vetoes: number
           visited_at: string | null
         }
         Insert: {
@@ -267,6 +268,7 @@ export type Database = {
           selected_at?: string | null
           status?: string
           trip_id: string
+          vetoes?: number
           visited_at?: string | null
         }
         Update: {
@@ -286,6 +288,7 @@ export type Database = {
           selected_at?: string | null
           status?: string
           trip_id?: string
+          vetoes?: number
           visited_at?: string | null
         }
         Relationships: [
@@ -604,16 +607,19 @@ export type Database = {
           created_at: string
           destination_id: string
           user_id: string
+          withdrawn_at: string | null
         }
         Insert: {
           created_at?: string
           destination_id: string
           user_id?: string
+          withdrawn_at?: string | null
         }
         Update: {
           created_at?: string
           destination_id?: string
           user_id?: string
+          withdrawn_at?: string | null
         }
         Relationships: [
           {
@@ -628,6 +634,32 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      destination_vetoes: {
+        Row: {
+          created_at: string
+          destination_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          destination_id: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          destination_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "destination_vetoes_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
             referencedColumns: ["id"]
           },
         ]
@@ -864,6 +896,7 @@ export type Database = {
           trip_length: number | null
           roulette_spin_at: string | null
           secret_voting: boolean
+          vetoes_per_year: number
           votes_revealed_at: string | null
         }
         Insert: {
@@ -883,6 +916,7 @@ export type Database = {
           trip_length?: number | null
           roulette_spin_at?: string | null
           secret_voting?: boolean
+          vetoes_per_year?: number
           votes_revealed_at?: string | null
         }
         Update: {
@@ -902,6 +936,7 @@ export type Database = {
           trip_length?: number | null
           roulette_spin_at?: string | null
           secret_voting?: boolean
+          vetoes_per_year?: number
           votes_revealed_at?: string | null
         }
         Relationships: [
@@ -1047,6 +1082,18 @@ export type Database = {
         Returns: undefined
       }
       reveal_votes: { Args: { p_trip_id: string }; Returns: undefined }
+      cast_veto: {
+        Args: { p_destination_id: string }
+        Returns: undefined
+      }
+      remove_veto: {
+        Args: { p_destination_id: string }
+        Returns: undefined
+      }
+      set_vetoes_per_year: {
+        Args: { p_count: number; p_trip_id: string }
+        Returns: undefined
+      }
       set_secret_voting: {
         Args: { p_secret: boolean; p_trip_id: string }
         Returns: undefined

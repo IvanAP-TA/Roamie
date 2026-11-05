@@ -22,6 +22,7 @@ import { AttributionText } from '@/components/media/Attribution'
 import { BudgetIndicator, MoodTag } from './moods'
 import { PointsControl, PointsLeftBadge } from './PointsControl'
 import { ClimateCard } from './ClimateCard'
+import { VetoControl } from './VetoControl'
 import { CostEstimate } from './CostEstimate'
 import { BookingLinks } from '@/components/booking/BookingLinks'
 import { RatingSection } from './RatingSection'
@@ -187,6 +188,7 @@ export function DestinationDetailSheet() {
               <PointsControl destination={d} size="lg" />
               {d.status === 'proposed' && <PointsLeftBadge tripId={trip.id} />}
             </div>
+            <VetoControl destination={d} />
             {hiddenVotes && <p className="text-xs text-muted-foreground">{t('secret.detailHint')}</p>}
             {!hiddenVotes && voters.length > 0 && (
               <ul className="flex flex-wrap gap-1.5" aria-label={t('points.score', { count: voters.reduce((s, v) => s + v.points, 0) })}>

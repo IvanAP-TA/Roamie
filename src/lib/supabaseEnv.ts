@@ -56,6 +56,9 @@ export type RpcErrorCode =
   | 'mention_all_limited'
   | 'reasons_limit'
   | 'owner_is_guest'
+  | 'no_vetoes_left'
+  | 'veto_has_points'
+  | 'veto_too_few'
 
 export function rpcErrorCode(error: { message?: string } | null | undefined): RpcErrorCode | null {
   const known: RpcErrorCode[] = [
@@ -70,6 +73,9 @@ export function rpcErrorCode(error: { message?: string } | null | undefined): Rp
     'mention_all_limited',
     'reasons_limit',
     'owner_is_guest',
+    'no_vetoes_left',
+    'veto_has_points',
+    'veto_too_few',
   ]
   return known.find((code) => error?.message?.includes(code)) ?? null
 }

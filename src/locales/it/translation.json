@@ -606,7 +606,6 @@
     "fromNote": "La ricordiamo per la prossima volta. La vedi solo tu.",
     "searchFlights": "Cerca voli",
     "from": "Da {{city}} ·",
-    "note": "Si aprono Google Voli, Booking e Viator con la ricerca già compilata.",
     "noteTripCom": "Qui si prenota soprattutto su Trip.com: alloggi e attività si aprono lì."
   },
   "listOptions": {
@@ -617,12 +616,24 @@
     "voting": "Voto",
     "done": "Fatto"
   },
+  "veto": {
+    "button": "Metti il veto",
+    "undo": "Annulla",
+    "offWheel": "Fuori dalla ruota",
+    "chip": "Veto",
+    "confirmTitle": "Mettere il veto a {{name}}?",
+    "confirmBody_one": "Esce dalla ruota per tutto il gruppo e nessuno vedrà che sei stato tu. Ti resta {{count}} veto per quest'anno.",
+    "confirmBody_other": "Esce dalla ruota per tutto il gruppo e nessuno vedrà che sei stato tu. Ti restano {{count}} veti per quest'anno.",
+    "hasPoints": "Hai dato dei punti a questa meta: toglili prima.",
+    "tooFew": "Devono restare almeno due mete in gara.",
+    "noneLeft": "Hai finito i veti di quest'anno.",
+    "setting": "Veti a testa all'anno"
+  },
   "nextSteps": {
     "title": "Nei prossimi 7 giorni",
     "dates": "Fissare le date",
     "travel": "Guardare i voli o come arrivare",
     "stay": "Trovare l'alloggio",
-    "hint": "Mettetele in checklist e date a ognuna un nome: chi se ne occupa.",
     "add": "Mettili nella checklist"
   },
   "trending": {
@@ -1002,7 +1013,6 @@
     "title": "Clima medio",
     "best": "Periodo migliore: {{months}}",
     "noBest": "Nessun mese dal clima mite: guarda temperature e piogge qui sotto.",
-    "hint": "Tocca un mese per i dettagli",
     "sun": "{{hours}} h di sole al giorno",
     "legendTemp": "Temperature (min–max)",
     "legendRain": "Pioggia (mm)",
@@ -1356,7 +1366,6 @@
   },
   "missingVotes": {
     "title": "Mancano i punti di {{names}}",
-    "body": "Quando hanno votato tutti si può girare la ruota.",
     "remind": "Avvisa chi manca",
     "message": "Mancano i punti di {{names}} per «{{trip}}»: date i vostri 10 punti e giriamo la ruota 🎡",
     "andMore": "{{names}} e altri {{count}}",

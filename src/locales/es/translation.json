@@ -606,7 +606,6 @@
     "fromNote": "La recordamos para la próxima vez. Solo la ves tú.",
     "searchFlights": "Buscar vuelos",
     "from": "Desde {{city}} ·",
-    "note": "Se abren Google Vuelos, Booking y Viator con la búsqueda ya rellenada.",
     "noteTripCom": "Aquí se reserva sobre todo en Trip.com: alojamiento y actividades se abren allí."
   },
   "listOptions": {
@@ -617,12 +616,24 @@
     "voting": "Votación",
     "done": "Hecho"
   },
+  "veto": {
+    "button": "Poner veto",
+    "undo": "Deshacer",
+    "offWheel": "Fuera de la ruleta",
+    "chip": "Veto",
+    "confirmTitle": "¿Poner veto a {{name}}?",
+    "confirmBody_one": "Sale de la ruleta para todo el grupo y nadie verá que fuiste tú. Te queda {{count}} veto este año.",
+    "confirmBody_other": "Sale de la ruleta para todo el grupo y nadie verá que fuiste tú. Te quedan {{count}} vetos este año.",
+    "hasPoints": "Diste puntos a este destino: quítalos primero.",
+    "tooFew": "Tienen que quedar al menos dos destinos en juego.",
+    "noneLeft": "Has usado los vetos de este año.",
+    "setting": "Vetos por persona al año"
+  },
   "nextSteps": {
     "title": "En los próximos 7 días",
     "dates": "Fijar las fechas",
     "travel": "Mirar los vuelos o cómo llegar",
     "stay": "Encontrar alojamiento",
-    "hint": "Ponedlas en la checklist y dadle a cada una un nombre: quién se encarga.",
     "add": "Añadirlos a la checklist"
   },
   "trending": {
@@ -1002,7 +1013,6 @@
     "title": "Clima medio",
     "best": "Mejor época: {{months}}",
     "noBest": "Ningún mes con clima templado: mira las temperaturas y las lluvias abajo.",
-    "hint": "Toca un mes para ver los detalles",
     "sun": "{{hours}} h de sol al día",
     "legendTemp": "Temperaturas (mín–máx)",
     "legendRain": "Lluvia (mm)",
@@ -1356,7 +1366,6 @@
   },
   "missingVotes": {
     "title": "Faltan los puntos de {{names}}",
-    "body": "Cuando hayan votado todos se podrá girar la ruleta.",
     "remind": "Avisar a quien falta",
     "message": "Faltan los puntos de {{names}} para «{{trip}}»: dad vuestros 10 puntos y giramos la ruleta 🎡",
     "andMore": "{{names}} y {{count}} más",

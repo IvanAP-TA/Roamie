@@ -44,6 +44,7 @@ const TRIP: Trip = {
   trip_length: 5,
   roulette_spin_at: null,
   secret_voting: false,
+  vetoes_per_year: 1,
   votes_revealed_at: null,
   start_date: null,
   end_date: null,
@@ -61,6 +62,7 @@ const votes = (points: number[]) => points.map((p, i) => ({ id: `v${Math.random(
 
 const base = {
   trip_id: TRIP.id,
+  vetoes: 0,
   image_url: null,
   image_attribution: null,
   selected_at: null,

@@ -54,7 +54,6 @@ export function MissingVotes({ destinations }: { destinations: Destination[] }) 
       {/* Wide enough to keep the text whole: on a phone the button drops below it. */}
       <span className="min-w-0 flex-1 basis-52">
         <span className="block font-semibold">{t('missingVotes.title', { names: list })}</span>
-        <span className="block text-sm text-muted-foreground">{t('missingVotes.body')}</span>
       </span>
       <Button size="sm" className="w-full sm:w-auto" onClick={() => void tell(t('missingVotes.message', { names: list, trip: trip.name }))}>
         {t('missingVotes.remind')}

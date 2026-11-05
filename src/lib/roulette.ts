@@ -27,7 +27,7 @@ export function pointsLeft(destinations: Pick<Destination, 'status' | 'votes'>[]
  */
 export function eligibleEntries(destinations: Destination[]): RouletteEntry[] {
   const scored = destinations
-    .filter((d) => d.status === 'proposed')
+    .filter((d) => d.status === 'proposed' && d.vetoes === 0)
     .map((destination) => ({ destination, score: totalPoints(destination) }))
     .filter((e) => e.score > 0)
     .sort((a, b) => b.score - a.score || a.destination.name.localeCompare(b.destination.name))

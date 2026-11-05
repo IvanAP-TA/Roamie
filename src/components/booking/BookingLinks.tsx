@@ -94,7 +94,7 @@ export function BookingLinks({ place, trip, lang, className }: { place: BookingP
             {t('booking.from', { city: homeCity })}
           </button>
         )}
-        {t(usesTripCom(place) ? 'booking.noteTripCom' : 'booking.note')}
+        {usesTripCom(place) && t('booking.noteTripCom')}
       </p>
     </div>
   )

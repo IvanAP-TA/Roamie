@@ -82,7 +82,7 @@ export default function DestinationsTab() {
   const [deckIds, setDeckIds] = useState<string[]>([])
   const [deckOpen, setDeckOpen] = useState(false)
   const openDeck = () => {
-    setDeckIds(list.filter((d) => d.status === 'proposed').map((d) => d.id))
+    setDeckIds(list.filter((d) => d.status === 'proposed' && d.vetoes === 0).map((d) => d.id))
     setDeckOpen(true)
   }
 

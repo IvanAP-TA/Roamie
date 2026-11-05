@@ -47,7 +47,6 @@ export function NextSteps({ onDone, place, className }: { onDone?: () => void; p
         ))}
       </ol>
       {place && <BookingLinks place={place} trip={{ start: trip.start_date, end: trip.end_date, people: members.length }} className="mt-3" />}
-      {canEdit && missing.length > 0 && <p className="mt-2 text-xs opacity-75">{t('nextSteps.hint')}</p>}
       {canEdit && missing.length > 0 && (
         <Button size="sm" className="mt-3" onClick={() => void save()} disabled={add.isPending}>
           <ListChecks />

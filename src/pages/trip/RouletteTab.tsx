@@ -38,7 +38,8 @@ export default function RouletteTab() {
   const [spinning, setSpinning] = useState(false)
   const hidden = votesHidden(trip)
 
-  const proposed = useMemo(() => (destinations ?? []).filter((d) => d.status === 'proposed'), [destinations])
+  // A place with a veto is off the wheel.
+  const proposed = useMemo(() => (destinations ?? []).filter((d) => d.status === 'proposed' && d.vetoes === 0), [destinations])
   const odds = useMemo(() => eligibleEntries(destinations ?? []), [destinations])
   // Secret vote: every proposal gets the same slice, so the wheel gives nothing away.
   const mystery = useMemo(
