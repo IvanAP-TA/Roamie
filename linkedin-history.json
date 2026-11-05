@@ -442,5 +442,29 @@
         "id": "193"
       }
     }
+  },
+  {
+    "date": "2026-11-05T07:00:10.812Z",
+    "kind": "feature",
+    "topic": "dates",
+    "card": "map",
+    "firstLine": "The hardest part of planning a trip is often the calendar. Not the flights, not the hotels, not even the activities. Just figuring out when everyone can go.",
+    "text": "The hardest part of planning a trip is often the calendar. Not the flights, not the hotels, not even the activities. Just figuring out when everyone can go.\n\nWe built a way to show who’s free on which days, so you can see at a glance when the group can realistically meet. No back-and-forth messages guessing availability, no one accidentally double-booking. Just the dates that work for everyone.\n\nIt’s not about picking the perfect moment, it’s about finding the one that doesn’t leave anyone out. Sometimes that’s a narrow window, sometimes a few weeks. Either way, Roamie shows it straight away.\n\nThe goal isn’t to force a consensus. It’s to make sure no one’s left wondering if they’ll actually get to go.\n\nDo you usually end up picking dates by elimination, or does someone always drop out at the last minute?",
+    "x": "Finding dates for a trip should never be a game of elimination. Roamie shows who’s free when, so the right window appears first time. No last-minute dropouts, no guesswork. Just the dates that work for everyone.",
+    "rejected": [
+      "feature: same opening as an earlier post",
+      "feature: formatting",
+      "feature: paragraphs",
+      "feature: paragraphs"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "196"
+      }
+    }
   }
 ]
