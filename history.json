@@ -457,7 +457,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -501,7 +501,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 2,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -548,7 +548,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -594,7 +594,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -638,7 +638,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -685,7 +685,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -729,7 +729,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -776,7 +776,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -823,7 +823,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-04T16:00:48.005Z"
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -861,6 +861,13 @@
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
       }
+    },
+    "metrics": {
+      "reach": 2,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 1,
+      "at": "2026-11-05T16:00:54.515Z"
     }
   },
   {
@@ -893,6 +900,49 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7704347235102361623",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 4,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-05T16:00:54.515Z"
+    }
+  },
+  {
+    "date": "2026-11-05T16:00:54.515Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "rovaniemi",
+      "livigno",
+      "tenerife"
+    ],
+    "guide": "winter",
+    "scenario": "hype",
+    "hook": "Not everyone is equally hyped",
+    "caption": "Is there one of these in your group too?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "199"
+      },
+      "instagram": {
+        "id": "17921817078239859",
+        "url": "https://www.instagram.com/p/DfXafc-lDga/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122114853771506337",
+        "url": "https://www.facebook.com/1360561970475478_122114853771506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7704718348872976386",
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
