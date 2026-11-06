@@ -466,5 +466,27 @@
         "id": "196"
       }
     }
+  },
+  {
+    "date": "2026-11-06T07:00:09.473Z",
+    "kind": "month",
+    "topic": "month-12",
+    "places": [
+      "livigno",
+      "prague",
+      "tromso"
+    ],
+    "firstLine": "December is when some places feel like nowhere else.",
+    "text": "December is when some places feel like nowhere else.\n\nLivigno’s slopes are quieter in winter, the snow parks are open, and the après-ski stays lively. It’s also a duty-free zone, so fuel and shopping cost less than usual. A mid-range budget covers it well.\n\nPrague’s old town looks like a storybook in December, and its beer is still some of Europe’s cheapest. The clubs are multi-storey and the city feels alive, even when it’s cold outside.\n\nTromsø’s fjords and whales are reliable this month, and the northern lights are at their best. The sun doesn’t rise for weeks, but the evenings have a different kind of energy, bars, cafés and a sense of adventure.\n\nWhich of these would you linger in the longest?",
+    "x": "December turns Livigno into quiet slopes and open snow parks. Prague’s old town glows under lights, its beer still cheap. Tromsø’s fjords and northern lights need no daylight. Which of these stays with you after the trip?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "206"
+      }
+    }
   }
 ]
