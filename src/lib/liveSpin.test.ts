@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { revealOrder, slicesFromSpin } from './liveSpin'
+import { revealOrder, slicesFromSpin, withoutSpoiler } from './liveSpin'
+import type { Destination } from './types'
 import { angleAtPointer, targetRotation } from './roulette'
 
 const ENTRIES = [
@@ -30,5 +31,19 @@ describe('live wheel', () => {
   it('reveals from last place to first', () => {
     expect(revealOrder(ENTRIES).map((e) => e.id)).toEqual(['porto', 'lisbon', 'oslo'])
     expect(revealOrder([{ name: 'B', points: 5 }, { name: 'A', points: 5 }]).map((e) => e.name)).toEqual(['B', 'A'])
+  })
+})
+
+describe('the winner stays hidden until the wheel stops', () => {
+  const place = (id: string, status: Destination['status']) => ({ id, trip_id: 't1', status, selected_at: status === 'selected' ? '2026-11-07T10:00:00Z' : null }) as Destination
+
+  it('shows the place being picked as still in the running, and leaves the others alone', () => {
+    const list = [place('a', 'selected'), place('b', 'proposed'), place('c', 'selected')]
+    const shown = withoutSpoiler(list, { tripId: 't1', winnerId: 'a' })
+    expect(shown.map((d) => d.status)).toEqual(['proposed', 'proposed', 'selected'])
+    expect(shown[0].selected_at).toBeNull()
+    // Nothing playing, or another trip's wheel: the list is as it is.
+    expect(withoutSpoiler(list, null)).toBe(list)
+    expect(withoutSpoiler(list, { tripId: 't2', winnerId: 'a' }).map((d) => d.status)).toEqual(['selected', 'proposed', 'selected'])
   })
 })

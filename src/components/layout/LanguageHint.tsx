@@ -14,14 +14,18 @@ const TEXT: Record<LanguageCode, { text: string; open: string; dismiss: string }
   es: { text: 'Esta página también está disponible en español.', open: 'Leer en español', dismiss: 'Cerrar' },
 }
 
-/** The first of the browser's languages that Roamie speaks. */
-function browserLanguage(): LanguageCode | null {
+/**
+ * The first of the browser's languages that Roamie speaks; English for a visitor whose languages it doesn't (a browser in
+ * Chinese or Hindi still reads English better than Italian).
+ */
+export function browserLanguage(languages: readonly string[] = navigator.languages ?? [navigator.language]): LanguageCode | null {
   const supported = new Set<string>(LANGUAGES.map((l) => l.code))
-  for (const tag of navigator.languages ?? [navigator.language]) {
+  const tags = languages.filter(Boolean)
+  for (const tag of tags) {
     const code = tag.slice(0, 2).toLowerCase()
     if (supported.has(code)) return code as LanguageCode
   }
-  return null
+  return tags.length > 0 ? 'en' : null
 }
 
 /**

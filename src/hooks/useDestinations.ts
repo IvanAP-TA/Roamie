@@ -1,4 +1,6 @@
+import { useCallback } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { usePlayingSpin, withoutSpoiler } from '@/lib/liveSpin'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from './useAuth'
 import { keys, unwrap } from './useTrips'
@@ -10,8 +12,11 @@ export const DESTINATION_SELECT =
 const COMMENT_SELECT = 'id, destination_id, user_id, content, created_at, author:profiles(display_name, avatar_url)'
 
 export function useDestinations(tripId: string) {
+  const spin = usePlayingSpin()
+  const select = useCallback((list: Destination[]) => withoutSpoiler(list, spin), [spin])
   return useQuery({
     queryKey: keys.destinations(tripId),
+    select,
     queryFn: async () =>
       unwrap<Destination[]>(
         await supabase

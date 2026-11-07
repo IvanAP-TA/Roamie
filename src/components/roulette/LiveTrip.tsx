@@ -9,7 +9,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useDestinations } from '@/hooks/useDestinations'
 import { useTripContext } from '@/hooks/useTripContext'
 import { keys } from '@/hooks/useTrips'
-import { onSpinAnnounced, revealOrder, SHOW_TIMING, slicesFromSpin, type LiveSpin, type SpinEntry } from '@/lib/liveSpin'
+import { onSpinAnnounced, revealOrder, setPlayingSpin, SHOW_TIMING, slicesFromSpin, type LiveSpin, type SpinEntry } from '@/lib/liveSpin'
 import { targetRotation, totalPoints } from '@/lib/roulette'
 import { publicTripLink, whatsappShareUrl } from '@/lib/share'
 import { playWin } from '@/lib/sound'
@@ -108,6 +108,12 @@ export function LiveTripProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => onSpinAnnounced(trip.id, play), [trip.id, play])
+
+  // Until the card is closed, the lists behind it keep the winner among the places still in the running.
+  useEffect(() => {
+    setPlayingSpin(spin?.winner_id ? { tripId: spin.trip_id, winnerId: spin.winner_id } : null)
+    return () => setPlayingSpin(null)
+  }, [spin])
 
   // A secret round revealed without a spin (by an organiser, or once everyone voted): the reveal, once per device.
   const revealedAt = trip.secret_voting ? trip.votes_revealed_at : null

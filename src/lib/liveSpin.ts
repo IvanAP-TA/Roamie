@@ -1,4 +1,6 @@
+import { useSyncExternalStore } from 'react'
 import type { RouletteEntry } from './roulette'
+import type { Destination } from './types'
 
 /** One slice of the wheel as the server drew it. */
 export interface SpinEntry {
@@ -42,6 +44,34 @@ export function slicesFromSpin(entries: SpinEntry[]): WheelSlice[] {
     angle = slice.endAngle
     return slice
   })
+}
+
+// While the live wheel is playing, the place it will pick must not show up as picked anywhere else on the page: the show
+// sits over a blurred copy of the trip, and the lists behind it would give the winner away before the wheel stops.
+let playing: { tripId: string; winnerId: string } | null = null
+const playingListeners = new Set<() => void>()
+
+/** Set when a spin starts playing, cleared when its card is closed. */
+export function setPlayingSpin(next: { tripId: string; winnerId: string } | null) {
+  playing = next
+  playingListeners.forEach((listener) => listener())
+}
+
+export function usePlayingSpin() {
+  return useSyncExternalStore(
+    (listener) => {
+      playingListeners.add(listener)
+      return () => playingListeners.delete(listener)
+    },
+    () => playing,
+    () => null,
+  )
+}
+
+/** The trip's places as they look until the wheel stops: the winner is still in the running. */
+export function withoutSpoiler(list: Destination[], spin: { tripId: string; winnerId: string } | null): Destination[] {
+  if (!spin) return list
+  return list.map((d) => (d.trip_id === spin.tripId && d.id === spin.winnerId && d.status === 'selected' ? { ...d, status: 'proposed' as const, selected_at: null } : d))
 }
 
 /** The reveal's order: last place first, so the leader comes out at the end. */
