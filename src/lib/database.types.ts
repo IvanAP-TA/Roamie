@@ -889,6 +889,7 @@ export type Database = {
           end_date: string | null
           id: string
           invite_code: string
+          is_sample: boolean
           name: string
           owner_id: string
           public_slug: string | null
@@ -909,6 +910,7 @@ export type Database = {
           end_date?: string | null
           id?: string
           invite_code?: string
+          is_sample?: boolean
           name: string
           owner_id?: string
           public_slug?: string | null
@@ -929,6 +931,7 @@ export type Database = {
           end_date?: string | null
           id?: string
           invite_code?: string
+          is_sample?: boolean
           name?: string
           owner_id?: string
           public_slug?: string | null
@@ -1082,6 +1085,18 @@ export type Database = {
         Returns: undefined
       }
       reveal_votes: { Args: { p_trip_id: string }; Returns: undefined }
+      add_demo_friends: {
+        Args: { p_trip_id: string }
+        Returns: undefined
+      }
+      demo_friend_joins: {
+        Args: { p_trip_id: string }
+        Returns: undefined
+      }
+      demo_friend_votes: {
+        Args: { p_trip_id: string }
+        Returns: undefined
+      }
       cast_veto: {
         Args: { p_destination_id: string }
         Returns: undefined

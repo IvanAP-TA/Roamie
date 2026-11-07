@@ -9,9 +9,6 @@ type Localized = Record<LanguageCode, string>
 
 export const SAMPLE_PLACES = ['lisbon', 'valencia', 'budapest', 'krakow'] as const
 
-/** Points the user starts with on each place, so the ranking and the wheel aren't flat. */
-export const SAMPLE_POINTS: Partial<Record<(typeof SAMPLE_PLACES)[number], number>> = { lisbon: 4, budapest: 3, valencia: 2 }
-
 export const SAMPLE_TRIP = {
   name: { it: 'Esempio · Weekend lungo in Europa', en: 'Sample · A long weekend in Europe', es: 'Ejemplo · Puente en Europa' } satisfies Localized,
   description: {

@@ -19,6 +19,7 @@ import type { Destination } from '@/lib/types'
 import { appUrl, cn } from '@/lib/utils'
 import { dateFormat } from '@/lib/intl'
 import { NextSteps } from '@/components/plan/NextSteps'
+import { SampleDone } from '@/components/trips/SampleDone'
 import { Floating } from '@/components/layout/Floating'
 import { CoverImage } from '@/components/media/CoverImage'
 import { ShareStoryButton } from '@/components/media/ShareStoryButton'
@@ -581,7 +582,11 @@ function LiveSpinShow({ spin, onClose }: { spin: LiveSpin; onClose: () => void }
         )}
         {winner && (
           <div className="winner-in w-full max-w-sm" style={{ '--delay': '1.25s' } as React.CSSProperties}>
-            <NextSteps onDone={onClose} place={{ name: winner.name, country: winner.country, countryCode: winner.country_code }} className="glass" />
+            {trip.is_sample ? (
+              <SampleDone onDone={onClose} className="glass rounded-[1.5rem] p-4" />
+            ) : (
+              <NextSteps onDone={onClose} place={{ name: winner.name, country: winner.country, countryCode: winner.country_code }} className="glass" />
+            )}
           </div>
         )}
         </div>

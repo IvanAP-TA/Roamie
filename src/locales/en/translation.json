@@ -1321,11 +1321,19 @@
     "tryBody": "Just a name: you get a ready-made sample trip with places, the wheel and an itinerary.",
     "start": "Start",
     "bannerTitle": "This is a sample trip",
-    "bannerBody": "Hand out your 10 points, spin the wheel, compare places with AI, browse the itinerary. Whenever you like, create your own trip and invite your friends.",
     "createOwn": "Create your trip",
     "delete": "Delete the sample",
     "deleteTitle": "Delete the sample trip?",
-    "deleteBody": "Its places, points and itinerary will be deleted."
+    "deleteBody": "Its places, points and itinerary will be deleted.",
+    "steps": {"points": "Give your points", "friend": "Invite a demo friend", "wheel": "Spin the wheel"},
+    "do": {"points": "Vote", "friend": "Invite a friend (demo)", "wheel": "Spin"},
+    "friendJoined": "A demo friend joined the group",
+    "friendVoted": "They just voted: watch the ranking change",
+    "friendHere": "The demo friend is in the group",
+    "inviteGuest": "To invite real friends, link Google. Here you can try with a demo friend.",
+    "inviteOwn": "To see how it works with more people, invite a demo friend.",
+    "doneTitle": "Liked it? Do it with your friends.",
+    "linkAndCreate": "Link Google and create your trip"
   },
   "deck": {
     "heroLeft_one": "{{count}} point left to give",

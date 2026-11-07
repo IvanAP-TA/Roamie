@@ -38,6 +38,8 @@ export interface Trip {
   secret_voting: boolean
   /** Vetoes each member has per year in this trip */
   vetoes_per_year: number
+  /** The sample trip (with demo friends), not a real group */
+  is_sample: boolean
   votes_revealed_at: string | null
   /** Final dates, once fixed */
   start_date: string | null

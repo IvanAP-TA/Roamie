@@ -1360,3 +1360,75 @@ describe('vetoes', () => {
     await rejects(veto(OWNER, 'D'), /veto_too_few/)
   })
 })
+
+describe('sample trip friends', () => {
+  const GUEST = 'b1111111-1111-4111-8111-111111111111'
+  const OTHER = 'b2222222-2222-4222-8222-222222222222'
+  const MARCO = 'd0000000-0000-4000-8000-000000000001'
+  const LUCA = 'd0000000-0000-4000-8000-000000000003'
+  let sample: string
+  let real: string
+  const pointsByCountry = async (trip: string) =>
+    (
+      await db.query<{ country_code: string; total: number }>(
+        `select d.country_code, sum(v.points)::int as total from public.votes v join public.destinations d on d.id = v.destination_id where d.trip_id = $1 group by d.country_code order by 1`,
+        [trip],
+      )
+    ).rows
+
+  beforeAll(async () => {
+    await createGuest(db, GUEST, 'Gael')
+    await createUser(db, OTHER, 'Otto')
+    const [s] = await as(db, GUEST, (q) => q<{ id: string }>(`insert into public.trips (name, is_sample) values ('Esempio', true) returning id`))
+    sample = s.id
+    const [r] = await as(db, OTHER, (q) => q<{ id: string }>(`insert into public.trips (name) values ('Vero') returning id`))
+    real = r.id
+    for (const trip of [sample, real]) {
+      await db.query(
+        `insert into public.destinations (trip_id, name, country_code, lat, lng) values ($1, 'Lisbona', 'PT', 38.7, -9.1), ($1, 'Valencia', 'ES', 39.4, -0.3), ($1, 'Budapest', 'HU', 47.5, 19), ($1, 'Cracovia', 'PL', 50, 19.9)`,
+        [trip],
+      )
+    }
+  })
+
+  it('brings two demo friends who have voted into the sample trip, once', async () => {
+    await as(db, GUEST, (q) => q(`select public.add_demo_friends($1)`, [sample]))
+    await as(db, GUEST, (q) => q(`select public.add_demo_friends($1)`, [sample]))
+    const members = await db.query<{ display_name: string }>(`select p.display_name from public.trip_members m join public.profiles p on p.id = m.user_id where m.trip_id = $1 order by 1`, [sample])
+    expect(members.rows.map((m) => m.display_name)).toEqual(['Gael', 'Marco · demo', 'Sara · demo'])
+    expect(await pointsByCountry(sample)).toEqual([
+      { country_code: 'ES', total: 2 },
+      { country_code: 'HU', total: 9 },
+      { country_code: 'PT', total: 5 },
+    ])
+  })
+
+  it('has the third friend come in, then vote', async () => {
+    await as(db, GUEST, (q) => q(`select public.demo_friend_votes($1)`, [sample]))
+    expect((await pointsByCountry(sample)).find((p) => p.country_code === 'PL')).toBeUndefined()
+    await as(db, GUEST, (q) => q(`select public.demo_friend_joins($1)`, [sample]))
+    await as(db, GUEST, (q) => q(`select public.demo_friend_votes($1)`, [sample]))
+    expect(await pointsByCountry(sample)).toEqual([
+      { country_code: 'ES', total: 8 },
+      { country_code: 'HU', total: 9 },
+      { country_code: 'PL', total: 3 },
+      { country_code: 'PT', total: 5 },
+    ])
+  })
+
+  it('is only for the owner of a sample trip', async () => {
+    await rejects(as(db, OTHER, (q) => q(`select public.add_demo_friends($1)`, [sample])), /forbidden/)
+    await rejects(as(db, OTHER, (q) => q(`select public.add_demo_friends($1)`, [real])), /forbidden/)
+    await rejects(as(db, OTHER, (q) => q(`select public.demo_friend_joins($1)`, [real])), /forbidden/)
+  })
+
+  it('leaves sample trips and the demo friends out of the weekly numbers', async () => {
+    await db.query(`update public.trips set created_at = now() - interval '3 days' where id in ($1, $2)`, [sample, real])
+    const [{ funnel_report: report }] = await db.query<{ funnel_report: { cohort: { trips: number; three_members: number }; total: { users: number } } }>(`select public.funnel_report()`).then((r) => r.rows)
+    // The sample trip has four people and a ranking, and still isn't a group.
+    expect(report.cohort.three_members).toBe(0)
+    const users = (await db.query<{ n: number }>(`select count(*)::int as n from auth.users where email is null or email not like '%@demo.roamie.invalid'`)).rows[0].n
+    expect(report.total.users).toBe(users)
+    expect(MARCO).not.toBe(LUCA)
+  })
+})

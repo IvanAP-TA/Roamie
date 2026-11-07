@@ -45,6 +45,7 @@ const TRIP: Trip = {
   roulette_spin_at: null,
   secret_voting: false,
   vetoes_per_year: 1,
+  is_sample: true,
   votes_revealed_at: null,
   start_date: null,
   end_date: null,

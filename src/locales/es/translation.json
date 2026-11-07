@@ -1321,11 +1321,19 @@
     "tryBody": "Solo un nombre: entras en un viaje de ejemplo ya listo, con destinos, ruleta e itinerario.",
     "start": "Empezar",
     "bannerTitle": "Este es un viaje de ejemplo",
-    "bannerBody": "Reparte tus 10 puntos, gira la ruleta, compara destinos con IA, mira el itinerario. Cuando quieras, crea tu viaje e invita a tus amigos.",
     "createOwn": "Crea tu viaje",
     "delete": "Eliminar el ejemplo",
     "deleteTitle": "¿Eliminar el viaje de ejemplo?",
-    "deleteBody": "Se borrarán sus destinos, puntos e itinerario."
+    "deleteBody": "Se borrarán sus destinos, puntos e itinerario.",
+    "steps": {"points": "Da tus puntos", "friend": "Invita a un amigo de prueba", "wheel": "Gira la ruleta"},
+    "do": {"points": "Votar", "friend": "Invitar a un amigo (prueba)", "wheel": "Girar"},
+    "friendJoined": "Un amigo de prueba se ha unido al grupo",
+    "friendVoted": "Acaba de votar: mira cómo cambia la clasificación",
+    "friendHere": "El amigo de prueba está en el grupo",
+    "inviteGuest": "Para invitar a amigos de verdad, vincula Google. Aquí puedes probar con un amigo de prueba.",
+    "inviteOwn": "Para ver cómo funciona con más gente, invita a un amigo de prueba.",
+    "doneTitle": "¿Te ha gustado? Hazlo con tus amigos.",
+    "linkAndCreate": "Vincula Google y crea tu viaje"
   },
   "deck": {
     "heroLeft_one": "Te queda {{count}} punto por dar",

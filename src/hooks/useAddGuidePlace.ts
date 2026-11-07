@@ -136,6 +136,7 @@ export function useCreateSampleTrip(lang: LanguageCode) {
             date_window_start: day(start),
             date_window_end: day(end),
             trip_length: sample.SAMPLE_TRIP.length,
+            is_sample: true,
           })
           .select('id')
           .single(),
@@ -148,10 +149,8 @@ export function useCreateSampleTrip(lang: LanguageCode) {
             .select('id, name'),
         )
         const idOf = (key: string) => destinations.find((d) => d.name === places.find((p) => p.key === key)?.name[lang])?.id
-        for (const [key, points] of Object.entries(sample.SAMPLE_POINTS)) {
-          const id = idOf(key)
-          if (id) unwrap(await supabase.rpc('set_points', { p_destination_id: id, p_points: points }))
-        }
+        // Two demo friends who have already voted; the points are the tester's to give.
+        unwrap(await supabase.rpc('add_demo_friends', { p_trip_id: trip.id }))
         const lisbon = idOf('lisbon')
         if (lisbon) unwrap(await supabase.from('destination_reasons').insert({ destination_id: lisbon, text: sample.SAMPLE_TRIP.reason[lang] }))
 

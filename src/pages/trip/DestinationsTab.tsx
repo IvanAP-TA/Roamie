@@ -205,7 +205,7 @@ export default function DestinationsTab() {
       {/* Below the photo: built once the page transition has played (usePageSettled), then rising in. */}
       {settled ? (
       <div className="page-enter space-y-6 px-5 pt-6 md:px-6">
-        <SampleTripBanner />
+        <SampleTripBanner onVote={openDeck} />
         {destinations && (
           <FirstSteps destinations={destinations} onPropose={() => setAdding(true)} onVote={openDeck} />
         )}

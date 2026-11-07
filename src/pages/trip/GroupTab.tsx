@@ -7,6 +7,7 @@ import { useTripContext } from '@/hooks/useTripContext'
 import { useDeleteTrip, useRegenerateInvite, useRemoveMember, useUpdateMemberRole } from '@/hooks/useTrips'
 import { PageTransition, staggerDelay } from '@/components/layout/PageTransition'
 import { InviteTicket } from '@/components/trips/InviteTicket'
+import { SampleInvite } from '@/components/trips/SampleInvite'
 import { VetoSetting } from '@/components/trips/VetoSetting'
 import { PublicPageSection } from '@/components/trips/PublicPageSection'
 import { TripFormSheet } from '@/components/trips/TripFormSheet'
@@ -118,6 +119,7 @@ export default function GroupTab() {
             </Button>
           )}
         </div>
+        <SampleInvite />
         <InviteTicket trip={trip} />
       </section>
 
