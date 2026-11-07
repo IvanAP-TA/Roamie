@@ -488,5 +488,28 @@
         "id": "206"
       }
     }
+  },
+  {
+    "date": "2026-11-07T07:00:09.178Z",
+    "kind": "lesson",
+    "topic": "animations",
+    "card": "wheel",
+    "firstLine": "A tester noticed something we missed: smooth animations on a computer didn’t mean they’d feel the same on a phone.",
+    "text": "A tester noticed something we missed: smooth animations on a computer didn’t mean they’d feel the same on a phone. \n\nWe assumed the issue was obvious. The new page loaded as it animated, and the phone struggled to keep up. The computer handled it easily, but the phone’s resources were stretched thin. We’d focused on the visuals without checking how the device would actually process them. \n\nThe fix was simpler than we expected. We separated the two tasks: let the graphics chip handle the animation while the main processor built the page afterward. No one had told us to do this, we just measured the problem and adjusted. \n\nIt’s easy to assume what feels right on one device will work on another. Small details like this can make a big difference to someone using your app. \n\nHave you encountered a difference between how something works on a desktop and how it feels on a phone?",
+    "x": "A tester saw our page transitions stutter on their phone, even though they looked smooth on a computer. Turns out the phone was trying to load and animate the page at once. Now it separates the two. Small tweaks, big difference.",
+    "rejected": [
+      "lesson: same opening as an earlier post",
+      "lesson: paragraphs",
+      "lesson: length 1"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "213"
+      }
+    }
   }
 ]
