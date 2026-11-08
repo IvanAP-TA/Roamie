@@ -511,5 +511,28 @@
         "id": "213"
       }
     }
+  },
+  {
+    "date": "2026-11-08T07:00:10.819Z",
+    "kind": "destination",
+    "topic": "hvar",
+    "places": [
+      "hvar"
+    ],
+    "firstLine": "A trip where the water is always close by, even if you don’t always see it.",
+    "text": "A trip where the water is always close by, even if you don’t always see it.\n\nSome places are made for groups who want to spread out, some by boat, some on foot, some just sitting on a terrace. The islands here are small enough to explore in a day, but far enough from the mainland to feel like another world. You could spend mornings anchored in a bay, afternoons wandering the harbour, and evenings watching the sun set over the water.\n\nThe way people travel here changes with the light. By day, it’s quiet, the kind of place where conversations drift between the table and the waves. By night, it’s louder, with music spilling from bars that stay open until dawn. It’s not a trip for those who want to rush, but for those who want to linger where they are.\n\nSharing a boat with friends makes it easier to imagine staying longer than a few days. The cost per person drops when you split it, and there’s something about deciding together where to go next that turns a weekend into something that feels like a proper break.\n\nHave you ever been somewhere that felt different in the evening than it did in the morning?",
+    "x": "Boat trips to Hvar’s Pakleni islands split costs, turn a weekend into days. The same bay looks quiet by day, alive by night. Where do you want your group to feel like this?",
+    "rejected": [
+      "destination: paragraphs"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "216"
+      }
+    }
   }
 ]
