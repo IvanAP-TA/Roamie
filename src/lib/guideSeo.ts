@@ -10,7 +10,7 @@ import { LANDING_PATHS, OG_LOCALES, SITE_URL, type PageMeta } from '@/lib/seo'
 
 const absolute = (path: string) => SITE_URL + path
 /** When the month and comparison pages went up (their content changes only with the guides). */
-const EXPLORE_PUBLISHED = '2026-10-13'
+export const EXPLORE_PUBLISHED = '2026-10-13'
 const ORGANIZATION = { '@type': 'Organization', name: 'Roamie', url: absolute('/'), logo: absolute('/pwa-512x512.png') }
 
 function baseMeta(lang: LanguageCode, t: TFunction, title: string, description: string, pathFor: (lang: LanguageCode) => string) {
@@ -141,7 +141,7 @@ const destinationList = (places: ExplorePlace[], lang: LanguageCode) => ({
   })),
 })
 
-function exploreArticle(meta: ReturnType<typeof baseMeta>, lang: LanguageCode, headline: string, places: ExplorePlace[]) {
+function exploreArticle(meta: ReturnType<typeof baseMeta>, lang: LanguageCode, headline: string, places: ExplorePlace[], modified = EXPLORE_PUBLISHED) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -152,7 +152,7 @@ function exploreArticle(meta: ReturnType<typeof baseMeta>, lang: LanguageCode, h
     mainEntityOfPage: meta.canonical,
     image: meta.ogImage,
     datePublished: EXPLORE_PUBLISHED,
-    dateModified: EXPLORE_PUBLISHED,
+    dateModified: modified,
     author: ORGANIZATION,
     publisher: ORGANIZATION,
     about: destinationList(places, lang),
@@ -176,15 +176,19 @@ export function pairMeta(pair: Pair, lang: LanguageCode, t: TFunction): PageMeta
   return { ...meta, jsonLd: [exploreArticle(meta, lang, title, [pair.a, pair.b]), breadcrumbs(lang, t, [{ name: title, path: pairPath(pair, lang) }])] }
 }
 
-/** "Dove andare per il ponte del 25 aprile": Italian only, so its one alternate is itself. */
-export function bridgeMeta(bridge: Bridge, t: TFunction): PageMeta {
+/**
+ * "Dove andare per il ponte del 25 aprile": Italian only, so its one alternate is itself. Its own preview image, and a
+ * modified date of today: the page says how this year's holiday falls (bridgeTip), which changes with the date.
+ */
+export function bridgeMeta(bridge: Bridge, t: TFunction, today = new Date()): PageMeta {
   const places = placesForBridge(bridge)
   const title = BRIDGE_COPY.title(bridge)
-  const meta = baseMeta('it', t, `${title} · Roamie`, BRIDGE_COPY.description(bridge, places.length), () => bridgePath(bridge))
+  const base = baseMeta('it', t, `${title} · Roamie`, BRIDGE_COPY.description(bridge, places.length), () => bridgePath(bridge))
+  const meta = { ...base, ogImage: absolute(`/og/ponti/${bridge.id}.png`), ogImageAlt: `${title} · Roamie` }
   return {
     ...meta,
     alternates: [{ hreflang: 'it', href: meta.canonical }],
     ogLocaleAlternates: [],
-    jsonLd: [exploreArticle(meta, 'it', title, places), breadcrumbs('it', t, [{ name: title, path: bridgePath(bridge) }])],
+    jsonLd: [exploreArticle(meta, 'it', title, places, today.toISOString().slice(0, 10)), breadcrumbs('it', t, [{ name: title, path: bridgePath(bridge) }])],
   }
 }

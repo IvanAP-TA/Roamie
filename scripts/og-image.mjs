@@ -4,7 +4,9 @@
 //   public/og/guides/{guide}-{lang}.png   one per inspiration guide and language
 // Uses sharp (installed with @vite-pwa/assets-generator) and Georgia / Segoe UI from Windows.
 // Elsewhere, point OG_FONT_TITLE, OG_FONT_BRAND and OG_FONT_TEXT at other .ttf files.
-// Guide titles are read from src/content/guides/meta.ts through Vite, so they never drift from the site.
+//   public/og/ponti/{bridge}.png         one per long weekend ("ponti", Italian only)
+// Guide and bridge titles are read from src/content/guides through Vite, so they never drift from the site.
+// OG_ONLY=ponti draws only the long weekends' images, leaving the others as they are.
 import { mkdir, readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
@@ -13,6 +15,7 @@ import { createServer } from 'vite'
 const W = 1200
 const H = 630
 const LANGS = ['it', 'en', 'es']
+const ONLY = process.env.OG_ONLY
 const FONT_TITLE = process.env.OG_FONT_TITLE ?? 'C:/Windows/Fonts/georgiai.ttf'
 const FONT_BRAND = process.env.OG_FONT_BRAND ?? 'C:/Windows/Fonts/georgiaz.ttf'
 const FONT_TEXT = process.env.OG_FONT_TEXT ?? 'C:/Windows/Fonts/seguisb.ttf'
@@ -76,7 +79,7 @@ const brand = async () => [
 // ─── Landing pages ──────────────────────────────────────────────────────────
 await mkdir(new URL('../public/og/', import.meta.url), { recursive: true })
 
-for (const lang of LANGS) {
+for (const lang of ONLY ? [] : LANGS) {
   const { landing } = locales[lang]
   const steps = [landing.steps.propose, landing.steps.vote, landing.steps.spin].join('  ·  ')
 
@@ -98,7 +101,7 @@ try {
   await mkdir(new URL('../public/og/guides/', import.meta.url), { recursive: true })
 
   for (const [index, guide] of GUIDES.entries()) {
-    for (const lang of LANGS) {
+    for (const lang of ONLY ? [] : LANGS) {
       const title = guide.title[lang]
       // Long titles get a smaller size so they stay on three lines at most.
       const size = title.length > 52 ? 58 : 66
@@ -116,6 +119,25 @@ try {
         .png({ compressionLevel: 9 })
         .toFile(toPath(new URL(`../public/og/guides/${guide.id}-${lang}.png`, import.meta.url)))
       console.log(`  public/og/guides/${guide.id}-${lang}.png`)
+    }
+  }
+
+  // ─── Long weekends: one image each, in Italian (the pages exist only in Italian) ───
+  const { BRIDGES, BRIDGE_COPY } = await vite.ssrLoadModule('/src/content/guides/bridges.ts')
+  if (!ONLY || ONLY === 'ponti') {
+    await mkdir(new URL('../public/og/ponti/', import.meta.url), { recursive: true })
+    for (const [index, bridge] of BRIDGES.entries()) {
+      const title = BRIDGE_COPY.title(bridge)
+      await sharp(Buffer.from(background(PALETTES[(index + 1) % PALETTES.length])))
+        .composite([
+          ...(await brand()),
+          { input: await text(BRIDGE_COPY.eyebrow.toUpperCase(), { fontfile: FONT_TEXT, font: 'Segoe UI Semibold 26', width: 700, color: '#FFE7B8' }), left: 82, top: 196 },
+          { input: await text(title, { fontfile: FONT_TITLE, font: `Georgia Italic ${title.length > 52 ? 58 : 66}`, width: 860 }), left: 80, top: 240 },
+          { input: await text('roamie.org', { fontfile: FONT_TEXT, font: 'Segoe UI Semibold 28', width: 400, color: '#FFF3E6' }), left: 82, top: 548 },
+        ])
+        .png({ compressionLevel: 9 })
+        .toFile(toPath(new URL(`../public/og/ponti/${bridge.id}.png`, import.meta.url)))
+      console.log(`  public/og/ponti/${bridge.id}.png`)
     }
   }
 } finally {

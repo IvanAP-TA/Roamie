@@ -12,10 +12,10 @@ import App from '@/App'
 import { OfflineBanner } from '@/components/layout/OfflineBanner'
 import { Toaster } from '@/components/ui/toaster'
 import { BRIDGES, bridgePath, MONTHS, monthPath, PAIRS, pairPath, type Bridge, type Pair } from '@/content/guides/explore'
-import { GUIDE_BASE, GUIDES, guidePath, type GuideMeta } from '@/content/guides/meta'
+import { GUIDE_BASE, GUIDES, GUIDES_PUBLISHED, guidePath, type GuideMeta } from '@/content/guides/meta'
 import i18n, { LANGUAGES, type LanguageCode } from '@/i18n'
 import { AuthProvider } from '@/hooks/useAuth'
-import { bridgeMeta, guideMeta, guidesIndexMeta, monthMeta, pairMeta } from '@/lib/guideSeo'
+import { bridgeMeta, EXPLORE_PUBLISHED, guideMeta, guidesIndexMeta, monthMeta, pairMeta } from '@/lib/guideSeo'
 import { headTags, LANDING_PATHS, pageMeta, SITE_URL, type SeoPage } from '@/lib/seo'
 
 export interface PrerenderRoute {
@@ -137,12 +137,26 @@ export async function render(route: PrerenderRoute): Promise<{ html: string; hea
   return { html, head: headTags(meta) }
 }
 
+/**
+ * When a page's content last changed, for the sitemap: the day it's built for the pages whose text moves with the date
+ * (the landing, which changes with the releases, and the long weekends, which say how this year's holiday falls); the
+ * day the others were written for the guides, months and comparisons, which don't change. None for the legal pages: an
+ * invented date is worse than none.
+ */
+export function lastmod(route: PrerenderRoute, today = new Date()): string | null {
+  if (route.page === 'landing' || route.page === 'bridge') return today.toISOString().slice(0, 10)
+  if (route.page === 'guides' || route.page === 'guide') return GUIDES_PUBLISHED
+  if (route.page === 'month' || route.page === 'pair') return EXPLORE_PUBLISHED
+  return null
+}
+
 /** Every indexable prerendered page, with its language alternates. */
 export function sitemap(): string {
   const urls = ROUTES.filter((route) => route.page !== 'notFound').map((route) =>
     [
       '  <url>',
       `    <loc>${SITE_URL}${route.path}</loc>`,
+      ...(lastmod(route) ? [`    <lastmod>${lastmod(route)}</lastmod>`] : []),
       ...Object.entries(route.alternates ?? {}).map(
         ([hreflang, path]) => `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${SITE_URL}${path}" />`,
       ),
