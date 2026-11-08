@@ -131,6 +131,9 @@ export function headTags(meta: PageMeta): string {
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="${e(meta.ogImageAlt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${e(meta.title)}" />`,
+    `<meta name="twitter:description" content="${e(meta.description)}" />`,
+    `<meta name="twitter:image" content="${e(meta.ogImage)}" />`,
     // Escape "<" so no string inside the JSON can close the script element.
     ...meta.jsonLd.map((data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`),
   ]

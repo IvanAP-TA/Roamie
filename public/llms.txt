@@ -1,0 +1,25 @@
+# Roamie
+
+> Roamie is a free web app (also on Android) for groups of friends who can't decide where to travel together. Everyone proposes places, gives 10 points to spread as they like (secretly if the group wants), and a wheel weighted by the points picks the destination. Then the group finds dates everyone is free, builds an itinerary and a checklist. No ads, no tracking.
+
+Roamie is made by one person (Ivan Pace). It is free to use; the project is open source.
+
+## Main pages
+
+- [Roamie in Italian](https://roamie.org/): the app, explained for Italian speakers
+- [Roamie in English](https://roamie.org/en): the app, explained in English
+- [Roamie in Spanish](https://roamie.org/es): the app, explained in Spanish
+
+## Travel guides (Italian, English and Spanish)
+
+- [Guides index (Italian)](https://roamie.org/guide)
+- [Guides index (English)](https://roamie.org/en/guides)
+- [Guides index (Spanish)](https://roamie.org/es/guias)
+
+The guides list places for group trips with the best months, budget and what each is good for, plus month pages ("where to go in November with friends"), comparisons between two places and, in Italian, long-weekend pages ("ponti").
+
+## About
+
+- [Privacy policy](https://roamie.org/privacy)
+- [Terms of service](https://roamie.org/terms)
+- [Source code](https://github.com/IvanAP-TA/Roamie)
