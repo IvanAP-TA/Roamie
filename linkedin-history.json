@@ -534,5 +534,23 @@
         "id": "216"
       }
     }
+  },
+  {
+    "date": "2026-11-09T07:00:11.532Z",
+    "kind": "build",
+    "topic": "2026-11-09",
+    "card": "places",
+    "firstLine": "Some trips start with a single idea. Others begin with a conversation.",
+    "text": "Some trips start with a single idea. Others begin with a conversation.\n\nThis week, we made it clearer how holidays fall on the calendar. The long-weekend pages now show the date for this year’s holiday, and the sitemap lists a real last-modified date for most pages, helpful for search engines and anyone checking when something was last updated.\n\nThe landing page and all prerendered pages now include Twitter/X tags, and we’ve added a list of the main pages for search engines to crawl. The sample trip also got a little more realistic: you can now see how votes change in real time when demo friends join, and the steps are marked off as you go.\n\nA few small tweaks from tester feedback: the wheel no longer removes the picked place from the running while it’s spinning, and Italian pages now offer English as a fallback if your browser’s language isn’t supported.\n\nWhat’s the one thing that always helps when planning a trip with friends?",
+    "x": "Planning a trip with friends often gets stuck in the back-and-forth of ‘when are you free?’. What if you saw the dates that work for everyone at once? No more guessing, no more last-minute changes. Just the right window.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "219"
+      }
+    }
   }
 ]
