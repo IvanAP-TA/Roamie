@@ -594,7 +594,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -638,7 +638,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -685,7 +685,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -729,7 +729,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -776,7 +776,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -823,7 +823,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -863,11 +863,11 @@
       }
     },
     "metrics": {
-      "reach": 2,
+      "reach": 3,
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -910,7 +910,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -949,11 +949,11 @@
       }
     },
     "metrics": {
-      "reach": 2,
+      "reach": 3,
       "saved": 0,
       "shares": 0,
-      "interactions": 0,
-      "at": "2026-11-06T16:00:54.961Z"
+      "interactions": 1,
+      "at": "2026-11-09T16:00:54.051Z"
     }
   },
   {
@@ -990,6 +990,52 @@
       },
       "tiktok": {
         "id": "v_inbox_file~v2.7705089572686104599",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
+      }
+    },
+    "metrics": {
+      "reach": 19,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-09T16:00:54.051Z"
+    }
+  },
+  {
+    "date": "2026-11-09T16:00:54.051Z",
+    "kind": "video",
+    "format": "versus",
+    "lang": "en",
+    "places": [
+      "lyon",
+      "salento"
+    ],
+    "pair": "lyon+salento",
+    "hook": "Only one of Lyon and Salento. Which?",
+    "caption": "Lyon and Salento: which one would you pick?",
+    "copySource": "pool",
+    "music": "music/versus-2-vlog-intro.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "224"
+      },
+      "youtube": {
+        "id": "UoXK986jXbU",
+        "url": "https://youtube.com/shorts/UoXK986jXbU"
+      },
+      "instagram": {
+        "id": "18134322220831496",
+        "url": "https://www.instagram.com/reel/DfhtpaXCvVs/"
+      },
+      "facebook": {
+        "id": "4518119065103304",
+        "url": "https://www.facebook.com/reel/4518119065103304"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7706202762417293334",
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
