@@ -405,6 +405,14 @@ async function main() {
   const history = existsSync(historyPath) ? JSON.parse(readFileSync(historyPath, 'utf8')) : []
   const today = new Date()
   if (forgetOldUploads(history, today)) log('history: YouTube ids older than 30 days removed')
+  // GitHub's scheduler can deliver the backup run hours late, even after midnight UTC (it happened on 10 Nov: a run
+  // meant for 17:30 started at 00:45 and took the new day's slot, so the 16:00 run found the day "already posted").
+  // The daily start is at 16:00 UTC and the backup at 17:30: an automatic run before 14:00 UTC is a stale one.
+  if (process.env.AUTO === 'true' && today.getUTCHours() < 14) {
+    log('automatic run too early in the day (a late backup of yesterday\'s schedule): nothing to do')
+    summary("## Skipped: a late backup run, the day's post starts at 16:00 UTC\n")
+    return
+  }
   // The daily start can come twice (Supabase, then GitHub's backup schedule): one post a day.
   if (process.env.AUTO === 'true' && history.some((h) => h.lang === lang && h.date.slice(0, 10) === today.toISOString().slice(0, 10))) {
     log('already posted today: nothing to do')
