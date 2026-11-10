@@ -1041,5 +1041,43 @@
         "status": "PROCESSING_UPLOAD"
       }
     }
+  },
+  {
+    "date": "2026-11-10T00:46:06.981Z",
+    "kind": "carousel",
+    "format": "guide",
+    "lang": "en",
+    "places": [
+      "seville",
+      "wroclaw",
+      "porto",
+      "thessaloniki",
+      "ljubljana"
+    ],
+    "guide": "students",
+    "hook": "Your group’s weekend: one city or five?",
+    "caption": "Seville’s flamenco, Porto’s wine, Ljubljana’s river bars and more. Which one would your flatmates actually pick?",
+    "copySource": "ai",
+    "hookStyle": "challenge",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "228"
+      },
+      "instagram": {
+        "id": "18098162135151477",
+        "url": "https://www.instagram.com/p/DfipwHElJYU/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122116346775506337",
+        "url": "https://www.facebook.com/1360561970475478_122116346775506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7706337648885008386",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
   }
 ]
