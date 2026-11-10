@@ -552,5 +552,26 @@
         "id": "219"
       }
     }
+  },
+  {
+    "date": "2026-11-10T07:00:11.450Z",
+    "kind": "insight",
+    "topic": "organiser",
+    "card": "plan",
+    "firstLine": "Most trips hinge on one person carrying the weight.",
+    "text": "Most trips hinge on one person carrying the weight.\n\nThey’re the ones who check calendars, send reminders, and juggle bookings while everyone else drifts in and out of the conversation. It’s not that they want to be in charge, it’s just that no one else steps in to share the load. The plan lives in their messages, their notes, their head, and when they finally share it, the response is often silence or a half-hearted ‘sounds good.’\n\nThe real friction isn’t the planning itself. It’s the moment the group realises they’ve all assumed someone else will handle it. By then, the dates are set, the bookings are made, and the person left holding the pieces is the one who feels stuck.\n\nWhat if the burden wasn’t just on one person? What if the plan wasn’t something to be handed over, but something to be built together, where everyone could see what was left to do and step in when they could?\n\nHow do you usually handle the parts of a trip that no one wants to own?",
+    "x": "One person usually ends up organising the whole trip. Dates, bookings, reminders, it all piles up on them. What if the plan was shared from the start, so no one had to wait for someone else to take over?",
+    "rejected": [
+      "insight: paragraphs"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "236"
+      }
+    }
   }
 ]
