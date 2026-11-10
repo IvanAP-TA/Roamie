@@ -638,7 +638,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -685,7 +685,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -729,7 +729,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -776,7 +776,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -823,7 +823,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -867,7 +867,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -910,7 +910,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -953,7 +953,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -1000,7 +1000,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-09T16:00:54.051Z"
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -1040,6 +1040,13 @@
         "draft": true,
         "status": "PROCESSING_UPLOAD"
       }
+    },
+    "metrics": {
+      "reach": 11,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-10T16:33:00.546Z"
     }
   },
   {
@@ -1074,6 +1081,41 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7706337648885008386",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
+  },
+  {
+    "date": "2026-11-10T16:33:00.546Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "albufeira",
+      "split",
+      "bratislava"
+    ],
+    "guide": "bachelor",
+    "scenario": "dates",
+    "hook": "Nobody can agree on the dates",
+    "caption": "Is there one of these in your group too?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "239"
+      },
+      "instagram": {
+        "error": "Instagram publish: {\"error\":{\"message\":\"Media ID is not available\",\"type\":\"OAuthException\",\"code\":9007,\"error_subcode\":2207027,\"is_transient\":false,\"error_user_title\":\"Impossibile pubblicare\",\"error_user_msg\":\"Il contenuto multimediale non è pronto per la pubblicazione, attendi un momento\",\"fbtrace_"
+      },
+      "facebook": {
+        "id": "1360561970475478_122116575501506337",
+        "url": "https://www.facebook.com/1360561970475478_122116575501506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7706581792668796950",
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
