@@ -1085,6 +1085,13 @@
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
       }
+    },
+    "metrics": {
+      "reach": 1,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-11T16:00:49.400Z"
     }
   },
   {
@@ -1116,6 +1123,42 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7706581792668796950",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
+  },
+  {
+    "date": "2026-11-11T16:00:49.400Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "san-sebastian",
+      "bologna",
+      "tbilisi"
+    ],
+    "guide": "food",
+    "scenario": "organiser",
+    "hook": "One person ends up organising everything",
+    "caption": "Is there one of these in your group too?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "248"
+      },
+      "instagram": {
+        "id": "17955608181271708",
+        "url": "https://www.instagram.com/p/Dfm3Pv3jbo4/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122116917429506337",
+        "url": "https://www.facebook.com/1360561970475478_122116917429506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7706944817644963862",
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
