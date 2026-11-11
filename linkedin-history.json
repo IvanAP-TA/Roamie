@@ -573,5 +573,17 @@
         "id": "236"
       }
     }
+  },
+  {
+    "date": "2026-11-11T07:00:11.391Z",
+    "kind": "feature",
+    "topic": "secret",
+    "failed": true,
+    "rejected": [
+      "destination: same opening as an earlier post",
+      "destination: same opening as an earlier post",
+      "destination: paragraphs",
+      "destination: paragraphs"
+    ]
   }
 ]
