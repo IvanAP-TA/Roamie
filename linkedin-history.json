@@ -597,5 +597,26 @@
       "destination: paragraphs",
       "destination: length 1349"
     ]
+  },
+  {
+    "date": "2026-11-12T07:00:09.092Z",
+    "kind": "feature",
+    "topic": "map",
+    "card": "map",
+    "firstLine": "The map shows where the conversation went wrong.",
+    "text": "The map shows where the conversation went wrong.\n\nWhen a group plans a trip, ideas often pile up. One person suggests a city, another counters with a different one, and soon the list grows long and scattered. Deciding which to pick can feel like sorting through a stack of unread messages, no clear way to start, no obvious choice. \n\nOur map brings all those ideas together in one place. Every proposed destination sits next to the others, marked clearly so the group can see at a glance what’s been suggested, what’s been picked, and what’s already been visited. It’s not about picking the best idea right away. It’s about making sure nothing gets lost in the shuffle.\n\nThe map helps the conversation stay focused. Instead of debating the same few places over and over, the group can move forward, knowing where they’ve been and where they’re still considering going. It turns a messy list into something clearer, so the real discussion can begin.\n\nHave you ever lost track of where a group was in planning a trip? What usually helps bring it back together?",
+    "x": "The map shows where the conversation went wrong. Ideas pile up in messages, lost in the shuffle. Roamie gathers them all, proposed, picked, visited, in one place. No more sorting through noise. Just clarity.",
+    "rejected": [
+      "feature: same opening as an earlier post"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "256"
+      }
+    }
   }
 ]
