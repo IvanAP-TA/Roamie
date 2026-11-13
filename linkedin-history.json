@@ -628,5 +628,27 @@
       "month: names not in the facts: Lapland",
       "month: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-13T16:44:29.123Z",
+    "kind": "month",
+    "topic": "month-12",
+    "places": [
+      "colmar",
+      "budapest",
+      "krakow"
+    ],
+    "firstLine": "December trips have a quiet kind of magic. The kind that settles in over coffee or a glass of wine, when the details start to matter more than the grand plan.",
+    "text": "December trips have a quiet kind of magic. The kind that settles in over coffee or a glass of wine, when the details start to matter more than the grand plan.\n\nA few places feel especially alive this month. The half-timbered houses of Alsace, lined with canals and strung with lights, or the flower-filled villages along the Wine Route. The Christmas markets there are some of the most atmospheric in Europe, but the food and the wine are just as worth the trip any time of year.\n\nBudapest has a different kind of warmth. The historic baths are perfect for unwinding, and the ruin bars in the Jewish Quarter have a lively energy that carries through December. The city stays affordable too, making it easy to linger over good food and a few nights out.\n\nKraków balances history and energy well. The medieval square is a place to walk slowly, while the Kazimierz district offers bars where conversations can stretch late into the evening. There’s also the Wieliczka salt mine, a unique stop that’s easy to add on.\n\nWhich of these would fit best with the kind of trip you’re imagining?",
+    "x": "December trips have their own rhythm. Colmar’s canals glow with lights, Alsace’s wine route hums with quiet charm. Budapest’s baths steam while ruin bars pulse. Kraków’s square feels like a storybook, its bars full of late-night talk. Where do you want to linger?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "272"
+      }
+    }
   }
 ]
