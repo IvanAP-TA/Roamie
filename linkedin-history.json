@@ -618,5 +618,15 @@
         "id": "256"
       }
     }
+  },
+  {
+    "date": "2026-11-13T07:00:09.645Z",
+    "kind": "insight",
+    "topic": "dates-first",
+    "failed": true,
+    "rejected": [
+      "month: names not in the facts: Lapland",
+      "month: paragraphs"
+    ]
   }
 ]
