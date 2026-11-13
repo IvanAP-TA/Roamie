@@ -773,7 +773,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -820,7 +820,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -864,7 +864,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -907,7 +907,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -950,7 +950,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -997,7 +997,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -1043,7 +1043,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -1088,7 +1088,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -1166,7 +1166,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-12T16:00:53.880Z"
+      "at": "2026-11-13T16:01:01.781Z"
     }
   },
   {
@@ -1203,6 +1203,53 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 1,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-13T16:01:01.781Z"
+    }
+  },
+  {
+    "date": "2026-11-13T16:01:01.781Z",
+    "kind": "video",
+    "format": "story",
+    "lang": "en",
+    "places": [
+      "prague",
+      "berlin",
+      "belgrade"
+    ],
+    "scenario": "never-decides",
+    "hook": "Every group has this chat",
+    "caption": "Prague, Berlin and Belgrade: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/wheel-4-ukulele.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "268"
+      },
+      "youtube": {
+        "id": "LOoB9EkhntE",
+        "url": "https://youtube.com/shorts/LOoB9EkhntE"
+      },
+      "instagram": {
+        "id": "17983515834004497",
+        "url": "https://www.instagram.com/reel/DfsA2HTEfkN/"
+      },
+      "facebook": {
+        "id": "1735901791308753",
+        "url": "https://www.facebook.com/reel/1735901791308753"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7707687119795554326",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
