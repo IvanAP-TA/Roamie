@@ -661,5 +661,23 @@
       "lesson: same opening as an earlier post",
       "lesson: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-14T15:20:49.699Z",
+    "kind": "lesson",
+    "topic": "trackers",
+    "card": "home",
+    "firstLine": "We chose not to track how people use Roamie. No consent banners, no hidden data collection. Just a clean experience from the start.",
+    "text": "We chose not to track how people use Roamie. No consent banners, no hidden data collection. Just a clean experience from the start.\n\nThis meant we’d never know who used the app, where they came from, or how they spent their time. We’d only see the destinations they proposed, the votes they cast, and the trips they decided on. No analytics to measure engagement, no A/B tests to tweak behaviour. Just data on what happened, not who did it.\n\nWhat surprised us was how little we missed. We didn’t need to know who was using Roamie to improve it. The conversations we had with friends, the trips we planned ourselves, and the feedback from people who reached out were enough to guide us. The app worked as it should: a simple space for groups to decide together.\n\nWe built Roamie to make planning easier, not to study behaviour. The trade-off was worth it, but it makes us wonder: how much do you really need to know about your users to build something useful?",
+    "x": "We chose not to track users. No banners, no hidden data. Just the trips people planned and decided on. Turns out, that was enough to build what we wanted.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "276"
+      }
+    }
   }
 ]
