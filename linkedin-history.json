@@ -650,5 +650,16 @@
         "id": "272"
       }
     }
+  },
+  {
+    "date": "2026-11-14T07:00:10.031Z",
+    "kind": "insight",
+    "topic": "deadline",
+    "failed": true,
+    "rejected": [
+      "lesson: same opening as an earlier post",
+      "lesson: same opening as an earlier post",
+      "lesson: paragraphs"
+    ]
   }
 ]
