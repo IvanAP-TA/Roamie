@@ -691,5 +691,28 @@
       "destination: paragraphs",
       "destination: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-15T15:53:25.432Z",
+    "kind": "destination",
+    "topic": "lofoten",
+    "places": [
+      "lofoten"
+    ],
+    "firstLine": "Few places make you feel as small as the sea here.",
+    "text": "Few places make you feel as small as the sea here. \n\nThe mountains fall into the water without warning, and the villages cling to the shore in clusters of red cabins. It’s easy to imagine a group of you splitting a car between two or three, driving along the coast with the windows down, deciding on the fly where to stop. The light in summer lasts all night, so there’s no rush to return. \n\nIt’s not a trip for those who like to plan everything in advance. You’ll need to be flexible with your days, share a car, and be okay with not knowing exactly where you’ll end up. The reward is a sense of adventure that’s hard to find elsewhere. \n\nHave you ever gone somewhere knowing only that you’d see something like this?",
+    "x": "The Lofoten Islands drop mountains into the sea. Red cabins hug the shore, the sun never sets in summer. A shared car lets you drive the coast, stop where it calls you. No plan, just the light and the road. Have you ever gone somewhere like that?",
+    "rejected": [
+      "destination: same opening as an earlier post"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "280"
+      }
+    }
   }
 ]
