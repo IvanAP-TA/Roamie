@@ -679,5 +679,17 @@
         "id": "276"
       }
     }
+  },
+  {
+    "date": "2026-11-15T07:00:09.245Z",
+    "kind": "insight",
+    "topic": "options",
+    "failed": true,
+    "rejected": [
+      "destination: formatting",
+      "destination: same opening as an earlier post",
+      "destination: paragraphs",
+      "destination: paragraphs"
+    ]
   }
 ]
