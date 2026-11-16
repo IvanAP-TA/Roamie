@@ -714,5 +714,17 @@
         "id": "280"
       }
     }
+  },
+  {
+    "date": "2026-11-16T07:00:10.534Z",
+    "kind": "insight",
+    "topic": "budget",
+    "failed": true,
+    "rejected": [
+      "build: same opening as an earlier post",
+      "build: same opening as an earlier post",
+      "build: paragraphs",
+      "build: length 1687"
+    ]
   }
 ]
