@@ -726,5 +726,16 @@
       "build: paragraphs",
       "build: length 1687"
     ]
+  },
+  {
+    "date": "2026-11-16T18:55:42.307Z",
+    "kind": "insight",
+    "topic": "why",
+    "failed": true,
+    "rejected": [
+      "feature: same opening as an earlier post",
+      "feature: formatting",
+      "feature: paragraphs"
+    ]
   }
 ]
