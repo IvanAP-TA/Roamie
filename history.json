@@ -306,10 +306,6 @@
     "results": {
       "telegram": {
         "id": "64"
-      },
-      "youtube": {
-        "id": "qqO2izY3O8A",
-        "url": "https://youtube.com/shorts/qqO2izY3O8A"
       }
     }
   },
@@ -814,7 +810,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -858,7 +854,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -901,7 +897,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -944,7 +940,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -991,7 +987,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -1037,7 +1033,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -1082,7 +1078,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -1160,7 +1156,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -1204,7 +1200,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -1251,7 +1247,7 @@
       "saved": 0,
       "shares": 11,
       "interactions": 11,
-      "at": "2026-11-16T16:00:48.039Z"
+      "at": "2026-11-17T16:00:55.529Z"
     }
   },
   {
@@ -1291,6 +1287,49 @@
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
+      }
+    },
+    "metrics": {
+      "reach": 12,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-17T16:00:55.529Z"
+    }
+  },
+  {
+    "date": "2026-11-17T16:00:55.529Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "colmar",
+      "douro",
+      "santorini"
+    ],
+    "guide": "couples",
+    "scenario": "ghosted",
+    "hook": "Half the group stopped replying",
+    "caption": "Is there one of these in your group too?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "292"
+      },
+      "instagram": {
+        "id": "18137857886499077",
+        "url": "https://www.instagram.com/p/Df2UbF3Fzu8/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122118939543506337",
+        "url": "https://www.facebook.com/1360561970475478_122118939543506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7709172250586613762",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
       }
     }
   }
