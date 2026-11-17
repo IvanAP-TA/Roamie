@@ -737,5 +737,16 @@
       "feature: formatting",
       "feature: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-17T07:00:10.472Z",
+    "kind": "feature",
+    "topic": "points",
+    "failed": true,
+    "rejected": [
+      "insight: same opening as an earlier post",
+      "insight: paragraphs",
+      "feature: length 66"
+    ]
   }
 ]
