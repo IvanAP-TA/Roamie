@@ -748,5 +748,23 @@
       "insight: paragraphs",
       "feature: length 66"
     ]
+  },
+  {
+    "date": "2026-11-17T17:53:02.122Z",
+    "kind": "insight",
+    "topic": "anchoring",
+    "card": "places",
+    "firstLine": "The first suggestion in a group can shape the whole discussion.",
+    "text": "The first suggestion in a group can shape the whole discussion.\n\nWe’ve noticed how often the first idea sets the tone, even if it isn’t the best one. It’s not always about merit, sometimes it’s just about who speaks up first or loudest. That can leave others feeling like their input doesn’t matter.\n\nWhen decisions are made without pressure, quieter voices have a chance to be heard. A simple shift in order can make all the difference.\n\nHow do you usually settle on a group decision?",
+    "x": "The first idea in a group chat often sets the tone, even if it isn’t the best. What if everyone voted first, before the discussion even started? Quieter voices might finally be heard.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "305"
+      }
+    }
   }
 ]
