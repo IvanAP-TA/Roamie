@@ -766,5 +766,28 @@
         "id": "305"
       }
     }
+  },
+  {
+    "date": "2026-11-18T07:00:20.011Z",
+    "kind": "destination",
+    "topic": "provence",
+    "places": [
+      "provence"
+    ],
+    "firstLine": "There’s a way to travel where the pace slows down without feeling like you’re missing anything.",
+    "text": "There’s a way to travel where the pace slows down without feeling like you’re missing anything.\n\nThe hills here are dotted with stone villages that look untouched, their narrow streets winding up to viewpoints where the light feels softer. Markets return every week, selling everything from fresh bread and cheese to dried herbs and pottery. In late June and July, the lavender fields turn the countryside into a sea of purple, stretching as far as you can see.\n\nThe best way to experience it is in a country house with a pool, where mornings can be spent reading on the terrace and afternoons drift into long lunches. It’s not a trip for those who want to rush between sights, or who measure success by how much they’ve done.\n\nWe’ve always found that the trips people remember most aren’t the ones packed with activities. They’re the ones where the details, like the quiet of a hillside at dusk, the way the light changes through the day, settle into something deeper.\n\nHave you ever chosen a trip because it promised stillness over excitement?",
+    "x": "Provence in June. Stone villages, lavender fields, a country house by the pool. No itineraries, just time to let the light and the quiet settle in. Where’s the last place you went just to slow down?",
+    "rejected": [
+      "destination: same opening as an earlier post"
+    ],
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "308"
+      }
+    }
   }
 ]
