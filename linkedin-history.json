@@ -800,5 +800,16 @@
       "feature: no closing question",
       "feature: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-19T17:38:50.415Z",
+    "kind": "insight",
+    "topic": "organiser",
+    "failed": true,
+    "rejected": [
+      "feature: same opening as an earlier post",
+      "feature: same opening as an earlier post",
+      "feature: paragraphs"
+    ]
   }
 ]
