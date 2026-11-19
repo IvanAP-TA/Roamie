@@ -789,5 +789,16 @@
         "id": "308"
       }
     }
+  },
+  {
+    "date": "2026-11-19T07:00:15.532Z",
+    "kind": "insight",
+    "topic": "chat",
+    "failed": true,
+    "rejected": [
+      "feature: same opening as an earlier post",
+      "feature: no closing question",
+      "feature: paragraphs"
+    ]
   }
 ]
