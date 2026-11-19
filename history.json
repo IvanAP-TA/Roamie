@@ -329,10 +329,6 @@
       "telegram": {
         "id": "70"
       },
-      "youtube": {
-        "id": "L0jW2cZ8Lvw",
-        "url": "https://youtube.com/shorts/L0jW2cZ8Lvw"
-      },
       "instagram": {
         "id": "18115487588117076",
         "url": "https://www.instagram.com/reel/Dero_Uyk2g3/"
@@ -854,7 +850,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -897,7 +893,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -940,7 +936,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 1,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -987,7 +983,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1033,7 +1029,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1078,7 +1074,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1156,7 +1152,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1200,7 +1196,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1247,7 +1243,7 @@
       "saved": 0,
       "shares": 11,
       "interactions": 11,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1290,11 +1286,11 @@
       }
     },
     "metrics": {
-      "reach": 12,
+      "reach": 15,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-17T16:00:55.529Z"
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1331,6 +1327,13 @@
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
       }
+    },
+    "metrics": {
+      "reach": 1,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-19T16:01:02.388Z"
     }
   },
   {
@@ -1364,6 +1367,50 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7709543347761104918",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 1,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-19T16:01:02.388Z"
+    }
+  },
+  {
+    "date": "2026-11-19T16:01:02.388Z",
+    "kind": "carousel",
+    "format": "signs",
+    "lang": "en",
+    "places": [
+      "lake-como",
+      "ibiza",
+      "osaka",
+      "oaxaca",
+      "provence"
+    ],
+    "signs": "never-leaves-chat",
+    "hook": "5 signs your trip will never leave the group chat",
+    "caption": "You swipe to see if your group’s stuck here. Roamie lets everyone propose, vote, and spin the wheel so no one gets left out. Ready to finally pick a place?",
+    "copySource": "ai",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "327"
+      },
+      "instagram": {
+        "id": "18205169794383047",
+        "url": "https://www.instagram.com/p/Df7dsDJjSIg/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122119580235506337",
+        "url": "https://www.facebook.com/1360561970475478_122119580235506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7709913646054574102",
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
