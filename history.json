@@ -983,7 +983,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1029,7 +1029,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1074,7 +1074,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1152,7 +1152,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1196,7 +1196,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1243,7 +1243,7 @@
       "saved": 0,
       "shares": 11,
       "interactions": 11,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1286,11 +1286,11 @@
       }
     },
     "metrics": {
-      "reach": 15,
+      "reach": 16,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1333,7 +1333,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1377,7 +1377,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-19T16:01:02.388Z"
+      "at": "2026-11-20T16:01:02.802Z"
     }
   },
   {
@@ -1414,6 +1414,53 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 1,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-20T16:01:02.802Z"
+    }
+  },
+  {
+    "date": "2026-11-20T16:01:02.802Z",
+    "kind": "video",
+    "format": "wheel",
+    "lang": "en",
+    "places": [
+      "marrakech",
+      "ksamil",
+      "istanbul",
+      "vilnius"
+    ],
+    "hook": "Ready? Only one place stays standing",
+    "caption": "Marrakech, Ksamil, Istanbul and Vilnius: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/wheel-1-vlog-v2.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "338"
+      },
+      "youtube": {
+        "id": "BzCB5btd9iY",
+        "url": "https://youtube.com/shorts/BzCB5btd9iY"
+      },
+      "instagram": {
+        "id": "18034527611686569",
+        "url": "https://www.instagram.com/reel/Df-CjggjRo8/"
+      },
+      "facebook": {
+        "id": "1862807834901538",
+        "url": "https://www.facebook.com/reel/1862807834901538"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7710285100629706774",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
