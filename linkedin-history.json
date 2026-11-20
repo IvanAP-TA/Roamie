@@ -822,5 +822,17 @@
       "destination: same opening as an earlier post",
       "destination: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-20T17:17:00.300Z",
+    "kind": "insight",
+    "topic": "deadline",
+    "failed": true,
+    "rejected": [
+      "destination: same opening as an earlier post",
+      "destination: same opening as an earlier post",
+      "destination: paragraphs",
+      "destination: paragraphs"
+    ]
   }
 ]
