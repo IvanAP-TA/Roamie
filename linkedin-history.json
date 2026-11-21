@@ -846,5 +846,16 @@
       "lesson: length 84",
       "lesson: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-21T16:23:19.235Z",
+    "kind": "insight",
+    "topic": "budget",
+    "failed": true,
+    "rejected": [
+      "lesson: same opening as an earlier post",
+      "lesson: paragraphs",
+      "feature: paragraphs"
+    ]
   }
 ]
