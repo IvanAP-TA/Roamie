@@ -834,5 +834,17 @@
       "destination: paragraphs",
       "destination: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-21T07:00:09.777Z",
+    "kind": "insight",
+    "topic": "options",
+    "failed": true,
+    "rejected": [
+      "lesson: length 1415",
+      "lesson: same opening as an earlier post",
+      "lesson: length 84",
+      "lesson: paragraphs"
+    ]
   }
 ]
