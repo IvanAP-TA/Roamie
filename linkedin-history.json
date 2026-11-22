@@ -857,5 +857,25 @@
       "lesson: paragraphs",
       "feature: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-22T07:00:12.787Z",
+    "kind": "destination",
+    "topic": "tbilisi",
+    "places": [
+      "tbilisi"
+    ],
+    "firstLine": "Tbilisi has a way of making food and drink feel like part of the conversation.",
+    "text": "Tbilisi has a way of making food and drink feel like part of the conversation. \n\nThe wineries of Kakheti are built into the hills, where the soil and the clay amphorae hold centuries of tradition. You can taste it in the wine, and in the way the vines stretch up the slopes like they’ve always been there. \n\nKhachapuri and khinkali are best shared in a group, the way they’re meant to be. There’s something about passing a plate or a basket, then watching someone take the last bite without a word, that feels like its own kind of agreement. \n\nThe nights in the city have their own rhythm, quieter than the day but still full of people moving between tables, glasses, and stories. It’s easy to spend a few days here without overthinking the budget. \n\nHave you ever gone somewhere because the food and drink made you want to linger?",
+    "x": "Tbilisi’s food and wine don’t just fill you up. They make you want to stay longer, around the table, in the hills of Kakheti, or in the quiet of a late-night conversation. Have you ever picked a place just because the food felt like an invitation?",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "345"
+      }
+    }
   }
 ]
