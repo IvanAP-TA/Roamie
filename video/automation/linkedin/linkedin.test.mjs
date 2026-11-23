@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { loadPlaces } from '../places.mjs'
 import { littleText } from '../publish/make.mjs'
 import { checkX, writeXPost, X_KINDS } from './x.mjs'
-import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, makeLinkedInPlan, SCHEDULE, unknownNames, withoutLongDashes, writeLinkedInPost } from './posts.mjs'
+import { assemblePost, buildFacts, CARDS, checkPost, FEATURES, INSIGHTS, LESSONS, linkedInPrompt, makeLinkedInPlan, SCHEDULE, unknownNames, withoutLongDashes, writeLinkedInPost } from './posts.mjs'
 
 const places = loadPlaces()
 const DAY = 86_400_000
@@ -173,6 +173,15 @@ describe('LinkedIn variety', () => {
 
   it('rejects a post that opens with the same words as an earlier one', () => {
     expect(checkPost(GOOD, plan, ['Most group trips are planned in a hurry, and it shows.'])).toBe('same opening as an earlier post')
+  })
+
+  it('tells the AI every opening already used, and which one a rejected post repeated', async () => {
+    const past = ['Most group trips are planned in a hurry, and it shows.', 'Planning a trip with friends is hard.']
+    expect(linkedInPrompt(plan, past)[0].content).toContain('"most group trips", "planning a trip"')
+    const seen = []
+    const written = await writeLinkedInPost(plan, past, async (messages) => (seen.push(messages.at(-1).content), { post: GOOD }))
+    expect(written.text).toBeNull()
+    expect(seen[1]).toContain('began with "most group trips"')
   })
 
   it('turns the long dashes the AI insists on into commas', () => {

@@ -209,6 +209,7 @@ export function linkedInPrompt(plan, past) {
     'Write the post itself, not wrapped in quotation marks. Never use em dashes or en dashes (— or –): use commas, colons or full stops.',
     'Return JSON {"post": string}.',
     ...(past.length ? ['Earlier posts started like this; start differently (never with the same first words), and do not reuse their wording or structure:', ...past.slice(-10).map((l) => `  · ${l}`)] : []),
+    ...(past.length ? [`Never begin with any of these first three words (all already used): ${[...new Set(past.map(openingWords))].map((w) => `"${w}"`).join(', ')}.`] : []),
   ].join('\n')
   return [
     { role: 'system', content: system },
@@ -313,7 +314,8 @@ export function assemblePost(text, plan) {
 export const withBlankLines = (text) => (/\n\s*\n/.test(text) ? text : text.split(/\n+/).map((l) => l.trim()).filter(Boolean).join('\n\n'))
 
 /** What to tell the model after a rejection: the reason, and how to fix the ones it keeps getting wrong. */
-function retryHint(problem) {
+function retryHint(problem, post = '') {
+  if (problem.startsWith('same opening') && typeof post === 'string' && post.trim()) return `Your post began with "${openingWords(post)}", which an earlier post already used. Start with different first words.`
   if (problem === 'paragraphs') return 'Write 3 to 5 short paragraphs, each separated by an empty line.'
   if (problem.startsWith('length')) return 'The post must be between 600 and 1100 characters.'
   return ''
@@ -323,9 +325,10 @@ function retryHint(problem) {
 export async function writeLinkedInPost(plan, past, ask, pastTexts = []) {
   const rejected = []
   const messages = linkedInPrompt(plan, past)
+  let lastPost = ''
   for (let attempt = 0; attempt < 5; attempt++) {
     const answer = await ask(
-      rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). ${retryHint(rejected.at(-1))} Try again.` }] : messages,
+      rejected.length ? [...messages, { role: 'user', content: `Your previous answer was rejected (${rejected.at(-1)}). ${retryHint(rejected.at(-1), lastPost)} Try again.` }] : messages,
     )
     if (!answer) break
     // Some answers come wrapped in quotation marks, sometimes only on one side.
@@ -333,6 +336,7 @@ export async function writeLinkedInPost(plan, past, ask, pastTexts = []) {
     const problem = checkPost(post, plan, past, pastTexts)
     if (!problem) return { text: post, rejected }
     rejected.push(problem)
+    lastPost = post
   }
   return { text: null, rejected }
 }
