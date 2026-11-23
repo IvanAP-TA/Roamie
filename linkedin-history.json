@@ -889,5 +889,17 @@
       "feature: paragraphs",
       "feature: length 98"
     ]
+  },
+  {
+    "date": "2026-11-23T20:33:38.082Z",
+    "kind": "insight",
+    "topic": "anchoring",
+    "failed": true,
+    "rejected": [
+      "feature: same opening as an earlier post",
+      "feature: paragraphs",
+      "feature: paragraphs",
+      "feature: length 170"
+    ]
   }
 ]
