@@ -877,5 +877,17 @@
         "id": "345"
       }
     }
+  },
+  {
+    "date": "2026-11-23T07:00:09.625Z",
+    "kind": "insight",
+    "topic": "why",
+    "failed": true,
+    "rejected": [
+      "feature: first line too long",
+      "feature: same opening as an earlier post",
+      "feature: paragraphs",
+      "feature: length 98"
+    ]
   }
 ]
