@@ -416,10 +416,6 @@
       "telegram": {
         "id": "89"
       },
-      "youtube": {
-        "id": "qgYfuYcjhzk",
-        "url": "https://youtube.com/shorts/qgYfuYcjhzk"
-      },
       "instagram": {
         "id": "18012933800987323",
         "url": "https://www.instagram.com/reel/Dewym8qGrgL/"
@@ -506,10 +502,6 @@
     "results": {
       "telegram": {
         "id": "108"
-      },
-      "youtube": {
-        "id": "7Wvns45kke8",
-        "url": "https://youtube.com/shorts/7Wvns45kke8"
       },
       "instagram": {
         "id": "18118629209516790",
@@ -1029,7 +1021,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1074,7 +1066,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1152,7 +1144,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1196,7 +1188,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1243,7 +1235,7 @@
       "saved": 0,
       "shares": 11,
       "interactions": 11,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1290,7 +1282,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1329,11 +1321,11 @@
       }
     },
     "metrics": {
-      "reach": 1,
+      "reach": 2,
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1377,7 +1369,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1421,7 +1413,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-20T16:01:02.802Z"
+      "at": "2026-11-23T16:00:54.368Z"
     }
   },
   {
@@ -1458,6 +1450,53 @@
       },
       "tiktok": {
         "id": "v_inbox_file~v2.7710285100629706774",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
+      }
+    },
+    "metrics": {
+      "reach": 7,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-23T16:00:54.368Z"
+    }
+  },
+  {
+    "date": "2026-11-23T16:00:54.368Z",
+    "kind": "video",
+    "format": "story",
+    "lang": "en",
+    "places": [
+      "madeira",
+      "skye",
+      "lofoten"
+    ],
+    "scenario": "loudest",
+    "hook": "The loudest friend always picks",
+    "caption": "Madeira, Isle of Skye and Lofoten Islands: which one would you put to your group?",
+    "copySource": "pool",
+    "music": "music/month-1-deep-house-sunset.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "351"
+      },
+      "youtube": {
+        "id": "vzwR3z3LRQw",
+        "url": "https://youtube.com/shorts/vzwR3z3LRQw"
+      },
+      "instagram": {
+        "id": "18127539341315367",
+        "url": "https://www.instagram.com/reel/DgFww46irv1/"
+      },
+      "facebook": {
+        "id": "2064765687643103",
+        "url": "https://www.facebook.com/reel/2064765687643103"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7711397929109997590",
         "url": null,
         "draft": true,
         "status": "PROCESSING_UPLOAD"
