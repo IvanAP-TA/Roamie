@@ -1502,5 +1502,42 @@
         "status": "PROCESSING_UPLOAD"
       }
     }
+  },
+  {
+    "date": "2026-11-24T16:00:48.069Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "hvar",
+      "menorca",
+      "budva"
+    ],
+    "guide": "summer-sea",
+    "scenario": "never-decides",
+    "hook": "That friend who just wants to move on but no one’s done the math yet",
+    "caption": "Everyone proposes, everyone votes, and the wheel picks Menorca. Who’s ready to finally sort this out? Who should you send this to?",
+    "copySource": "ai",
+    "hookStyle": "person",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "357"
+      },
+      "instagram": {
+        "id": "18121684316143165",
+        "url": "https://www.instagram.com/p/DgIVl0okjCP/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122120951577506337",
+        "url": "https://www.facebook.com/1360561970475478_122120951577506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7711768925813557270",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
   }
 ]
