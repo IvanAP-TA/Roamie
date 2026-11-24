@@ -912,5 +912,23 @@
       "insight: first line too long",
       "insight: paragraphs"
     ]
+  },
+  {
+    "date": "2026-11-24T19:42:04.867Z",
+    "kind": "insight",
+    "topic": "chat",
+    "card": "home",
+    "firstLine": "Choosing a destination together can feel like trying to herd a conversation back to the start.",
+    "text": "Choosing a destination together can feel like trying to herd a conversation back to the start.\n\nThe group chat is rarely the right place for it. Ideas arrive out of order, get lost in replies, or are forgotten by the time someone asks what was decided. Even if there’s agreement, it’s hard to remember what it was. So the discussion gets pushed back to next week, then the week after, until the energy for the trip has faded.\n\nWhen all the options are visible at once, the conversation shifts. People can react to what’s actually been suggested, not just what they remember hearing. The back-and-forth becomes clearer, and the decision feels closer.\n\nWhat’s the last trip you planned where the conversation stayed focused, and why?",
+    "x": "Group trips get stuck in chats where ideas scatter and decisions drift. Put them all in one place first, then the conversation stays sharp and the trip actually happens.",
+    "published": true,
+    "results": {
+      "linkedin": {
+        "id": "Accepted"
+      },
+      "telegram": {
+        "id": "364"
+      }
+    }
   }
 ]
