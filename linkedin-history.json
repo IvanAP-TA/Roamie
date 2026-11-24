@@ -901,5 +901,16 @@
       "feature: paragraphs",
       "feature: length 170"
     ]
+  },
+  {
+    "date": "2026-11-24T07:00:09.497Z",
+    "kind": "feature",
+    "topic": "reasons",
+    "failed": true,
+    "rejected": [
+      "insight: same opening as an earlier post",
+      "insight: first line too long",
+      "insight: paragraphs"
+    ]
   }
 ]
