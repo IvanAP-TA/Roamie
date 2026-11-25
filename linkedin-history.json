@@ -942,5 +942,12 @@
       "destination: paragraphs",
       "destination: length 96"
     ]
+  },
+  {
+    "date": "2026-11-25T18:50:17.105Z",
+    "kind": "feature",
+    "topic": "privacy",
+    "failed": true,
+    "rejected": []
   }
 ]
