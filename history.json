@@ -545,10 +545,6 @@
       "telegram": {
         "error": "Telegram sendVideo: Gateway Timeout"
       },
-      "youtube": {
-        "id": "aB2IRnd6dV8",
-        "url": "https://youtube.com/shorts/aB2IRnd6dV8"
-      },
       "instagram": {
         "id": "17918215299259107",
         "url": "https://www.instagram.com/reel/De9qqIMjveY/"
@@ -1066,7 +1062,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1144,7 +1140,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1188,7 +1184,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1235,7 +1231,7 @@
       "saved": 0,
       "shares": 11,
       "interactions": 11,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1282,7 +1278,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1325,7 +1321,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1369,7 +1365,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1413,7 +1409,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1460,7 +1456,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-23T16:00:54.368Z"
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1501,6 +1497,13 @@
         "draft": true,
         "status": "PROCESSING_UPLOAD"
       }
+    },
+    "metrics": {
+      "reach": 110,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-25T16:00:57.075Z"
     }
   },
   {
@@ -1534,6 +1537,49 @@
       },
       "tiktok": {
         "id": "p_inbox_url~v2.7711768925813557270",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    },
+    "metrics": {
+      "reach": 2,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-25T16:00:57.075Z"
+    }
+  },
+  {
+    "date": "2026-11-25T16:00:57.075Z",
+    "kind": "carousel",
+    "format": "chat",
+    "lang": "en",
+    "places": [
+      "lagos",
+      "salento",
+      "paros"
+    ],
+    "guide": "summer-sea",
+    "scenario": "loudest",
+    "hook": "The loudest friend always picks",
+    "caption": "Is there one of these in your group too?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "368"
+      },
+      "instagram": {
+        "id": "17875077522643742",
+        "url": "https://www.instagram.com/p/DgK6YSJIO_T/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122121174447506337",
+        "url": "https://www.facebook.com/1360561970475478_122121174447506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7712140011415586838",
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
