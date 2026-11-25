@@ -930,5 +930,17 @@
         "id": "364"
       }
     }
+  },
+  {
+    "date": "2026-11-25T07:00:16.759Z",
+    "kind": "feature",
+    "topic": "checklist",
+    "failed": true,
+    "rejected": [
+      "destination: first line too long",
+      "destination: first line too long",
+      "destination: paragraphs",
+      "destination: length 96"
+    ]
   }
 ]
