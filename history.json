@@ -1585,5 +1585,42 @@
         "status": "SEND_TO_USER_INBOX"
       }
     }
+  },
+  {
+    "date": "2026-11-26T16:00:54.476Z",
+    "kind": "carousel",
+    "format": "signs",
+    "lang": "en",
+    "places": [
+      "st-julians",
+      "amalfi",
+      "belgrade",
+      "riga",
+      "sofia"
+    ],
+    "signs": "quiet-friend",
+    "hook": "5 things the quiet friend in the group chat is thinking",
+    "caption": "Which of these happens in your group chat?",
+    "copySource": "pool",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "377"
+      },
+      "instagram": {
+        "id": "17895539316617935",
+        "url": "https://www.instagram.com/p/DgNfME-oVOK/"
+      },
+      "facebook": {
+        "id": "1360561970475478_122121448401506337",
+        "url": "https://www.facebook.com/1360561970475478_122121448401506337"
+      },
+      "tiktok": {
+        "id": "p_inbox_url~v2.7712511171584215062",
+        "url": null,
+        "draft": true,
+        "status": "SEND_TO_USER_INBOX"
+      }
+    }
   }
 ]
