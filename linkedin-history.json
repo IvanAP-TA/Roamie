@@ -949,5 +949,12 @@
     "topic": "privacy",
     "failed": true,
     "rejected": []
+  },
+  {
+    "date": "2026-11-26T07:00:14.887Z",
+    "kind": "feature",
+    "topic": "invite",
+    "failed": true,
+    "rejected": []
   }
 ]
