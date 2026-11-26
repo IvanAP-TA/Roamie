@@ -956,5 +956,12 @@
     "topic": "invite",
     "failed": true,
     "rejected": []
+  },
+  {
+    "date": "2026-11-26T18:38:10.888Z",
+    "kind": "feature",
+    "topic": "languages",
+    "failed": true,
+    "rejected": []
   }
 ]
