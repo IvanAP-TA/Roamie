@@ -632,10 +632,6 @@
       "telegram": {
         "id": "135"
       },
-      "youtube": {
-        "id": "ITxFuGPwdNQ",
-        "url": "https://youtube.com/shorts/ITxFuGPwdNQ"
-      },
       "instagram": {
         "id": "18493541704107580",
         "url": "https://www.instagram.com/reel/DfC0DkomNUZ/"
@@ -1184,7 +1180,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1231,7 +1227,7 @@
       "saved": 0,
       "shares": 11,
       "interactions": 11,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1278,7 +1274,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1321,7 +1317,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1365,7 +1361,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1409,7 +1405,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1456,7 +1452,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1503,7 +1499,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1547,7 +1543,7 @@
       "saved": 0,
       "shares": 0,
       "interactions": 0,
-      "at": "2026-11-25T16:00:57.075Z"
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1584,6 +1580,13 @@
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
       }
+    },
+    "metrics": {
+      "reach": 1,
+      "saved": 0,
+      "shares": 0,
+      "interactions": 0,
+      "at": "2026-11-27T16:00:47.835Z"
     }
   },
   {
@@ -1620,6 +1623,45 @@
         "url": null,
         "draft": true,
         "status": "SEND_TO_USER_INBOX"
+      }
+    }
+  },
+  {
+    "date": "2026-11-27T16:00:47.835Z",
+    "kind": "video",
+    "format": "versus",
+    "lang": "en",
+    "places": [
+      "osaka",
+      "bratislava"
+    ],
+    "pair": "bratislava+osaka",
+    "hook": "Weekend with friends: Osaka or Bratislava?",
+    "caption": "Osaka and Bratislava: which one would you pick?",
+    "copySource": "pool",
+    "music": "music/versus-1-lofi-vlog-beats.mp3",
+    "published": true,
+    "results": {
+      "telegram": {
+        "id": "387"
+      },
+      "youtube": {
+        "id": "cZk0zoNH7RE",
+        "url": "https://youtube.com/shorts/cZk0zoNH7RE"
+      },
+      "instagram": {
+        "id": "17954287479343159",
+        "url": "https://www.instagram.com/reel/DgQD6scOD-7/"
+      },
+      "facebook": {
+        "id": "2148587175763924",
+        "url": "https://www.facebook.com/reel/2148587175763924"
+      },
+      "tiktok": {
+        "id": "v_inbox_file~v2.7712882204447901718",
+        "url": null,
+        "draft": true,
+        "status": "PROCESSING_UPLOAD"
       }
     }
   }
