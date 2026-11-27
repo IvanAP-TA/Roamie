@@ -970,5 +970,12 @@
     "topic": "itinerary",
     "failed": true,
     "rejected": []
+  },
+  {
+    "date": "2026-11-27T18:27:36.794Z",
+    "kind": "feature",
+    "topic": "dates",
+    "failed": true,
+    "rejected": []
   }
 ]
