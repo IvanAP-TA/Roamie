@@ -977,5 +977,12 @@
     "topic": "dates",
     "failed": true,
     "rejected": []
+  },
+  {
+    "date": "2026-11-28T07:00:10.741Z",
+    "kind": "feature",
+    "topic": "secret",
+    "failed": true,
+    "rejected": []
   }
 ]
